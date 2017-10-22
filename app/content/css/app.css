@@ -1,21 +1,71 @@
-.homepage .title {
-  font-size: 1.5em;
-  text-align: center;
-  margin: 15px; }
+.logoTabs {
+  display: flex;
+  justify-content: center; }
 
-.homepage .temp, .homepage .wind {
-  padding: 10px;
-  margin: 5px;
-  border: 1px solid #ccc;
-  background: #fefefe; }
+.navP {
+  margin: 0;
+  text-transform: none; }
 
-.login {
-  background: white;
-  max-width: 800px;
-  min-width: 200px;
-  margin: 0 auto; }
-  .login .btn-container {
-    text-align: center; }
+md-nav-bar {
+  background-color: #001041;
+  padding-right: 70px; }
 
-md-content.md-default-theme, md-content {
-  background-color: transparent; }
+.md-padding {
+  padding: 0; }
+
+md-nav-bar md-nav-ink-bar {
+  background: white; }
+
+.md-button.md-accent {
+  color: white; }
+
+md-nav-bar.md-default-theme .md-button._md-nav-button.md-unselected, md-nav-bar .md-button._md-nav-button.md-unselected {
+  color: gray; }
+
+.md-button._md-nav-button {
+  padding: 12px 46px; }
+
+.logBtn {
+  color: white;
+  text-transform: none;
+  margin: 0; }
+
+.logBot {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%; }
+
+.logBotSec, .divInput {
+  display: flex;
+  justify-content: center; }
+
+.toTab {
+  position: absolute; }
+
+.loginForm {
+  height: 100vh; }
+
+.loginLogo {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px; }
+
+.loginInput {
+  width: 80%;
+  margin-bottom: 0; }
+
+.loginInput2 {
+  width: 80%;
+  margin: 0; }
+
+.logIn {
+  width: 80%;
+  background-color: #001041; }
+
+.textLogin {
+  padding-left: 20px;
+  color: #001041; }
+
+.textBottom {
+  color: #001041;
+  margin: 0 0 30px 0; }
