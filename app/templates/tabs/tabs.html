@@ -1,27 +1,27 @@
 <div class="tabs">
-<div class="logoTabs    ">
-    <img src="../../content/img/knight_hayes_logo.fw.png" alt="Logo"  height="100" >
-</div>
-<div  ng-cloak>
-    <md-content class="md-padding">
-        <md-nav-bar
-                md-no-ink-bar="false"
-                md-selected-nav-item="currentNavItem"
-                nav-bar-aria-label="navigation links"
-                layout="row" layout-align="center center">
-            <md-nav-item md-nav-sref="tab.user-management" name="page1">
-               <p class="navP"> User Management</p>
-            </md-nav-item>
-            <md-nav-item md-nav-sref="tab.survey-management" name="page2">
-                <p class="navP">  Survey Management</p>
-            </md-nav-item>
-            <md-nav-item md-nav-sref="tab.settings" name="page3">
-                <p class="navP">  Settings</p>
-            </md-nav-item>
-        </md-nav-bar>
-    <div ui-view></div>
-    </md-content>
-</div>
+    <div class="logoTabs    ">
+        <img src="content/img/knight_hayes_logo.fw.png" alt="Logo" height="100">
+    </div>
+    <div ng-cloak>
+        <md-content class="md-padding">
+            <md-nav-bar
+                    md-no-ink-bar="false"
+                    md-selected-nav-item="currentNavItem"
+                    nav-bar-aria-label="navigation links"
+                    layout="row" layout-align="center center">
+                <md-nav-item md-nav-sref="tab.user-management" name="page1">
+                    <p class="navP"> User Management</p>
+                </md-nav-item>
+                <md-nav-item md-nav-sref="tab.survey-management" name="page2">
+                    <p class="navP"> Survey Management</p>
+                </md-nav-item>
+                <md-nav-item md-nav-sref="tab.settings" name="page3">
+                    <p class="navP"> Settings</p>
+                </md-nav-item>
+            </md-nav-bar>
+            <div ui-view></div>
+        </md-content>
+    </div>
 
 </div>
 

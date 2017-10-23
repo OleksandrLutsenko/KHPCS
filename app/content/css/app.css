@@ -63,9 +63,15 @@ md-nav-bar.md-default-theme .md-button._md-nav-button.md-unselected, md-nav-bar 
   background-color: #001041; }
 
 .textLogin {
-  padding-left: 20px;
   color: #001041; }
+
+.divTextLogin {
+  padding-left: 20px; }
+
+.textLogin:hover {
+  cursor: pointer; }
 
 .textBottom {
   color: #001041;
-  margin: 0 0 30px 0; }
+  margin: 0 0 30px 0;
+  cursor: pointer; }

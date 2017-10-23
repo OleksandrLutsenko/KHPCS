@@ -18,6 +18,7 @@
         $stateProvider
 
             .state('tab', {
+
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController'
