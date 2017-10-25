@@ -34,9 +34,11 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::put('/block/{block}', 'BlockController@update');
         Route::delete('/block/{block}', 'BlockController@destroy');
     });
-    
+
     Route::get('/report', 'ReportController@index');
     Route::post('/report', 'ReportController@store');
     Route::put('/report/{report}', 'ReportController@update');
     Route::delete('/report/{report}', 'ReportController@destroy');
+
+    Route::get('download', 'DownloadController@download');
 });

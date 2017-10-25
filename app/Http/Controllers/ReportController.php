@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Report;
+use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,14 +15,15 @@ class ReportController extends Controller
      *
      * @param Report $report
      * @param User $user
+     * @param Survey $survey
      * @return \Illuminate\Http\Response
      * @internal param User $user
      * @internal param Report $Report
      */
-    public function index(Report $report, User $user)
+    public function index(Report $report, User $user, Survey $survey)
     {
         if ($user->can('index', $report)) {
-            return $report::all();
+            return $survey->all();
         }else{
             abort(404);
         }
@@ -58,6 +60,7 @@ class ReportController extends Controller
     public function update(Request $request, Report $report, User $user)
     {
         if ($user->can('update', $report)) {
+            dd($report->survey->toArray());
             $report->update($request->all());
             return response()->json($report, 200);
         }else{
