@@ -1,0 +1,27 @@
+<md-dialog>
+    <div class="createWindow">
+        <div class="createTop">
+                <h1>Add a new client</h1>
+        </div>
+        <div class="allInput">
+        <md-input-container class="addInput">
+            <label>Client name</label>
+            <input type="text">
+        </md-input-container>
+        <md-input-container class="addInput">
+            <label>Client surname</label>
+            <input type="text">
+        </md-input-container>
+        <md-input-container class="addInput">
+            <label>Client Classification</label>
+            <md-select name="type" ng-model="project.type" required="" class="selectClass    ">
+                <md-option value="app">Retail</md-option>
+                <md-option value="web">2</md-option>
+            </md-select>
+        </md-input-container>
+        </div>
+        <div class="createBtn">
+            <md-button class="md-raised md-primary"><p class="createTextClient">Create</p></md-button>
+        </div>
+    </div>
+</md-dialog>
