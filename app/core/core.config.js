@@ -21,9 +21,10 @@
 
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
-                controller: 'TabsController'
+                controller: 'TabsController' ,
 
             })
+
             .state('login', {
 
                 url: '/login',
@@ -31,11 +32,16 @@
                 controller: 'LoginController',
                 controllerAs: 'vm'
             })
+            .state('sign', {
+                url: '/sign',
+                templateUrl: 'templates/sign/sign.html',
+                controller: 'SignController',
+                controllerAs: 'vm'
+            })
             .state('tab.user-management', {
                 url: '/user-management',
                 templateUrl: 'templates/user-management/user-management.html',
                 controller: 'UserManagementController'
-
             })
             .state('tab.survey-management', {
                 url: '/survey-management',
@@ -48,12 +54,7 @@
                 controller: 'SettingsController'
 
             })
-            .state('sign', {
-                url: '/sign',
-                templateUrl: 'templates/login/sign.html',
-                controller: 'SignController',
-                controllerAs: 'vm'
-            })
+
 
     }
 })();
