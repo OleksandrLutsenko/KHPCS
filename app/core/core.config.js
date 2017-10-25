@@ -38,7 +38,8 @@
             .state('tab.survey-management', {
                 url: '/survey-management',
                 templateUrl: 'templates/survey-management/survey-management.html',
-                controller: 'SurveyManagementController'
+                controller: 'SurveyManagementController',
+                controllerAs: 'vm'
 
             })
             .state('tab.settings', {

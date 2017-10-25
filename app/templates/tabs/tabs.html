@@ -4,21 +4,30 @@
 </div>
 <div ng-cloak>
     <md-content class="md-padding">
-        <md-nav-bar
-                md-no-ink-bar="false"
-                md-selected-nav-item="currentNavItem"
-                nav-bar-aria-label="navigation links"
-                layout="row" layout-align="center center">
-            <md-nav-item md-nav-sref="tab.user-management" name="page1">
-                User Management
-            </md-nav-item>
-            <md-nav-item md-nav-sref="tab.survey-management" name="page2">
-                Survey Management
-            </md-nav-item>
-            <md-nav-item md-nav-sref="tab.settings" name="page3">
-                Settings
-            </md-nav-item>
-        </md-nav-bar>
+
+        <md-tabs md-dynamic-height md-border-bottom>
+            <md-tab label="User Managemen" ui-sref="tab.user-management" >
+            </md-tab>
+            <md-tab label="Survey Managemen" ui-sref="tab.survey-management">
+            </md-tab>
+            <md-tab label="Settings" ui-sref="tab.settings">
+            </md-tab>
+        </md-tabs>
+        <!--<md-nav-bar-->
+                <!--md-no-ink-bar="false"-->
+                <!--md-selected-nav-item="currentNavItem"-->
+                <!--nav-bar-aria-label="navigation links"-->
+                <!--layout="row" layout-align="center center">-->
+            <!--<md-nav-item md-nav-sref="tab.user-management" name="page1">-->
+                <!--User Management-->
+            <!--</md-nav-item>-->
+            <!--<md-nav-item md-nav-sref="tab.survey-management" name="page2">-->
+                <!--Survey Management-->
+            <!--</md-nav-item>-->
+            <!--<md-nav-item md-nav-sref="tab.settings" name="page3">-->
+                <!--Settings-->
+            <!--</md-nav-item>-->
+        <!--</md-nav-bar>-->
     <div ui-view></div>
     </md-content>
 </div>
