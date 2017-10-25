@@ -9,12 +9,25 @@ class Survey extends Model
 {
     protected $fillable = ['name', 'description'];
 
+    protected $visible = ['name', 'blocks'];
+
+    protected $appends = ['blocks'];
+
     public function user(){
         return $this->belongsToMany(User::class);
     }
 
     public function block(){
         return $this->hasMany(Block::class);
+    }
+
+    public function reports(){
+        return $this->hasMany(Report::class);
+    }
+
+    public function getBlocksAttribute()
+    {
+        return $this->block;
     }
 
     public static function boot()
