@@ -33,10 +33,18 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::post('/block', 'BlockController@store');
         Route::put('/block/{block}', 'BlockController@update');
         Route::delete('/block/{block}', 'BlockController@destroy');
+
+        Route::prefix('block/{block}')->group(function () {
+            Route::get('/question', 'QuestionController@index');
+            Route::get('/question/{question}', 'QuestionController@show');
+            Route::post('/question', 'QuestionController@store');
+            Route::put('/question/{question}', 'QuestionController@update');
+            Route::delete('/question/{question}', 'QuestionController@destroy');
     });
-    
+
+    });
     Route::get('/report', 'ReportController@index');
     Route::post('/report', 'ReportController@store');
     Route::put('/report/{report}', 'ReportController@update');
     Route::delete('/report/{report}', 'ReportController@destroy');
-});
+    });

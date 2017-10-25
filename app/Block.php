@@ -11,4 +11,8 @@ class Block extends Model
     public function survey(){
         return $this->belongsTo(Survey::class);
     }
+
+    public function question(){
+        return $this->hasMany(Question::class);
+    }
 }

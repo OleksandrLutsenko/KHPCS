@@ -14,9 +14,10 @@ class BlockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Block $block,Survey $survey)
     {
-        return Block::all();
+        $block = $survey->block()->get();
+        return $block;
 
     }
 
@@ -26,7 +27,7 @@ class BlockController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Block $block, Survey $survey)
+    public function store(Request $request, Survey $survey)
     {
          if(Auth::user()->role_id == 2) {
              $block = $survey->block()->create($request->all());
@@ -40,9 +41,12 @@ class BlockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Block $block)
+    public function show(Survey $survey, Block $block)
     {
+//        $block = $survey->block();
+//        return response()->json($block)->all;
         return $block;
+
     }
 
     /**
@@ -52,7 +56,7 @@ class BlockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Block $block, Survey $survey)
+    public function update(Request $request, Survey $survey, Block $block)
     {
         if(Auth::user()->role_id == 2) {
             $block->update($request->all());
@@ -66,7 +70,7 @@ class BlockController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Block $block)
+    public function destroy(Survey $survey, Block $block)
     {
         if(Auth::user()->role_id == 2) {
             $block->delete();
