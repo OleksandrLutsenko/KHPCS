@@ -14,6 +14,10 @@ class Customer extends Model
         return $this->belongsToMany(Survey::class, 'customer_surveys');
     }
 
+    public function userAnswers(){
+        return $this->hasMany(User_answer::class);
+    }
+
     public function getReportsAttribute()
     {
         return $this->report;
