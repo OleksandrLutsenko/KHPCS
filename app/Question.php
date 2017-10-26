@@ -21,8 +21,8 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
-    public function userAnswers(){
-        return $this->hasMany(User_answer::class);
+    public function customerAnswers(){
+        return $this->hasMany(CustomerAnswer::class);
     }
 
     public function getAnswersAttribute()
