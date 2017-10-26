@@ -18,14 +18,12 @@
         $stateProvider
 
             .state('tab', {
-
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController'
 
             })
             .state('login', {
-
                 url: '/login',
                 templateUrl: 'templates/login/login.html',
                 controller: 'LoginController',

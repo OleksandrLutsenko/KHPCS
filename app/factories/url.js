@@ -1,5 +1,4 @@
 ;(function () {
-    'use strict';
     angular
         .module('factory.url', [])
         .factory('url', url);
@@ -8,9 +7,13 @@
     url.$inject = [];
 
     function url() {
-        let baseUrl = 'http://api.openweathermap.org/data/2.5/';
+        let baseUrl = 'http://api.knightshayes.grassbusinesslabs.tk/api/';
         return {
-            weather: baseUrl + 'weather'
+            user: {
+                login: baseUrl + 'login',
+                getItems: baseUrl + 'user/get-available-items',
+            },
+            // weather: baseUrl + 'weather'
         };
     }
 
