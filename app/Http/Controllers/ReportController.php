@@ -24,8 +24,10 @@ class ReportController extends Controller
      */
     public function index(Report $report, User $user, Customer $customer, Survey $survey)
     {
+        $customers = $customer->all();
+
         if ($user->can('index', $report)) {
-            return $report;
+            return $customers->toJson();
         }else{
             abort(404);
         }

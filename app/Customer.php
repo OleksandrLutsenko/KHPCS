@@ -10,12 +10,16 @@ class Customer extends Model
 
     protected $appends = ['reports'];
 
-    public function reports(){
-        return $this->hasMany(Report::class);
+    public function report(){
+        return $this->belongsToMany(Survey::class, 'customer_surveys');
+    }
+
+    public function userAnswers(){
+        return $this->hasMany(User_answer::class);
     }
 
     public function getReportsAttribute()
     {
-        return $this->question;
+        return $this->report;
     }
 }

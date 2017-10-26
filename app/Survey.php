@@ -17,6 +17,10 @@ class Survey extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function customers(){
+        return $this->belongsToMany(Customer::class, 'customer_surveys');
+    }
+
     public function block(){
         return $this->hasMany(Block::class);
     }
