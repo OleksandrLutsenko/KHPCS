@@ -1,0 +1,34 @@
+.logoTabs {
+  display: flex;
+  justify-content: center;
+}
+
+.navP {
+  margin: 0;
+  text-transform: none;
+}
+
+md-nav-bar {
+  background-color: #001041;
+  padding-right: 70px;
+}
+
+.md-padding {
+  padding: 0;
+}
+
+md-nav-bar md-nav-ink-bar {
+  background: white;
+}
+
+.md-button.md-accent {
+  color: white;
+}
+
+md-nav-bar.md-default-theme .md-button._md-nav-button.md-unselected, md-nav-bar .md-button._md-nav-button.md-unselected {
+  color: gray;
+}
+
+.md-button._md-nav-button {
+  padding: 12px 46px;
+}

@@ -12,24 +12,36 @@
                 </div>
                 <div class="divInput">
                     <md-input-container class="loginInput">
+                        <label>Full name</label>
+                        <input type="text">
+                    </md-input-container>
+                </div>
+                <div class="divInput">
+                    <md-input-container class="loginInput2">
                         <label>Email</label>
-                        <input ng-model="user.mail" type="email">
+                        <input type="email">
                     </md-input-container>
                 </div>
                 <div class="divInput">
                     <md-input-container class="loginInput2">
                         <label>Password</label>
-                        <input ng-model="user.password" type="password">
+                        <input type="password">
+                    </md-input-container>
+                </div>
+                <div class="divInput">
+                    <md-input-container class="loginInput2">
+                        <label>Confirm password</label>
+                        <input type="password">
                     </md-input-container>
                 </div>
                 <div class="divInput">
                     <md-button style="width:80%;background-color: #001041;">
-                        <p class="logBtn">Log in</p>
+                        <p class="logBtn">Sign up</p>
                     </md-button>
                 </div>
                 <div class="logBot">
-                    <p style="color:gray;">Don't have an account?</p>
-                    <div class="divTextLogin"><p ui-sref="sign" class="textLogin">Sign Up</p></div>
+                    <p style="color:gray;">Already have an account?</p>
+                    <div class="divTextLogin"><p ui-sref="login" class="textLogin">Log in</p></div>
                 </div>
                 <div class="logBotSec">
                     <p md-nav-sref="#" class="textBottom">Forgotten a password?</p>

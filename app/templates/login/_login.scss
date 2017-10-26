@@ -1,13 +1,65 @@
-//.login{
-//  background: rgb(255,255,255);
-//  max-width: 800px;
-//  min-width: 200px;
-//  margin: 0 auto;
-//  .btn-container{
-//    text-align: center;
-//  }
-//}
-//
-//md-content.md-default-theme, md-content{
-//  background-color: transparent;
-//}
+.logBtn {
+  color: white;
+  text-transform: none;
+  margin: 0;
+}
+
+.logBot {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.logBotSec, .divInput {
+  display: flex;
+  justify-content: center;
+}
+
+.toTab {
+  position: absolute;
+}
+
+.loginForm {
+  height: 100vh;
+}
+
+.loginLogo {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+
+.loginInput {
+  width: 80%;
+  margin-bottom: 0;
+}
+
+.loginInput2 {
+  width: 80%;
+  margin: 0;
+}
+
+.logIn {
+  width: 80%;
+  background-color: #001041;
+}
+
+.textLogin {
+  color: #001041;
+}
+
+.divTextLogin {
+  padding-left: 20px;
+}
+
+.textLogin:hover {
+  cursor: pointer;
+}
+
+.textBottom {
+  color: #001041;
+  margin: 0 0 30px 0;
+  cursor: pointer;
+}
+
+
