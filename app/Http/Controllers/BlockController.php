@@ -29,7 +29,7 @@ class BlockController extends Controller
      */
     public function store(Request $request, Survey $survey)
     {
-         //TODO: middleware
+         //TODO: middleware/policy
          if(Auth::user()->role_id == 2){
          //
              $block = $survey->block()->create($request->all());
