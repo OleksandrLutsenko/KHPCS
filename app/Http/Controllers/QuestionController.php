@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Block;
+use App\Customer;
 use App\Question;
 use App\Survey;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Survey $survey, Block $block,Question $question)
+    public function show(Survey $survey, Block $block, Question $question)
     {
         return $question;
     }
@@ -76,4 +77,16 @@ class QuestionController extends Controller
             return response()->json(null, 204);
         }
     }
+
+    public function customerIndex(Customer $customer, Survey $survey, Block $block, Question $question)
+    {
+        $question = $block->question()->get();
+        return $question;
+    }
+
+    public function customerShow(Customer $customer, Survey $survey, Block $block, Question $question)
+    {
+        return $question;
+    }
 }
+

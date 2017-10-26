@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
@@ -76,5 +77,13 @@ class SurveyController extends Controller
             $survey->delete();
             return response()->json(null, 204);
         }
+    }
+
+    public function customerIndex(Survey $survey){
+        return Survey::all();
+    }
+
+    public function customerShow(Customer $customer, Survey $survey){
+        return $survey;
     }
 }

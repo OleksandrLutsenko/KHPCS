@@ -39,7 +39,18 @@ class CustomerAnswerController extends Controller
      */
     public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, CustomerAnswer $customerAnswer)
     {
-        $customerAnswer->answer()->create($request->all());
+
+
+
+        $customerAnswer = new CustomerAnswer(
+            $request->all()
+        );
+
+        $customerAnswer->customer_id = $customer->id;
+        $customerAnswer->question_id = $question->id;
+
+        $customerAnswer->save();
+
         return response()->json($customerAnswer, 201);
     }
 
@@ -49,9 +60,9 @@ class CustomerAnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, CustomerAnswer $customerAnswer)
     {
-        //
+        return $customerAnswer;
     }
 
     /**

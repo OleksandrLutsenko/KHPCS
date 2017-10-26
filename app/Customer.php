@@ -9,20 +9,20 @@ class Customer extends Model
 {
     protected $fillable = ['name', 'surname', 'classification'];
 
-//    protected $appends = ['reports'];
+    protected $appends = ['reports'];
 
     public function report(){
-        return $this->belongsToMany(Survey::class, 'customer_surveys');
+        return $this->hasMany(Survey::class, 'customer_surveys');
     }
 
     public function customerAnswers(){
         return $this->hasMany(CustomerAnswer::class);
     }
 
-//    public function getReportsAttribute()
-//    {
-//        return $this->report;
-//    }
+    public function getReportsAttribute()
+    {
+        return $this->report;
+    }
 
     public static function boot()
     {

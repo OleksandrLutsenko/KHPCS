@@ -15,4 +15,5 @@ class Answer extends Model
     public function customerAnswers(){
         return $this->hasMany(CustomerAnswer::class);
     }
+
 }

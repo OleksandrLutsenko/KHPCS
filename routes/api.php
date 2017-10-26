@@ -22,6 +22,9 @@ Route::post('/login', 'Auth\LoginController@login');
 
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/survey', 'SurveyController@index');
+
+    Route::get('/survey/save', 'SurveyController@save');
+
     Route::get('/survey/{survey}', 'SurveyController@show');
     Route::post('/survey', 'SurveyController@store');
     Route::put('/survey/{survey}', 'SurveyController@update');
@@ -51,6 +54,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
         });
     });
+
     Route::get('/report', 'ReportController@index');
     Route::post('/report', 'ReportController@store');
     Route::put('/report/{report}', 'ReportController@update');
@@ -65,16 +69,16 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('/customer/{customer}', 'CustomerController@destroy');
 
     Route::prefix('/customer/{customer}')->group(function () {
-        Route::get('/survey', 'SurveyController@index');
-        Route::get('/survey/{survey}', 'SurveyController@show');
+        Route::get('/survey', 'SurveyController@customerIndex');
+        Route::get('/survey/{survey}', 'SurveyController@customerShow');
 
         Route::prefix('/survey/{survey}')->group(function () {
-            Route::get('/block', 'BlockController@index');
-            Route::get('/block/{block}', 'BlockController@show');
+            Route::get('/block', 'BlockController@customerIndex');
+            Route::get('/block/{block}', 'BlockController@customerShow');
 
             Route::prefix('block/{block}')->group(function () {
-                Route::get('/question', 'QuestionController@index');
-                Route::get('/question/{question}', 'QuestionController@show');
+                Route::get('/question', 'QuestionController@customerIndex');
+                Route::get('/question/{question}', 'QuestionController@customerShow');
 
                 Route::prefix('question/{question}')->group(function () {
                     Route::post('/customeranswer', 'CustomerAnswerController@store');
