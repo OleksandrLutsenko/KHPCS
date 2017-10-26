@@ -18,12 +18,14 @@
         $stateProvider
 
             .state('tab', {
+
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController'
 
             })
             .state('login', {
+
                 url: '/login',
                 templateUrl: 'templates/login/login.html',
                 controller: 'LoginController',
@@ -39,7 +41,6 @@
                 url: '/survey-management',
                 templateUrl: 'templates/survey-management/survey-management.html',
                 controller: 'SurveyManagementController'
-
             })
             .state('tab.settings', {
                 url: '/settings',
@@ -47,6 +48,13 @@
                 controller: 'SettingsController'
 
             })
+            .state('sign', {
+                url: '/sign',
+                templateUrl: 'templates/login/sign.html',
+                controller: 'SignController',
+                controllerAs: 'vm'
+            })
+
     }
 })();
 

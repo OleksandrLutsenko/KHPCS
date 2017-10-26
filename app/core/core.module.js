@@ -3,7 +3,7 @@
 
     angular.module('app.core', [
         'ui.router', 'ngMaterial',
-        'ngAnimate', 'toastr'
+        'ngAnimate', 'toastr',   'md.data.table'
     ]);
 
 

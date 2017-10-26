@@ -1,26 +1,38 @@
 <form name="loginForm">
     <md-content>
-        <div>
+
+        <div class="toTab">
             <md-button ui-sref="tab">To tabs</md-button>
         </div>
-        <div layout="row" layout-align="center center" style="height: 100vh">
-            <div class="md-whiteframe-8dp" flex="45">
-                <div>
-                    <md-input-container>
+        <div layout="row" layout-align="center center" class="loginForm">
+
+            <div class="md-whiteframe-8dp" flex="40">
+                <div class="loginLogo">
+                    <img src="content/img/knight_hayes_logo.fw.png" alt="Logo" height="50">
+                </div>
+                <div class="divInput">
+                    <md-input-container class="loginInput">
                         <label>Email</label>
                         <input ng-model="user.mail" type="email">
                     </md-input-container>
                 </div>
-                <div>
-                    <md-input-container>
+                <div class="divInput">
+                    <md-input-container class="loginInput2">
                         <label>Password</label>
                         <input ng-model="user.password" type="password">
                     </md-input-container>
                 </div>
-                <div>
-                    <md-button>
-                        Log in
+                <div class="divInput">
+                    <md-button style="width:80%;background-color: #001041;">
+                        <p class="logBtn">Log in</p>
                     </md-button>
+                </div>
+                <div class="logBot">
+                    <p style="color:gray;">Don't have an account?</p>
+                    <div class="divTextLogin"><p ui-sref="sign" class="textLogin">Sign Up</p></div>
+                </div>
+                <div class="logBotSec">
+                    <p md-nav-sref="#" class="textBottom">Forgotten a password?</p>
                 </div>
             </div>
 
