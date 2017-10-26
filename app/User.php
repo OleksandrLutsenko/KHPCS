@@ -41,4 +41,8 @@ class User extends Authenticatable
     public function survey(){
         return $this->belongsToMany(Survey::class);
     }
+
+    public function isAdmin(){
+        return $this->role_id === 2;
+    }
 }

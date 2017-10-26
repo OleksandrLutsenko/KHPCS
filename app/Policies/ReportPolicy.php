@@ -10,34 +10,19 @@ class ReportPolicy
 
     public function index(User $user)
     {
-        if (Auth::user()->role_id === 2){
-            return true;
-        }else{
-            return false;
-        }
+        return $user->isAdmin();
     }
+
     public function create(User $user)
     {
-        if (Auth::user()->role_id === 2){
-            return true;
-        }else{
-            return false;
-        }
+        return $user->isAdmin();
     }
     public function update(User $user)
     {
-        if (Auth::user()->role_id === 2){
-            return true;
-        }else{
-            return false;
-        }
+        return $user->isAdmin();
     }
     public function delete(User $user)
     {
-        if (Auth::user()->role_id === 2){
-            return true;
-        }else{
-            return false;
-        }
+        return $user->isAdmin();
     }
 }
