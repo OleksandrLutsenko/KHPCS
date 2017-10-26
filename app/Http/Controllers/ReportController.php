@@ -33,6 +33,16 @@ class ReportController extends Controller
         }
     }
 
+    public function showCustomerAnswers(Report $report, User $user, Customer $customer, Survey $survey){
+        $customers = $customer->all();
+
+        if ($user->can('index', $report)) {
+            return $customers->toJson();
+        }else{
+            abort(404);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
