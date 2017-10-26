@@ -2,6 +2,7 @@
     <div class="createWindow">
         <div class="createTop">
                 <h1>Add a new client</h1>
+            <img src="content/img/cancel.png" alt="cancel" height="15" ng-click="cancel()">
         </div>
         <div class="allInput">
         <md-input-container class="addInput">
@@ -14,14 +15,14 @@
         </md-input-container>
         <md-input-container class="addInput">
             <label>Client Classification</label>
-            <md-select name="type" ng-model="project.type" required="" class="selectClass    ">
+            <md-select name="type" ng-model="project.type" class="selectClass">
                 <md-option value="app">Retail</md-option>
                 <md-option value="web">2</md-option>
             </md-select>
         </md-input-container>
         </div>
         <div class="createBtn">
-            <md-button class="md-raised md-primary"><p class="createTextClient">Create</p></md-button>
+            <md-button class="md-raised md-primary" ng-click="showAnnonce($event)"><p class="createTextClient">Create</p></md-button>
         </div>
     </div>
 </md-dialog>

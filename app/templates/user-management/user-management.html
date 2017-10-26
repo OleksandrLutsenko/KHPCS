@@ -2,7 +2,7 @@
     <div class="search">
         <md-input-container class="loginInput">
             <label>Search</label>
-            <input type="text" >
+            <input type="text">
         </md-input-container>
 
         <div class="imgSearch">
@@ -20,30 +20,18 @@
                         <th md-column>Questionnaire Responses</th>
                         <th md-column>Contract</th>
                         <th md-column>Date Completed</th>
-
                     </tr>
                     </thead>
                     <tbody md-body>
-                    <tr md-row>
-                        <td md-cell>Lili</td>
-                        <td md-cell>2</td>
-                        <td md-cell>3</td>
-                        <td md-cell>4</td>
-                        <td md-cell>5</td>
-                    </tr>
-                    <tr md-row>
-                        <td md-cell>Abdula</td>
-                        <td md-cell>2</td>
-                        <td md-cell>3</td>
-                        <td md-cell>4</td>
-                        <td md-cell>5</td>
-                    </tr>
                     <tr md-row>
                         <td md-cell>Darkside</td>
                         <td md-cell>2</td>
                         <td md-cell>3</td>
                         <td md-cell>4</td>
-                        <td md-cell>5</td>
+                        <td md-cell>
+                            <md-button class="md-raised md-primary" ng-click="showEditClient($event)">Editing</md-button>
+                        </td>
+
                     </tr>
 
                     </tbody>

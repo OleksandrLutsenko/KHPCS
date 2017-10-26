@@ -14,23 +14,33 @@
                     templateUrl: 'templates/user-management/addClient.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
-                    clickOutsideToClose: true
+                    clickOutsideToClose:true
                 });
+                function DialogController($scope, $mdDialog) {
 
+                    $scope.cancel = function() {
+                        $mdDialog.cancel();
+                    };
+                }
             };
 
-            function DialogController($scope, $mdDialog) {
-                $scope.hide = function () {
-                    $mdDialog.hide();
-                };
+            $scope.showEditClient = function (ev) {
 
-                $scope.cancel = function () {
-                    $mdDialog.cancel();
-                };
+                $mdDialog.show({
+                    controller:editClientController,
+                    templateUrl: 'templates/user-management/editClient.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose:true
+                });
+                function editClientController($scope, $mdDialog) {
+                    $scope.cancel = function() {
+                        $mdDialog.cancel();
+                    };
+                }
+            };
 
-                $scope.answer = function (answer) {
-                    $mdDialog.hide(answer);
-                };
-            }
         });
+
     })();
+

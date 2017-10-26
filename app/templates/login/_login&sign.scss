@@ -1,4 +1,4 @@
-.logBtn {
+.logBtnText {
   color: white;
   text-transform: none;
   margin: 0;
@@ -10,7 +10,7 @@
   width: 100%;
 }
 
-.logBotSec, .divInput {
+.logBotSec {
   display: flex;
   justify-content: center;
 }
@@ -23,24 +23,31 @@
   height: 100vh;
 }
 
+.mainLogo {
+  padding: 20px 40px;
+}
+
+.divInput {
+  flex-direction: column;
+}
+
 .loginLogo {
   display: flex;
   justify-content: center;
-  padding-top: 10px;
 }
 
 .loginInput {
-  width: 80%;
+  width: 100%;
   margin-bottom: 0;
 }
 
 .loginInput2 {
-  width: 80%;
+  width: 100%;
   margin: 0;
 }
 
 .logIn {
-  width: 80%;
+  margin: 0;
   background-color: #001041;
 }
 
@@ -58,7 +65,20 @@
 
 .textBottom {
   color: #001041;
-  margin: 0 0 30px 0;
+  margin: 0 30px;
   cursor: pointer;
 }
 
+.textUnderBtn {
+  color: gray;
+}
+
+.divBtn button {
+  width: 100%;
+  background-color: #001041;
+  margin: 0;
+}
+
+.divBtn .md-button:hover {
+  background-color: #001041;
+}

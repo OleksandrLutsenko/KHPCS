@@ -51,6 +51,7 @@ md-dialog{
 .createTop {
   display: flex;
   width: 100%;
+  position: relative;
 }
 
 .createTop h1 {
@@ -61,4 +62,10 @@ md-dialog{
 .allInput{
   padding-bottom: 20px;
   padding-top: 20px;
+}
+
+.createTop img{
+  position: absolute;
+  right: 0;
+  margin-top: 7px;
 }
