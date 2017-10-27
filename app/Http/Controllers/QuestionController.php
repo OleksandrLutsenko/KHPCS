@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Block;
+use App\Customer;
 use App\Question;
 use App\Survey;
 use Illuminate\Http\Request;
@@ -19,18 +20,8 @@ class QuestionController extends Controller
     {
         $question = $block->question()->get();
         return $question;
-//        dd($question);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -38,7 +29,7 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Block $block, Question $question)
+    public function store(Request $request, Survey $survey, Block $block, Question $question)
     {
         if(Auth::user()->role_id == 2) {
             $question = $block->question()->create($request->all());
@@ -52,21 +43,11 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Survey $survey, Block $block,Question $question)
+    public function show(Survey $survey, Block $block, Question $question)
     {
         return $question;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -75,9 +56,12 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Survey $survey, Block $block, Question $question)
     {
-        //
+        if(Auth::user()->role_id == 2) {
+            $question->update($request->all());
+            return response()->json($question, 200);
+        }
     }
 
     /**
@@ -86,8 +70,23 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Survey $survey, Block $block, Question $question)
     {
-        //
+        if(Auth::user()->role_id == 2) {
+            $question->delete();
+            return response()->json(null, 204);
+        }
+    }
+
+    public function customerIndex(Customer $customer, Survey $survey, Block $block, Question $question)
+    {
+        $question = $block->question()->get();
+        return $question;
+    }
+
+    public function customerShow(Customer $customer, Survey $survey, Block $block, Question $question)
+    {
+        return $question;
     }
 }
+

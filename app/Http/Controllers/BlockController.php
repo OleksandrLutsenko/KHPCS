@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Block;
+use App\Customer;
 use App\Survey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class BlockController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Block $block,Survey $survey)
+    public function index(Block $block, Survey $survey)
     {
         $block = $survey->block()->get();
         return $block;
@@ -43,8 +44,6 @@ class BlockController extends Controller
      */
     public function show(Survey $survey, Block $block)
     {
-//        $block = $survey->block();
-//        return response()->json($block)->all;
         return $block;
 
     }
@@ -76,5 +75,18 @@ class BlockController extends Controller
             $block->delete();
             return response()->json(null, 204);
         }
+    }
+
+    public function customerIndex(Block $block, Customer $customer ,Survey $survey)
+    {
+        $block = $survey->block()->get();
+        return $block;
+
+    }
+
+    public function customerShow(Customer $customer, Survey $survey, Block $block)
+    {
+        return $block;
+
     }
 }

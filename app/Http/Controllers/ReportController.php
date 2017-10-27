@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use App\Report;
 use App\Survey;
 use App\User;
@@ -15,15 +16,18 @@ class ReportController extends Controller
      *
      * @param Report $report
      * @param User $user
+     * @param Customer|Survey $customer
      * @param Survey $survey
      * @return \Illuminate\Http\Response
      * @internal param User $user
      * @internal param Report $Report
      */
-    public function index(Report $report, User $user, Survey $survey)
+    public function index(Report $report, User $user, Customer $customer, Survey $survey)
     {
+        $customers = $customer->all();
+
         if ($user->can('index', $report)) {
-            return $survey->all();
+            return $customers->toJson();
         }else{
             abort(404);
         }

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc62161f556c29c17ce3c09754dd99461
+class ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -273,10 +273,12 @@ class ComposerStaticInitc62161f556c29c17ce3c09754dd99461
     );
 
     public static $classMap = array (
-        'AddUserSurveyTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_145206_add_user_survey_table.php',
+        'AddCustomerSurveyTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_145206_add_customer_survey_table.php',
         'App\\Answer' => __DIR__ . '/../..' . '/app/Answer.php',
         'App\\Block' => __DIR__ . '/../..' . '/app/Block.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Customer' => __DIR__ . '/../..' . '/app/Customer.php',
+        'App\\CustomerAnswer' => __DIR__ . '/../..' . '/app/CustomerAnswer.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AnswerController' => __DIR__ . '/../..' . '/app/Http/Controllers/AnswerController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -285,6 +287,7 @@ class ComposerStaticInitc62161f556c29c17ce3c09754dd99461
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\BlockController' => __DIR__ . '/../..' . '/app/Http/Controllers/BlockController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\DownloadController' => __DIR__ . '/../..' . '/app/Http/Controllers/DownloadController.php',
         'App\\Http\\Controllers\\QuestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/QuestionController.php',
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
         'App\\Http\\Controllers\\SurveyController' => __DIR__ . '/../..' . '/app/Http/Controllers/SurveyController.php',
@@ -310,13 +313,16 @@ class ComposerStaticInitc62161f556c29c17ce3c09754dd99461
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
         'CreateAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_111933_create_answers_table.php',
         'CreateBlocksTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_154020_create_blocks_table.php',
+        'CreateCustomerAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_130723_create_customer_answers_table.php',
+        'CreateCustomerSurveysTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_135957_create_customer_surveys_table.php',
+        'CreateCustomersSoftDeletes' => __DIR__ . '/../..' . '/database/migrations/2017_10_26_131117_create_customers_soft_deletes.php',
+        'CreateCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_131311_create_customers_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateQuestionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_151504_create_questions_table.php',
         'CreateRolesTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_11_105050_create_roles_table.php',
         'CreateSurveysSoftDeletes' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_120425_create_surveys_soft_deletes.php',
         'CreateSurveysTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_120213_create_surveys_table.php',
         'CreateUserAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_142743_create_user_answers_table.php',
-        'CreateUserSurveysTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_135957_create_user_surveys_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
@@ -3332,10 +3338,10 @@ class ComposerStaticInitc62161f556c29c17ce3c09754dd99461
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc62161f556c29c17ce3c09754dd99461::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc62161f556c29c17ce3c09754dd99461::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitc62161f556c29c17ce3c09754dd99461::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitc62161f556c29c17ce3c09754dd99461::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$classMap;
 
         }, null, ClassLoader::class);
     }
