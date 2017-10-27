@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Block;
 use App\Customer;
 use App\CustomerAnswer;
@@ -22,26 +23,13 @@ class CustomerAnswerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, CustomerAnswer $customerAnswer)
+    public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer)
     {
-
-
-
         $customerAnswer = new CustomerAnswer(
             $request->all()
         );
@@ -49,6 +37,10 @@ class CustomerAnswerController extends Controller
         $customerAnswer->customer_id = $customer->id;
         $customerAnswer->question_id = $question->id;
 
+        if($customerAnswer->value === null){
+            $answer = Answer::find($customerAnswer->answer_id);
+            $customerAnswer->value = $answer->name;
+        }
         $customerAnswer->save();
 
         return response()->json($customerAnswer, 201);
