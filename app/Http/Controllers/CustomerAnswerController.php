@@ -43,6 +43,7 @@ class CustomerAnswerController extends Controller
         }
         $customerAnswer->save();
 
+//        return response()->json($customerAnswer->next_q, 201);
         return response()->json($customerAnswer, 201);
     }
 
@@ -52,21 +53,11 @@ class CustomerAnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, CustomerAnswer $customerAnswer)
+    public function show(CustomerAnswer $customerAnswer)
     {
         return $customerAnswer;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -75,9 +66,19 @@ class CustomerAnswerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer)
     {
-        //
+//        $customerAnswer->customer_id = $customer->id;
+//        $customerAnswer->question_id = $question->id;
+
+        //TODO:review - it does not want to update the CustomerAnswer.
+        if(!empty($customerAnswer->answer_id)){
+        $answer = Answer::find($customerAnswer->answer_id);
+        $customerAnswer->value = $answer->name;
+        }
+
+        $customerAnswer->update($request->all());
+        return response()->json($customerAnswer, 200);
     }
 
     /**

@@ -82,6 +82,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
                 Route::prefix('question/{question}')->group(function () {
                     Route::post('/customeranswer', 'CustomerAnswerController@store');
+                    Route::put('/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
 
                 });
 
