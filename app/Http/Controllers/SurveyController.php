@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
+use App\CustomerAnswer;
 use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
@@ -18,6 +20,23 @@ class SurveyController extends Controller
     public function index(Survey $survey)
     {
             return Survey::all();
+    }
+
+    public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer){
+        /** @var Customer $customer */
+
+        $customer = $customer->create($request->customer);
+
+        foreach ($request->answers as $questionID => $answerID){
+                $customerAnswer->create([
+                    'value' => null,
+                    'question_id' => $questionID,
+                    'answer_id' => $answerID,
+                    'customer_id' => $customer->id
+                ]);
+        }
+
+        return response()->json($customer, 200);
     }
 
     /**

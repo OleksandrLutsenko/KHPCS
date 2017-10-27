@@ -9,7 +9,11 @@ class Customer extends Model
 {
     protected $fillable = ['name', 'surname', 'classification'];
 
-//    protected $appends = ['reports'];
+//    protected $visible = ['name', 'customer_answer'];
+    protected $visible = ['name', 'reports'];
+
+//    protected $appends = ['customer_answer'];
+    protected $appends = ['reports'];
 
     public function report(){
         return $this->belongsToMany(Survey::class, 'customer_surveys');
@@ -19,9 +23,14 @@ class Customer extends Model
         return $this->hasMany(CustomerAnswer::class);
     }
 
-//    public function getReportsAttribute()
+    public function getReportsAttribute()
+    {
+        return $this->report;
+    }
+
+//    public function getCustomerAnswerAttribute()
 //    {
-//        return $this->report;
+//        return $this->customerAnswers;
 //    }
 
     public static function boot()

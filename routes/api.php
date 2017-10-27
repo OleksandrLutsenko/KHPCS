@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::delete('/survey/{survey}', 'SurveyController@destroy');
 
     Route::prefix('/survey/{survey}')->group(function () {
+        Route::post('/answerall', 'SurveyController@answerAll');
         Route::get('/block', 'BlockController@index');
         Route::get('/block/{block}', 'BlockController@show');
         Route::post('/block', 'BlockController@store');
@@ -48,10 +49,10 @@ Route::group(['middleware' => 'auth:api'], function() {
                     Route::put('/answer/{answer}', 'AnswerController@update');
                     Route::delete('/answer/{answer}', 'AnswerController@destroy');
             });
-
         });
     });
     Route::get('/report', 'ReportController@index');
+    Route::get('/report/customeranswers', 'ReportController@showCustomerAnswer');
     Route::post('/report', 'ReportController@store');
     Route::put('/report/{report}', 'ReportController@update');
     Route::delete('/report/{report}', 'ReportController@destroy');
@@ -69,6 +70,7 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::get('/survey/{survey}', 'SurveyController@show');
 
         Route::prefix('/survey/{survey}')->group(function () {
+            Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
             Route::get('/block', 'BlockController@index');
             Route::get('/block/{block}', 'BlockController@show');
 
@@ -78,7 +80,6 @@ Route::group(['middleware' => 'auth:api'], function() {
 
                 Route::prefix('question/{question}')->group(function () {
                     Route::post('/customeranswer', 'CustomerAnswerController@store');
-
                 });
 
             });

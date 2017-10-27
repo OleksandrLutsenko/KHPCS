@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Customer;
+use App\CustomerAnswer;
 use App\Report;
 use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Console\Question\Question;
 
 class ReportController extends Controller
 {
@@ -33,7 +36,7 @@ class ReportController extends Controller
         }
     }
 
-    public function showCustomerAnswers(Report $report, User $user, Customer $customer, Survey $survey){
+    public function showCustomerAnswer(Report $report, User $user, Customer $customer, Survey $survey, CustomerAnswer $customerAnswer){
         $customers = $customer->all();
 
         if ($user->can('index', $report)) {
