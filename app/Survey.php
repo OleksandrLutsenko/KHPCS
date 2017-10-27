@@ -11,6 +11,7 @@ class Survey extends Model
 
     protected $visible = ['name', 'blocks'];
 
+
     protected $appends = ['blocks'];
 
     public function user(){
