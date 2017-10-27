@@ -44,7 +44,12 @@ class CustomerAnswerController extends Controller
         $customerAnswer->save();
 
 //        return response()->json($customerAnswer->next_q, 201);
-        return response()->json($customerAnswer, 201);
+        return [
+            'question identifier'=> $question->identifier,
+            'answer' => response()->json($customerAnswer, 201),
+            'next_question identifier' => Question::find($answer->next_question)->identifier,
+            'next_question' => Question::find($answer->next_question)
+        ];
     }
 
     /**

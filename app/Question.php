@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class Question extends Model
 {
-    protected $fillable = ['title', 'type'];
+    protected $fillable = ['title', 'type', 'identifier'];
 
     protected $visible = ['title', 'answers'];
 
@@ -20,6 +20,11 @@ class Question extends Model
     public function answer(){
         return $this->hasMany(Answer::class);
     }
+
+    public function answerRelate(){
+        return $this->hasOne(Answer::class);
+    }
+
 
     public function customerAnswers(){
         return $this->hasMany(CustomerAnswer::class);

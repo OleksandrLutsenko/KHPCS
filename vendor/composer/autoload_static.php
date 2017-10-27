@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b
+class ComposerStaticInitb0a844064abdf66b4a8938eaa64c6b33
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -287,6 +287,8 @@ class ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\BlockController' => __DIR__ . '/../..' . '/app/Http/Controllers/BlockController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\CustomerAnswerController' => __DIR__ . '/../..' . '/app/Http/Controllers/CustomerAnswerController.php',
+        'App\\Http\\Controllers\\CustomerController' => __DIR__ . '/../..' . '/app/Http/Controllers/CustomerController.php',
         'App\\Http\\Controllers\\DownloadController' => __DIR__ . '/../..' . '/app/Http/Controllers/DownloadController.php',
         'App\\Http\\Controllers\\QuestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/QuestionController.php',
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
@@ -307,7 +309,6 @@ class ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b
         'App\\Role' => __DIR__ . '/../..' . '/app/Role.php',
         'App\\Survey' => __DIR__ . '/../..' . '/app/Survey.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
-        'App\\User_answer' => __DIR__ . '/../..' . '/app/User_answer.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
         'Carbon\\Exceptions\\InvalidDateException' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Exceptions/InvalidDateException.php',
@@ -322,7 +323,6 @@ class ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b
         'CreateRolesTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_11_105050_create_roles_table.php',
         'CreateSurveysSoftDeletes' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_120425_create_surveys_soft_deletes.php',
         'CreateSurveysTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_120213_create_surveys_table.php',
-        'CreateUserAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_142743_create_user_answers_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
         'Cron\\AbstractField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/AbstractField.php',
         'Cron\\CronExpression' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/CronExpression.php',
@@ -3338,10 +3338,10 @@ class ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit010f46a1616e862d0ed274d4cd513e5b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb0a844064abdf66b4a8938eaa64c6b33::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb0a844064abdf66b4a8938eaa64c6b33::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb0a844064abdf66b4a8938eaa64c6b33::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitb0a844064abdf66b4a8938eaa64c6b33::$classMap;
 
         }, null, ClassLoader::class);
     }
