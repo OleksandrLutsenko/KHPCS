@@ -7,27 +7,27 @@
     <md-content>
         <md-tabs md-dynamic-height="" md-border-bottom="">
 
-            <md-tab class="label-tab" label="Style Try">
+            <!--<md-tab class="label-tab" label="Style Try">-->
 
-                <md-content class="md-padding">
-                    <div class="singQest" >Single style div</div>
-                    <div class="singQest" >Single style div</div>
+                <!--<md-content class="md-padding">-->
+                    <!--<div class="singQest" >Single style div</div>-->
+                    <!--<div class="singQest" >Single style div</div>-->
 
-                    <div class="singQest clearfix" >
-                        <div class="sm-left">Single style div</div>
-                        <div class="sm-right">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
-                        </div>
-                    </div>
+                    <!--<div class="singQest clearfix" >-->
+                        <!--<div class="sm-left">Single style div</div>-->
+                        <!--<div class="sm-right">-->
+                            <!--<i class="fa fa-pencil" aria-hidden="true"></i>-->
+                            <!--<i class="fa fa-times-circle-o" aria-hidden="true"></i>-->
+                        <!--</div>-->
+                    <!--</div>-->
 
-                </md-content>
-            </md-tab>
+                <!--</md-content>-->
+            <!--</md-tab>-->
 
 
             <md-tab ng-repeat="qestTab in survCtrl.qestTab"  label={{qestTab.name}}>
                 <md-content class="md-padding">
-                    <div ng-repeat="singQest in  qestTab.questions" class="singQest clearfix">
+                    <div md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3" ng-repeat="singQest in  qestTab.questions" class="singQest clearfix">
                         <div class="sm-left">{{singQest}}</div>
                         <div class="sm-right">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
