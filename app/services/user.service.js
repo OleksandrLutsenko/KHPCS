@@ -30,7 +30,7 @@
          * @param credentials
          */
         function registration(credentials) {
-
+            return http.post(url.user.register, credentials)
         }
 
         /**

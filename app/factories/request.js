@@ -39,6 +39,9 @@
 
         function request(method, url, data) {
 
+            let user = $localStorage.user;
+
+            console.log('function request is started');
 
             let config = {
                 dataType: 'json',
@@ -48,6 +51,11 @@
                     'Content-Type': 'application/json'
                 }
             };
+            if(typeof user != 'undefined') {
+                config.headers.Authorization = 'Bearer ' + user.api_token;
+            }
+            console.log(config.headers, 'headers');
+
 
             if (method === 'GET') {
                 config.params = data;
@@ -63,7 +71,7 @@
             // else {
             config.url = url;
             // }
-            // console.log(config);
+            console.log(config, 'request fact');
             return $http(config)
                 .then(requestComplete)
                 .catch(requestFailed);
@@ -129,9 +137,12 @@
                     console.log('Server error: ' + err.status + ' ' + err.statusText);
                 }
                 // console.log('XHR Failed: ' + err.status);
-            } else {
+            }
+            else {
                 console.log(err.data.error);
             }
+            let res = {status: false};
+            return (res);
         }
 
         /**
@@ -141,18 +152,18 @@
          */
 
         function requestComplete(response) {
-            let promise = $q.defer();
-            console.info('response complete', response.config.url);
-            // console.log(!response.data.status, '123')
-            if (!response.data.status) {
-                promise.resolve(response.data);
-            }
-            else {
-                promise.reject(response);
-            }
+            // let promise = $q.defer();
+            // console.info('response complete', response.config.url);
+            // // console.log(!response.data.status, '123')
+            // if (response.data.status) {
+            //     promise.resolve(response.data);
+            // }
+            // else {
+            //     promise.reject(response.data);
+            // }
 
-            // console.log(promise.promise);
-            return promise.promise;
+            console.log(response.data, 'promise');
+            return response.data;
 
 
         }
