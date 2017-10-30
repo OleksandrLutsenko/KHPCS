@@ -2,7 +2,8 @@
     <div class="createWindow">
         <div class="createTop">
             <h1>Editing client</h1>
-            <img src="content/img/cancel.png" alt="cancel" height="15" ng-click="cancel()">
+            <i class="material-icons" ng-click="cancel()">clear</i>
+
         </div>
         <div class="allInput">
             <md-input-container class="addInput">
@@ -17,7 +18,8 @@
                 <label>Client Classification</label>
                 <md-select name="type" ng-model="project.type" class="selectClass">
                     <md-option value="app">Retail</md-option>
-                    <md-option value="web">2</md-option>
+                    <md-option value="web">Professional</md-option>
+                    <md-option value="app">Eligible counterparty</md-option>
                 </md-select>
             </md-input-container>
         </div>

@@ -1,3 +1,4 @@
+
 md-card {
   margin: 0;
 }
@@ -6,43 +7,39 @@ md-card {
   width: 95%;
 }
 
-.search img {
-  float: right;
-
-}
-
 .search {
   display: flex;
   align-items: center;
   width: 95%;
-  padding: 10px;
+  padding: 10px 40px;
 }
 
 .imgSearch {
+  display: flex;
   justify-content: flex-end;
   width: 20%;
 }
 
-md-dialog{
+md-dialog {
   width: 50%;
 }
 
-.createWindow{
+.createWindow {
   padding: 25px;
 }
 
-.createTextClient , .createBtn button{
+.createTextClient, .createBtn button {
   margin: 0;
   text-transform: none;
 }
 
-.addInput{
+.addInput {
   width: 100%;
   margin-top: 0;
-  margin-bottom:0;
+  margin-bottom: 0;
 }
 
-.createBtn{
+.createBtn {
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -59,13 +56,17 @@ md-dialog{
   font-size: 25px;
 }
 
-.allInput{
+.allInput {
   padding-bottom: 20px;
   padding-top: 20px;
 }
 
-.createTop img{
+.createTop i {
   position: absolute;
   right: 0;
-  margin-top: 7px;
+}
+
+i {
+  cursor: pointer;
+
 }
