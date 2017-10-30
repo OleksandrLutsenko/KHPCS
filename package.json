@@ -38,6 +38,8 @@
   },
   "dependencies": {
     "angular-material-data-table": "^0.10.10",
-    "ng2-md-datatable": "^1.5.1"
+    "ng2-md-datatable": "^1.5.1",
+    "angular-font-awesome": "^2.3.7",
+    "font-awesome": "^4.7.0"
   }
 }

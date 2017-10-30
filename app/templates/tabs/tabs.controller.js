@@ -8,8 +8,6 @@
     function TabsController() {
         let vm = this
 
-
-
     }
 
 })();
