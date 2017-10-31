@@ -14,7 +14,18 @@ class Question extends Model
 
     protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
 
-    protected $appends = ['answers'];
+//    protected $appends = ['answers'];
+//    protected $appends = ['customer_answers'];
+    protected $appends = ['answers', 'customer_answers'];
+
+
+    public function setVisibleAnswers(){
+        $this->visible = ['title', 'answers'];
+    }
+
+    public function setVisibleCustomerAnswers(){
+        $this->visible = ['title', 'customer_answers'];
+    }
 
     public function block(){
         return $this->belongsTo(Block::class);
@@ -28,8 +39,12 @@ class Question extends Model
         return $this->hasOne(Answer::class);
     }
 
-    public function customerAnswers(){
-        return $this->hasMany(CustomerAnswer::class);
+//    public function customerAnswers(){
+//        return $this->hasMany(CustomerAnswer::class);
+//    }
+
+    public function customerAnswer(){
+        return $this->hasOne(CustomerAnswer::class);
     }
 
     public function getAnswersAttribute()
@@ -39,5 +54,10 @@ class Question extends Model
 
     public function hasRadioAnswer(){
         return $this->type == static::TYPE_RADIO;
+    }
+
+    public function getCustomerAnswersAttribute()
+    {
+        return $this->customerAnswer;
     }
 }

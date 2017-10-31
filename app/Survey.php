@@ -11,6 +11,7 @@ class Survey extends Model
 
     protected $visible = ['id', 'name', 'blocks', 'description'];
 
+
     protected $appends = ['blocks'];
 
     public function user(){
@@ -33,6 +34,11 @@ class Survey extends Model
     {
         return $this->block;
     }
+
+//    public function getAnswerAttribute()
+//    {
+//        return $this->customers->customerAnswer;
+//    }
 
     public static function boot()
     {

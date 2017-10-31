@@ -31,7 +31,6 @@ class Customer extends Model
         parent::boot();
 
         static::creating(function ($table) {
-//            dd($table);
             $table->user_id = Auth::user()->id;
         });
     }

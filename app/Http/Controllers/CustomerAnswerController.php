@@ -25,7 +25,12 @@ class CustomerAnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
+     * @param Customer $customer
+     * @param Survey $survey
+     * @param Block $block
+     * @param Question $question
+     * @param CustomerAnswer $customerAnswer
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer)
