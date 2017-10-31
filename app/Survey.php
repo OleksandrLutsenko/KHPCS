@@ -9,7 +9,7 @@ class Survey extends Model
 {
     protected $fillable = ['name', 'description'];
 
-    protected $visible = ['name', 'blocks'];
+    protected $visible = ['id', 'name', 'blocks', 'description'];
 
     protected $appends = ['blocks'];
 

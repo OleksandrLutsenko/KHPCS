@@ -36,10 +36,17 @@ class User extends Authenticatable implements CanResetPassword
         return $this->api_token;
     }
 
-//    public function sendPasswordResetNotification($token)
-//    {
-//        $this->notify(new ResetPasswordNotification($token));
-//    }
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function survey(){
+        return $this->belongsToMany(Survey::class);
+    }
+
+    public function isAdmin(){
+        return $this->role_id === 2;
+    }
 
     public function sendLinkToReset($token, $user)
     {
@@ -47,16 +54,8 @@ class User extends Authenticatable implements CanResetPassword
         $letter['subject'] = 'Reset the password';
         Mail::send('forgot', compact('token'), function ($message) use ($letter, $user, $token){
             $message->from($letter['from'])
-                    ->to($user->email)
-                    ->subject($letter['subject']);
-                });
-    }
-
-    public function role(){
-        return $this->belongsTo(Role::class);
-    }
-
-    public function survey(){
-        return $this->belongsToMany(Survey::class);
+                ->to($user->email)
+                ->subject($letter['subject']);
+        });
     }
 }

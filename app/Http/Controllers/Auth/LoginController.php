@@ -46,12 +46,9 @@ class LoginController extends Controller
             $user = $this->guard()->user();
             $user->generateToken(true);
 
-//            return response()->json([
-//                'data' => $user->toArray(),
-//            ]);
             return [
                 'status'=>true,
-                'data'=>$user->toArray()
+                'user'=>$user
             ];
         }
 
@@ -70,6 +67,6 @@ class LoginController extends Controller
             $user->save();
         }
 
-        return response()->json(['data' => 'User logged out.'], 200);
+        return ['message' => 'User logged out.'];
     }
 }

@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 
 class Question extends Model
 {
+    const TYPE_RADIO = 1;
+    const TYPE_TXT = 2;
+
     protected $fillable = ['title', 'type', 'identifier'];
 
-    protected $visible = ['title', 'answers'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
 
     protected $appends = ['answers'];
 
@@ -25,7 +28,6 @@ class Question extends Model
         return $this->hasOne(Answer::class);
     }
 
-
     public function customerAnswers(){
         return $this->hasMany(CustomerAnswer::class);
     }
@@ -33,5 +35,9 @@ class Question extends Model
     public function getAnswersAttribute()
     {
         return $this->answer;
+    }
+
+    public function hasRadioAnswer(){
+        return $this->type == static::TYPE_RADIO;
     }
 }
