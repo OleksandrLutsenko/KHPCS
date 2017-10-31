@@ -14,7 +14,12 @@
                 getItems: baseUrl + 'api/survey',
                 register: baseUrl + 'public/api/register'
             },
-            // weather: baseUrl + 'weather'
+            survey_management(Snum) {
+                return{
+                    survey: baseUrl + 'api/survey/',
+                    block : baseUrl + 'api/survey/' + Snum + '/block'
+                }
+            }
         };
     }
 

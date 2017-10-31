@@ -14,50 +14,31 @@
         model.getUser = getUser;
         model.loadItems = loadItems;
         model.getItems = getItems;
-        // model.loadItems = loadItems;
-        // model.getItems = getItems;
-        // model.setMood = setMood;
+        // model.addSurvey = getItems;
+        model.addBlock = addBlock;
+
         return model;
 
-        /**
-         *
-         * @param credentials
-         */
         function login(credentials) {
             return http.post(url.user.login, credentials)
         }
 
-        /**
-         *
-         * @param credentials
-         */
         function registration(credentials) {
             return http.post(url.user.register, credentials)
         }
 
-        /**
-         *
-         * @param user
-         */
         function setUser(user) {
             $localStorage.user = user;
         }
 
-        /**
-         *
-         * @returns {*}
-         */
         function getUser() {
             return $localStorage.user;
         }
 
-        /**
-         * get team list before improvement will be sended
-         */
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
                 // if (res.success) {
-                console.log(res);
+                    console.log(res);
                     setItems(res);
                 // } else {
                 //     //need to show error msg
@@ -65,30 +46,21 @@
             });
         }
 
-        /**
-         *
-         * @returns {*}
-         */
         function getItems() {
             return $sessionStorage['user_items'];
         }
 
-        /**
-         *
-         * @param items
-         */
         function setItems(items) {
             delete $sessionStorage['user_items'];
             $sessionStorage['user_items'] = items;
         }
-        /**
-         * Function for set user mood
-         * @param data
-         * @param {number} data.level - user mood
-         */
-        // function setMood(data) {
-        //     return http.post(url.mood.set, data);
-        // }
 
+
+        // Survey management
+        function addBlock(Snum, credentials) {
+            // console.log(url.survey_management.block(Snum).url, 'addBlock Function');
+            // return http.post(url.survey_management.block(Snum).url, credentials)
+            return http.post(url.survey_management(Snum).block, credentials)
+        }
     }
 })();

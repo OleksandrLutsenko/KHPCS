@@ -9,12 +9,24 @@
 
     function SurveyManagementController(userService, $state, $scope, $mdDialog) {
         let vm = this;
+        let Snum = 0;
+        userService.loadItems();
 
-        // userService.loadItems();
         let items = userService.getItems();
         console.log(items, 'survay ctrl');
 
-        vm.qestTab = items[0].blocks;
+        vm.qestTab = items[Snum].blocks;
+
+        vm.addBlock = addBlock;
+
+        function addBlock() {
+            console.log(vm.data);
+            userService.addBlock(Snum + 1, vm.data).then(function (res) {
+                console.log(res);
+                vm.qestTab.push(res);
+            });
+
+        }
 
         // console.log(vm.qestTab, 'survay ctrl');
 
