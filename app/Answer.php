@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'next_question'];
 
     public function question(){
+        return $this->belongsTo(Question::class);
+    }
+
+    public function nextQuestion(){
         return $this->belongsTo(Question::class);
     }
 

@@ -7,11 +7,25 @@ use Illuminate\Http\Request;
 
 class Question extends Model
 {
-    protected $fillable = ['title', 'type'];
+    const TYPE_RADIO = 1;
+    const TYPE_TXT = 2;
 
-    protected $visible = ['title', 'answers'];
+    protected $fillable = ['title', 'type', 'identifier'];
 
-    protected $appends = ['answers'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
+
+//    protected $appends = ['answers'];
+//    protected $appends = ['customer_answers'];
+    protected $appends = ['answers', 'customer_answers'];
+
+
+    public function setVisibleAnswers(){
+        $this->visible = ['title', 'answers'];
+    }
+
+    public function setVisibleCustomerAnswers(){
+        $this->visible = ['title', 'customer_answers'];
+    }
 
     public function block(){
         return $this->belongsTo(Block::class);
@@ -21,12 +35,29 @@ class Question extends Model
         return $this->hasMany(Answer::class);
     }
 
-    public function customerAnswers(){
-        return $this->hasMany(CustomerAnswer::class);
+    public function answerRelate(){
+        return $this->hasOne(Answer::class);
+    }
+
+//    public function customerAnswers(){
+//        return $this->hasMany(CustomerAnswer::class);
+//    }
+
+    public function customerAnswer(){
+        return $this->hasOne(CustomerAnswer::class);
     }
 
     public function getAnswersAttribute()
     {
         return $this->answer;
+    }
+
+    public function hasRadioAnswer(){
+        return $this->type == static::TYPE_RADIO;
+    }
+
+    public function getCustomerAnswersAttribute()
+    {
+        return $this->customerAnswer;
     }
 }

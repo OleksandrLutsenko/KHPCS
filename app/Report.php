@@ -10,7 +10,7 @@ class Report extends Model
 
     protected $fillable = ['user_id', 'survey_id'];
 
-    protected $visible = ['name', 'surveys'];
+    protected $visible = ['id', 'name', 'surveys'];
 
     protected $appends = ['surveys'];
 
@@ -26,6 +26,4 @@ class Report extends Model
     {
         return $this->question;
     }
-
-
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\CustomerAnswer;
 use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,15 +11,26 @@ use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Survey $survey
-     * @return \Illuminate\Http\Response
-     */
     public function index(Survey $survey)
     {
             return Survey::all();
+    }
+
+    public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer){
+        /** @var Customer $customer */
+
+        $customer = $customer->create($request->customer);
+
+        foreach ($request->answers as $questionID => $answerID){
+                $customerAnswer->create([
+                    'value' => null,
+                    'question_id' => $questionID,
+                    'answer_id' => $answerID,
+                    'customer_id' => $customer->id
+                ]);
+        }
+
+        return response()->json($customer, 200);
     }
 
     /**
@@ -28,12 +40,23 @@ class SurveyController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Survey $survey, Request $request)
+    public function store(Request $request, Survey $survey)
     {
-        if(Auth::user()->role_id == 2) {
-            $survey = Survey::create($request->all());
-            return response()->json($survey, 201);
-        }
+        $survey = $survey->create($request->all());
+        return compact('survey');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @param Survey $survey
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addBlock(Request $request, Survey $survey)
+    {
+        $block = $survey->block()->create($request->all());
+        return compact('block');
     }
 
     /**
@@ -45,7 +68,7 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey)
     {
-        return $survey;
+        return compact('survey');
     }
 
     /**
@@ -58,10 +81,8 @@ class SurveyController extends Controller
      */
     public function update(Request $request, Survey $survey)
     {
-        if(Auth::user()->role_id == 2) {
-            $survey->update($request->all());
-            return response()->json($survey, 200);
-        }
+        $survey->update($request->all());
+        return compact('survey');
     }
 
     /**
@@ -73,17 +94,8 @@ class SurveyController extends Controller
      */
     public function destroy(Survey $survey)
     {
-        if(Auth::user()->role_id == 2) {
-            $survey->delete();
-            return response()->json(null, 204);
-        }
+        $survey->delete();
+        return compact('survey');
     }
 
-    public function customerIndex(Survey $survey){
-        return Survey::all();
-    }
-
-    public function customerShow(Customer $customer, Survey $survey){
-        return $survey;
-    }
 }

@@ -9,7 +9,8 @@ class Survey extends Model
 {
     protected $fillable = ['name', 'description'];
 
-    protected $visible = ['name', 'blocks'];
+    protected $visible = ['id', 'name', 'blocks', 'description'];
+
 
     protected $appends = ['blocks'];
 
@@ -33,6 +34,11 @@ class Survey extends Model
     {
         return $this->block;
     }
+
+//    public function getAnswerAttribute()
+//    {
+//        return $this->customers->customerAnswer;
+//    }
 
     public static function boot()
     {

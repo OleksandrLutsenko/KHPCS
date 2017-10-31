@@ -13,52 +13,69 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', 'Auth\RegisterController@register');
-Route::post('/login', 'Auth\LoginController@login');
+Route::group(['middleware' => 'api-response'], function() {
+    Route::post('/register', 'Auth\RegisterController@register');
+    Route::post('/login', 'Auth\LoginController@login');
 
-Route::group(['middleware' => 'auth:api'], function() {
-    Route::get('/survey', 'SurveyController@index');
+    Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
+    Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
 
-    Route::get('/survey/save', 'SurveyController@save');
+    Route::group(['middleware' => 'auth:api'], function() {
 
-    Route::get('/survey/{survey}', 'SurveyController@show');
-    Route::post('/survey', 'SurveyController@store');
-    Route::put('/survey/{survey}', 'SurveyController@update');
-    Route::delete('/survey/{survey}', 'SurveyController@destroy');
+        /** SURVEYS */
 
-    Route::prefix('/survey/{survey}')->group(function () {
-        Route::get('/block', 'BlockController@index');
+        /** show surveys list */
+        Route::get('/survey', 'SurveyController@index');
+        /** show blocks of survey */
+        Route::get('/survey/{survey}', 'SurveyController@show');
+        /** save new survey */
+        Route::post('/survey', 'SurveyController@store');
+        /** update survey */
+        Route::put('/survey/{survey}', 'SurveyController@update');
+        /** save new block */
+        Route::post('/survey/{survey}/add-block', 'SurveyController@addBlock');
+        /** delete survey */
+        Route::delete('/survey/{survey}', 'SurveyController@destroy');
+
+
+        /** BLOCKS */
+        /** show block's questions */
         Route::get('/block/{block}', 'BlockController@show');
-        Route::post('/block', 'BlockController@store');
+        /** update block */
         Route::put('/block/{block}', 'BlockController@update');
+        /** save new question */
+        Route::post('/block/{block}/add-question', 'BlockController@addQuestion');
+        /** delete block */
         Route::delete('/block/{block}', 'BlockController@destroy');
 
-        Route::prefix('block/{block}')->group(function () {
-            Route::get('/question', 'QuestionController@index');
-            Route::get('/question/{question}', 'QuestionController@show');
-            Route::post('/question', 'QuestionController@store');
-            Route::put('/question/{question}', 'QuestionController@update');
-            Route::delete('/question/{question}', 'QuestionController@destroy');
+        /** QUESTIONS */
+        /** show question's answers */
+        Route::get('/question/{question}', 'QuestionController@show');
+        /** update question */
+        Route::put('/question/{question}', 'QuestionController@update');
+        /** save new answer */
+        Route::post('/question/{question}/add-answer', 'QuestionController@addAnswer');
+        /** delete question */
+        Route::delete('/question/{question}', 'QuestionController@destroy');
 
-            Route::prefix('question/{question}')->group(function () {
-                    Route::get('/answer', 'AnswerController@index');
-                    Route::get('/answer/{answer}', 'AnswerController@show');
-                    Route::post('/answer', 'AnswerController@store');
-                    Route::put('/answer/{answer}', 'AnswerController@update');
-                    Route::delete('/answer/{answer}', 'AnswerController@destroy');
-            });
+        /** ANSWERS */
+        /** show answer */
+        Route::get('/answer/{answer}', 'AnswerController@show');
+        /** update answer */
+        Route::put('/answer/{answer}', 'AnswerController@update');
+        /** delete answer */
+        Route::delete('/answer/{answer}', 'AnswerController@destroy');
 
-        });
-    });
-
-    Route::get('/report', 'ReportController@index');
-    Route::post('/report', 'ReportController@store');
-    Route::put('/report/{report}', 'ReportController@update');
-    Route::delete('/report/{report}', 'ReportController@destroy');
+        /** USER MANAGEMENT TAB */
+        Route::get('/report', 'ReportController@index');
+        Route::post('/report', 'ReportController@store');
+        Route::put('/report/{report}', 'ReportController@update');
+        Route::delete('/report/{report}', 'ReportController@destroy');
+});
 
     Route::get('download', 'DownloadController@download');
 
@@ -75,6 +92,9 @@ Route::group(['middleware' => 'auth:api'], function() {
         Route::prefix('/survey/{survey}')->group(function () {
             Route::get('/block', 'BlockController@customerIndex');
             Route::get('/block/{block}', 'BlockController@customerShow');
+
+            Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
+            Route::get('/download', 'DownloadController@downloadSurvey');
 
             Route::prefix('block/{block}')->group(function () {
                 Route::get('/question', 'QuestionController@customerIndex');

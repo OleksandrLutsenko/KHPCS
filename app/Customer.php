@@ -2,17 +2,19 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
     protected $fillable = ['name', 'surname', 'classification'];
 
+    protected $visible = ['id', 'name', 'surname', 'classification', 'reports'];
+
     protected $appends = ['reports'];
 
     public function report(){
-        return $this->hasMany(Survey::class, 'customer_surveys');
+        return $this->belongsToMany(Survey::class, 'customer_surveys');
     }
 
     public function customerAnswers(){
