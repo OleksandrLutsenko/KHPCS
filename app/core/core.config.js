@@ -46,14 +46,6 @@
 
             })
 
-            // .state('tab.edit', {
-            //     url: '/survey-management',
-            //     templateUrl: 'templates/survey-management/edit.html',
-            //     controller: 'SurveyManagementController',
-            //     controllerAs: 'vm'
-            //
-            // })
-
             .state('tab.settings', {
                 url: '/settings',
                 templateUrl: 'templates/settings/settings.html',

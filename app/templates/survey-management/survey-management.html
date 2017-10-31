@@ -1,47 +1,39 @@
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<div ng-cloak="" class="tabsdemoDynamicHeight" ng-app="MyApp">
 
+    <!--<quest-list></quest-list>-->
 
-<!--<div ng-controller="SurveyManagementController as survCtrl">-->
+    <md-content>
+        <md-tabs md-dynamic-height="" md-border-bottom="">
 
-    <div ng-cloak="" class="tabsdemoDynamicHeight" ng-app="MyApp">
-
-<!--{{vm.tempQest}}-->
-
-        <md-content>
-            <md-tabs md-dynamic-height="" md-border-bottom="">
-
-                <md-tab ng-repeat="cell in vm.questTab"  label={{cell.name}}>
-                    <md-content class="md-padding">
-                        <div ng-repeat="question in  cell.questions" class="singQest clearfix" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
-                            <div class="sm-left">{{question}}</div>
-                            <div class="sm-right">
-                                <i class="fa fa-pencil" aria-hidden="true" ng-click="showEditSMOld($event, question)"></i>
-                                <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="deleteQuestionSM()"></i>
-                            </div>
+            <md-tab ng-repeat="cell in vm.questTab" label={{cell.name}}>
+                <md-content class="md-padding">
+                    <div ng-repeat="question in  cell.questions" class="singQest clearfix" md-whiteframe="{{height}}"
+                         ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
+                        <div class="sm-left">{{question}}</div>
+                        <div class="sm-right">
+                            <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEditSM($event, question)"></i>
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.deleteQuestionSM()"></i>
                         </div>
-                        <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"  ng-click="vm.showEditSM($event)">Add new question</div>
+                    </div>
+                    <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
+                         ng-mouseleave="height = 3" ng-click="vm.showEditSM($event)">Add new question
+                    </div>
 
-                    </md-content>
-                </md-tab>
+                </md-content>
+            </md-tab>
 
-                <md-tab label="Add new section">
-                    <md-content class="md-padding">
-                        <div class="singQest clearfix" layout="row">
-                            <md-input-container style="margin: 0; bottom: -14px;">
-                                <label>Section name</label>
-                                <input>
-                            </md-input-container>
-                            <md-button class="md-raised" ng-click="test()" style="top: -5px;">Save</md-button>
-                        </div>
-                    </md-content>
-                </md-tab>
+            <md-tab label="Add new section">
+                <md-content class="md-padding">
+                    <div class="singQest clearfix" layout="row">
+                        <md-input-container style="margin: 0; bottom: -14px;">
+                            <label>Section name</label>
+                            <input>
+                        </md-input-container>
+                        <md-button class="md-raised" ng-click="vm.test()" style="top: -5px;">Save</md-button>
+                    </div>
+                </md-content>
+            </md-tab>
 
-            </md-tabs>
-        </md-content>
-    </div>
-<!--</div>-->
-
-<!--
-Copyright 2016 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that can be foundin the LICENSE file at http://material.angularjs.org/HEAD/license.
--->
+        </md-tabs>
+    </md-content>
+</div>

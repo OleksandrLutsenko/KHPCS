@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app')
-        .controller('SurveyManagementController', function ($scope, $mdDialog) {
+        .controller('SurveyManagementController', function ($mdDialog) {
 
             let vm = this;
 
@@ -81,17 +81,44 @@
             // SurveyManagementController.$inject = [];     //rudimentary code :\
 
 
-            vm.showEditSM = function (ev) {
+            vm.showEditSM = function (ev, question) {
                 $mdDialog.show({
-                    controller: CancelController,
+                    controller: ShowEditSMCtrl,
                     controllerAs: 'vm',
                     templateUrl: 'templates/survey-management/edit.html',
-                    // templateUrl: 'templates/survey-management/delete.html',
+                    // templateUrl: 'components/survey-management/edit.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true
                 });
-                function CancelController($scope, $mdDialog) {
+                function ShowEditSMCtrl($mdDialog) {
+                    let vm = this;
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                    vm.question = question;
+                    vm.inputCheck = function (inputValueNum) {
+                        if (inputValueNum === 1) {
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    };
+                }
+            };
+
+
+            vm.deleteQuestionSM = function (ev) {
+                $mdDialog.show({
+                    controller: CancelController,
+                    controllerAs: 'vm',
+                    templateUrl: 'templates/survey-management/delete.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                });
+                function CancelController($mdDialog) {
                     let vm = this;
                     vm.cancel = function () {
                         $mdDialog.cancel();
@@ -99,61 +126,27 @@
                 }
             };
 
-
-
-
-            $scope.showEditSMOld = function (ev, question) {
-                $mdDialog.show({
-                    controller: CancelController,
-                    templateUrl: 'templates/survey-management/edit.html',
-                    // templateUrl: 'templates/survey-management/delete.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-                });
-
-                vm.tempQest = question;
-                // $scope.tempQest = question;
-
-                function CancelController($scope, $mdDialog) {
-                    $scope.cancel = function () {
-                        $mdDialog.cancel();
-                    };
-                }
+            vm.test = function () {
+                alert('Test');
             };
 
-
-            $scope.deleteQuestionSM = function (ev) {
-                $mdDialog.show({
-                    controller: CancelController,
-                    templateUrl: 'templates/survey-management/delete.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-                });
-                function CancelController($scope, $mdDialog) {
-                    $scope.cancel = function () {
-                        $mdDialog.cancel();
-                    };
-                }
-            };
-
-            $scope.test = function () {
-                // console.log('test');
-                alert('Test')
-            };
-
-            $scope.inputCheck = function (inputValueNum) {
-                if (inputValueNum === 1) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            };
 
 
         });
+
+    angular.module('app').directive('questList', function() {
+        return {
+            restrict: 'E', // Е -деректива елементом А- атрибутом
+            templateUrl: 'components/survey-management/questionnaire-list.html', //Откуда брать директиву
+            // controller: QuestListCtrl,
+            // // controllerAs: 'vm'
+        };
+    });
+
+    // angular.module('app').controller('QuestListCtrl', function () {
+    //
+    // });
+
 
 
 })();
