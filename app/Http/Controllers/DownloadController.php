@@ -21,7 +21,6 @@ class DownloadController extends Controller
 
         $data['reports'] = Report::where('customer_id', $customer->id)->where('survey_id', $survey->id)->get();
 
-
         $pdf = PDF::loadView('answer-customers', $data);
         return $pdf->download('customer-answers.pdf');
 
