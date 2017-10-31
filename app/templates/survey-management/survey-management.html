@@ -1,48 +1,45 @@
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 
-<div ng-controller="SurveyManagementController as survCtrl">
+<!--<div ng-controller="SurveyManagementController as survCtrl">-->
 
-<div ng-cloak="" class="tabsdemoDynamicHeight" ng-app="MyApp">
-    <md-content>
-        <md-tabs md-dynamic-height="" md-border-bottom="">
+    <div ng-cloak="" class="tabsdemoDynamicHeight" ng-app="MyApp">
 
-            <!--<md-tab class="label-tab" label="Style Try">-->
+<!--{{vm.tempQest}}-->
 
-                <!--<md-content class="md-padding">-->
-                    <!--<div class="singQest" >Single style div</div>-->
-                    <!--<div class="singQest" >Single style div</div>-->
+        <md-content>
+            <md-tabs md-dynamic-height="" md-border-bottom="">
 
-                    <!--<div class="singQest clearfix" >-->
-                        <!--<div class="sm-left">Single style div</div>-->
-                        <!--<div class="sm-right">-->
-                            <!--<i class="fa fa-pencil" aria-hidden="true"></i>-->
-                            <!--<i class="fa fa-times-circle-o" aria-hidden="true"></i>-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-                <!--</md-content>-->
-            <!--</md-tab>-->
-
-
-            <md-tab ng-repeat="qestTab in survCtrl.qestTab"  label={{qestTab.name}}>
-                <md-content class="md-padding">
-                    <div md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3" ng-repeat="singQest in  qestTab.questions" class="singQest clearfix">
-                        <div class="sm-left">{{singQest}}</div>
-                        <div class="sm-right">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                <md-tab ng-repeat="cell in vm.questTab"  label={{cell.name}}>
+                    <md-content class="md-padding">
+                        <div ng-repeat="question in  cell.questions" class="singQest clearfix" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
+                            <div class="sm-left">{{question}}</div>
+                            <div class="sm-right">
+                                <i class="fa fa-pencil" aria-hidden="true" ng-click="showEditSMOld($event, question)"></i>
+                                <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="deleteQuestionSM()"></i>
+                            </div>
                         </div>
-                    </div>
-                </md-content>
-            </md-tab>
+                        <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"  ng-click="showEditSM($event)">Add new question</div>
 
+                    </md-content>
+                </md-tab>
 
-        </md-tabs>
-    </md-content>
-</div>
+                <md-tab label="Add new section">
+                    <md-content class="md-padding">
+                        <div class="singQest clearfix" layout="row">
+                            <md-input-container style="margin: 0; bottom: -14px;">
+                                <label>Section name</label>
+                                <input>
+                            </md-input-container>
+                            <md-button class="md-raised" ng-click="test()" style="top: -5px;">Save</md-button>
+                        </div>
+                    </md-content>
+                </md-tab>
 
-</div>
+            </md-tabs>
+        </md-content>
+    </div>
+<!--</div>-->
 
 <!--
 Copyright 2016 Google Inc. All Rights Reserved.
