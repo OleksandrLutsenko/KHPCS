@@ -149,6 +149,8 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::prefix('/survey/{survey}')->group(function () {
             Route::get('/block', 'BlockController@customerIndex');
             Route::get('/block/{block}', 'BlockController@customerShow');
+            Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
+            Route::get('/download', 'DownloadController@downloadSurvey');
 
             Route::prefix('block/{block}')->group(function () {
                 Route::get('/question', 'QuestionController@customerIndex');
