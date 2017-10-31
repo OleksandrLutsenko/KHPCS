@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::put('/report/{report}', 'ReportController@update');
     Route::delete('/report/{report}', 'ReportController@destroy');
 
-    Route::get('download', 'DownloadController@download');
+    Route::get('download', 'DownloadController@downloadSurvey');
 
     Route::get('/customer', 'CustomerController@index');
     Route::get('/customer/{customer}', 'CustomerController@show');
@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth:api'], function() {
 
         Route::prefix('/survey/{survey}')->group(function () {
             Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
+            Route::get('/download', 'DownloadController@downloadSurvey');
             Route::get('/block', 'BlockController@index');
             Route::get('/block/{block}', 'BlockController@show');
 
