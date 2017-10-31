@@ -23,6 +23,5 @@ class DownloadController extends Controller
 
         $pdf = PDF::loadView('answer-customers', $data);
         return $pdf->download('customer-answers.pdf');
-
     }
 }
