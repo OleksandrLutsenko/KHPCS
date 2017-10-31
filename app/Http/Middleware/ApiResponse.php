@@ -15,13 +15,13 @@ class ApiResponse
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        $response = $next($request);
 
-//        return response()->json([
-//            'success' => $response->status() == 200,
-//            'status' => $response->status(),
-//            'data' => $response->getOriginalContent(),
-//            'errors' => [],
-//        ]);
+        return response()->json([
+            'success' => $response->status() == 200,
+            'status' => $response->status(),
+            'data' => $response->getOriginalContent(),
+            'errors' => [],
+        ]);
     }
 }
