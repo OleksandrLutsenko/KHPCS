@@ -13,30 +13,39 @@
                     </div>
                     <div class="divInput">
                         <md-input-container class="loginInput">
+                            <label>Full name</label>
+                            <input type="text">
+                        </md-input-container>
+
+                        <md-input-container class="loginInput2">
                             <label>Email</label>
-                            <input ng-model="vm.data.email" type="email">
+                            <input type="email">
                         </md-input-container>
 
                         <md-input-container class="loginInput2">
                             <label>Password</label>
-                            <input ng-model="vm.data.password" type="password">
+                            <input type="password">
+                        </md-input-container>
+
+                        <md-input-container class="loginInput2">
+                            <label>Confirm password</label>
+                            <input type="password">
                         </md-input-container>
                     </div>
                     <div class="divBtn">
-                        <md-button ng-click="vm.login()">
-                            <p class="logBtnText">Log in</p>
+                        <md-button>
+                            <p class="logBtnText">Sign up</p>
                         </md-button>
                     </div>
                     <div class="logBot">
-                        <p class="textUnderBtn">Don't have an account?</p>
-                        <div class="divTextLogin"><p ui-sref="registration" class="textLogin">Sign Up</p></div>
+                        <p class="textUnderBtn">Already have an account?</p>
+                        <div class="divTextLogin"><p ui-sref="login" class="textLogin">Log in</p></div>
                     </div>
                     <div class="logBotSec">
                         <p md-nav-sref="#" class="textBottom">Forgotten a password?</p>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </md-content>
 </form>

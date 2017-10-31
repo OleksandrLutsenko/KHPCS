@@ -1,11 +1,11 @@
 ;(function () {
     'use strict';
     angular.module('app')
-        .controller('SignController', SignController);
+        .controller('RegistrationController', RegistrationController);
 
-    SignController.$inject = ['userService', '$state'];
+    RegistrationController.$inject = ['userService', '$state'];
 
-    function SignController(userService, $state) {
+    function RegistrationController(userService, $state) {
         let vm = this;
 
         vm.register = register;
