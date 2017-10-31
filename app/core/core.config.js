@@ -34,13 +34,20 @@
             .state('tab.user-management', {
                 url: '/user-management',
                 templateUrl: 'templates/user-management/user-management.html',
-                controller: 'UserManagementController'
+                controller: 'UserManagementController',
+                controllerAs: 'vm'
 
             })
             .state('tab.survey-management', {
                 url: '/survey-management',
                 templateUrl: 'templates/survey-management/survey-management.html',
-                controller: 'SurveyManagementController'
+                controller: 'SurveyManagementController',
+                controllerAs: 'vm',
+                resolve: {
+                    items: function (userService) {
+                        return userService.loadItems()
+                    }
+                }
             })
             .state('tab.settings', {
                 url: '/settings',

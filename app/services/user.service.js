@@ -12,6 +12,8 @@
         model.registration = registration;
         model.setUser = setUser;
         model.getUser = getUser;
+        model.loadItems = loadItems;
+        model.getItems = getItems;
         // model.loadItems = loadItems;
         // model.getItems = getItems;
         // model.setMood = setMood;
@@ -52,32 +54,33 @@
         /**
          * get team list before improvement will be sended
          */
-        // function loadItems() {
-        //     return http.get(url.user.getItems, {}).then(function (res) {
-        //         if (res.success) {
-        //             setItems(res);
-        //         } else {
-        //             //need to show error msg
-        //         }
-        //     });
-        // }
+        function loadItems() {
+            return http.get(url.user.getItems, {}).then(function (res) {
+                // if (res.success) {
+                console.log(res);
+                    setItems(res);
+                // } else {
+                //     //need to show error msg
+                // }
+            });
+        }
 
         /**
          *
          * @returns {*}
          */
-        // function getItems() {
-        //     return $sessionStorage['user_items'];
-        // }
+        function getItems() {
+            return $sessionStorage['user_items'];
+        }
 
         /**
          *
          * @param items
          */
-        // function setItems(items) {
-        //     delete $sessionStorage['user_items'];
-        //     $sessionStorage['user_items'] = items;
-        // }
+        function setItems(items) {
+            delete $sessionStorage['user_items'];
+            $sessionStorage['user_items'] = items;
+        }
         /**
          * Function for set user mood
          * @param data

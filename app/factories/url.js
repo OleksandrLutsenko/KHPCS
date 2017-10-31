@@ -11,7 +11,7 @@
         return {
             user: {
                 login: baseUrl + 'api/login',
-                getItems: baseUrl + 'user/get-available-items',
+                getItems: baseUrl + 'api/survey',
                 register: baseUrl + 'public/api/register'
             },
             // weather: baseUrl + 'weather'
