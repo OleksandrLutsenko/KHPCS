@@ -81,9 +81,10 @@
             // SurveyManagementController.$inject = [];     //rudimentary code :\
 
 
-            $scope.showEditSM = function (ev) {
+            vm.showEditSM = function (ev) {
                 $mdDialog.show({
                     controller: CancelController,
+                    controllerAs: 'vm',
                     templateUrl: 'templates/survey-management/edit.html',
                     // templateUrl: 'templates/survey-management/delete.html',
                     parent: angular.element(document.body),
@@ -91,7 +92,8 @@
                     clickOutsideToClose: true
                 });
                 function CancelController($scope, $mdDialog) {
-                    $scope.cancel = function () {
+                    let vm = this;
+                    vm.cancel = function () {
                         $mdDialog.cancel();
                     };
                 }
