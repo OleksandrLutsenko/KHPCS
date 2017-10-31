@@ -22,7 +22,7 @@ class AddCustomerSurveyTable extends Migration
     /**
      * Reverse the migrations.
      *
-     * @return void
+     * @return voi
      */
     public function down()
     {

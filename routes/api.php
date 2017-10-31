@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/register', 'Auth\RegisterController@register');
 Route::post('/login', 'Auth\LoginController@login');
 
+Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
+Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
+
 Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/survey', 'SurveyController@index');
 
