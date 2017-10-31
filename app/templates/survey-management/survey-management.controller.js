@@ -5,9 +5,9 @@
         .controller('SurveyManagementController', SurveyManagementController);
 
 
-    SurveyManagementController.$inject = ['userService', '$state'];
+    SurveyManagementController.$inject = ['userService', '$state', '$scope'];
 
-    function SurveyManagementController(userService, $state) {
+    function SurveyManagementController(userService, $state, $scope, $mdDialog) {
         let vm = this;
 
         // userService.loadItems();
@@ -16,7 +16,7 @@
 
         vm.qestTab = items[0].blocks;
 
-        console.log(vm.qestTab, 'survay ctrl');
+        // console.log(vm.qestTab, 'survay ctrl');
 
         // vm.login = login;
         //
@@ -105,6 +105,78 @@
         //     },
         // ];
 
+
+            // SurveyManagementController.$inject = [];     //rudimentary code :\
+
+
+            vm.showEditSM = function (ev) {
+                $mdDialog.show({
+                    controller: CancelController,
+                    templateUrl: 'templates/survey-management/edit.html',
+                    // templateUrl: 'templates/survey-management/delete.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                });
+                function CancelController($scope, $mdDialog) {
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            };
+
+
+
+
+            vm.showEditSMOld = function (ev, question) {
+                $mdDialog.show({
+                    controller: CancelController,
+                    templateUrl: 'templates/survey-management/edit.html',
+                    // templateUrl: 'templates/survey-management/delete.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                });
+
+                vm.tempQest = question;
+                // $scope.tempQest = question;
+
+                function CancelController($scope, $mdDialog) {
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            };
+
+
+            vm.deleteQuestionSM = function (ev) {
+                $mdDialog.show({
+                    controller: CancelController,
+                    templateUrl: 'templates/survey-management/delete.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                });
+                function CancelController($scope, $mdDialog) {
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
+                }
+            };
+
+            vm.test = function () {
+                // console.log('test');
+                alert('Test')
+            };
+
+            vm.inputCheck = function (inputValueNum) {
+                if (inputValueNum === 1) {
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            };
     }
 
 })();

@@ -1,15 +1,33 @@
-<md-content>
+<div ng-cloak="" class="tabsdemoDynamicHeight" ng-app="MyApp">
+    <md-content>
         <md-tabs md-dynamic-height="" md-border-bottom="">
-            <md-tab ng-repeat="qestTab in vm.qestTab"  label={{qestTab.name}}>
+
+            <md-tab ng-repeat="cell in vm.qestTab"  label={{cell.name}}>
                 <md-content class="md-padding">
-                    <div md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3" ng-repeat="singQest in  qestTab.questions" class="singQest clearfix">
-                        <div class="sm-left">{{singQest}}</div>
+                    <div ng-repeat="question in  cell.questions" class="singQest clearfix" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
+                        <div class="sm-left">{{question}}</div>
                         <div class="sm-right">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
-                            <i class="fa fa-times-circle-o" aria-hidden="true"></i>
+                            <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEditSMOld($event, question)"></i>
+                            <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.deleteQuestionSM()"></i>
                         </div>
+                    </div>
+                    <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"  ng-click="vm.showEditSM($event)">Add new question</div>
+
+                </md-content>
+            </md-tab>
+
+            <md-tab label="Add new section">
+                <md-content class="md-padding">
+                    <div class="singQest clearfix" layout="row">
+                        <md-input-container style="margin: 0; bottom: -14px;">
+                            <label>Section name</label>
+                            <input>
+                        </md-input-container>
+                        <md-button class="md-raised" ng-click="test()" style="top: -5px;">Save</md-button>
                     </div>
                 </md-content>
             </md-tab>
+
         </md-tabs>
-</md-content>
+    </md-content>
+</div>

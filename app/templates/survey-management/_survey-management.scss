@@ -17,28 +17,24 @@
   clear: both;
 }
 
-
-
-
 .label-tab{
   text-transform: capitalize ;
   color: red;
 }
 
 .singQest {
-  //border-top: 1px solid #dcdcdc;
-  //border-bottom: 3px solid #dcdcdc;
-  margin-bottom: 2px;
+  box-sizing: border-box;
   padding: 15px 40px;
+  width: 100%;
 }
-
-//.singQest:hover{
-//  background-color: #c5c5c5;
-//}
 
 .sm-left {
+  //width: 100%;
   float: left;
 }
+//div.sm-left.ng-binding {
+//  max-width: 80%;
+//}
 
 .sm-right {
   float: right;
@@ -50,4 +46,10 @@
   font-size: 20px;
 }
 
-
+md-edit-sm {
+  width: 50%;
+  background-color: #555555;
+}
+md-dialog {
+  max-height: 95%;
+}
