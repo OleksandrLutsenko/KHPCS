@@ -75,37 +75,36 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/report', 'ReportController@store');
         Route::put('/report/{report}', 'ReportController@update');
         Route::delete('/report/{report}', 'ReportController@destroy');
-});
 
-    Route::get('download', 'DownloadController@download');
+        Route::get('download', 'DownloadController@download');
 
-    Route::get('/customer', 'CustomerController@index');
-    Route::get('/customer/{customer}', 'CustomerController@show');
-    Route::post('/customer', 'CustomerController@store');
-    Route::put('/customer/{customer}', 'CustomerController@update');
-    Route::delete('/customer/{customer}', 'CustomerController@destroy');
+        Route::get('/customer', 'CustomerController@index');
+        Route::get('/customer/{customer}', 'CustomerController@show');
+        Route::post('/customer', 'CustomerController@store');
+        Route::put('/customer/{customer}', 'CustomerController@update');
+        Route::delete('/customer/{customer}', 'CustomerController@destroy');
 
-    Route::prefix('/customer/{customer}')->group(function () {
-        Route::get('/survey', 'SurveyController@customerIndex');
-        Route::get('/survey/{survey}', 'SurveyController@customerShow');
+        Route::prefix('/customer/{customer}')->group(function () {
+            Route::get('/survey', 'SurveyController@customerIndex');
+            Route::get('/survey/{survey}', 'SurveyController@customerShow');
 
-        Route::prefix('/survey/{survey}')->group(function () {
-            Route::get('/block', 'BlockController@customerIndex');
-            Route::get('/block/{block}', 'BlockController@customerShow');
+            Route::prefix('/survey/{survey}')->group(function () {
+                Route::get('/block', 'BlockController@customerIndex');
+                Route::get('/block/{block}', 'BlockController@customerShow');
 
-            Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
-            Route::get('/download', 'DownloadController@downloadSurvey');
+                Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
+                Route::get('/download', 'DownloadController@downloadSurvey');
 
-            Route::prefix('block/{block}')->group(function () {
-                Route::get('/question', 'QuestionController@customerIndex');
-                Route::get('/question/{question}', 'QuestionController@customerShow');
+                Route::prefix('block/{block}')->group(function () {
+                    Route::get('/question', 'QuestionController@customerIndex');
+                    Route::get('/question/{question}', 'QuestionController@customerShow');
 
-                Route::prefix('question/{question}')->group(function () {
-                    Route::post('/customeranswer', 'CustomerAnswerController@store');
-                    Route::put('/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
+                    Route::prefix('question/{question}')->group(function () {
+                        Route::post('/customeranswer', 'CustomerAnswerController@store');
+                        Route::put('/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
 
+                    });
                 });
-
             });
         });
     });

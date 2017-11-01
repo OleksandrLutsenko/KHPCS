@@ -7,7 +7,6 @@ class ReportPolicy
 {
     use HandlesAuthorization;
 
-
     public function index(User $user)
     {
         return $user->isAdmin();
