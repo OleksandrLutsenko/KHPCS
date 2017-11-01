@@ -123,3 +123,26 @@ md-edit-sm {
 
 md-dialog {
   max-height: 95%; }
+
+.questionnaire-list {
+  background-color: #f7f7f7;
+  width: 300px;
+  margin: 10px 10px;
+  display: inline-block;
+  text-align: right;
+  height: 150px;
+  float: left; }
+
+.questionnaire-list i {
+  font-size: 25px;
+  text-align: right;
+  color: #aaaaaa; }
+
+.questionnaire-list p {
+  text-align: center; }
+
+.questionnaire-list p:last-child {
+  color: #aaaaaa; }
+
+.fa-plus-circle:before {
+  font-size: 60px; }

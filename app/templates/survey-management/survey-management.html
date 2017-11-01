@@ -1,8 +1,10 @@
-<div ng-cloak="" class="tabsdemoDynamicHeight" ng-app="MyApp">
+<div ng-cloak="" class="tabsdemoDynamicHeight" >
 
-    <!--<quest-list></quest-list>-->
+    <quest-list ng-show="vm.statusQL"></quest-list>
 
-    <md-content>
+
+
+    <md-content ng-show="vm.statusBlock">
         <md-tabs md-dynamic-height="" md-border-bottom="">
 
             <md-tab ng-repeat="cell in vm.questTab" label={{cell.name}}>

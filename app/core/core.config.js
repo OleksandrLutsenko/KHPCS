@@ -59,6 +59,13 @@
                 controllerAs: 'vm'
             })
 
+            // .state('questionnaire-list', {
+            //     url: '/questionnaire-list.html',
+            //     templateUrl: 'components/survey-management/questionnaire-list/questionnaire-list.html',
+            //     controller: 'QuestListCtrl',
+            //     controllerAs: 'vm'
+            // })
+
     }
 })();
 

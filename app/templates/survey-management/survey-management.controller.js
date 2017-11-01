@@ -130,21 +130,77 @@
                 alert('Test');
             };
 
+            ////////////////Qest list////////////////////////
+
+            vm.jollo = 'hello QL';
+
+            vm.QLOption = [
+                'Active',
+                'Deactive',
+                'Archive'
+            ];
 
 
-        });
+            vm.QLCurrentStatus = vm.QLOption[0];
 
-    angular.module('app').directive('questList', function() {
+            vm.announceClick = function(index) {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        // .title('You clicked!')
+                        .textContent('Status changed to \"' + index + '\"')
+                        .ok('Ок')
+
+                );
+                vm.QLCurrentStatus = index;
+            };
+
+            vm.statusQL = true;
+            vm.statusBlock = false;
+
+            vm.inversion = function () {
+                vm.statusQL = false;
+                vm.statusBlock = true;
+            };
+
+
+
+
+
+
+
+
+
+
+
+        })
+
+
+
+
+
+    .directive('questList', function() {
         return {
-            restrict: 'E', // Е -деректива елементом А- атрибутом
-            templateUrl: 'components/survey-management/questionnaire-list.html', //Откуда брать директиву
-            // controller: QuestListCtrl,
-            // // controllerAs: 'vm'
+            restrict: 'EA', // Е -деректива елементом А- атрибутом
+            templateUrl: 'components/survey-management/questionnaire-list/questionnaire-list.html',
+//             controller: function () {
+// debugger
+//             },
+            // controllerAs: 'vm'
         };
-    });
 
-    // angular.module('app').controller('QuestListCtrl', function () {
-    //
+        // function QuestListCtrl () {
+        //
+        //     this.helloNameIL = "my name is QuestListCtrl";
+        // };
+
+    })
+
+    // .controller('QuestListCtrl', function () {
+    //     this.miData = {
+    //         name: 'Admin',
+    //         lastname: 'Adminovich',
+    //         old: 23
+    //     };
     // });
 
 
