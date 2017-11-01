@@ -4,15 +4,9 @@ use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
 
-class ReportPolicy
+class SurveyPolicy
 {
     use HandlesAuthorization;
-
-
-    public function index(User $user)
-    {
-        return Auth::user()->isAdmin();
-    }
 
     public function create(User $user)
     {
@@ -20,6 +14,11 @@ class ReportPolicy
     }
 
     public function update(User $user)
+    {
+        return Auth::user()->isAdmin();
+    }
+
+    public function answerAll(User $user)
     {
         return Auth::user()->isAdmin();
     }

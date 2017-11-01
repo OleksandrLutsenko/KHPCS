@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -20,13 +21,19 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Customer $customer
+     * @param  \Illuminate\Http\Request $request
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function store(Customer $customer, Request $request)
+    public function store(Customer $customer, Request $request, User $user)
     {
-        $customer = Customer::create($request->all());
-        return response()->json($customer, 201);
+        if ($user->can('update', $customer)) {
+            $customer = Customer::create($request->all());
+            return response()->json($customer, 201);
+        }else{
+            abort(404);
+        }
     }
 
     /**
@@ -43,25 +50,37 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Customer $customer
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, Customer $customer, User $user)
     {
-        $customer->update($request->all());
-        return response()->json($customer, 200);
+        if ($user->can('update', $customer)) {
+            $customer->update($request->all());
+            return response()->json($customer, 200);
+        }else{
+            abort(404);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Customer $customer
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer, User $user)
     {
-        $customer->delete();
-        return response()->json(null, 204);
+        if ($user->can('delete', $customer)) {
+            $customer->delete();
+            return response()->json(null, 204);
+        }else{
+            abort(404);
+        }
     }
 }
