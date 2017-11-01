@@ -44,6 +44,10 @@ class User extends Authenticatable implements CanResetPassword
         return $this->belongsToMany(Survey::class);
     }
 
+    public function customer(){
+        return $this->belongsToMany(Customer::class);
+    }
+
     public function isAdmin(){
         return $this->role_id === 2;
     }

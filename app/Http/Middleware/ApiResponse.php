@@ -18,10 +18,12 @@ class ApiResponse
         $response = $next($request);
 
         return response()->json([
-            'success' => $response->status() == 200,
+            'success' => true == preg_match('/[2][0-9]{2}/',$response->status()),
             'status' => $response->status(),
             'data' => $response->getOriginalContent(),
             'errors' => [],
         ]);
+
+//        return $next($request);
     }
 }
