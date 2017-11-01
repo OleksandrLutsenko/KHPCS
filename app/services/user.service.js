@@ -37,12 +37,12 @@
 
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
-                // if (res.success) {
-                    console.log(res);
-                    setItems(res);
-                // } else {
-                //     //need to show error msg
-                // }
+                if (res.success) {
+                    console.log(res, 'Function load items RES');
+                    setItems(res.data);
+                } else {
+                     //need to show error msg
+                }
             });
         }
 

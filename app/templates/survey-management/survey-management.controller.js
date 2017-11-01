@@ -5,9 +5,9 @@
         .controller('SurveyManagementController', SurveyManagementController);
 
 
-    SurveyManagementController.$inject = ['userService', '$state', '$scope'];
+    SurveyManagementController.$inject = ['userService', '$state', '$mdDialog'];
 
-    function SurveyManagementController(userService, $state, $scope, $mdDialog) {
+    function SurveyManagementController(userService, $state, $mdDialog) {
         let vm = this;
         let Snum = 0;
         userService.loadItems();
@@ -16,123 +16,48 @@
         console.log(items, 'survay ctrl');
 
         vm.qestTab = items[Snum].blocks;
+        console.log(items[Snum].blocks, 'Block survey');
 
         vm.addBlock = addBlock;
+        vm.addQuestion = addQuestion;
 
         function addBlock() {
             console.log(vm.data);
             userService.addBlock(Snum + 1, vm.data).then(function (res) {
-                console.log(res);
-                vm.qestTab.push(res);
+                if (res.success){
+                    console.log(res);
+                    vm.qestTab.push(res.data.block);
+                }
             });
-
         }
 
-        // console.log(vm.qestTab, 'survay ctrl');
+        function addQuestion(id) {
+            console.log(id)
+        }
 
-        // vm.login = login;
-        //
-        // function login() {
-        //     userService.login(vm.data).then(function (res) {
-        //         console.log(res, 'login ctrl');
-        //         if (res.status){
-        //             userService.setUser(res.data);
-        //             $state.go('tab');
-        //         }
-        //         else {
-        //             console.log('error');
-        //         }
-        //     })
-        // }
-
-        // vm.qestTab = [
-        //     {name: 'ID Verification',
-        //         questions: [
-        //             'National Insurance Number',
-        //             'Driving Licence Number',
-        //             'Passport Number',
-        //             'Do any of the following apply to you?',
-        //             'Aged over 75',
-        //             'Recently experienced a significant life event (e.g. Bereavement,Employment Concerns, Serious Illness Diagnosis, Marital Difficulties, Financial Hardship)',
-        //             'Suffering from any severe and/or long term illness conditions (including mental illness)',
-        //             'Suffering from any learning difficulties?',
-        //             'Difficulties with the English language'
-        //            ]
-        //     },
-        //     {name: 'General information',
-        //         questions: [
-        //             'First Name(s)',
-        //             'Surname',
-        //             'Marital Status',
-        //             'Date of Birth',
-        //             'Nationality',
-        //             'UK Resident?',
-        //             'UK Domiciled?',
-        //             'Residential Address',
-        //             'Correspondence Address (if different)',
-        //             'Home Phone',
-        //             'Mobile Phone',
-        //             'Work Phone',
-        //             'Email Address',
-        //             'Best time to contact'
-        //         ]
-        //     },
-        //     {name: 'Employment & income',
-        //         questions: [
-        //             'Employment Status(employed, self-employed, retired,partner, director, etc.)',
-        //             'Occupation',
-        //             'Employer Name',
-        //             'Remaining Contract Duration (if applicable)',
-        //             'Details of Employer, Pension & Other, Benefits',
-        //             'At what age do you currently intend to retire?',
-        //             'In which country do you currently intend to retire?'
-        //         ]
-        //     },
-        //     {name: 'Monthly expenditure ',
-        //         questions: []
-        //     },
-        //     {name: 'Assets (excluding investments/pensions)',
-        //         questions: []
-        //     },
-        //     {name: 'Liabilities',
-        //         questions: []
-        //     },
-        //     {name: 'Investment assets',
-        //         questions: []
-        //     },
-        //     {name: 'Existing protection plans',
-        //         questions: []
-        //     },
-        //     {name: 'Existing money purchase pension plans',
-        //         questions: []
-        //     },
-        //     {name: 'example',
-        //         questions: []
-        //     },
-        //     {name: 'example',
-        //         questions: []
-        //     },
-        //     {name: 'example',
-        //         questions: []
-        //     },
-        // ];
-
-
-            // SurveyManagementController.$inject = [];     //rudimentary code :\
-
-
-            vm.showEditSM = function (ev) {
+            vm.showEditSM = function (ev, question) {
                 $mdDialog.show({
-                    controller: CancelController,
+                    controller: ShowEditSMCtrl,
+                    controllerAs: 'vm',
                     templateUrl: 'templates/survey-management/edit.html',
-                    // templateUrl: 'templates/survey-management/delete.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true
                 });
-                function CancelController($scope, $mdDialog) {
+
+                function ShowEditSMCtrl($mdDialog) {
+                    let vm = this;
                     vm.cancel = function () {
                         $mdDialog.cancel();
+                    };
+                    vm.question = question;
+                    vm.inputCheck = function (inputValueNum) {
+                        if (inputValueNum === 1) {
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
                     };
                 }
             };
@@ -140,55 +65,37 @@
 
 
 
-            vm.showEditSMOld = function (ev, question) {
-                $mdDialog.show({
-                    controller: CancelController,
-                    templateUrl: 'templates/survey-management/edit.html',
-                    // templateUrl: 'templates/survey-management/delete.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-                });
+        vm.deleteQuestionSM = function (ev) {
+            $mdDialog.show({
+                controller: CancelController,
+                controllerAs: 'vm',
+                templateUrl: 'templates/survey-management/delete.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            });
+            function CancelController($mdDialog) {
+                let vm = this;
+                vm.cancel = function () {
+                    $mdDialog.cancel();
+                };
+            }
+        };
 
-                vm.tempQest = question;
-                // $scope.tempQest = question;
 
-                function CancelController($scope, $mdDialog) {
-                    vm.cancel = function () {
-                        $mdDialog.cancel();
-                    };
-                }
+        vm.test = function () {
+            alert('Test');
+        };
+
+
+        angular.module('app').directive('questList', function() {
+            return {
+                restrict: 'E', // Е -деректива елементом А- атрибутом
+                templateUrl: 'components/survey-management/questionnaire-list.html', //Откуда брать директиву
+                // controller: QuestListCtrl,
+                // // controllerAs: 'vm'
             };
-
-
-            vm.deleteQuestionSM = function (ev) {
-                $mdDialog.show({
-                    controller: CancelController,
-                    templateUrl: 'templates/survey-management/delete.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-                });
-                function CancelController($scope, $mdDialog) {
-                    vm.cancel = function () {
-                        $mdDialog.cancel();
-                    };
-                }
-            };
-
-            vm.test = function () {
-                // console.log('test');
-                alert('Test')
-            };
-
-            vm.inputCheck = function (inputValueNum) {
-                if (inputValueNum === 1) {
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            };
+        });
     }
 
 })();

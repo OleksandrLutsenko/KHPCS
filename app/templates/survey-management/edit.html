@@ -1,0 +1,74 @@
+<md-dialog style="max-height: 95%;" ng-controller="SurveyManagementController as survCtrl">
+    <md-card style="margin: 0;">
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Enter the question</span>
+            </md-card-title-text>
+        </md-card-title>
+
+        <md-card-content>
+            <div layout="column">
+                <md-input-container>
+                    <label>Identifier</label>
+                    <input ng-model="vm.question.identifier">
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Type your question</label>
+                    <input  ng-model="vm.question.title">
+
+
+                </md-input-container>
+
+                <md-input-container>
+                    <label>Select a type</label>
+                    <md-select ng-model="vm.question.type">
+                        <md-option ng-value="1"><em>Input</em></md-option>
+                        <md-option ng-value="2"><em>Radio</em></md-option>
+                        <md-option ng-value="3"><em>Radio+Yes</em></md-option>
+                        <md-option ng-value="4"><em>Radio+No</em></md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+
+            <div layout="column">
+                <div layout="row">
+                    <div layout="column">
+                        <span>Response</span>
+                        <md-input-container>
+                            <label>Yes</label>
+                            <input disabled>
+                        </md-input-container>
+
+                        <md-input-container ng-show=vm.inputCheck(qestType) >
+                            <label>No</label>
+                            <input disabled>
+                        </md-input-container>
+                        <!--<md-button class="md-raised" ng-click="cancel()">Save</md-button>-->
+                    </div>
+
+                    <div layout="column">
+                        <span>Next</span>
+
+                        <md-input-container>
+                            <label>ID</label>
+                            <input name="Yes ID">
+                        </md-input-container>
+
+                        <md-input-container ng-show=vm.inputCheck(qestType)>
+                            <label>ID</label>
+                            <input name="No ID">
+                        </md-input-container>
+                        <!--<md-button class="md-raised" ng-click="cancel()">Cancel</md-button>-->
+                    </div>
+                </div>
+
+                <div layout="row" layout-align="center center" layout-wrap>
+                    <md-button class="md-raised" ng-click="vm.cancel()">Save</md-button>
+                    <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
+                </div>
+            </div>
+
+        </md-card-content>
+    </md-card>
+</md-dialog>

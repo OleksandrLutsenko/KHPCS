@@ -13,8 +13,8 @@
         function login() {
             userService.login(vm.data).then(function (res) {
                 console.log(res, 'login ctrl');
-                if (res.status){
-                    userService.setUser(res.data);
+                if (res.success){
+                    userService.setUser(res.data.user);
                     $state.go('tab');
                 }
                 else {

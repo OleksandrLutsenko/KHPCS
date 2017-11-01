@@ -17,7 +17,7 @@
             survey_management(Snum) {
                 return{
                     survey: baseUrl + 'api/survey/',
-                    block : baseUrl + 'api/survey/' + Snum + '/block'
+                    block : baseUrl + 'api/survey/' + Snum + '/add-block'
                 }
             }
         };
