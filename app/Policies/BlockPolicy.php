@@ -22,4 +22,9 @@ class BlockPolicy
     {
         return Auth::user()->isAdmin();
     }
+
+    public function addQuestion(User $user)
+    {
+        return Auth::user()->isAdmin();
+    }
 }

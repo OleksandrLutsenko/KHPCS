@@ -10,8 +10,7 @@ use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\Console\Question\Question;
-
+use App\Question;
 class ReportController extends Controller
 {
     /**
@@ -25,25 +24,17 @@ class ReportController extends Controller
      * @internal param User $user
      * @internal param Report $Report
      */
-    public function index(Report $report, User $user, Customer $customer, Survey $survey)
+    public function index(Report $report, User $user, Customer $customer, Survey $survey, Question $question)
     {
         $customers = $customer->all();
-
-        if ($user->can('index', $report)) {
-            return $customers->toJson();
-        }else{
-            abort(404);
-        }
+//        $question->makeVisible(['customer_answers']);
+        return response()->json($customers, 201);
+//        return compact($customer, $question);
     }
 
     public function showCustomerAnswer(Report $report, User $user, Customer $customer, Survey $survey, CustomerAnswer $customerAnswer){
-        $customers = $customer->all();
-
-        if ($user->can('index', $report)) {
+            $customers = $customer->all();
             return $customers->toJson();
-        }else{
-            abort(404);
-        }
     }
 
     /**
@@ -56,12 +47,8 @@ class ReportController extends Controller
      */
     public function store(Report $report, Request $request, User $user)
     {
-        if ($user->can('create', $report)) {
-            $report = Report::create($request->all());
-            return response()->json($report, 201);
-        }else{
-            abort(404);
-        }
+        $report = Report::create($request->all());
+        return response()->json($report, 201);
     }
 
     /**
@@ -76,13 +63,8 @@ class ReportController extends Controller
 
     public function update(Request $request, Report $report, User $user)
     {
-        if ($user->can('update', $report)) {
-            dd($report->survey->toArray());
             $report->update($request->all());
             return response()->json($report, 200);
-        }else{
-            abort(404);
-        }
     }
 
     /**

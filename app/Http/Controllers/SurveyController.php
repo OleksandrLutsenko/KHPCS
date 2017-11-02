@@ -16,7 +16,6 @@ class SurveyController extends Controller
             return Survey::all();
     }
 
-    public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer){
     /**
      * @param Survey $survey
      * @param Customer $customer
@@ -26,12 +25,11 @@ class SurveyController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer, User $user){
-        /** @var Customer $customer */
 
         if ($user->can('answerAll', $survey)) {
             $customer = $customer->create($request->customer);
 
-            foreach ($request->answers as $questionID => $answerID){
+            foreach ($request->answers as $questionID => $answerID) {
                 $customerAnswer->create([
                     'value' => null,
                     'question_id' => $questionID,
@@ -39,9 +37,9 @@ class SurveyController extends Controller
                     'customer_id' => $customer->id
                 ]);
             }
-
             return response()->json($customer, 200);
-        }else{
+        }
+        else{
             abort(404);
         }
     }
@@ -60,7 +58,10 @@ class SurveyController extends Controller
             $survey = $survey->create($request->all());
             return compact('survey');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+
+            );
         }
     }
 
@@ -71,10 +72,14 @@ class SurveyController extends Controller
      * @param Survey $survey
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addBlock(Request $request, Survey $survey)
+    public function addBlock(Request $request, Survey $survey, User $user)
     {
-        $block = $survey->block()->create($request->all());
-        return compact('block');
+        if ($user->can('addBlock', $survey)) {
+            $block = $survey->block()->create($request->all());
+            return compact('block');
+        }else{
+            abort(404);
+        }
     }
 
     /**
@@ -125,6 +130,16 @@ class SurveyController extends Controller
             abort(404);
         }
 
+    }
+
+    public function customerIndex(Survey $survey, Customer $customer)
+    {
+        return Survey::all();
+    }
+
+    public function customerShow(Survey $survey, Customer $customer)
+    {
+        return compact('survey');
     }
 
 }

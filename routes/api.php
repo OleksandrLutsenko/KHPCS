@@ -25,7 +25,6 @@ Route::group(['middleware' => 'api-response'], function() {
     Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
 
     Route::group(['middleware' => 'auth:api'], function() {
-//    Route::group(['middleware' => 'role-checking'], function() {
 
         /** SURVEYS */
 
@@ -41,7 +40,6 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/survey/{survey}/add-block', 'SurveyController@addBlock');
         /** delete survey */
         Route::delete('/survey/{survey}', 'SurveyController@destroy');
-
 
         /** BLOCKS */
         /** show block's questions */
@@ -85,27 +83,19 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::put('/customer/{customer}', 'CustomerController@update');
         Route::delete('/customer/{customer}', 'CustomerController@destroy');
 
+        /** Customer scenario **/
         Route::prefix('/customer/{customer}')->group(function () {
             Route::get('/survey', 'SurveyController@customerIndex');
             Route::get('/survey/{survey}', 'SurveyController@customerShow');
+            Route::get('/block/{block}', 'BlockController@customerShow');
+            Route::get('/question/{question}', 'QuestionController@customerShow');
 
             Route::prefix('/survey/{survey}')->group(function () {
-                Route::get('/block', 'BlockController@customerIndex');
-                Route::get('/block/{block}', 'BlockController@customerShow');
-
-                Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
                 Route::get('/download', 'DownloadController@downloadSurvey');
+                Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
 
-                Route::prefix('block/{block}')->group(function () {
-                    Route::get('/question', 'QuestionController@customerIndex');
-                    Route::get('/question/{question}', 'QuestionController@customerShow');
-
-                    Route::prefix('question/{question}')->group(function () {
-                        Route::post('/customeranswer', 'CustomerAnswerController@store');
-                        Route::put('/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
-//                    });
-                    });
-                });
+                Route::post('question/{question}/customeranswer', 'CustomerAnswerController@store');
+                Route::put('question/{question}/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
             });
         });
     });

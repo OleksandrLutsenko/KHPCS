@@ -66,8 +66,5 @@ class AnswerController extends Controller
         }else{
             abort(404);
         }
-
-
-
     }
 }

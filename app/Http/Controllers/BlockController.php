@@ -29,10 +29,15 @@ class BlockController extends Controller
      * @param Block $block
      * @return array
      */
-    public function addQuestion(Request $request, Block $block)
+    public function addQuestion(Request $request, Block $block, User $user)
     {
-        $question = $block->question()->create($request->all());
-        return compact('question');
+        if ($user->can('addQuestion', $block)) {
+            $question = $block->question()->create($request->all());
+            return compact('question');
+        }
+        else {
+            abort(404);
+        }
     }
 
     /**
@@ -52,7 +57,6 @@ class BlockController extends Controller
         }else{
             abort(404);
         }
-
     }
 
     /**
@@ -72,5 +76,8 @@ class BlockController extends Controller
         }
     }
 
-
+    public function customerShow(Customer $customer, Block $block)
+    {
+        return ['questions' => $block->question()->get(), 'block' => $block];
+    }
 }

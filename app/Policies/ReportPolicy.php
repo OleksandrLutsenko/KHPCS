@@ -8,20 +8,20 @@ class ReportPolicy
 {
     use HandlesAuthorization;
 
-    public function index(User $user)
-    {
-        return Auth::user()->isAdmin();
-    }
+//    public function index(User $user)
+//    {
+//        return Auth::user()->isAdmin();
+//    }
 
-    public function create(User $user)
-    {
-        return Auth::user()->isAdmin();
-    }
+//    public function create(User $user)
+//    {
+//        return Auth::user()->isAdmin();
+//    }
 
-    public function update(User $user)
-    {
-        return Auth::user()->isAdmin();
-    }
+//    public function update(User $user)
+//    {
+//        return Auth::user()->isAdmin();
+//    }
 
     public function delete(User $user)
     {

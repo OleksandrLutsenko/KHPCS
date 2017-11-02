@@ -21,7 +21,9 @@ class QuestionController extends Controller
     public function show(Question $question)
     {
         $answers = $question->answers;
-        return compact('answers', 'question');
+//        $question->makeHidden(['customer_answers']);
+//        return response()->json($question);
+        return compact('question');
     }
 
     /**
@@ -32,29 +34,25 @@ class QuestionController extends Controller
      * @param User $user
      * @return array
      */
+
     public function addAnswer(Question $question, Request $request, User $user)
     {
         if ($user->can('addAnswer', $question)) {
             if($question->hasRadioAnswer()) {
                 $answer = $question->answer()->create($request->all());
 
-            return compact('answer');
-        }
-        else {
+                return compact('answer');
+            }
+            else{
             return response([
                 'errors' => 'This is not radio type question'
             ], 400);
 
-                return compact('answer');
-                //TODO it is return true 200
             }
-            else {
-                return false;
-            }
-        }else{
+        }
+        else{
             abort(404);
         }
-
     }
 
     /**
@@ -87,11 +85,15 @@ class QuestionController extends Controller
         if ($user->can('delete', $question)) {
             $question->delete();
             return compact('question');
-        }else{
+        } else {
             abort(404);
         }
     }
 
-
+        public function customerShow(Customer $customer, Question $question)
+    {
+        $answers = $question->answers;
+        return compact('question');
+    }
 }
 

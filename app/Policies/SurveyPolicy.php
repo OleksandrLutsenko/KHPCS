@@ -27,4 +27,9 @@ class SurveyPolicy
     {
         return Auth::user()->isAdmin();
     }
+
+    public function addBlock(User $user)
+    {
+        return Auth::user()->isAdmin();
+    }
 }

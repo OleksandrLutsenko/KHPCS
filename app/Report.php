@@ -8,9 +8,9 @@ class Report extends Model
 {
     protected $table = 'customer_surveys';
 
-    protected $fillable = ['user_id', 'survey_id'];
+    protected $fillable = ['customer_id', 'survey_id'];
 
-    protected $visible = ['id', 'name', 'surveys'];
+    protected $visible = ['id', 'customer_id', 'survey_id'];
 
     protected $appends = ['surveys'];
 

@@ -28,12 +28,8 @@ class CustomerController extends Controller
      */
     public function store(Customer $customer, Request $request, User $user)
     {
-        if ($user->can('update', $customer)) {
-            $customer = Customer::create($request->all());
-            return response()->json($customer, 201);
-        }else{
-            abort(404);
-        }
+        $customer = Customer::create($request->all());
+        return response()->json($customer, 201);
     }
 
     /**
@@ -58,12 +54,8 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer, User $user)
     {
-        if ($user->can('update', $customer)) {
             $customer->update($request->all());
             return response()->json($customer, 200);
-        }else{
-            abort(404);
-        }
     }
 
     /**
