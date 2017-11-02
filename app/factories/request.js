@@ -41,7 +41,6 @@
 
             let user = $localStorage.user;
 
-            console.log('function request is started');
 
             let config = {
                 dataType: 'json',
@@ -54,7 +53,6 @@
             if(typeof user != 'undefined') {
                 config.headers.Authorization = 'Bearer ' + user.api_token;
             }
-            console.log(config.headers, 'headers');
 
 
             if (method === 'GET') {
@@ -65,13 +63,9 @@
                 config.data = data;
             }
 
-            // if ($sessionStorage.auth_key) {
-            //     config.url = url + '?auth_key=' + $sessionStorage.auth_key;
-            // }
-            // else {
             config.url = url;
-            // }
-            console.log(config, 'request fact');
+
+            console.log(config, 'request')
             return $http(config)
                 .then(requestComplete)
                 .catch(requestFailed);
@@ -162,7 +156,6 @@
             //     promise.reject(response.data);
             // }
 
-            console.log(response.data, 'promise');
             return response.data;
 
 

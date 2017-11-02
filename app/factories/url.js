@@ -15,9 +15,10 @@
                 register: baseUrl + 'public/api/register'
             },
             survey_management(Snum) {
-                return{
+                return {
                     survey: baseUrl + 'api/survey/',
-                    block : baseUrl + 'api/survey/' + Snum + '/add-block'
+                    block : baseUrl + 'api/survey/' + Snum + '/add-block',
+                    question : baseUrl + 'api/block/' + Snum + '/add-question'
                 }
             }
         };

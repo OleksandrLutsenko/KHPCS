@@ -15,7 +15,8 @@
         model.loadItems = loadItems;
         model.getItems = getItems;
         // model.addSurvey = getItems;
-        model.addBlock = addBlock;
+        model.createBlock = createBlock;
+        model.createQuestion = createQuestion;
 
         return model;
 
@@ -38,7 +39,6 @@
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
                 if (res.success) {
-                    console.log(res, 'Function load items RES');
                     setItems(res.data);
                 } else {
                      //need to show error msg
@@ -57,10 +57,12 @@
 
 
         // Survey management
-        function addBlock(Snum, credentials) {
-            // console.log(url.survey_management.block(Snum).url, 'addBlock Function');
-            // return http.post(url.survey_management.block(Snum).url, credentials)
+        function createBlock(Snum, credentials) {
             return http.post(url.survey_management(Snum).block, credentials)
+        }
+
+        function createQuestion (Snum, credentials) {
+            return http.post(url.survey_management(Snum).question, credentials)
         }
     }
 })();
