@@ -25,6 +25,7 @@ Route::group(['middleware' => 'api-response'], function() {
     Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
 
     Route::group(['middleware' => 'auth:api'], function() {
+//    Route::group(['middleware' => 'role-checking'], function() {
 
         /** SURVEYS */
 
@@ -102,7 +103,7 @@ Route::group(['middleware' => 'api-response'], function() {
                     Route::prefix('question/{question}')->group(function () {
                         Route::post('/customeranswer', 'CustomerAnswerController@store');
                         Route::put('/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
-
+//                    });
                     });
                 });
             });

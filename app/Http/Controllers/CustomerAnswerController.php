@@ -39,6 +39,8 @@ class CustomerAnswerController extends Controller
             $request->all()
         );
 
+//        $customerAnswer->create($request->all());
+
         $customerAnswer->customer_id = $customer->id;
         $customerAnswer->question_id = $question->id;
 
@@ -85,10 +87,11 @@ class CustomerAnswerController extends Controller
         if(!empty($customerAnswer->answer_id)){
         $answer = Answer::find($customerAnswer->answer_id);
         $customerAnswer->value = $answer->name;
+//        $customerAnswer->value = $customerAnswer->answer()->name;
         }
-
         $customerAnswer->update($request->all());
         return response()->json($customerAnswer, 200);
+
     }
 
     /**

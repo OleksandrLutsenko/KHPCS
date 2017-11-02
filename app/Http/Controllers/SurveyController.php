@@ -17,7 +17,6 @@ class SurveyController extends Controller
     }
 
     public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer){
-        /** @var Customer $customer */
 
         $customer = $customer->create($request->customer);
 

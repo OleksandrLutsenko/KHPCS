@@ -36,11 +36,11 @@ class QuestionController extends Controller
             $answer = $question->answer()->create($request->all());
 
             return compact('answer');
-            //TODO it is return true 200
-
         }
         else {
-            return false;
+            return response([
+                'errors' => 'This is not radio type question'
+            ], 400);
         }
     }
 

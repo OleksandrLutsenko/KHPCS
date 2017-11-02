@@ -20,10 +20,7 @@ class ApiResponse
         return response()->json([
             'success' => true == preg_match('/[2][0-9]{2}/',$response->status()),
             'status' => $response->status(),
-            'data' => $response->getOriginalContent(),
-            'errors' => [],
+            'data' => $response->getOriginalContent()
         ]);
-
-//        return $next($request);
     }
 }

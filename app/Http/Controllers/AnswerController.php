@@ -34,9 +34,9 @@ class AnswerController extends Controller
     {
         if ($answer->question->hasRadioAnswer()){
             $answer->update($request->all());
-        }
-        return compact('answer');
 
+        return compact('answer');
+        }
     }
 
     /**
