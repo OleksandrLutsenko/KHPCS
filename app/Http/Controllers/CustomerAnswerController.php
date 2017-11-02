@@ -8,6 +8,7 @@ use App\Customer;
 use App\CustomerAnswer;
 use App\Question;
 use App\Survey;
+use App\User;
 use Illuminate\Http\Request;
 
 class CustomerAnswerController extends Controller
@@ -30,68 +31,73 @@ class CustomerAnswerController extends Controller
      * @param Survey $survey
      * @param Block $block
      * @param Question $question
+     * @param Answer $answer
      * @param CustomerAnswer $customerAnswer
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer)
+    public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer, User $user)
     {
-        $customerAnswer = new CustomerAnswer(
-            $request->all()
-        );
+        if ($user->can('update', $customerAnswer)) {
+            $customerAnswer = new CustomerAnswer(
+                $request->all()
+            );
 
 //        $customerAnswer->create($request->all());
 
         $customerAnswer->customer_id = $customer->id;
         $customerAnswer->question_id = $question->id;
 
-        if($customerAnswer->value === null){
-            $answer = Answer::find($customerAnswer->answer_id);
-            $customerAnswer->value = $answer->name;
-        }
-        $customerAnswer->save();
+            if($customerAnswer->value === null){
+                $answer = Answer::find($customerAnswer->answer_id);
+                $customerAnswer->value = $answer->name;
+            }
+            $customerAnswer->save();
 
 //        return response()->json($customerAnswer->next_q, 201);
-        return [
-            'question identifier'=> $question->identifier,
-            'answer' => response()->json($customerAnswer, 201),
-            'next_question identifier' => Question::find($answer->next_question)->identifier,
-            'next_question' => Question::find($answer->next_question)
-        ];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(CustomerAnswer $customerAnswer)
-    {
-        return $customerAnswer;
+            return [
+                'question identifier'=> $question->identifier,
+                'answer' => response()->json($customerAnswer, 201),
+                'next_question identifier' => Question::find($answer->next_question)->identifier,
+                'next_question' => Question::find($answer->next_question)
+            ];
+        }else{
+            abort(404);
+        }
     }
 
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Customer $customer
+     * @param Survey $survey
+     * @param Block $block
+     * @param Question $question
+     * @param Answer $answer
+     * @param CustomerAnswer $customerAnswer
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function update(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer)
+    public function update(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer, User $user)
     {
+        if ($user->can('update', $customerAnswer)) {
 //        $customerAnswer->customer_id = $customer->id;
 //        $customerAnswer->question_id = $question->id;
 
-        //TODO:review - it does not want to update the CustomerAnswer.
-        if(!empty($customerAnswer->answer_id)){
-        $answer = Answer::find($customerAnswer->answer_id);
-        $customerAnswer->value = $answer->name;
-//        $customerAnswer->value = $customerAnswer->answer()->name;
-        }
-        $customerAnswer->update($request->all());
-        return response()->json($customerAnswer, 200);
+            //TODO:review - it does not want to update the CustomerAnswer.
+            if(!empty($customerAnswer->answer_id)){
+                $answer = Answer::find($customerAnswer->answer_id);
+                $customerAnswer->value = $answer->name;
+            }
 
+            $customerAnswer->update($request->all());
+            return response()->json($customerAnswer, 200);
+        }else{
+            abort(404);
+        }
     }
 
     /**

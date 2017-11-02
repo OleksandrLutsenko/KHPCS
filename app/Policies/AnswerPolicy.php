@@ -3,15 +3,9 @@ namespace App\Policies;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Support\Facades\Auth;
-
-class ReportPolicy
+class AnswerPolicy
 {
     use HandlesAuthorization;
-
-    public function index(User $user)
-    {
-        return Auth::user()->isAdmin();
-    }
 
     public function create(User $user)
     {

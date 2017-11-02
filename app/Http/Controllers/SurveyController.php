@@ -17,32 +17,51 @@ class SurveyController extends Controller
     }
 
     public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer){
+    /**
+     * @param Survey $survey
+     * @param Customer $customer
+     * @param Request $request
+     * @param CustomerAnswer $customerAnswer
+     * @param User $user
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer, User $user){
+        /** @var Customer $customer */
 
-        $customer = $customer->create($request->customer);
+        if ($user->can('answerAll', $survey)) {
+            $customer = $customer->create($request->customer);
 
-        foreach ($request->answers as $questionID => $answerID){
+            foreach ($request->answers as $questionID => $answerID){
                 $customerAnswer->create([
                     'value' => null,
                     'question_id' => $questionID,
                     'answer_id' => $answerID,
                     'customer_id' => $customer->id
                 ]);
-        }
+            }
 
-        return response()->json($customer, 200);
+            return response()->json($customer, 200);
+        }else{
+            abort(404);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Survey $survey
      * @param  \Illuminate\Http\Request $request
+     * @param Survey $survey
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Survey $survey)
+    public function store(Request $request, Survey $survey, User $user)
     {
-        $survey = $survey->create($request->all());
-        return compact('survey');
+        if ($user->can('create', $survey)) {
+            $survey = $survey->create($request->all());
+            return compact('survey');
+        }else{
+            abort(404);
+        }
     }
 
     /**
@@ -75,26 +94,37 @@ class SurveyController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param Survey $survey
+     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(Request $request, Survey $survey)
+    public function update(Request $request, Survey $survey, User $user)
     {
-        $survey->update($request->all());
-        return compact('survey');
+        if ($user->can('update', $survey)) {
+            $survey->update($request->all());
+            return compact('survey');
+        }else{
+            abort(404);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Survey $survey
+     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function destroy(Survey $survey)
+    public function destroy(Survey $survey, User $user)
     {
-        $survey->delete();
-        return compact('survey');
+        if ($user->can('delete', $survey)) {
+            $survey->delete();
+            return compact('survey');
+        }else{
+            abort(404);
+        }
+
     }
 
 }
