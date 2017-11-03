@@ -87,18 +87,17 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::prefix('/customer/{customer}')->group(function () {
             Route::get('/survey', 'SurveyController@customerIndex');
             Route::get('/survey/{survey}', 'SurveyController@customerShow');
+
             Route::get('/block/{block}', 'BlockController@customerShow');
             Route::get('/question/{question}', 'QuestionController@customerShow');
 
-            Route::post('question/{question}/customeranswer', 'CustomerAnswerController@store');
-            Route::put('question/{question}/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
+            /** Make answer by customer */
+            Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
             Route::prefix('/survey/{survey}')->group(function () {
                 Route::get('/download', 'DownloadController@downloadSurvey');
                 Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
 
-                Route::post('question/{question}/customeranswer', 'CustomerAnswerController@store');
-                Route::put('question/{question}/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
             });
         });
     });

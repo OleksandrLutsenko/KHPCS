@@ -63,4 +63,8 @@ class Question extends Model
     {
         return $this->customerAnswer;
     }
+
+    public function findCustomersAnswer(Customer $customer){
+        return $this->customerAnswer()->where('customer_id', $customer->id)->first();
+    }
 }

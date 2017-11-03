@@ -32,40 +32,16 @@ class CustomerAnswerController extends Controller
      */
     public function store(CustomerAnswerRequest $request, Customer $customer, Question $question){
         /** @var CustomerAnswer $customerAnswer */
-        $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
+        if(!$customerAnswer = $question->findCustomersAnswer($customer)){
+            $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
+        }else{
+            $customerAnswer->update($request->getAnswerAttributes($customer));
+        }
 
         return [
             'question identifier' => $question->identifier,
             'answer' => $customerAnswer->answer,
         ];
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param Customer $customer
-     * @param Survey $survey
-     * @param Block $block
-     * @param Question $question
-     * @param Answer $answer
-     * @param CustomerAnswer $customerAnswer
-     * @param User $user
-     * @return \Illuminate\Http\Response
-     * @internal param int $id
-     */
-    public function update(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer, User $user)
-    {
-//        $customerAnswer->customer_id = $customer->id;
-//        $customerAnswer->question_id = $question->id;
-            //TODO:review - it does not want to update the CustomerAnswer.
-            if(!empty($customerAnswer->answer_id)){
-                $answer = Answer::find($customerAnswer->answer_id);
-                $customerAnswer->value = $answer->name;
-            }
-
-            $customerAnswer->update($request->all());
-            return response()->json($customerAnswer, 200);
     }
 
     /**
