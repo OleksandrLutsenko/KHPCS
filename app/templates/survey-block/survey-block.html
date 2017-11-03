@@ -1,0 +1,7 @@
+<md-content>
+    <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab ng-repeat="cell in vm.items" label="{{cell.name}}" ng-click="vm.setActiveBlock(cell.id, $index)" ui-sref="tab.survey-block.survey-question">
+        </md-tab>
+    </md-tabs>
+    <div ui-view></div>
+</md-content>

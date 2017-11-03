@@ -2,27 +2,27 @@
     <div class="createWindow">
         <div class="createTop">
                 <h1>Add a new client</h1>
-            <img src="content/img/cancel.png" alt="cancel" height="15" ng-click="cancel()">
+            <img src="content/img/cancel.png" alt="cancel" height="15" ng-click="vm.cancel()">
         </div>
         <div class="allInput">
         <md-input-container class="addInput">
             <label>Client name</label>
-            <input type="text">
+            <input type="text" ng-model="vm.data.name">
         </md-input-container>
         <md-input-container class="addInput">
             <label>Client surname</label>
-            <input type="text">
+            <input type="text" ng-model="vm.data.surname">
         </md-input-container>
         <md-input-container class="addInput">
             <label>Client Classification</label>
-            <md-select name="type" ng-model="project.type" class="selectClass">
-                <md-option value="app">Retail</md-option>
-                <md-option value="web">2</md-option>
+            <md-select name="type" ng-model="vm.data.classification" class="selectClass">
+                <md-option value="builder">Builder</md-option>
+                <!--<md-option value="web">2</md-option>-->
             </md-select>
         </md-input-container>
         </div>
         <div class="createBtn">
-            <md-button class="md-raised md-primary" ng-click="showAnnonce($event)"><p class="createTextClient">Create</p></md-button>
+            <md-button class="md-raised md-primary" ng-click="vm.saved()"><p class="createTextClient">Create</p></md-button>
         </div>
     </div>
 </md-dialog>

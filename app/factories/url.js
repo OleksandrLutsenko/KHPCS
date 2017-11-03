@@ -14,11 +14,21 @@
                 getItems: baseUrl + 'api/survey',
                 register: baseUrl + 'public/api/register'
             },
-            survey_management(Snum) {
+            survey_management(id) {
                 return {
-                    survey: baseUrl + 'api/survey/',
-                    block : baseUrl + 'api/survey/' + Snum + '/add-block',
-                    question : baseUrl + 'api/block/' + Snum + '/add-question'
+                    survey: baseUrl + 'api/survey',
+                    block : baseUrl + 'api/survey/' + id + '/add-block',
+                    question : baseUrl + 'api/block/' + id + '/add-question',
+
+                    loadSurvey: baseUrl + 'api/survey/' + id
+                }
+            },
+            customers: {
+                indexCustomers: baseUrl + 'api/customer'
+            },
+            customers_func(id) {
+                return {
+                    updateCustomers : baseUrl + 'api/customer/'+ id
                 }
             }
         };

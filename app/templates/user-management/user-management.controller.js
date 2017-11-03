@@ -1,46 +1,66 @@
 ;(function () {
-
     'use strict';
-
     angular.module('app')
+        .controller('UserManagementController', UserManagementController);
 
-        .controller('UserManagementController', function ($scope, $mdDialog) {
+    UserManagementController.$inject = ['userService', '$state', '$mdDialog'];
 
-            $scope.showAdvanced = function (ev) {
+    function UserManagementController(userService, $state, $mdDialog) {
+        let vm = this;
 
-                $mdDialog.show({
+        vm.customers = userService.getCustomers();
 
-                    controller: DialogController,
-                    templateUrl: 'templates/user-management/addClient.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose:true
-                });
-                function DialogController($scope, $mdDialog) {
+        vm.showAdvanced = function (id, index) {
 
-                    $scope.cancel = function() {
-                        $mdDialog.cancel();
-                    };
+            $mdDialog.show({
+                controller: DialogController,
+                controllerAs: 'vm',
+                templateUrl: 'templates/user-management/addClient.html',
+                clickOutsideToClose: true
+            });
+
+            function DialogController($mdDialog) {
+                let vs = this;
+
+                if(typeof id != 'undefined') {
+                    vs.data =  {
+                        name: vm.customers[index].name,
+                        surname: vm.customers[index].surname,
+                        classification: vm.customers[index].classification
+                    }
                 }
-            };
 
-            $scope.showEditClient = function (ev) {
+                vs.saved = function () {
+                    console.log(id, vs.data);
+                    if(typeof id != 'undefined') {
+                        userService.updateCustomers(id, vs.data).then(function (res) {
+                            if (res.success) {
+                                console.log(res, 'succes');
+                                vm.customers.splice(index, 1, res.data);
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            vs.cancel();
+                        });
+                    }
+                    else {
+                        userService.createCustomers(vs.data).then(function (res) {
+                            if (res.success) {
+                                console.log(res, 'succes');
+                                vm.customers.push(res.data);
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            vs.cancel();
+                        });
+                    }
+                };
 
-                $mdDialog.show({
-                    controller:editClientController,
-                    templateUrl: 'templates/user-management/editClient.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose:true
-                });
-                function editClientController($scope, $mdDialog) {
-                    $scope.cancel = function() {
-                        $mdDialog.cancel();
-                    };
-                }
-            };
-
-        });
-
-    })();
-
+                vs.cancel = function () {
+                    $mdDialog.cancel();
+                };
+            }
+        };
+}}());

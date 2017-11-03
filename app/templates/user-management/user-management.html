@@ -2,11 +2,11 @@
     <div class="search">
         <md-input-container class="loginInput">
             <label>Search</label>
-            <input type="text">
+            <input type="text" ng-model="vm.search">
         </md-input-container>
 
         <div class="imgSearch">
-            <img src="content/img/addLogo.png" alt="add" height="50" ng-click="showAdvanced($event)">
+            <img src="content/img/addLogo.png" alt="add" height="50" ng-click="vm.showAdvanced()">
         </div>
     </div>
     <div class="md-whiteframe-3dp" flex="90">
@@ -23,13 +23,13 @@
                     </tr>
                     </thead>
                     <tbody md-body>
-                    <tr md-row>
-                        <td md-cell>Darkside</td>
-                        <td md-cell>2</td>
-                        <td md-cell>3</td>
-                        <td md-cell>4</td>
+                    <tr md-row ng-repeat="customers in vm.customers | filter: vm.search">
+                        <td md-cell>{{customers.name}}</td>
+                        <td md-cell>{{customers.classification}}</td>
+                        <td md-cell>{{customers.reports.length}}</td>
+                        <td md-cell>?</td>
                         <td md-cell>
-                            <md-button class="md-raised md-primary" ng-click="showEditClient($event)">Editing</md-button>
+                            <md-button class="md-raised md-primary" ng-click="vm.showAdvanced(customers.id, $index)">Editing</md-button>
                         </td>
 
                     </tr>
