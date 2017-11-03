@@ -11,9 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
-    public function index(Survey $survey)
+    public function index(Survey $survey, User $user)
     {
+        if ($user->can('answerAll', $survey)) {
             return Survey::all();
+        }
+        else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
     /**
@@ -40,7 +47,9 @@ class SurveyController extends Controller
             return response()->json($customer, 200);
         }
         else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -78,7 +87,9 @@ class SurveyController extends Controller
             $block = $survey->block()->create($request->all());
             return compact('block');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -89,9 +100,15 @@ class SurveyController extends Controller
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function show(Survey $survey)
+    public function show(Survey $survey, User $user)
     {
-        return compact('survey');
+        if ($user->can('show', $survey)) {
+            return compact('survey');
+        }else{
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
     /**
@@ -109,7 +126,9 @@ class SurveyController extends Controller
             $survey->update($request->all());
             return compact('survey');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -127,9 +146,10 @@ class SurveyController extends Controller
             $survey->delete();
             return compact('survey');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
-
     }
 
     public function customerIndex(Survey $survey, Customer $customer)

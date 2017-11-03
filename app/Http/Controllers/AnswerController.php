@@ -18,9 +18,16 @@ class AnswerController extends Controller
      * @param Answer $answer
      * @return array
      */
-    public function show(Answer $answer)
+    public function show(Answer $answer, User $user)
     {
-        return compact('answer');
+        if ($user->can('show', $answer)) {
+            return compact('answer');
+        }
+        else{
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
 
@@ -41,7 +48,9 @@ class AnswerController extends Controller
             }
             return compact('answer');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -64,7 +73,9 @@ class AnswerController extends Controller
             }
             return compact('answer');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 }

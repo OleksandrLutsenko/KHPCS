@@ -8,6 +8,16 @@ class SurveyPolicy
 {
     use HandlesAuthorization;
 
+    public function index(User $user)
+    {
+        return Auth::user()->isAdmin();
+    }
+
+    public function show(User $user)
+    {
+        return Auth::user()->isAdmin();
+    }
+
     public function create(User $user)
     {
         return Auth::user()->isAdmin();

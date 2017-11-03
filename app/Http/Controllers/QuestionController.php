@@ -18,12 +18,19 @@ class QuestionController extends Controller
      * @param Question $question
      * @return array
      */
-    public function show(Question $question)
+    public function show(Question $question, User $user)
     {
-        $answers = $question->answers;
+        if ($user->can('show', $question)) {
+            $answers = $question->answers;
 //        $question->makeHidden(['customer_answers']);
 //        return response()->json($question);
-        return compact('question');
+            return compact('question');
+        }
+        else{
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
     /**
@@ -45,13 +52,15 @@ class QuestionController extends Controller
             }
             else{
             return response([
-                'errors' => 'This is not radio type question'
+                'errors' => 'This is not the radio type question'
             ], 400);
 
             }
         }
         else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -69,7 +78,9 @@ class QuestionController extends Controller
             $question->update($request->all());
             return compact('question');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -86,7 +97,9 @@ class QuestionController extends Controller
             $question->delete();
             return compact('question');
         } else {
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 

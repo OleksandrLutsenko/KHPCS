@@ -81,7 +81,9 @@ class ReportController extends Controller
             $report->delete();
             return response()->json(null, 204);
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 }

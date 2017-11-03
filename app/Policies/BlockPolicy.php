@@ -13,6 +13,11 @@ class BlockPolicy
         return Auth::user()->isAdmin();
     }
 
+    public function show(User $user)
+    {
+        return Auth::user()->isAdmin();
+    }
+
     public function update(User $user)
     {
         return Auth::user()->isAdmin();

@@ -7,6 +7,11 @@ class AnswerPolicy
 {
     use HandlesAuthorization;
 
+    public function show(User $user)
+    {
+        return Auth::user()->isAdmin();
+    }
+
     public function create(User $user)
     {
         return Auth::user()->isAdmin();

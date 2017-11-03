@@ -15,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index(Customer $customer)
     {
-        return Customer::all();
+            return Customer::all();
     }
 
     /**
@@ -38,9 +38,16 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show(Customer $customer, User $user)
     {
-        return $customer;
+        if ($user->can('show', $customer)) {
+            return $customer;
+        }
+        else{
+            return response([
+                "error" => "Page is not found"], 404
+            );
+        }
     }
 
     /**

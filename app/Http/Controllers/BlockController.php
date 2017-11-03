@@ -17,10 +17,18 @@ class BlockController extends Controller
      * @param Block $block
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function show(Block $block)
+    public function show(Block $block, User $user)
     {
-        return ['questions' => $block->question()->get(), 'block' => $block];
+        if ($user->can('show', $block)) {
+            return ['questions' => $block->question()->get(), 'block' => $block];
+        }
+        else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -36,7 +44,9 @@ class BlockController extends Controller
             return compact('question');
         }
         else {
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -55,7 +65,9 @@ class BlockController extends Controller
 
             return compact('block');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 
@@ -72,7 +84,9 @@ class BlockController extends Controller
             $block->delete();
             return compact('block');
         }else{
-            abort(404);
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
         }
     }
 

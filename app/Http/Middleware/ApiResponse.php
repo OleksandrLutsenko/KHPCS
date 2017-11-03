@@ -15,12 +15,12 @@ class ApiResponse
      */
     public function handle($request, Closure $next)
     {
- return       $response = $next($request);
-//
-//        return response()->json([
-//            'success' => true == preg_match('/[2][0-9]{2}/',$response->status()),
-//            'status' => $response->status(),
-//            'data' => $response->getOriginalContent()
-//        ]);
+        $response = $next($request);
+
+        return response()->json([
+            'success' => true == preg_match('/[2][0-9]{2}/',$response->status()),
+            'status' => $response->status(),
+            'data' => $response->getOriginalContent()
+        ]);
     }
 }
