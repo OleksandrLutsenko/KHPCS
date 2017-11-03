@@ -34,7 +34,6 @@ class Survey extends Model
         return $this->block;
     }
 
-    //TODO does not work!!!
     public function getSurveyStatusAttribute()
     {
         return $this->getStatusLabel();
