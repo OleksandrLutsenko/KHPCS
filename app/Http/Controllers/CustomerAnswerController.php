@@ -6,6 +6,7 @@ use App\Answer;
 use App\Block;
 use App\Customer;
 use App\CustomerAnswer;
+use App\Http\Requests\CustomerAnswerRequest;
 use App\Question;
 use App\Survey;
 use App\User;
@@ -24,38 +25,19 @@ class CustomerAnswerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
+     * @param CustomerAnswerRequest $request
      * @param Customer $customer
-     * @param Survey $survey
-     * @param Block $block
      * @param Question $question
-     * @param Answer $answer
-     * @param CustomerAnswer $customerAnswer
-     * @param User $user
-     * @return \Illuminate\Http\Response
+     * @return array
      */
-    public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer, User $user)
-    {
+    public function store(CustomerAnswerRequest $request, Customer $customer, Question $question){
+        /** @var CustomerAnswer $customerAnswer */
+        $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
 
-            $customerAnswer = new CustomerAnswer($request->all());
-
-            $customerAnswer->customer_id = $customer->id;
-            $customerAnswer->question_id = $question->id;
-
-            if ($customerAnswer->value === null) {
-                $answer = Answer::find($customerAnswer->answer_id);
-                $customerAnswer->value = $answer->name;
-            }
-            $customerAnswer->save();
-
-            return [
-                'question identifier' => $question->identifier,
-                'answer' => response()->json($customerAnswer, 201),
-                'next_question identifier' => Question::find($answer->next_question)->identifier,
-                'next_question' => Question::find($answer->next_question)
-            ];
+        return [
+            'question identifier' => $question->identifier,
+            'answer' => $customerAnswer->answer,
+        ];
     }
 
     /**

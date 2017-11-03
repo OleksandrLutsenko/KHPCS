@@ -90,6 +90,9 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::get('/block/{block}', 'BlockController@customerShow');
             Route::get('/question/{question}', 'QuestionController@customerShow');
 
+            Route::post('question/{question}/customeranswer', 'CustomerAnswerController@store');
+            Route::put('question/{question}/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
+
             Route::prefix('/survey/{survey}')->group(function () {
                 Route::get('/download', 'DownloadController@downloadSurvey');
                 Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
