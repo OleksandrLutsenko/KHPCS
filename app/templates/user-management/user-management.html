@@ -24,7 +24,7 @@
                     </thead>
                     <tbody md-body>
                     <tr md-row ng-repeat="customers in vm.customers | filter: vm.search">
-                        <td md-cell>{{customers.name}}</td>
+                        <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                         <td md-cell>{{customers.classification}}</td>
                         <td md-cell>{{customers.reports.length}}</td>
                         <td md-cell>?</td>

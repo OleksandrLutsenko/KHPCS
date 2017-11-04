@@ -4,7 +4,7 @@
              ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
             <div class="sm-left">{{question.title}}</div>
             <div class="sm-right">
-                <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEditSM(question, cell.id)"></i>
+                <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEdit(question)"></i>
                 <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.deleteQuestionSM()"></i>
             </div>
         </div>
@@ -12,5 +12,4 @@
              ng-mouseleave="height = 3" ng-click="vm.showEditSM(dic, cell.id)">Add new question
         </div>
     </md-content>
-    <!--Question-->
 </md-content>
