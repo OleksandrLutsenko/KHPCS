@@ -12,9 +12,17 @@ class Answer extends Model
         return $this->belongsTo(Question::class);
     }
 
+//    public function nextQuestion(){
+//        return $this->belongsTo(Question::class);
+//    }
+
+
+
     public function nextQuestion(){
-        return $this->belongsTo(Question::class);
+        return $this->hasOne(Question::class, 'id', 'next_question');
     }
+
+
 
     public function customerAnswers(){
         return $this->hasMany(CustomerAnswer::class);

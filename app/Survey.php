@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class Survey extends Model
 {
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['name', 'description', 'status'];
 
-    protected $visible = ['id', 'name', 'blocks', 'description'];
+    protected $visible = ['id', 'name', 'survey_status', 'blocks', 'description'];
 
-    protected $appends = ['blocks'];
+    protected $appends = ['survey_status', 'blocks'];
 
     public function user(){
         return $this->belongsToMany(User::class);
@@ -32,6 +32,25 @@ class Survey extends Model
     public function getBlocksAttribute()
     {
         return $this->block;
+    }
+
+    public function getSurveyStatusAttribute()
+    {
+        return $this->getStatusLabel();
+    }
+//
+    public function getStatusLabel(){
+        $statusValueLabelMap = static::getStatusValueLabelMap();
+
+//        return isset($statusValueLabelMap[$this->status]) ? $statusValueLabelMap[$this->status] : null;
+        return $statusValueLabelMap[$this->status];
+    }
+//
+    public static function getStatusValueLabelMap(){
+        return [
+            1 => 'active',
+            2 => 'inactive',
+        ];
     }
 
 //    public function getAnswerAttribute()

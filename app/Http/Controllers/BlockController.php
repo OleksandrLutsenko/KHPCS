@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Block;
 use App\Customer;
 use App\Survey;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,10 +17,18 @@ class BlockController extends Controller
      * @param Block $block
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function show(Block $block)
+    public function show(Block $block, User $user)
     {
-        return ['questions' => $block->question()->get(), 'block' => $block];
+        if ($user->can('show', $block)) {
+            return ['questions' => $block->question()->get(), 'block' => $block];
+        }
+        else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -28,10 +37,17 @@ class BlockController extends Controller
      * @param Block $block
      * @return array
      */
-    public function addQuestion(Request $request, Block $block)
+    public function addQuestion(Request $request, Block $block, User $user)
     {
-        $question = $block->question()->create($request->all());
-        return compact('question');
+        if ($user->can('addQuestion', $block)) {
+            $question = $block->question()->create($request->all());
+            return compact('question');
+        }
+        else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
     /**
@@ -39,26 +55,43 @@ class BlockController extends Controller
      *
      * @param Block $block
      * @param Request $request
+     * @param User $user
      * @return array
      */
-    public function update(Block $block, Request $request)
+    public function update(Block $block, Request $request, User $user)
     {
-        $block->update($request->all());
+        if ($user->can('update', $block)) {
+            $block->update($request->all());
 
-        return compact('block');
+            return compact('block');
+        }else{
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Block $block
+     * @param User $user
      * @return array
      */
-    public function destroy(Block $block)
+    public function destroy(Block $block, User $user)
     {
-        $block->delete();
-        return compact('block');
+        if ($user->can('delete', $block)) {
+            $block->delete();
+            return compact('block');
+        }else{
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
-
+    public function customerShow(Customer $customer, Block $block)
+    {
+        return ['questions' => $block->question()->get(), 'block' => $block];
+    }
 }

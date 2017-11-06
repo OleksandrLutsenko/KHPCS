@@ -15,9 +15,8 @@ class CreateCustomerSurveysTable extends Migration
     {
         Schema::create('customer_surveys', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('customer_id')->unsigned();
-            $table->integer('survey_id')->unsigned();
-
+            $table->integer('customer_id', false, 10);
+            $table->integer('survey_id', false, 10);
             $table->timestamps();
         });
 

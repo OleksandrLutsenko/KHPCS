@@ -17,11 +17,24 @@ class CustomerAnswer extends Model
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
+
+
+
+//    public function question(){
+//        return $this->belongsToMany(Question::class);
+//    }
+//    public function answer(){
+//        return $this->belongsToMany(Answer::class);
+//    }
+
+
+
     public function question(){
-        return $this->belongsToMany(Question::class);
+        return $this->hasOne(Question::class, 'id', 'question_id');
     }
+
     public function answer(){
-        return $this->belongsToMany(Answer::class);
+        return $this->hasOne(Answer::class, 'id', 'answer_id');
     }
 
 //    public function getAnswersAttribute()

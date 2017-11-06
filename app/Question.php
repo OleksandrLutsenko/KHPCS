@@ -12,12 +12,10 @@ class Question extends Model
 
     protected $fillable = ['title', 'type', 'identifier'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
+//    protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'customer_answers'];
 
-//    protected $appends = ['answers'];
-//    protected $appends = ['customer_answers'];
     protected $appends = ['answers', 'customer_answers'];
-
 
     public function setVisibleAnswers(){
         $this->visible = ['title', 'answers'];
@@ -25,6 +23,11 @@ class Question extends Model
 
     public function setVisibleCustomerAnswers(){
         $this->visible = ['title', 'customer_answers'];
+    }
+
+    public function makeVisible($attribute)
+    {
+        $this->visible = $attribute;
     }
 
     public function block(){
@@ -39,7 +42,7 @@ class Question extends Model
         return $this->hasOne(Answer::class);
     }
 
-//    public function customerAnswers(){
+//    public function customerAnswer(){
 //        return $this->hasMany(CustomerAnswer::class);
 //    }
 
@@ -59,5 +62,9 @@ class Question extends Model
     public function getCustomerAnswersAttribute()
     {
         return $this->customerAnswer;
+    }
+
+    public function findCustomersAnswer(Customer $customer){
+        return $this->customerAnswer()->where('customer_id', $customer->id)->first();
     }
 }

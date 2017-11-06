@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\User;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -14,16 +15,18 @@ class CustomerController extends Controller
      */
     public function index(Customer $customer)
     {
-        return Customer::all();
+            return Customer::all();
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Customer $customer
+     * @param  \Illuminate\Http\Request $request
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function store(Customer $customer, Request $request)
+    public function store(Customer $customer, Request $request, User $user)
     {
         $customer = Customer::create($request->all());
         return response()->json($customer, 201);
@@ -35,33 +38,48 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Customer $customer)
+    public function show(Customer $customer, User $user)
     {
-        return $customer;
+        if ($user->can('show', $customer)) {
+            return $customer;
+        }
+        else{
+            return response([
+                "error" => "Page is not found"], 404
+            );
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param Customer $customer
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, Customer $customer, User $user)
     {
-        $customer->update($request->all());
-        return response()->json($customer, 200);
+            $customer->update($request->all());
+            return response()->json($customer, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Customer $customer
+     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function destroy(Customer $customer)
+    public function destroy(Customer $customer, User $user)
     {
-        $customer->delete();
-        return response()->json(null, 204);
+        if ($user->can('delete', $customer)) {
+            $customer->delete();
+            return response()->json(null, 204);
+        }else{
+            abort(404);
+        }
     }
 }
