@@ -76,19 +76,6 @@ md-nav-bar.md-default-theme .md-button._md-nav-button.md-unselected, md-nav-bar 
   margin: 0 0 30px 0;
   cursor: pointer; }
 
-.tabsdemoDynamicHeight md-content {
-  background-color: transparent !important; }
-
-.tabsdemoDynamicHeight md-content md-tabs {
-  background: #f6f6f6;
-  border: 1px solid #e1e1e1; }
-
-.tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
-  background: white; }
-
-.tabsdemoDynamicHeight md-content h1:first-child {
-  margin-top: 0; }
-
 .clearfix:after,
 .clearfix:before {
   display: table;
@@ -107,7 +94,8 @@ md-nav-bar.md-default-theme .md-button._md-nav-button.md-unselected, md-nav-bar 
   width: 100%; }
 
 .sm-left {
-  float: left; }
+  float: left;
+  max-width: 90%; }
 
 .sm-right {
   float: right; }
@@ -123,6 +111,43 @@ md-edit-sm {
 
 md-dialog {
   max-height: 95%; }
+
+.tab-icon-dots {
+  display: inline-block;
+  width: 30px; }
+
+.restyle .dialog-max-height {
+  max-height: 95%; }
+
+.restyle .survey-input-container {
+  margin: 0;
+  bottom: -14px; }
+
+.restyle .survey-button {
+  top: -5px; }
+
+.restyle .section-width {
+  width: 500px; }
+
+.restyle .input-width {
+  width: 95%; }
+
+.restyle md-card {
+  margin: 0; }
+
+.restyle .md-button.md-icon-button {
+  padding: 0;
+  height: auto; }
+
+.restyle .md-button {
+  min-height: 0; }
+
+.restyle .add-button-position {
+  position: relative;
+  top: -6px; }
+
+.restyle .add-button-padding {
+  padding: 12px 40px; }
 
 .questionnaire-list {
   background-color: #f7f7f7;

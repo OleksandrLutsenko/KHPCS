@@ -57,7 +57,7 @@
                 templateUrl: 'templates/login/sign.html',
                 controller: 'SignController',
                 controllerAs: 'vm'
-            })
+            });
 
             // .state('questionnaire-list', {
             //     url: '/questionnaire-list.html',

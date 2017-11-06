@@ -1,0 +1,10 @@
+<md-menu md-offset="0 -7" class="restyle">
+    <md-button aria-label="Open demo menu" class="md-icon-button dott-button" ng-click="$mdMenu.open($event)">
+        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+    </md-button>
+    <md-menu-content width="4">
+        <md-menu-item ng-repeat="item in ['Edit', 'Delete']">
+            <md-button ng-click="vm.blockSelection(item)"> {{item}} </md-button>
+        </md-menu-item>
+    </md-menu-content>
+</md-menu>

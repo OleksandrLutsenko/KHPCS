@@ -1,39 +1,63 @@
-<div ng-cloak="" class="tabsdemoDynamicHeight" >
+<div ng-cloak="" class="tabsdemoDynamicHeight restyle" >
 
     <quest-list ng-show="vm.statusQL"></quest-list>
 
 
 
+
     <md-content ng-show="vm.statusBlock">
+    <md-content ng-show="true">
         <md-tabs md-dynamic-height="" md-border-bottom="">
 
-            <md-tab ng-repeat="cell in vm.questTab" label={{cell.name}}>
-                <md-content class="md-padding">
-                    <div ng-repeat="question in  cell.questions" class="singQest clearfix" md-whiteframe="{{height}}"
-                         ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
-                        <div class="sm-left">{{question}}</div>
-                        <div class="sm-right">
-                            <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEditSM($event, question)"></i>
-                            <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.deleteQuestionSM()"></i>
-                        </div>
-                    </div>
-                    <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
-                         ng-mouseleave="height = 3" ng-click="vm.showEditSM($event)">Add new question
-                    </div>
+            <md-tab ng-click="vm.activeTabFunc(0)">
+                <md-tab-label>
+                    <span class="add-button-position">Add section</span>
+                    <i class="material-icons">add_circle_outline</i>
+                </md-tab-label>
 
-                </md-content>
+                <md-tab-body>
+                    <md-content class="md-padding" style="box-sizing: border-box">
+                        <div class="singQest clearfix" layout="row">
+                            <md-input-container class="survey-input-container">
+                                <label>Section name</label>
+                                <input>
+                            </md-input-container>
+                            <md-button class="md-raised survey-button" ng-click="vm.test()">Save</md-button>
+                        </div>
+                    </md-content>
+                </md-tab-body>
             </md-tab>
 
-            <md-tab label="Add new section">
-                <md-content class="md-padding">
-                    <div class="singQest clearfix" layout="row">
-                        <md-input-container style="margin: 0; bottom: -14px;">
-                            <label>Section name</label>
-                            <input>
-                        </md-input-container>
-                        <md-button class="md-raised" ng-click="vm.test()" style="top: -5px;">Save</md-button>
-                    </div>
-                </md-content>
+            <md-tab ng-repeat="cell in vm.questTab"  ng-click="vm.activeTabFunc(cell.name)">
+                <md-tab-label>
+                        <div ng-show="vm.showeDott(cell.name)" class="tab-icon-dots" ng-click="vm.test()">
+                            <!--<i class="fa fa-ellipsis-v" aria-hidden="true"></i>-->
+                            <dott-edit-menu></dott-edit-menu>
+
+                        </div>
+                    <span>{{cell.name }} &nbsp
+                    </span>
+                </md-tab-label>
+
+                <md-tab-body>
+                    <md-content class="md-padding" >
+
+                        <div class="singQest add-button-padding" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
+                             ng-mouseleave="height = 3" ng-click="vm.showEditSM($event)">
+                            <span class="add-button-position">Add question</span>
+                            <i class="material-icons">add_circle_outline</i>
+                        </div>
+                        <div ng-repeat="question in  cell.questions" class="singQest clearfix" md-whiteframe="{{height}}"
+                             ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
+                            <div class="sm-left">{{question}}</div>
+                            <div class="sm-right">
+                                <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEditSM($event, question)"></i>
+                                <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.deleteQuestionSM()"></i>
+                            </div>
+                        </div>
+
+                    </md-content>
+                </md-tab-body>
             </md-tab>
 
         </md-tabs>

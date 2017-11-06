@@ -85,8 +85,7 @@
                 $mdDialog.show({
                     controller: ShowEditSMCtrl,
                     controllerAs: 'vm',
-                    templateUrl: 'templates/survey-management/edit.html',
-                    // templateUrl: 'components/survey-management/edit.html',
+                    templateUrl: 'components/survey-management/edit-question/edit-question.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true
@@ -113,11 +112,11 @@
                 $mdDialog.show({
                     controller: CancelController,
                     controllerAs: 'vm',
-                    templateUrl: 'templates/survey-management/delete.html',
+                    templateUrl: 'components/survey-management/delete/delete.html',
                     parent: angular.element(document.body),
                     targetEvent: ev,
                     clickOutsideToClose: true
-                });
+            });
                 function CancelController($mdDialog) {
                     let vm = this;
                     vm.cancel = function () {
@@ -164,45 +163,71 @@
 
 
 
+/////////////////////////activeTab/////////////////////////////
+            vm.activeTab;
 
+            vm.activeTabFunc = function (nameActiveTab) {
+                vm.activeTab = nameActiveTab;
+            };
 
+            vm.showeDott = function (nameCurrentTab) {
+                if (nameCurrentTab === vm.activeTab){
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            };
+//////////////////////////////////////////////////////
 
+            ////////////////edit or dell questionnaire////////////////////////
+            vm.EditSection = function (ev, nameSection) { //////////////Bad
+                $mdDialog.show({
+                    controller: EditSectionCtrl,
+                    controllerAs: 'vm',
+                    templateUrl: 'components/survey-management/edit-section/edit-section.html',
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose: true
+                });
+                function EditSectionCtrl($mdDialog) {
+                    let vm = this;
+                    vm.cancel = function () {
+                        $mdDialog.cancel();
+                    };
 
+                    vm.AC = nameSection; ///////////////Bad
+                }
+            };
 
+            vm.blockSelection = function (name) {
+                if(name === 'Edit'){
+                    vm.EditSection(0, vm.activeTab); //////////////Bad
+                }
+                else {
+                    vm.deleteQuestionSM();
+                }
+            };
 
+            vm.showPrompt = function(ev) {
+                // Appending dialog to document.body to cover sidenav in docs app
+                var confirm = $mdDialog.prompt()
+                    .title('Please enter the name of the new questionnaire')
+                    // .textContent('Bowser is a common name.')
+                    .placeholder('Add name')
+                    .ariaLabel('Dog name')
+                    // .initialValue('Buddy')
+                    .targetEvent(ev)
+                    .required(true)
+                    .ok('Save')
+                    .cancel('Cancel');
 
+                $mdDialog.show(confirm).then(function(result) {
+                    vm.status = 'You decided to name your dog ' + result + '.';
+                }, function() {
+                    vm.status = 'You didn\'t name your dog.';
+                });
+            };
 
-        })
-
-
-
-
-
-    .directive('questList', function() {
-        return {
-            restrict: 'EA', // Е -деректива елементом А- атрибутом
-            templateUrl: 'components/survey-management/questionnaire-list/questionnaire-list.html',
-//             controller: function () {
-// debugger
-//             },
-            // controllerAs: 'vm'
-        };
-
-        // function QuestListCtrl () {
-        //
-        //     this.helloNameIL = "my name is QuestListCtrl";
-        // };
-
-    })
-
-    // .controller('QuestListCtrl', function () {
-    //     this.miData = {
-    //         name: 'Admin',
-    //         lastname: 'Adminovich',
-    //         old: 23
-    //     };
-    // });
-
-
-
+        });
 })();
