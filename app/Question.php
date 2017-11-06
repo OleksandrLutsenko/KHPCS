@@ -42,7 +42,7 @@ class Question extends Model
         return $this->hasOne(Answer::class);
     }
 
-//    public function customerAnswers(){
+//    public function customerAnswer(){
 //        return $this->hasMany(CustomerAnswer::class);
 //    }
 
@@ -62,5 +62,9 @@ class Question extends Model
     public function getCustomerAnswersAttribute()
     {
         return $this->customerAnswer;
+    }
+
+    public function findCustomersAnswer(Customer $customer){
+        return $this->customerAnswer()->where('customer_id', $customer->id)->first();
     }
 }

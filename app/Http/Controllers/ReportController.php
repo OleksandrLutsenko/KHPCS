@@ -27,14 +27,14 @@ class ReportController extends Controller
     public function index(Report $report, User $user, Customer $customer, Survey $survey, Question $question)
     {
         $customers = $customer->all();
+//        $reports = $report->all();
 //        $question->makeVisible(['customer_answers']);
         return response()->json($customers, 201);
-//        return compact($customer, $question);
     }
 
     public function showCustomerAnswer(Report $report, User $user, Customer $customer, Survey $survey, CustomerAnswer $customerAnswer){
             $customers = $customer->all();
-            return $customers->toJson();
+        return response()->json($customers, 201);
     }
 
     /**

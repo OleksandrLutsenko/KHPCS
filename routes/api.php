@@ -17,6 +17,8 @@ Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('customer/{customer}/survey/{survey}/download', 'DownloadController@downloadSurvey');
+
 Route::group(['middleware' => 'api-response'], function() {
     Route::post('/register', 'Auth\RegisterController@register');
     Route::post('/login', 'Auth\LoginController@login');
@@ -70,7 +72,8 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::delete('/answer/{answer}', 'AnswerController@destroy');
 
         /** USER MANAGEMENT TAB */
-        Route::get('/report', 'ReportController@index');
+        Route::get('report', 'ReportController@index');
+        Route::get('report/{report}', 'ReportController@showCustomerAnswer');
         Route::post('/report', 'ReportController@store');
         Route::put('/report/{report}', 'ReportController@update');
         Route::delete('/report/{report}', 'ReportController@destroy');
@@ -87,15 +90,15 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::prefix('/customer/{customer}')->group(function () {
             Route::get('/survey', 'SurveyController@customerIndex');
             Route::get('/survey/{survey}', 'SurveyController@customerShow');
+
             Route::get('/block/{block}', 'BlockController@customerShow');
             Route::get('/question/{question}', 'QuestionController@customerShow');
 
-            Route::prefix('/survey/{survey}')->group(function () {
-                Route::get('/download', 'DownloadController@downloadSurvey');
-                Route::get('/showcustomerquestionanswer', 'ReportController@showCustomerQuestionAnswer');
+            /** Make answer by customer */
+            Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
-                Route::post('question/{question}/customeranswer', 'CustomerAnswerController@store');
-                Route::put('question/{question}/customeranswer/{customeranswer}', 'CustomerAnswerController@update');
+            Route::prefix('/survey/{survey}')->group(function () {
+                Route::get('/showcustomeranswer', 'ReportController@showCustomerAnswer');
             });
         });
     });

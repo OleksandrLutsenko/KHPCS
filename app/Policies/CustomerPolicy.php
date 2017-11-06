@@ -16,7 +16,7 @@ class CustomerPolicy
 
     public function show(User $user, Customer $customer)
     {
-        if (Auth::user()->id === $customer->user_id){
+        if ($customer->user_id === Auth::user()->id){
             return true;
         }else{
             return false;
