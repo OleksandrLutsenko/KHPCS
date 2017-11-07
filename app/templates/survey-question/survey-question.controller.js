@@ -35,20 +35,21 @@
                 let vs = this;
 
                 if(typeof id != 'undefined') {
-                    // vs.data =  {
-                    //     name: vm.customers[index].name,
-                    //     surname: vm.customers[index].surname,
-                    //     classification: vm.customers[index].classification
-                    // }
+                     vs.data =  {
+                         title: vm.items[index].title,
+                         identifier: vm.items[index].identifier,
+                         type: vm.items[index].type
+                    }
                 }
 
-                vs.saved = function () {
-                    console.log(id, vs.data);
+                vs.save = function () {
                     if(typeof id != 'undefined') {
-                        userService.updateCustomers(id, vs.data).then(function (res) {
-                            if (res.success) {
-                                console.log(res, 'succes');
-                                vm.customers.splice(index, 1, res.data);
+                        userService.updateQuestion(id, vs.data).then(function (res) {
+                            console.log(res);
+                            if (res.success){
+                                vm.items.splice(index, 1, res.data.question);
+                                console.log(res.data, 'sdfgs', vm.items);
+                                userService.loadItems();
                             }
                             else {
                                 console.log('error');
@@ -57,7 +58,8 @@
                         });
                     }
                     else {
-                        userService.createCustomers(vs.data).then(function (res) {
+
+                        userService.createQuestion(indexBlock, vs.data).then(function (res) {
                             if (res.success) {
                                 console.log(res, 'succes');
                                 vm.customers.push(res.data);

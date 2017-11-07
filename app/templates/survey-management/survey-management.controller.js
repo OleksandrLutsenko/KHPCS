@@ -10,11 +10,11 @@
     function SurveyManagementController(userService, $state, $mdDialog, survey) {
         let vm = this;
 
-        vm.showSurvey = showSurvey;
+        vm.setActineSurvey = setActineSurvey;
 
         vm.items = userService.getItems();
 
-        function showSurvey(id, indexSurvey) {
+        function setActineSurvey(id, indexSurvey) {
             survey.setActineSurvey(id, indexSurvey);
         }
 

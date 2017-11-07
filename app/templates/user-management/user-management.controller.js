@@ -8,7 +8,14 @@
     function UserManagementController(userService, $state, $mdDialog) {
         let vm = this;
 
+
+
         vm.customers = userService.getCustomers();
+
+        // if(vm.customers === 404){
+        //     vm.customers = [];
+        // }
+        // console.log(vm.customers, 'customers arr');
 
         vm.showAdvanced = function (id, index) {
 

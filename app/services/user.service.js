@@ -18,9 +18,8 @@
         // model.addSurvey = getItems;
         model.createBlock = createBlock;
         model.createQuestion = createQuestion;
+        model.updateQuestion = updateQuestion;
 
-        model.loadSurvey = loadSurvey;
-        model.getSurvey = getSurvey;
         //User management
         model.loadCustomers = loadCustomers;
         model.getCustomers = getCustomers;
@@ -72,38 +71,27 @@
 
 
         // Survey management
-
-        function loadSurvey(id) {
-            return http.get(url.survey_management(id).loadSurvey, {}).then(function (res) {
-                if (res.success) {
-                    setSurvey(res.data.survey.blocks);
-                } else {
-                    //need to show error msg
-                }
-            });
-        }
-        function setSurvey(items) {
-            delete $sessionStorage['survey_block'];
-            $sessionStorage['survey_block'] = items;
+        function createBlock(id, credentials) {
+            return http.post(url.survey_management_func(id).block, credentials)
         }
 
-        function getSurvey() {
-            return $sessionStorage['survey_block'];
+        function createQuestion (id, credentials) {
+            console.log(id, credentials);
+            return http.post(url.survey_management_func(id).createQuestion, credentials)
         }
 
-
-        function createBlock(Snum, credentials) {
-            return http.post(url.survey_management(Snum).block, credentials)
-        }
-
-        function createQuestion (Snum, credentials) {
-            return http.post(url.survey_management(Snum).question, credentials)
+        function updateQuestion (id, credentials) {
+            console.log(id, credentials);
+            return http.put(url.survey_management_func(id).updateQuestion, credentials)
         }
         
+
+
+
         //User management
-        
         function loadCustomers() {
-            return http.get(url.customers.indexCustomers, {}).then(function (res) {
+            return http.get(url.customers.customers, {}).then(function (res) {
+                console.log(res);
                 if (res.success) {
                     setCustomers(res.data);
                 } else {
@@ -121,7 +109,7 @@
         }
 
         function createCustomers(data) {
-            return http.post(url.customers.indexCustomers, data)
+            return http.post(url.customers.customers, data)
         }
         function updateCustomers(id, data) {
             return http.put(url.customers_func(id).updateCustomers, data)

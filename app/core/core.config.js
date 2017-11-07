@@ -16,6 +16,7 @@
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
+                controllerAs: 'vm',
                 resolve: {
                     items: function (userService) {
                         return userService.loadAll();
