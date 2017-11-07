@@ -10,10 +10,13 @@
         let idS = survey.getActineSurvey();
         let idB = survey.getActiveBlock();
         let indexBlock = idB.indexBlock;
+        let idBlock = idB.id;
 
         $scope.$on('parent', function(event, data){
             indexBlock = data;
             vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
+            idB = survey.getActiveBlock();
+            idBlock = idB.id;
         });
 
         vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
@@ -38,7 +41,8 @@
                      vs.data =  {
                          title: vm.items[index].title,
                          identifier: vm.items[index].identifier,
-                         type: vm.items[index].type
+                         type: vm.items[index].type,
+                         answers: vm.items[index].answers
                     }
                 }
 
@@ -58,17 +62,25 @@
                         });
                     }
                     else {
-
-                        userService.createQuestion(indexBlock, vs.data).then(function (res) {
+                        userService.createQuestion(idBlock, vs.data).then(function (res) {
                             if (res.success) {
-                                console.log(res, 'succes');
-                                vm.customers.push(res.data);
+                                console.log(res, 'Create questions');
+                                vm.items.push(res.data.question);
                             }
                             else {
                                 console.log('error');
                             }
                             vs.cancel();
                         });
+                    }
+                    if(vs.data.type === 1){
+                        if(typeof vs.ifYes != 'undefined'){
+                            console.log(vs.ifYes, 'yeeeeeeeees');
+                        }
+                        if(typeof vs.ifNo != 'undefine'){
+                            console.log(vs.ifNo, 'Nooooooooooo');
+                        }
+
                     }
                 };
 

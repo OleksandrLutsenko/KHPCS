@@ -30,34 +30,19 @@
             </div>
 
             <div layout="column">
-                <div layout="row">
+                <div layout="row" ng-if="vm.data.type === 1" ng-repeat="answers in vm.data.answers">
                     <div layout="column">
-                        <!--<span>Response</span>-->
-                        <!--<md-input-container>-->
-                            <!--<label>Yes</label>-->
-                            <!--<input disabled>-->
-                        <!--</md-input-container>-->
-
-                        <!--<md-input-container ng-show=vm.inputCheck(qestType) >-->
-                            <!--<label>No</label>-->
-                            <!--<input disabled>-->
-                        <!--</md-input-container>-->
-                        <!--<md-button class="md-raised" ng-click="cancel()">Save</md-button>-->
+                        <md-input-container>
+                            <label>Name</label>
+                            <input ng-model="answers.name">
+                        </md-input-container>
                     </div>
 
                     <div layout="column">
-                        <!--<span>Next</span>-->
-
-                        <!--<md-input-container>-->
-                            <!--<label>ID</label>-->
-                            <!--<input name="Yes ID">-->
-                        <!--</md-input-container>-->
-
-                        <!--<md-input-container ng-show=vm.inputCheck(qestType)>-->
-                            <!--<label>ID</label>-->
-                            <!--<input name="No ID">-->
-                        <!--</md-input-container>-->
-                        <!--<md-button class="md-raised" ng-click="cancel()">Cancel</md-button>-->
+                        <md-input-container>
+                            <label>Next question</label>
+                            <input ng-model="answers.next_question">
+                        </md-input-container>
                     </div>
                 </div>
 
