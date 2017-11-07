@@ -41,4 +41,5 @@ class CustomerAnswer extends Model
 //    {
 //        return $this->answer();
 //    }
+
 }

@@ -17,7 +17,7 @@ Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('customer/{customer}/survey/{survey}/download', 'DownloadController@downloadSurvey');
+Route::get('/report/{report}/download', 'DownloadController@downloadReport');
 
 Route::group(['middleware' => 'api-response'], function() {
     Route::post('/register', 'Auth\RegisterController@register');
@@ -72,13 +72,11 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::delete('/answer/{answer}', 'AnswerController@destroy');
 
         /** USER MANAGEMENT TAB */
-        Route::get('report', 'ReportController@index');
-        Route::get('report/{report}', 'ReportController@showCustomerAnswer');
+        Route::get('/report', 'ReportController@index');
+        Route::get('/report/{report}', 'ReportController@showCustomerAnswer');
         Route::post('/report', 'ReportController@store');
         Route::put('/report/{report}', 'ReportController@update');
         Route::delete('/report/{report}', 'ReportController@destroy');
-
-        Route::get('download', 'DownloadController@download');
 
         Route::get('/customer', 'CustomerController@index');
         Route::get('/customer/{customer}', 'CustomerController@show');
@@ -97,9 +95,6 @@ Route::group(['middleware' => 'api-response'], function() {
             /** Make answer by customer */
             Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
-            Route::prefix('/survey/{survey}')->group(function () {
-                Route::get('/showcustomeranswer', 'ReportController@showCustomerAnswer');
-            });
         });
     });
 });

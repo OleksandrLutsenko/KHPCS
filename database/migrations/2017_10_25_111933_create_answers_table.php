@@ -17,7 +17,7 @@ class CreateAnswersTable extends Migration
             $table->increments('id');
             $table->string('answer_text')->default('text');
             $table->integer('question_id', false, 10);
-            $table->integer('next_question', false, 10);
+            $table->integer('next_question', false, 10)->nullable();
             $table->timestamps();
         });
 

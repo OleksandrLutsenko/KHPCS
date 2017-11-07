@@ -12,10 +12,11 @@ class Question extends Model
 
     protected $fillable = ['title', 'type', 'identifier'];
 
-//    protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
-    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'customer_answers'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
+//    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'customer_answers'];
 
-    protected $appends = ['answers', 'customer_answers'];
+    protected $appends = ['answers'];
+//    protected $appends = ['answers', 'customer_answers'];
 
     public function setVisibleAnswers(){
         $this->visible = ['title', 'answers'];

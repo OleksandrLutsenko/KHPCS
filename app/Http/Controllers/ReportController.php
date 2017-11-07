@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Answer;
+use App\Block;
 use App\Customer;
 use App\CustomerAnswer;
 use App\Report;
@@ -26,15 +27,42 @@ class ReportController extends Controller
      */
     public function index(Report $report, User $user, Customer $customer, Survey $survey, Question $question)
     {
-        $customers = $customer->all();
-//        $reports = $report->all();
-//        $question->makeVisible(['customer_answers']);
-        return response()->json($customers, 201);
+        $reports = $report->all();
+        return response()->json($reports, 201);
     }
 
-    public function showCustomerAnswer(Report $report, User $user, Customer $customer, Survey $survey, CustomerAnswer $customerAnswer){
-            $customers = $customer->all();
-        return response()->json($customers, 201);
+    public function showCustomerAnswer(User $user, Report $report){
+
+//        $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
+//        foreach ($customerAnswers as $customerAnswer){
+//            $questions[] = Question::find($customerAnswer->question_id);
+//        }
+//        foreach ($questions as $question){
+//            if($question->block->survey_id == $report->survey_id){
+//                $results[] = ['Question' => $question,
+//                              'CustomerAnswer' => CustomerAnswer::where('question_id', $question->id)->get()];
+//            }
+//        }
+
+        $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
+        foreach ($customerAnswers as $customerAnswer){
+            $question = Question::find($customerAnswer->question_id);
+
+            if($question->block->survey_id == $report->survey_id){
+                $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
+
+                $results[] = ['Question' => $question->title,
+//                              'CustomerAnswer' => CustomerAnswer::where('question_id', $question->id)->get()];
+                              'CustomerAnswer' => $finalAnswer[0]->value];
+            }
+        }
+
+        return response([
+            'report' => $report->id,
+            'customer' => $report->customer->name,
+            'survey' => $report->survey->name,
+            'results' => $results
+        ], 200);
     }
 
     /**
