@@ -2,232 +2,136 @@
     'use strict';
 
     angular.module('app')
-        .controller('SurveyManagementController', function ($mdDialog) {
-
-            let vm = this;
-
-            vm.questTab = [
-                {
-                    name: 'ID Verification',
-                    questions: [
-                        'National Insurance Number',
-                        'Driving Licence Number',
-                        'Passport Number',
-                        'Do any of the following apply to you?',
-                        'Aged over 75',
-                        'Recently experienced a significant life event (e.g. Bereavement,Employment Concerns, Serious Illness Diagnosis, Marital Difficulties, Financial Hardship)',
-                        'Suffering from any severe and/or long term illness conditions (including mental illness)',
-                        'Suffering from any learning difficulties?',
-                        'Difficulties with the English language'
-                    ]
-                },
-                {
-                    name: 'General information',
-                    questions: [
-                        'First Name(s)',
-                        'Surname',
-                        'Marital Status',
-                        'Date of Birth',
-                        'Nationality',
-                        'UK Resident?',
-                        'UK Domiciled?',
-                        'Residential Address',
-                        'Correspondence Address (if different)',
-                        'Home Phone',
-                        'Mobile Phone',
-                        'Work Phone',
-                        'Email Address',
-                        'Best time to contact'
-                    ]
-                },
-                {
-                    name: 'Employment & income',
-                    questions: [
-                        'Employment Status(employed, self-employed, retired,partner, director, etc.)',
-                        'Occupation',
-                        'Employer Name',
-                        'Remaining Contract Duration (if applicable)',
-                        'Details of Employer, Pension & Other, Benefits',
-                        'At what age do you currently intend to retire?',
-                        'In which country do you currently intend to retire?'
-                    ]
-                },
-                {
-                    name: 'Monthly expenditure ',
-                    questions: []
-                },
-                {
-                    name: 'Assets (excluding investments/pensions)',
-                    questions: []
-                },
-                {
-                    name: 'Liabilities',
-                    questions: []
-                },
-                {
-                    name: 'Investment assets',
-                    questions: []
-                },
-                {
-                    name: 'Existing protection plans',
-                    questions: []
-                },
-                {
-                    name: 'Existing money purchase pension plans',
-                    questions: []
-                }
-            ];
-
-            // SurveyManagementController.$inject = [];     //rudimentary code :\
+        .controller('SurveyManagementController', SurveyManagementController);
 
 
-            vm.showEditSM = function (ev, question) {
-                $mdDialog.show({
-                    controller: ShowEditSMCtrl,
-                    controllerAs: 'vm',
-                    templateUrl: 'components/survey-management/edit-question/edit-question.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-                });
-                function ShowEditSMCtrl($mdDialog) {
-                    let vm = this;
-                    vm.cancel = function () {
-                        $mdDialog.cancel();
-                    };
-                    vm.question = question;
-                    vm.inputCheck = function (inputValueNum) {
-                        if (inputValueNum === 1) {
-                            return false;
-                        }
-                        else {
-                            return true;
-                        }
-                    };
-                }
-            };
+    SurveyManagementController.$inject = ['userService', '$state', '$mdDialog', 'survey'];
+
+    function SurveyManagementController(userService, $state, $mdDialog, survey) {
+        let vm = this;
+
+        vm.setActineSurvey = setActineSurvey;
+
+        vm.items = userService.getItems();
+
+        function setActineSurvey(id, indexSurvey) {
+            survey.setActineSurvey(id, indexSurvey);
+        }
 
 
-            vm.deleteQuestionSM = function (ev) {
-                $mdDialog.show({
-                    controller: CancelController,
-                    controllerAs: 'vm',
-                    templateUrl: 'components/survey-management/delete/delete.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-            });
-                function CancelController($mdDialog) {
-                    let vm = this;
-                    vm.cancel = function () {
-                        $mdDialog.cancel();
-                    };
-                }
-            };
+        // let Snum = 0;
+        //
+        // vm.createBlock = createBlock;
+        // vm.addQuestion = addQuestion;
+        // vm.showEditSM = showEditSM;
+        // userService.loadItems();
+        // let items = userService.getItems();
+        // vm.qestTab = items[Snum].blocks;
+        //
+        //
+        // function createBlock() {
+        //     userService.createBlock(Snum + 1, vm.data).then(function (res) {
+        //         if (res.success){
+        //             vm.qestTab.push(res.data.block);
+        //         }
+        //     });
+        // }
+        //
+        // function addQuestion(id) {
+        //     console.log(id)
+        // }
+        //
+        // function showEditSM(data, id) {
+        //     $mdDialog.show({
+        //         controller: ShowEditSMCtrl,
+        //         controllerAs: 'vm',
+        //         templateUrl: 'templates/survey-management/edit.html',
+        //         clickOutsideToClose: true
+        //     });
+        //     function ShowEditSMCtrl($mdDialog) {
+        //         let vm = this;
+        //         if(typeof data != 'undefined') {
+        //             vm.editData = data;
+        //         }
+        //         console.log(id, '123');
+        //
+        //         vm.cancel = function () {
+        //             $mdDialog.cancel();
+        //         };
+        //
+        //         vm.save = function () {
+        //             console.log('id123', id, 'data123', vm.editData);
+        //             userService.createQuestion(id, vm.editData).then(function (res) {
+        //                 console.log(res);
+        //                 if (res.success){
+        //                     // console.log(vm.qestTab);
+        //                     // vm.qestTab.forEach(function (el) {
+        //                     //     if(el.id === id){
+        //                     //         console.log(indexOf(el))
+        //                     //     }
+        //                     // });
+        //                     // vm.qestTab.block[0].push(res.data)
+        //                 }
+        //             });
+        //         };
+        //
+        //         vm.inputCheck = function (inputValueNum) {
+        //             if (inputValueNum === 1) {
+        //                 return false;
+        //             }
+        //             else {
+        //                 return true;
+        //             }
+        //         };
+        //     }
+        // }
+        //
+        // vm.cancel = function () {
+        //             $mdDialog.cancel();
+        // };
+        //
+        //
+        // // vm.inputCheck = function (inputValueNum) {
+        // //             if (inputValueNum === 1) {
+        // //                 return false;
+        // //             }
+        // //             else {
+        // //                 return true;
+        // //             }
+        // //         };
+        //
+        //
+        // // vm.deleteQuestionSM = function (ev) {
+        // //     $mdDialog.show({
+        // //         controller: CancelController,
+        // //         controllerAs: 'vm',
+        // //         templateUrl: 'templates/survey-management/delete.html',
+        // //         parent: angular.element(document.body),
+        // //         targetEvent: ev,
+        // //         clickOutsideToClose: true
+        // //     });
+        // //     function CancelController($mdDialog) {
+        // //         let vm = this;
+        // //         vm.cancel = function () {
+        // //             $mdDialog.cancel();
+        // //         };
+        // //     }
+        // // };
+        //
+        //
+        // // vm.test = function () {
+        // //     alert('Test');
+        // // };
+        // //
+        // //
+        // // angular.module('app').directive('questList', function() {
+        // //     return {
+        // //         restrict: 'E', // Е -деректива елементом А- атрибутом
+        // //         templateUrl: 'components/survey-management/questionnaire-list.html', //Откуда брать директиву
+        // //         // controller: QuestListCtrl,
+        // //         // // controllerAs: 'vm'
+        // //     };
+        // // });
+    }
 
-            vm.test = function () {
-                alert('Test');
-            };
-
-            ////////////////Qest list////////////////////////
-
-            vm.jollo = 'hello QL';
-
-            vm.QLOption = [
-                'Active',
-                'Deactive',
-                'Archive'
-            ];
-
-
-            vm.QLCurrentStatus = vm.QLOption[0];
-
-            vm.announceClick = function(index) {
-                $mdDialog.show(
-                    $mdDialog.alert()
-                        // .title('You clicked!')
-                        .textContent('Status changed to \"' + index + '\"')
-                        .ok('Ок')
-
-                );
-                vm.QLCurrentStatus = index;
-            };
-
-            vm.statusQL = true;
-            vm.statusBlock = false;
-
-            vm.inversion = function () {
-                vm.statusQL = false;
-                vm.statusBlock = true;
-            };
-
-
-
-/////////////////////////activeTab/////////////////////////////
-            vm.activeTab;
-
-            vm.activeTabFunc = function (nameActiveTab) {
-                vm.activeTab = nameActiveTab;
-            };
-
-            vm.showeDott = function (nameCurrentTab) {
-                if (nameCurrentTab === vm.activeTab){
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            };
-//////////////////////////////////////////////////////
-
-            ////////////////edit or dell questionnaire////////////////////////
-            vm.EditSection = function (ev, nameSection) { //////////////Bad
-                $mdDialog.show({
-                    controller: EditSectionCtrl,
-                    controllerAs: 'vm',
-                    templateUrl: 'components/survey-management/edit-section/edit-section.html',
-                    parent: angular.element(document.body),
-                    targetEvent: ev,
-                    clickOutsideToClose: true
-                });
-                function EditSectionCtrl($mdDialog) {
-                    let vm = this;
-                    vm.cancel = function () {
-                        $mdDialog.cancel();
-                    };
-
-                    vm.AC = nameSection; ///////////////Bad
-                }
-            };
-
-            vm.blockSelection = function (name) {
-                if(name === 'Edit'){
-                    vm.EditSection(0, vm.activeTab); //////////////Bad
-                }
-                else {
-                    vm.deleteQuestionSM();
-                }
-            };
-
-            vm.showPrompt = function(ev) {
-                // Appending dialog to document.body to cover sidenav in docs app
-                var confirm = $mdDialog.prompt()
-                    .title('Please enter the name of the new questionnaire')
-                    // .textContent('Bowser is a common name.')
-                    .placeholder('Add name')
-                    .ariaLabel('Dog name')
-                    // .initialValue('Buddy')
-                    .targetEvent(ev)
-                    .required(true)
-                    .ok('Save')
-                    .cancel('Cancel');
-
-                $mdDialog.show(confirm).then(function(result) {
-                    vm.status = 'You decided to name your dog ' + result + '.';
-                }, function() {
-                    vm.status = 'You didn\'t name your dog.';
-                });
-            };
-
-        });
 })();

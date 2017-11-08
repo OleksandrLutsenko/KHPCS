@@ -17,11 +17,9 @@
 
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
     <link rel="stylesheet" href="content/css/app.css">
-    <link rel="stylesheet" href="content/css/app.css">
     <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css"/>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css">
-
+    <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -38,6 +36,8 @@
 <script src="bower_components/angular-messages/angular-messages.js"></script>
 <script src="bower_components/angular-material/angular-material.min.js"></script>
 <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<script src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+<script src="bower_components/ngstorage/ngStorage.js"></script>
 
 <script src="app.js"></script>
 <script src="core/core.module.js"></script>
@@ -49,18 +49,18 @@
 
 
 <!--services-->
-<script src="services/weather.service.js"></script>
+<script src="services/user.service.js"></script>
 
 <!--factories-->
 <script src="factories/request.js"></script>
 <script src="factories/url.js"></script>
+<script src="factories/survey.js"></script>
 
 <!--filters-->
 <script src="filters/example.filter.js"></script>
 
 <!--directives-->
-<script src="components/survey-management/dott-menu/dott-menu.directive.js"></script>
-<script src="components/survey-management/questionnaire-list/questionnaire-list.directive.js"></script>
+<script src="components/tabs/tabs.directive.js"></script>
 
 <!--controllers-->
 <script src="templates/tabs/tabs.controller.js"></script>
@@ -68,7 +68,13 @@
 <script src="templates/survey-management/survey-management.controller.js"></script>
 <script src="templates/settings/settings.controller.js"></script>
 <script src="templates/login/login.controller.js"></script>
-<script src="templates/login/sign.controller.js"></script>
+<script src="templates/registration/registration.controller.js"></script>
+
+
+<script src="templates/survey-block/survey-block.controller.js"></script>
+<script src="templates/survey-question/survey-question.controller.js"></script>
+
+
 
 </body>
 </html>

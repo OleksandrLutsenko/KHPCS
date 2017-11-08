@@ -1,0 +1,71 @@
+md-card {
+  margin: 0;
+}
+
+.layout-column > .flex-90 {
+  width: 95%;
+}
+
+.search img {
+  float: right;
+
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  width: 95%;
+  padding: 10px;
+}
+
+.imgSearch {
+  justify-content: flex-end;
+  width: 20%;
+}
+
+md-dialog{
+  width: 50%;
+}
+
+.createWindow{
+  padding: 25px;
+}
+
+.createTextClient , .createBtn button{
+  margin: 0;
+  text-transform: none;
+}
+
+.addInput{
+  width: 100%;
+  margin-top: 0;
+  margin-bottom:0;
+}
+
+.createBtn{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.createTop {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.createTop h1 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.allInput{
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+
+.createTop img{
+  position: absolute;
+  right: 0;
+  margin-top: 7px;
+}
