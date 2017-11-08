@@ -3,13 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CustomerAnswer extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['value', 'answer_id', 'question_id', 'customer_id'];
 
 //    protected $appends = ['value', 'answer_id', 'question_id', 'customer_id', 'answers'];
-
 
 //    protected $visible = ['value', 'answer_id', 'question_id', 'customer_id', 'answers'];
 
@@ -17,17 +19,6 @@ class CustomerAnswer extends Model
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
-
-
-
-//    public function question(){
-//        return $this->belongsToMany(Question::class);
-//    }
-//    public function answer(){
-//        return $this->belongsToMany(Answer::class);
-//    }
-
-
 
     public function question(){
         return $this->hasOne(Question::class, 'id', 'question_id');

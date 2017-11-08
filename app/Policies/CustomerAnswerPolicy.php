@@ -8,8 +8,8 @@ class CustomerAnswerPolicy
 {
     use HandlesAuthorization;
 
-    public function delete(User $user)
-    {
-        return Auth::user()->isAdmin();
-    }
+//    public function delete(User $user)
+//    {
+//        return Auth::user()->isAdmin();
+//    }
 }

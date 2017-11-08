@@ -20,17 +20,8 @@ class QuestionController extends Controller
      */
     public function show(Question $question, User $user)
     {
-        if ($user->can('show', $question)) {
-            $answers = $question->answers;
-//        $question->makeHidden(['customer_answers']);
-//        return response()->json($question);
-            return compact('question');
-        }
-        else{
-            return response([
-                "error" => "You do not have a permission"], 404
-            );
-        }
+        $answers = $question->answers;
+        return compact('question');
     }
 
     /**

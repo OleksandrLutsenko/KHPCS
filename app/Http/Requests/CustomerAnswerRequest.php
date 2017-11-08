@@ -50,6 +50,8 @@ class CustomerAnswerRequest extends FormRequest
             'customer_id' => $customer->id,
         ]);
 
+
+        /** TODO review. it needs to return errors */
         /** It means that value can't be filled by user if it is the radio type question **/
         if(isset($this->answer_text)){
             if(!$this->question->hasRadioAnswer()){

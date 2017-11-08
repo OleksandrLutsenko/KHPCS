@@ -43,10 +43,6 @@ class Question extends Model
         return $this->hasOne(Answer::class);
     }
 
-//    public function customerAnswer(){
-//        return $this->hasMany(CustomerAnswer::class);
-//    }
-
     public function customerAnswer(){
         return $this->hasOne(CustomerAnswer::class);
     }

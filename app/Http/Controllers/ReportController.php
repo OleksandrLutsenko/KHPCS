@@ -33,17 +33,6 @@ class ReportController extends Controller
 
     public function showCustomerAnswer(User $user, Report $report){
 
-//        $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
-//        foreach ($customerAnswers as $customerAnswer){
-//            $questions[] = Question::find($customerAnswer->question_id);
-//        }
-//        foreach ($questions as $question){
-//            if($question->block->survey_id == $report->survey_id){
-//                $results[] = ['Question' => $question,
-//                              'CustomerAnswer' => CustomerAnswer::where('question_id', $question->id)->get()];
-//            }
-//        }
-
         $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
         foreach ($customerAnswers as $customerAnswer){
             $question = Question::find($customerAnswer->question_id);
@@ -52,7 +41,6 @@ class ReportController extends Controller
                 $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
 
                 $results[] = ['Question' => $question->title,
-//                              'CustomerAnswer' => CustomerAnswer::where('question_id', $question->id)->get()];
                               'CustomerAnswer' => $finalAnswer[0]->value];
             }
         }
@@ -73,6 +61,8 @@ class ReportController extends Controller
      * @param User $user
      * @return \Illuminate\Http\Response
      */
+
+
     public function store(Report $report, Request $request, User $user)
     {
         $report = Report::create($request->all());
@@ -91,8 +81,8 @@ class ReportController extends Controller
 
     public function update(Request $request, Report $report, User $user)
     {
-            $report->update($request->all());
-            return response()->json($report, 200);
+        $report->update($request->all());
+        return response()->json($report, 200);
     }
 
     /**
@@ -105,13 +95,7 @@ class ReportController extends Controller
      */
     public function destroy(Report $report, User $user)
     {
-        if ($user->can('update', $report)) {
             $report->delete();
             return response()->json(null, 204);
-        }else{
-            return response([
-                "error" => "You do not have a permission"], 404
-            );
-        }
     }
 }
