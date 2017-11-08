@@ -9,11 +9,6 @@ class CustomerPolicy
 {
     use HandlesAuthorization;
 
-    public function delete(User $user)
-    {
-        return Auth::user()->isAdmin();
-    }
-
     public function show(User $user, Customer $customer)
     {
         if ($customer->user_id === Auth::user()->id){

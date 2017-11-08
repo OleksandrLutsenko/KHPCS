@@ -16,103 +16,18 @@ class CustomerAnswerController extends Controller
 {
     public function store(CustomerAnswerRequest $request, Customer $customer, Question $question){
         /** @var CustomerAnswer $customerAnswer */
-        if(!$customerAnswer = $question->findCustomersAnswer($customer)){
+            if(!$customerAnswer = $question->findCustomersAnswer($customer)){
             $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
         }else{
             $customerAnswer->update($request->getAnswerAttributes($customer));
         }
+
         $answer = Answer::find($customerAnswer->answer_id);
-//        return [
-//            'question identifier' => $question->identifier,
-//            'answer' => $customerAnswer->answer,
-//        ];
+
         return [
                 'question identifier' => $question->identifier,
                 'answer' => response()->json($customerAnswer, 201),
-//                'next_question identifier' => Question::find($answer->next_question)->identifier,
                 'next_question' => $customerAnswer->answer_id ? Question::find($answer->next_question) : null
             ];
     }
-//    /**
-//     * Display a listing of the resource.
-//     *
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function index()
-//    {
-//        //
-//    }
-//
-//    /**
-//     * Store a newly created resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request $request
-//     * @param Customer $customer
-//     * @param Survey $survey
-//     * @param Block $block
-//     * @param Question $question
-//     * @param Answer $answer
-//     * @param CustomerAnswer $customerAnswer
-//     * @param User $user
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function store(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer, User $user)
-//    {
-//
-//            $customerAnswer = new CustomerAnswer($request->all());
-//
-//            $customerAnswer->customer_id = $customer->id;
-//            $customerAnswer->question_id = $question->id;
-//
-//            if ($customerAnswer->value === null) {
-//               $answer = Answer::find($customerAnswer->answer_id);
-//                $customerAnswer->value = $answer->name;
-//            }
-//            $customerAnswer->save();
-//
-//            return [
-//                'question identifier' => $question->identifier,
-//                'answer' => response()->json($customerAnswer, 201),
-//                'next_question identifier' => Question::find($answer->next_question)->identifier,
-//                'next_question' => Question::find($answer->next_question)
-//            ];
-//    }
-//    /**
-//     * Update the specified resource in storage.
-//     *
-//     * @param  \Illuminate\Http\Request $request
-//     * @param Customer $customer
-//     * @param Survey $survey
-//     * @param Block $block
-//     * @param Question $question
-//     * @param Answer $answer
-//     * @param CustomerAnswer $customerAnswer
-//     * @param User $user
-//     * @return \Illuminate\Http\Response
-//     * @internal param int $id
-//     */
-//    public function update(Request $request, Customer $customer, Survey $survey, Block $block, Question $question, Answer $answer, CustomerAnswer $customerAnswer, User $user)
-//    {
-////        $customerAnswer->customer_id = $customer->id;
-////        $customerAnswer->question_id = $question->id;
-//            //TODO:review - it does not want to update the CustomerAnswer.
-//            if(!empty($customerAnswer->answer_id)){
-//                $answer = Answer::find($customerAnswer->answer_id);
-//                $customerAnswer->value = $answer->name;
-//            }
-//
-//            $customerAnswer->update($request->all());
-//            return response()->json($customerAnswer, 200);
-//    }
-//
-//    /**
-//     * Remove the specified resource from storage.
-//     *
-//     * @param  int  $id
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function destroy($id)
-//    {
-//        //
-//    }
 }

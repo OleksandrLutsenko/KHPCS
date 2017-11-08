@@ -2,16 +2,19 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['name', 'surname', 'classification'];
 
-    protected $visible = ['id', 'name', 'surname', 'classification', 'reports'];
+    protected $visible = ['id', 'name', 'surname', 'classification'];
 
-    protected $appends = ['reports'];
+//    protected $appends = ['reports'];
 
     public function report(){
         return $this->belongsToMany(Survey::class, 'customer_surveys');

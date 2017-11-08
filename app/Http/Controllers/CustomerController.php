@@ -75,11 +75,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer, User $user)
     {
-        if ($user->can('delete', $customer)) {
-            $customer->delete();
-            return response()->json(null, 204);
-        }else{
-            abort(404);
-        }
+        $customer->delete();
+        return response()->json(null, 204);
     }
 }

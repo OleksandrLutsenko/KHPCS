@@ -13,7 +13,9 @@ class CreateSurveysSoftDeletes extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('surveys', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
