@@ -3,10 +3,15 @@
     angular.module('app')
         .controller('TabsController', TabsController);
 
-    TabsController.$inject = [];
+    TabsController.$inject = ['userService'];
 
-    function TabsController() {
-        let vm = this
+    function TabsController(userService) {
+        let vm = this;
+
+        vm.user = userService.getUser();
+        console.log(vm.user.role_id);
+
+
 
     }
 

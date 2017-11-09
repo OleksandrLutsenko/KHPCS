@@ -22,14 +22,14 @@
                             <input ng-model="vm.data.password" type="password">
                         </md-input-container>
                     </div>
-                    <div class="divBtn" ng-click="vm.login()">
-                        <md-button>
+                    <div class="divBtn">
+                        <md-button ng-click="vm.login()">
                             <p class="logBtnText">Log in</p>
                         </md-button>
                     </div>
                     <div class="logBot">
                         <p class="textUnderBtn">Don't have an account?</p>
-                        <div class="divTextLogin"><p ui-sref="sign" class="textLogin">Sign Up</p></div>
+                        <div class="divTextLogin"><p ui-sref="registration" class="textLogin">Sign Up</p></div>
                     </div>
                     <div class="logBotSec">
                         <p md-nav-sref="#" class="textBottom">Forgotten a password?</p>

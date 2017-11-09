@@ -1,0 +1,177 @@
+//.tabsdemoDynamicHeight md-content {
+//  background-color: transparent !important; }
+//.tabsdemoDynamicHeight md-content md-tabs {
+//  background: #f6f6f6;
+//  border: 1px solid #e1e1e1; }
+//.tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+//  background: white; }
+//.tabsdemoDynamicHeight md-content h1:first-child {
+//  margin-top: 0; }
+//
+//.clearfix:after,
+//.clearfix:before{
+//  display: table;
+//  content: '';
+//}
+//.clearfix:after{
+//  clear: both;
+//}
+//
+//.label-tab{
+//  text-transform: capitalize ;
+//  color: red;
+//}
+//
+//.singQest {
+//  box-sizing: border-box;
+//  padding: 15px 40px;
+//  width: 100%;
+//}
+//
+//.sm-left {
+//  //width: 100%;
+//  float: left;
+//}
+////div.sm-left.ng-binding {
+////  max-width: 80%;
+////}
+//
+//.sm-right {
+//  float: right;
+//}
+//
+//.sm-right i {
+//  color: black;
+//  margin-left: 20px;
+//  font-size: 20px;
+//}
+//
+//md-edit-sm {
+//  width: 50%;
+//  background-color: #555555;
+//}
+//md-dialog {
+//  max-height: 95%;
+//}
+
+
+
+////////////////////////////////////////////////
+
+
+
+.clearfix:after,
+.clearfix:before{
+  display: table;
+  content: '';
+}
+.clearfix:after{
+  clear: both;
+}
+
+.label-tab{
+  text-transform: capitalize ;
+  color: red;
+}
+
+.singQest {
+  box-sizing: border-box;
+  padding: 15px 40px;
+  width: 100%;
+}
+
+.sm-left {
+  float: left;
+  max-width: 90%;
+}
+
+.sm-right {
+  float: right;
+}
+
+.sm-right i {
+  color: black;
+  margin-left: 20px;
+  font-size: 20px;
+}
+
+md-edit-sm {
+  width: 50%;
+  background-color: #555555;
+}
+md-dialog {
+  max-height: 95%;
+}
+.tab-icon-dots {
+  display: inline-block;
+  width: 30px;
+  //height: 100%;
+}
+/////////////////Restyle//////////////////////////////
+
+.restyle {
+
+  .dialog-max-height{
+    max-height: 95%;
+  }
+  .survey-input-container {
+    margin: 0;
+    bottom: -14px;
+  }
+  .survey-button {
+    top: -5px;
+  }
+  .section-width {
+    width: 500px;
+  }
+  .input-width {
+    width: 95%;
+  }
+  md-card {
+    margin: 0;
+  }
+  .md-button.md-icon-button {
+    padding: 0;
+    height: auto;
+  }
+  .md-button {
+    min-height: 0;
+  }
+  .add-button-position {
+    position: relative;
+    top: -6px;
+  }
+  .add-button-padding {
+    padding: 12px 40px;
+  }
+}
+
+/////////////////questionnaire-list///////////////////
+
+.questionnaire-list{
+  background-color: #f7f7f7;
+  width: 300px;
+  margin: 10px 10px;
+  display: inline-block;
+  text-align: right;
+  height: 150px;
+  float: left;
+}
+.questionnaire-list i {
+  font-size: 25px;
+  text-align: right;
+  color: #aaaaaa;
+
+}
+.questionnaire-list p {
+  text-align: center;
+}
+
+.questionnaire-list p:last-child {
+  color: #aaaaaa;
+}
+
+.fa-plus-circle:before{
+  font-size: 60px;
+}
+

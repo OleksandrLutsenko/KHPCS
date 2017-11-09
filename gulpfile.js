@@ -3,7 +3,9 @@ let serve = require('gulp-serve');
 let browserSync = require('browser-sync').create();
 let watch = require('gulp-watch');
 let sass = require('gulp-sass');
-let watchSass = require("gulp-watch-sass")
+let watchSass = require("gulp-watch-sass");
+
+gulp.task('default', ['sass']);
 
 gulp.task('browser-reload',function () {
     browserSync.reload();
