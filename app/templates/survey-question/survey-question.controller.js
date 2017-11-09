@@ -37,6 +37,7 @@
             function EditController($mdDialog) {
                 let vs = this;
 
+
                 if(typeof id != 'undefined') {
                      vs.data =  {
                          title: vm.items[index].title,
@@ -45,6 +46,24 @@
                          answers: vm.items[index].answers
                     }
                 }
+                else {
+                    vs.data = {
+                        answers:  []
+                    }
+                }
+
+                vs.addAnsver = function () {
+                    if(vs.data.answers.length === 0 || typeof vs.data.answers[vs.data.answers.length - 1].name !== 'undefined'
+                        && typeof vs.data.answers[vs.data.answers.length - 1].next_question !== 'undefined'
+                        && vs.data.answers[vs.data.answers.length - 1].name && vs.data.answers[vs.data.answers.length - 1].next_question !== ''){
+                            vs.data.answers.push({});
+                    }
+
+                };
+
+                vs.deleteAnsver = function(indexAns){
+                    vs.data.answers.splice(indexAns, 1);
+                };
 
                 vs.save = function () {
                     if(typeof id != 'undefined') {
@@ -53,7 +72,33 @@
                             if (res.success){
                                 vm.items.splice(index, 1, res.data.question);
                                 console.log(res.data, 'sdfgs', vm.items);
-                                userService.loadItems();
+                                if (vs.data.answers.length > 0){
+                                    console.log(vs.data.answers, ' data answers update');
+                                    for(let i = 0; i < vs.data.answers.length; i++){
+                                        let data = vs.data.answers[i];
+                                        if(typeof data.id !== 'undefined'){
+                                            console.log('if start');
+                                            if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
+                                                console.log('if started', data);
+                                                userService.updateAnswer(data.id, data).then(function (res) {
+                                                    if(res.success){
+                                                        vm.items[index].answers.splice(i, 1, res.data.answer);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                        else{
+                                            console.log('else start');
+                                            if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
+                                                userService.createAnswer(res.data.question.id, data).then(function (res) {
+                                                    if(res.success){
+                                                        vm.items[index].answers.push(res.data.answer);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }
+                                }
                             }
                             else {
                                 console.log('error');
@@ -64,23 +109,28 @@
                     else {
                         userService.createQuestion(idBlock, vs.data).then(function (res) {
                             if (res.success) {
-                                console.log(res, 'Create questions');
                                 vm.items.push(res.data.question);
+                                if (vs.data.answers.length > 0){
+                                    for(let i = 0; i < vs.data.answers.length; i++){
+                                        let data = {
+                                            name: vs.data.answers[i].name,
+                                            next_question: vs.data.answers[i].next_question
+                                        };
+                                        if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
+                                            userService.createAnswer(res.data.question.id, data).then(function (res) {
+                                                if(res.success){
+                                                    vm.items[vm.items.length - 1].answers.push(res.data.answer);
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
                             }
                             else {
                                 console.log('error');
                             }
                             vs.cancel();
                         });
-                    }
-                    if(vs.data.type === 1){
-                        if(typeof vs.ifYes != 'undefined'){
-                            console.log(vs.ifYes, 'yeeeeeeeees');
-                        }
-                        if(typeof vs.ifNo != 'undefine'){
-                            console.log(vs.ifNo, 'Nooooooooooo');
-                        }
-
                     }
                 };
 

@@ -20,6 +20,10 @@
         model.createQuestion = createQuestion;
         model.updateQuestion = updateQuestion;
 
+        //Answer survey
+        model.createAnswer = createAnswer;
+        model.updateAnswer = updateAnswer;
+
         //User management
         model.loadCustomers = loadCustomers;
         model.getCustomers = getCustomers;
@@ -84,6 +88,18 @@
             console.log(id, credentials);
             return http.put(url.survey_management_func(id).updateQuestion, credentials)
         }
+
+        //Answer survey
+        function createAnswer (id, credentials) {
+            console.log(id, credentials);
+            return http.post(url.survey_management_func(id).createAnswer, credentials)
+        }
+
+        function updateAnswer (id, credentials) {
+            console.log(id, credentials);
+            return http.put(url.survey_management_func(id).updateAnswer, credentials)
+        }
+
         
 
 
