@@ -7,8 +7,8 @@
 
     function UserManagementController(userService, $state, $mdDialog) {
         let vm = this;
-            vm.myLimit = 10;
-            vm.myPage = 1;
+        vm.myLimit = 10;
+        vm.myPage = 1;
 
         vm.customers = userService.getCustomers();
 
@@ -19,16 +19,14 @@
                 templateUrl: 'templates/user-management/deleteCustomer.html',
                 clickOutsideToClose: true
             });
-            console.log('ad');
+
             function deleteController($mdDialog) {
                 let vs = this;
 
                 vs.delete = function () {
                     if (typeof id != 'undefined') {
                         userService.deleteCustomers(id).then(function (res) {
-
-                            if (res.success ) {
-                                console.log(res, 'succesDelete');
+                            if (res.success) {
                                 vm.customers.splice(index, 1);
                                 vs.cancel();
                             }
@@ -41,7 +39,6 @@
                         console.log('deleteError');
                     }
                 };
-
 
                 vs.cancel = function () {
                     $mdDialog.cancel();
@@ -66,7 +63,7 @@
                         name: vm.customers[index].name,
                         surname: vm.customers[index].surname,
                         classification: vm.customers[index].classification
-                    }
+                    };
                 }
 
                 vs.saved = function () {
@@ -95,16 +92,12 @@
                             }
                             vs.cancel();
 
-                                $mdDialog.show(
-                                    $mdDialog.alert()
-                                        .clickOutsideToClose(true)
-                                        .title('New client created')
-                                        .textContent('Answering the questionnaire should inform the user what pension they should be choosing.')
-                                        .ariaLabel('Alert Dialog Demo')
-                                        .ok('Get started!')
-
-                                );
-
+                            $mdDialog.show({
+                                controller: DialogController,
+                                controllerAs: 'vm',
+                                templateUrl: 'templates/user-management/annonce.html',
+                                clickOutsideToClose: true
+                            });
                         });
                     }
                 };

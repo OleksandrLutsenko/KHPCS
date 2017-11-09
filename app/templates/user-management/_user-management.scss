@@ -15,6 +15,14 @@
     padding: 10px 40px;
   }
 
+  .search md-input-container {
+    width: 100%;
+  }
+
+  i {
+    cursor: pointer;
+  }
+
   .searchText {
     margin: 0;
     display: flex;
@@ -54,78 +62,104 @@
   }
 }
 
-
-
-.createWindow {
-  padding: 25px;
-}
-
-.createTextClient, .createBtn button, .editBtn button {
-  margin: 0;
-  text-transform: none;
-}
-
-.addInput {
-  width: 100%;
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.createBtn, .editBtn {
+.botBtn {
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
-.editBtn button:first-child {
-  margin-right: 20px;
-}
-
-.createTop {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  position: relative;
-}
-
-.createTop h1 {
+.botTextClient, .botBtn button, .botBtn button {
   margin: 0;
-  font-size: 25px;
-}
-
-.allInput {
-  padding-bottom: 20px;
-  padding-top: 20px;
-}
-
-.createTop i {
-  position: absolute;
-  right: 0;
-}
-
-i {
-  cursor: pointer;
-}
-
-.editQuestText, .continueQuest {
-  margin: 0;
-  color: #01579b;
   text-transform: none;
 }
 
-.deleteCustomer {
+.addCustomer {
 
-  .createBtn button {
+  md-dialog {
+    max-width: 100%;
+  }
 
+  .allInput .addInput:last-child {
+    display: block;
+  }
+
+  .createWindow {
+    padding: 25px;
+  }
+
+  .addInput {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .editBtn button:first-child {
+    margin-right: 20px;
+  }
+
+  .createTop {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .createTop h1 {
+    margin: 0;
+    font-size: 25px;
+  }
+
+  .allInput {
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
+  .createTop i {
+    position: absolute;
+    right: 0;
+  }
+
+  i {
+    cursor: pointer;
   }
 }
 
 .annonce {
+
   display: flex;
-  width: 100%;
   justify-content: center;
 
-  md-dialog {
-    width: 25%;
+  .annonceWindow {
+    padding: 20px;
   }
+
+  md-dialog {
+    width: 50%;
+  }
+
+  .botBtn button:first-child {
+    margin-right: 10px;
+  }
+}
+
+.deleteCustomer {
+  .deleteWindow {
+    padding: 10px;
+  }
+  .deleteTop h1 {
+    text-align: center;
+  }
+
+  .dltBtn button {
+    margin: 0;
+    text-transform: none;
+  }
+  .dltBtn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+  .dltBtn button:first-child {
+    margin-right: 10px;
+  }
+
 }
