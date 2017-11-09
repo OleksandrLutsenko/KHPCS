@@ -71,6 +71,21 @@ Route::group(['middleware' => 'api-response'], function() {
         /** delete answer */
         Route::delete('/answer/{answer}', 'AnswerController@destroy');
 
+        /** CONTRACT BUILDER */
+        /** show contracts list */
+        Route::get('/contract', 'ContractController@index');
+        /** show contract */
+        Route::get('/contract/{contract}', 'ContractController@show');
+        /** save new contract */
+        Route::post('/contract', 'ContractController@store');
+        /** update contract */
+        Route::put('/contract/{contract}', 'ContractController@update');
+        /** save image */
+        Route::post('/contract/{contract}/save-image', 'ContractController@saveImage');
+        /** delete contract */
+        Route::delete('/contract/{contract}', 'ContractController@destroy');
+
+
         /** USER MANAGEMENT TAB */
         Route::get('/report', 'ReportController@index');
         Route::get('/report/{report}', 'ReportController@showCustomerAnswer');

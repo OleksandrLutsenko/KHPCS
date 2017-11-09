@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 
 class Question extends Model
 {
+    use SoftDeletes;
+
     const TYPE_RADIO = 1;
     const TYPE_TXT = 2;
 
