@@ -15,7 +15,7 @@
                 console.log(res, 'login ctrl');
                 if (res.success){
                     userService.setUser(res.data.user);
-                    $state.go('tab');
+                    $state.go('tab.user-management');
                 }
                 else {
                     console.log('error');

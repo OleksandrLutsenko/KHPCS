@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog'];
+    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog'];
 
-    function SurveyQuestionController(userService, $state, survey, $scope, $mdDialog) {
+    function SurveyQuestionController(userService, survey, $scope, $mdDialog) {
         let vm = this;
         let idS = survey.getActineSurvey();
         let idB = survey.getActiveBlock();
@@ -24,6 +24,26 @@
         // function asdf(id, indexBlock) {
         //     survey.setActiveBlock(id, indexBlock)
         // }
+
+        vm.showConfirm = function(ev, id, index) {
+            let confirm = $mdDialog.confirm({
+                clickOutsideToClose: true
+            })  .title('Would you like to delete question?')
+                .targetEvent(ev)
+                .ok('Yes')
+                .cancel('No');
+
+            $mdDialog.show(confirm).then(function() {
+                userService.deleteQuestion(id).then(function (res) {
+                    if(res.success){
+                        vm.items.splice(index, 1);
+                    }
+                    else {
+                        console.log('error');
+                    }
+                })
+            });
+        };
 
         vm.showEdit = function (id, index) {
 
@@ -61,25 +81,31 @@
 
                 };
 
-                vs.deleteAnsver = function(indexAns){
-                    vs.data.answers.splice(indexAns, 1);
+                vs.deleteAnsver = function(id, indexAns){
+                    if(typeof id !== 'undefined'){
+                        userService.deleteAnswer(id).then(function (res) {
+                            console.log(res);
+                            if(res.success){
+                                vs.data.answers.splice(indexAns, 1);
+                            }
+                        })
+                    }
+                    else {
+                        vs.data.answers.splice(indexAns, 1);
+                    }
+
                 };
 
                 vs.save = function () {
                     if(typeof id != 'undefined') {
                         userService.updateQuestion(id, vs.data).then(function (res) {
-                            console.log(res);
                             if (res.success){
                                 vm.items.splice(index, 1, res.data.question);
-                                console.log(res.data, 'sdfgs', vm.items);
-                                if (vs.data.answers.length > 0){
-                                    console.log(vs.data.answers, ' data answers update');
+                                if (vs.data.answers.length > 0 && vs.data.type === 1){
                                     for(let i = 0; i < vs.data.answers.length; i++){
                                         let data = vs.data.answers[i];
                                         if(typeof data.id !== 'undefined'){
-                                            console.log('if start');
                                             if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
-                                                console.log('if started', data);
                                                 userService.updateAnswer(data.id, data).then(function (res) {
                                                     if(res.success){
                                                         vm.items[index].answers.splice(i, 1, res.data.answer);
@@ -88,7 +114,6 @@
                                             }
                                         }
                                         else{
-                                            console.log('else start');
                                             if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
                                                 userService.createAnswer(res.data.question.id, data).then(function (res) {
                                                     if(res.success){
