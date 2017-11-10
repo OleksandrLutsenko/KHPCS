@@ -7,8 +7,44 @@
 
     function UserManagementController(userService, $state, $mdDialog) {
         let vm = this;
+        vm.myLimit = 10;
+        vm.myPage = 1;
 
         vm.customers = userService.getCustomers();
+
+        vm.deleteCustomer = function (id, index) {
+            $mdDialog.show({
+                controller: deleteController,
+                controllerAs: 'vm',
+                templateUrl: 'templates/user-management/deleteCustomer.html',
+                clickOutsideToClose: true
+            });
+
+            function deleteController($mdDialog) {
+                let vs = this;
+
+                vs.delete = function () {
+                    if (typeof id != 'undefined') {
+                        userService.deleteCustomers(id).then(function (res) {
+                            if (res.success) {
+                                vm.customers.splice(index, 1);
+                                vs.cancel();
+                            }
+                            else {
+                                console.log('errorDelete');
+                            }
+                        });
+                    }
+                    else {
+                        console.log('deleteError');
+                    }
+                };
+
+                vs.cancel = function () {
+                    $mdDialog.cancel();
+                };
+            }
+        };
 
         vm.showAdvanced = function (id, index) {
 
@@ -54,6 +90,13 @@
                                 console.log('error');
                             }
                             vs.cancel();
+
+                            $mdDialog.show({
+                                controller: DialogController,
+                                controllerAs: 'vm',
+                                templateUrl: 'templates/user-management/annonce.html',
+                                clickOutsideToClose: true
+                            });
                         });
                     }
                 };

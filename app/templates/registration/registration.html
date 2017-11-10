@@ -1,51 +1,49 @@
-<form name="loginForm">
-    <md-content>
+<div class="enterForm">
+    <form name="loginForm">
+        <md-content>
+            <div layout="row" layout-align="center center" class="loginForm">
 
-        <div class="toTab">
-            <md-button ui-sref="tab">To tabs</md-button>
-        </div>
-        <div layout="row" layout-align="center center" class="loginForm">
+                <div class="md-whiteframe-8dp" flex="40">
+                    <div class="mainLogo">
+                        <div class="loginLogo">
+                            <img src="content/img/knight_hayes_logo.fw.png" alt="Logo" height="50">
+                        </div>
+                        <div class="divInput">
+                            <md-input-container class="loginInput">
+                                <label>Full name</label>
+                                <input type="text">
+                            </md-input-container>
 
-            <div class="md-whiteframe-8dp" flex="40">
-                <div class="mainLogo">
-                    <div class="loginLogo">
-                        <img src="content/img/knight_hayes_logo.fw.png" alt="Logo" height="50">
-                    </div>
-                    <div class="divInput">
-                        <md-input-container class="loginInput">
-                            <label>Full name</label>
-                            <input type="text">
-                        </md-input-container>
+                            <md-input-container class="loginInput">
+                                <label>Email</label>
+                                <input type="email">
+                            </md-input-container>
 
-                        <md-input-container class="loginInput2">
-                            <label>Email</label>
-                            <input type="email">
-                        </md-input-container>
+                            <md-input-container class="loginInput">
+                                <label>Password</label>
+                                <input type="password">
+                            </md-input-container>
 
-                        <md-input-container class="loginInput2">
-                            <label>Password</label>
-                            <input type="password">
-                        </md-input-container>
+                            <md-input-container class="loginInput">
+                                <label>Confirm password</label>
+                                <input type="password">
+                            </md-input-container>
+                        </div>
+                        <div class="divBtn">
+                            <md-button>
+                                <p class="logBtnText">Sign up</p>
+                            </md-button>
+                        </div>
+                        <div class="logBot">
+                            <p class="textUnderBtn">Already have an account?</p>
+                           <p ui-sref="login" class="textLogin">Log in</p></div>
 
-                        <md-input-container class="loginInput2">
-                            <label>Confirm password</label>
-                            <input type="password">
-                        </md-input-container>
-                    </div>
-                    <div class="divBtn">
-                        <md-button>
-                            <p class="logBtnText">Sign up</p>
-                        </md-button>
-                    </div>
-                    <div class="logBot">
-                        <p class="textUnderBtn">Already have an account?</p>
-                        <div class="divTextLogin"><p ui-sref="login" class="textLogin">Log in</p></div>
-                    </div>
-                    <div class="logBotSec">
-                        <p md-nav-sref="#" class="textBottom">Forgotten a password?</p>
+                        <div class="logBotSec">
+                            <p md-nav-sref="#" >Forgotten a password?</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </md-content>
-</form>
+        </md-content>
+    </form>
+</div>

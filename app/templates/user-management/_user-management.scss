@@ -1,71 +1,165 @@
-md-card {
-  margin: 0;
+.umMain {
+
+  md-card {
+    margin: 0;
+  }
+
+  .layout-column > .flex-90 {
+    width: 95%;
+  }
+
+  .search {
+    display: flex;
+    align-items: center;
+    width: 95%;
+    padding: 10px 40px;
+  }
+
+  .search md-input-container {
+    width: 100%;
+  }
+
+  i {
+    cursor: pointer;
+  }
+
+  .searchText {
+    margin: 0;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .searchDetail {
+    display: inline-flex;
+  }
+
+  .addIcon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #c6c6c6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  td:nth-child(3) button {
+    margin-left: 25px;
+  }
+
+  .tHeadText {
+    display: flex;
+  }
+
+  .md-table-pagination {
+    border-bottom: 2px solid darkgray;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
+
+  table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
+    padding: 0;
+  }
 }
 
-.layout-column > .flex-90 {
-  width: 95%;
-}
-
-.search img {
-  float: right;
-
-}
-
-.search {
+.botBtn {
+  width: 100%;
   display: flex;
-  align-items: center;
-  width: 95%;
-  padding: 10px;
-}
-
-.imgSearch {
   justify-content: flex-end;
-  width: 20%;
 }
 
-//md-dialog{
-//  width: 50%;
-//}
-
-.createWindow{
-  padding: 25px;
-}
-
-.createTextClient , .createBtn button{
+.botTextClient, .botBtn button, .botBtn button {
   margin: 0;
   text-transform: none;
 }
 
-.addInput{
-  width: 100%;
-  margin-top: 0;
-  margin-bottom:0;
+.addCustomer {
+
+  md-dialog {
+    max-width: 100%;
+  }
+
+  .allInput .addInput:last-child {
+    display: block;
+  }
+
+  .createWindow {
+    padding: 25px;
+  }
+
+  .addInput {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .editBtn button:first-child {
+    margin-right: 20px;
+  }
+
+  .createTop {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .createTop h1 {
+    margin: 0;
+    font-size: 25px;
+  }
+
+  .allInput {
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
+  .createTop i {
+    position: absolute;
+    right: 0;
+  }
+
+  i {
+    cursor: pointer;
+  }
 }
 
-.createBtn{
-  width: 100%;
+.annonce {
+
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+
+  .annonceWindow {
+    padding: 20px;
+  }
+
+  md-dialog {
+    width: 50%;
+  }
+
+  .botBtn button:first-child {
+    margin-right: 10px;
+  }
 }
 
-.createTop {
-  display: flex;
-  width: 100%;
-  position: relative;
-}
+.deleteCustomer {
+  .deleteWindow {
+    padding: 10px;
+  }
+  .deleteTop h1 {
+    text-align: center;
+  }
 
-.createTop h1 {
-  margin: 0;
-  font-size: 25px;
-}
+  .dltBtn button {
+    margin: 0;
+    text-transform: none;
+  }
+  .dltBtn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+  .dltBtn button:first-child {
+    margin-right: 10px;
+  }
 
-.allInput{
-  padding-bottom: 20px;
-  padding-top: 20px;
-}
-
-.createTop img{
-  position: absolute;
-  right: 0;
-  margin-top: 7px;
 }
