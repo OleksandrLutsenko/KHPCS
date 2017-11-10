@@ -7,7 +7,7 @@
 
     function UserManagementController(userService, $state, $mdDialog) {
         let vm = this;
-        vm.myLimit = 10;
+        vm.myLimit = 5;
         vm.myPage = 1;
 
         vm.customers = userService.getCustomers();
