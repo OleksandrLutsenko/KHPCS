@@ -32,7 +32,7 @@
                             ng-repeat="customers in vm.customers | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit | filter: vm.search">
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
-                            <td md-cell>{{customers.reports.length}}</td>
+                            <td md-cell ng-click="vm.go(customers.id)">{{customers.reports.length}} Go </td>
                             <td md-cell>?</td>
                             <td md-cell>
                                 Date

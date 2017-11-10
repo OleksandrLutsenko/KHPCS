@@ -73,9 +73,9 @@
                 }
 
                 vs.addAnsver = function () {
-                    if(vs.data.answers.length === 0 || typeof vs.data.answers[vs.data.answers.length - 1].name !== 'undefined'
+                    if(vs.data.answers.length === 0 || typeof vs.data.answers[vs.data.answers.length - 1].answer_text !== 'undefined'
                         && typeof vs.data.answers[vs.data.answers.length - 1].next_question !== 'undefined'
-                        && vs.data.answers[vs.data.answers.length - 1].name && vs.data.answers[vs.data.answers.length - 1].next_question !== ''){
+                        && vs.data.answers[vs.data.answers.length - 1].answer_text && vs.data.answers[vs.data.answers.length - 1].next_question !== ''){
                             vs.data.answers.push({});
                     }
 
@@ -105,7 +105,7 @@
                                     for(let i = 0; i < vs.data.answers.length; i++){
                                         let data = vs.data.answers[i];
                                         if(typeof data.id !== 'undefined'){
-                                            if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
+                                            if(typeof data.answer_text !== 'undefined' && typeof data.next_question !== 'undefined' && data.answer_text !== '' && data.next_question !== ''){
                                                 userService.updateAnswer(data.id, data).then(function (res) {
                                                     if(res.success){
                                                         vm.items[index].answers.splice(i, 1, res.data.answer);
@@ -114,7 +114,7 @@
                                             }
                                         }
                                         else{
-                                            if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
+                                            if(typeof data.answer_text !== 'undefined' && typeof data.next_question !== 'undefined' && data.answer_text !== '' && data.next_question !== ''){
                                                 userService.createAnswer(res.data.question.id, data).then(function (res) {
                                                     if(res.success){
                                                         vm.items[index].answers.push(res.data.answer);
@@ -138,10 +138,10 @@
                                 if (vs.data.answers.length > 0){
                                     for(let i = 0; i < vs.data.answers.length; i++){
                                         let data = {
-                                            name: vs.data.answers[i].name,
+                                            answer_text: vs.data.answers[i].answer_text,
                                             next_question: vs.data.answers[i].next_question
                                         };
-                                        if(typeof data.name !== 'undefined' && typeof data.next_question !== 'undefined' && data.name !== '' && data.next_question !== ''){
+                                        if(typeof data.answer_text !== 'undefined' && typeof data.next_question !== 'undefined' && data.answer_text !== '' && data.next_question !== ''){
                                             userService.createAnswer(res.data.question.id, data).then(function (res) {
                                                 if(res.success){
                                                     vm.items[vm.items.length - 1].answers.push(res.data.answer);

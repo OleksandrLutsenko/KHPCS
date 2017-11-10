@@ -63,11 +63,17 @@
                 templateUrl: 'templates/survey-block/survey-block.html',
                 controller: 'SurveyBlockController',
                 controllerAs: 'vm'
-            },{reload:true})
+            })
             .state('tab.survey-block.survey-question', {
                 url: '/survey-question',
                 templateUrl: 'templates/survey-question/survey-question.html',
                 controller: 'SurveyQuestionController',
+                controllerAs: 'vm'
+            })
+            .state('tab.passing-question', {
+                url: '/passing-question',
+                templateUrl: 'templates/passing-questions/passing-questions.html',
+                controller: 'PassingQuestionController',
                 controllerAs: 'vm'
             })
     }
