@@ -25,21 +25,30 @@
         vm.QLOption = [
             'Active',
             'Deactive',
-            'Archive'
+            'Archive',
+            'Delete'
         ];
 
 
         vm.QLCurrentStatus = vm.QLOption[0];
 
-        vm.announceClick = function(index) {
+        vm.announceClick = function(itemValue, id) {
             $mdDialog.show(
                 $mdDialog.alert()
                 // .title('You clicked!')
-                    .textContent('Status changed to \"' + index + '\"')
+                    .textContent('Status changed to \"' + itemValue + '\"')
                     .ok('Ок')
 
             );
-            vm.QLCurrentStatus = index;
+            vm.QLCurrentStatus = itemValue;
+            if (itemValue === "Delete") {
+                console.log(itemValue);
+                console.log(id);
+
+                userService.deleteSurvey(id).then(function () {
+                    console.log("Yeaahhhh!!!");
+                });
+            };
         };
 
         vm.showPrompt = function(ev) {

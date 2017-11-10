@@ -85,8 +85,8 @@
             return http.post(url.survey_management.createSurvey, credentials);
         }
 
-        function deleteSurvey () {
-            return http.delete(url.survey_management.deleteSurvey);
+        function deleteSurvey (id) {
+            return http.delete(url.survey_management_func(id).deleteSurvey);
         }
 
         function createBlock(id, credentials) {

@@ -9,7 +9,7 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item ng-repeat="item in vm.QLOption">
-                    <md-button ng-click="vm.announceClick(item)"> {{item}} </md-button>
+                    <md-button ng-click="vm.announceClick(item, it.id)"> {{item}} </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>

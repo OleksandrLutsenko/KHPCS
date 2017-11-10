@@ -20,6 +20,7 @@
             survey_management_func(id) {
                 return {
                     survey: baseUrl + 'api/survey',
+                    deleteSurvey: baseUrl + 'api/survey/' + id,
                     block : baseUrl + 'api/survey/' + id + '/add-block',
                     createQuestion : baseUrl + 'api/block/' + id + '/add-question',
                     updateQuestion : baseUrl + 'api/question/' + id,
