@@ -30,7 +30,7 @@
             $mdDialog.show({
                 controller: EditController,
                 controllerAs: 'vm',
-                templateUrl: 'templates/survey-question/edit.html',
+                templateUrl: 'components/survey-question/edit/edit.html',
                 clickOutsideToClose: true
             });
 
@@ -43,7 +43,7 @@
                          identifier: vm.items[index].identifier,
                          type: vm.items[index].type,
                          answers: vm.items[index].answers
-                    }
+                     };
                 }
 
                 vs.save = function () {
@@ -85,6 +85,29 @@
                 };
 
                 vs.cancel = function () {
+                    $mdDialog.cancel();
+                };
+            }
+        };
+
+        vm.deleteQuestionSM = function () {
+
+            $mdDialog.show({
+                controller: DeleteController,
+                controllerAs: 'vm',
+                templateUrl: 'components/survey-question/delete/delete.html',
+                clickOutsideToClose: true
+            });
+
+            function DeleteController($mdDialog) {
+                let vs = this;
+
+                vs.deleteQuestionYes = function () {
+                    alert('Здесь должна быть функция :/ survey-question.controller.js str=106');
+                    $mdDialog.cancel();
+                };
+
+                vs.deleteQuestionNo = function () {
                     $mdDialog.cancel();
                 };
             }

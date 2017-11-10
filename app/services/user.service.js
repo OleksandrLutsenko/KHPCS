@@ -16,6 +16,7 @@
         model.loadItems = loadItems;
         model.getItems = getItems;
         // model.addSurvey = getItems;
+        model.createSurvey = createSurvey;
         model.createBlock = createBlock;
         model.createQuestion = createQuestion;
         model.updateQuestion = updateQuestion;
@@ -71,6 +72,11 @@
 
 
         // Survey management
+        function createSurvey (credentials) {
+            console.log(credentials);
+            return http.post(url.survey_management.createSurvey, credentials)
+        }
+
         function createBlock(id, credentials) {
             return http.post(url.survey_management_func(id).block, credentials)
         }

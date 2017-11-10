@@ -1,0 +1,21 @@
+<md-dialog class="restyle section-width">
+    <md-card>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline section-width">Please enter section name</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-input-container class="input-width">
+            <label>Identifier</label>
+            <input ng-model="vm.AC">
+
+        </md-input-container>
+
+        <md-card-content>
+            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+                <md-button ng-click="vm.newBlockSave()">Save</md-button>
+                <md-button ng-click="vm.newBlockClose()">Close</md-button>
+            </section>
+        </md-card-content>
+    </md-card>
+</md-dialog>

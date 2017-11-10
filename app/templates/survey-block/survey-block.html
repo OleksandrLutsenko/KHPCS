@@ -1,7 +1,26 @@
 <md-content>
-    <md-tabs md-dynamic-height md-border-bottom>
-        <md-tab ng-repeat="cell in vm.items" label="{{cell.name}}" ng-click="vm.setActiveBlock(cell.id, $index)" ui-sref="tab.survey-block.survey-question">
+    <md-tabs md-dynamic-height md-border-bottom md-selected="1">
+
+        <md-tab ng-click="vm.addBlock()" md-no-ink="true">
+            <md-tab-label>
+                <span class="add-button-position">Add section</span>
+                <!--<i class="material-icons">add_circle_outline</i>-->
+                <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+            </md-tab-label>
         </md-tab>
+
+        <md-tab ng-repeat="cell in vm.items" ng-click="vm.setActiveBlock(cell.id, $index, cell.name)"
+                ui-sref="tab.survey-block.survey-question">
+
+            <md-tab-label>
+                <div ng-show="vm.showDot(cell.id)" class="tab-icon-dots" ng-click="vm.test()">
+                    <dot-edit-menu></dot-edit-menu>
+                </div>
+                <span>{{cell.name }} &nbsp </span>
+            </md-tab-label>
+
+        </md-tab>
+
         <!--<md-tab label="Add new section" ui-sref="tab.survey-block.survey-question">-->
             <!--<md-content class="md-padding">-->
                 <!--<div class="singQest clearfix" layout="row">-->
@@ -12,6 +31,7 @@
                     <!--<md-button class="md-raised" ng-click="vm.createBlock()" style="top: -5px;">Save</md-button>-->
                 <!--</div>-->
             <!--</md-content>-->
+
         </md-tab>
     </md-tabs>
     <div ui-view></div>

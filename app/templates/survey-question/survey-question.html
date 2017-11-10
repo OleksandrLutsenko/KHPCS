@@ -1,5 +1,13 @@
 <md-content class="md-padding">
     <md-content class="md-padding">
+
+        <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
+             ng-mouseleave="height = 3" ng-click="vm.showEdit()">
+            <span class="add-button-position">Add question</span>
+            <!--<i class="material-icons">add_circle_outline</i>-->
+            <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+        </div>
+
         <div ng-repeat="question in  vm.items" class="singQest clearfix" md-whiteframe="{{height}}"
              ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
             <div class="sm-left">{{question.title}}</div>
@@ -8,8 +16,6 @@
                 <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.deleteQuestionSM()"></i>
             </div>
         </div>
-        <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
-             ng-mouseleave="height = 3" ng-click="vm.showEdit()">Add new question
-        </div>
+
     </md-content>
 </md-content>
