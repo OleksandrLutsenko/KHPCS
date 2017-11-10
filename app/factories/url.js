@@ -33,6 +33,8 @@
                     updateCustomers : baseUrl + 'api/customer/'+ id
                 }
             }
+
+
         };
     }
 

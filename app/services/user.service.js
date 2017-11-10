@@ -31,6 +31,7 @@
         model.getCustomers = getCustomers;
         model.createCustomers = createCustomers;
         model.updateCustomers = updateCustomers;
+        model.deleteCustomers = deleteCustomers;
 
 
         return model;
@@ -136,10 +137,13 @@
         }
 
         function createCustomers(data) {
-            return http.post(url.customers.customers, data)
+            return http.post(url.customers.customers, data);
         }
         function updateCustomers(id, data) {
-            return http.put(url.customers_func(id).updateCustomers, data)
+            return http.put(url.customers_func(id).updateCustomers, data);
+        }
+        function deleteCustomers(id) {
+            return http.delete(url.customers_func(id).updateCustomers, {});
         }
     }
 })();
