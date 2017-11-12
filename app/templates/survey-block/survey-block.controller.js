@@ -17,13 +17,18 @@
             $scope.$broadcast('parent', indexBlock);
         }
 
-        if(typeof items != 'undefined') {
+        if(vm.items.length > 0) {
+            console.log('item not undefine', vm.items);
             survey.setActiveBlock(vm.items[0].id, 0);
             $state.go('tab.survey-block.survey-question');
         }
         else {
             console.log('no data')
         }
+
+
+
+
         // survey.setActiveBlock(vm.items[0].id, 0);
         // $state.go('tab.survey-block.survey-question');
         //

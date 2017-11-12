@@ -29,43 +29,39 @@
                 </md-input-container>
             </div>
 
-            <div layout="column">
-                <div layout="row">
+            <div layout="column" ng-if="vm.data.type === 1">
+                <div class="row">
+                    <md-button class="md-fab md-primary" aria-label="Add" ng-click="vm.addAnsver()" style="font-size: 25px; float: right">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+                <div layout="row" ng-repeat="answers in vm.data.answers">
                     <div layout="column">
-                        <!--<span>Response</span>-->
-                        <!--<md-input-container>-->
-                            <!--<label>Yes</label>-->
-                            <!--<input disabled>-->
-                        <!--</md-input-container>-->
-
-                        <!--<md-input-container ng-show=vm.inputCheck(qestType) >-->
-                            <!--<label>No</label>-->
-                            <!--<input disabled>-->
-                        <!--</md-input-container>-->
-                        <!--<md-button class="md-raised" ng-click="cancel()">Save</md-button>-->
+                        <md-input-container>
+                            <label>Name</label>
+                            <input ng-model="answers.name">
+                        </md-input-container>
                     </div>
 
                     <div layout="column">
-                        <!--<span>Next</span>-->
-
-                        <!--<md-input-container>-->
-                            <!--<label>ID</label>-->
-                            <!--<input name="Yes ID">-->
-                        <!--</md-input-container>-->
-
-                        <!--<md-input-container ng-show=vm.inputCheck(qestType)>-->
-                            <!--<label>ID</label>-->
-                            <!--<input name="No ID">-->
-                        <!--</md-input-container>-->
-                        <!--<md-button class="md-raised" ng-click="cancel()">Cancel</md-button>-->
+                        <md-input-container>
+                            <label>Next question</label>
+                            <input ng-model="answers.next_question">
+                        </md-input-container>
+                    </div>
+                    <div layout="row">
+                        <md-button class="md-fab md-mini" ng-click="vm.deleteAnsver(answers.id, $index)" aria-label="Del answer">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </md-button>
                     </div>
                 </div>
 
-                <div layout="row" layout-align="center center" layout-wrap>
-                    <md-button class="md-raised" ng-click="vm.save()">Save</md-button>
-                    <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
-                </div>
             </div>
+            <div layout="row" layout-align="center center" layout-wrap>
+                <md-button class="md-raised" ng-click="vm.save()">Save</md-button>
+                <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
+            </div>
+
 
         </md-card-content>
     </md-card>

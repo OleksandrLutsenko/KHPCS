@@ -24,12 +24,13 @@
                 return request('PUT', url, data);
             },
             delete: function (url, data) {
-                return request('DELETE' , url , data);
+                return request('DELETE', url, data);
             }
             // file: function (url, data) {
             //     return requestFile(url, data);
             // }
         };
+
 
         /**
          * Main request function
@@ -55,6 +56,7 @@
             if(typeof user != 'undefined') {
                 config.headers.Authorization = 'Bearer ' + user.api_token;
             }
+
 
             if (method === 'GET') {
                 config.params = data;

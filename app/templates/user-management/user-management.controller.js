@@ -58,17 +58,17 @@
             function DialogController($mdDialog) {
                 let vs = this;
 
-                if (typeof id != 'undefined') {
-                    vs.data = {
+                if(typeof id != 'undefined') {
+                    vs.data =  {
                         name: vm.customers[index].name,
                         surname: vm.customers[index].surname,
                         classification: vm.customers[index].classification
-                    };
+                    }
                 }
 
                 vs.saved = function () {
                     console.log(id, vs.data);
-                    if (typeof id != 'undefined') {
+                    if(typeof id != 'undefined') {
                         userService.updateCustomers(id, vs.data).then(function (res) {
                             if (res.success) {
                                 console.log(res, 'succes');
@@ -78,7 +78,6 @@
                                 console.log('error');
                             }
                             vs.cancel();
-
                         });
                     }
                     else {
@@ -101,11 +100,10 @@
                         });
                     }
                 };
+
                 vs.cancel = function () {
                     $mdDialog.cancel();
                 };
             }
         };
-
-    }
-}());
+}}());

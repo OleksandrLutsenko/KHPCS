@@ -5,11 +5,11 @@
             <div class="sm-left">{{question.title}}</div>
             <div class="sm-right">
                 <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEdit(question.id, $index)"></i>
-                <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.deleteQuestionSM()"></i>
+                <i class="fa fa-times-circle-o" aria-hidden="true" ng-click="vm.showConfirm($event, question.id, $index)"></i>
             </div>
         </div>
         <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
-             ng-mouseleave="height = 3" ng-click="vm.showEditSM(dic, cell.id)">Add new question
+             ng-mouseleave="height = 3" ng-click="vm.showEdit()">Add new question
         </div>
     </md-content>
 </md-content>

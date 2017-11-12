@@ -19,6 +19,12 @@
         model.createBlock = createBlock;
         model.createQuestion = createQuestion;
         model.updateQuestion = updateQuestion;
+        model.deleteQuestion = deleteQuestion;
+
+        //Answer survey
+        model.createAnswer = createAnswer;
+        model.updateAnswer = updateAnswer;
+        model.deleteAnswer = deleteAnswer;
 
         //User management
         model.loadCustomers = loadCustomers;
@@ -85,6 +91,27 @@
             console.log(id, credentials);
             return http.put(url.survey_management_func(id).updateQuestion, credentials)
         }
+
+        function deleteQuestion (id) {
+            console.log(id);
+            return http.delete(url.survey_management_func(id).updateQuestion, {})
+        }
+
+        //Answer survey
+        function createAnswer (id, credentials) {
+            console.log(id, credentials);
+            return http.post(url.survey_management_func(id).createAnswer, credentials)
+        }
+
+        function updateAnswer (id, credentials) {
+            console.log(id, credentials);
+            return http.put(url.survey_management_func(id).updateAnswer, credentials)
+        }
+        function deleteAnswer (id) {
+            console.log(id);
+            return http.delete(url.survey_management_func(id).updateAnswer, {})
+        }
+
         
 
 
