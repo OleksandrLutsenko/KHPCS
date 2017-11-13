@@ -3,14 +3,21 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', '$state', '$mdDialog'];
+    UserManagementController.$inject = ['userService', '$state', '$mdDialog', 'customers'];
 
-    function UserManagementController(userService, $state, $mdDialog) {
+    function UserManagementController(userService, $state, $mdDialog, customers) {
         let vm = this;
         vm.myLimit = 5;
         vm.myPage = 1;
 
+        vm.go = go;
+
         vm.customers = userService.getCustomers();
+
+        function go(id) {
+            customers.setActiveCustomers(id);
+            $state.go('tab.passing-question');
+        }
 
         vm.deleteCustomer = function (id, index) {
             $mdDialog.show({
