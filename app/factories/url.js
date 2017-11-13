@@ -30,7 +30,8 @@
             },
             customers_func(id) {
                 return {
-                    updateCustomers : baseUrl + 'api/customer/'+ id
+                    updateCustomers : baseUrl + 'api/customer/'+ id,
+                    sendCustomerAnswer : baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer'
                 }
             }
 
