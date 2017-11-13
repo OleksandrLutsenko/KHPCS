@@ -18,6 +18,59 @@
             survey.setActineSurvey(id, indexSurvey);
         }
 
+        ////////////////Qest list////////////////////////
+
+        vm.jollo = 'hello QL';
+
+        vm.QLOption = [
+            'Active',
+            'Deactive',
+            'Archive',
+            'Delete'
+        ];
+
+
+        vm.QLCurrentStatus = vm.QLOption[0];
+
+        vm.announceClick = function(itemValue, id) {
+            $mdDialog.show(
+                $mdDialog.alert()
+                // .title('You clicked!')
+                    .textContent('Status changed to \"' + itemValue + '\"')
+                    .ok('Ок')
+
+            );
+            vm.QLCurrentStatus = itemValue;
+            if (itemValue === "Delete") {
+                console.log(itemValue);
+                console.log(id);
+
+                userService.deleteSurvey(id).then(function () {
+                    console.log("Yeaahhhh!!!");
+                });
+            };
+        };
+
+        vm.showPrompt = function(ev) {
+            let confirm = $mdDialog.prompt()
+                .title('Please enter the name of the new questionnaire')
+                .placeholder('Add name')
+                .targetEvent(ev)
+                .required(true)
+                .cancel('Cancel')
+                .ok('Save');
+
+            $mdDialog.show(confirm).then(function(res) {
+                let data = {
+                    name: res,
+                    description: 'test test',
+                    status: "2"
+                };
+                userService.createSurvey(data).then(function (res) {
+                    console.log(res);
+                });
+            });
+        };
 
         // let Snum = 0;
         //
