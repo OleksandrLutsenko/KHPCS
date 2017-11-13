@@ -83,7 +83,7 @@
                     else {
                         userService.createCustomers(vs.data).then(function (res) {
                             if (res.success) {
-                                console.log(res, 'succes');
+                                console.log(res, 'crea');
                                 vm.customers.push(res.data);
                             }
                             else {

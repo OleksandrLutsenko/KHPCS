@@ -52,7 +52,7 @@
                             console.log(res);
                             if (res.success){
                                 vm.items.splice(index, 1, res.data.question);
-                                console.log(res.data, 'sdfgs', vm.items);
+                                console.log(res.data, 'edit', vm.items);
                                 userService.loadItems();
                             }
                             else {

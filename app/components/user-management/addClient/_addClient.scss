@@ -1,0 +1,63 @@
+
+.addCustomer {
+  md-dialog {
+    max-width: 100%;
+  }
+
+  .allInput .addInput:last-child {
+    display: block;
+  }
+
+  .createWindow {
+    padding: 25px;
+  }
+
+  .addInput {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .editBtn button:first-child {
+    margin-right: 20px;
+  }
+
+  .createTop {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+
+  .createTop h1 {
+    margin: 0;
+    font-size: 25px;
+  }
+
+  .allInput {
+    padding-bottom: 20px;
+    padding-top: 20px;
+  }
+  .createTop i {
+    position: absolute;
+    right: 0;
+  }
+
+  i {
+    cursor: pointer;
+  }
+}
+
+.annonce {
+  width: 0;
+  display: flex;
+  justify-content: center;
+
+  .annonceWindow {
+    padding: 20px;
+  }
+
+  .botBtn button:first-child {
+    margin-right: 10px;
+  }
+}
