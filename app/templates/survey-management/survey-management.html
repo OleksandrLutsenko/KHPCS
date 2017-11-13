@@ -9,13 +9,18 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item ng-repeat="item in vm.QLOption">
-                    <md-button ng-click="vm.announceClick(item, it.id)"> {{item}} </md-button>
+                    <md-button ng-click="vm.announceClick(item, it.id, $index, it.name, $event)"> {{item}} </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
 
+
         <p ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">{{it.name}}</p>
-        <p>{{vm.QLCurrentStatus}}</p>
+        <p>{{it.description}}</p>
+        <p>{{it.status}}</p>
+        <p>{{it.survey_status}}</p>
+        <!--<p>{{vm.QLCurrentStatus}}</p>-->
+
 
     </div>
 

@@ -32,20 +32,34 @@
 
         vm.QLCurrentStatus = vm.QLOption[0];
 
-        vm.announceClick = function(itemValue, id) {
+        vm.announceClick = function(itemValue, id, index, itName, ev) {
+
             $mdDialog.show(
                 $mdDialog.alert()
                 // .title('You clicked!')
                     .textContent('Status changed to \"' + itemValue + '\"')
                     .ok('Ок')
-
             );
+
+
             vm.QLCurrentStatus = itemValue;
             if (itemValue === "Delete") {
                 console.log(itemValue);
                 console.log(id);
+                console.log(index);
 
-                userService.deleteSurvey(id).then(function () {
+
+                userService.deleteSurvey(id).then(function (res) {
+                    // if (res.success) {
+                    //     vm.customers.splice(index, 1);
+                    //     vs.cancel();
+                    // }
+                    // else {
+                    //     console.log('errorDelete');
+                    // }
+
+
+                    // console.log(index);
                     console.log("Yeaahhhh!!!");
                 });
             };
@@ -60,6 +74,17 @@
                 .cancel('Cancel')
                 .ok('Save');
 
+            // $mdDialog.show(confirm).then(function(res) {
+            //     let data = {
+            //         name: res,
+            //         description: 'test test',
+            //         status: "2"
+            //     };
+            //     userService.createSurvey(data).then(function (res) {
+            //         console.log(res);
+            //     });
+            // });
+
             $mdDialog.show(confirm).then(function(res) {
                 let data = {
                     name: res,
@@ -67,9 +92,21 @@
                     status: "2"
                 };
                 userService.createSurvey(data).then(function (res) {
-                    console.log(res);
+
+
+                    if (res.success) {
+                        console.log(res, 'succes');
+                        vm.items.push(res.data.survey);
+                        console.log(res);
+                    }
+                    else {
+                        console.log('error');
+                    }
+
+
                 });
             });
+
         };
 
         // let Snum = 0;
