@@ -16,9 +16,9 @@
             $mdDialog.show({
                 controller: deleteController,
                 controllerAs: 'vm',
-                templateUrl: 'templates/user-management/deleteCustomer.html',
+                templateUrl: 'components/user-management/deleteCustomer/deleteCustomer.html',
                 clickOutsideToClose: true
-            });
+        });
 
             function deleteController($mdDialog) {
                 let vs = this;
@@ -46,12 +46,12 @@
             }
         };
 
-        vm.showAdvanced = function (id, index) {
+        vm.addCustomer = function (id, index) {
 
             $mdDialog.show({
                 controller: DialogController,
                 controllerAs: 'vm',
-                templateUrl: 'templates/user-management/addClient.html',
+                templateUrl: 'components/user-management/addClient/addClient.html',
                 clickOutsideToClose: true
             });
 
@@ -94,7 +94,7 @@
                             $mdDialog.show({
                                 controller: DialogController,
                                 controllerAs: 'vm',
-                                templateUrl: 'templates/user-management/annonce.html',
+                                templateUrl: 'components/user-management/addClient/annonce.html',
                                 clickOutsideToClose: true
                             });
                         });

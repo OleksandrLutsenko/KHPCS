@@ -8,7 +8,7 @@
                 <input type="text" ng-model="vm.search">
             </md-input-container>
 
-            <div class="addIcon" ng-click="vm.showAdvanced()">
+            <div class="addIcon" ng-click="vm.addCustomer()">
 
                 <i class="material-icons">person_add</i>
             </div>
@@ -38,7 +38,7 @@
                                 Date
                             </td>
                             <td md-cell>
-                                <i class="material-icons" ng-click="vm.showAdvanced(customers.id, $index)">mode_edit</i>
+                                <i class="material-icons" ng-click="vm.addCustomer(customers.id, $index)">mode_edit</i>
                                 <i class="material-icons" ng-click="vm.deleteCustomer(customers.id, $index)">highlight_off</i>
                             </td>
                         </tr>

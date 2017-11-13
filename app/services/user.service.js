@@ -90,6 +90,7 @@
         }
 
         function createBlock(id, credentials) {
+            console.log(credentials);
             return http.post(url.survey_management_func(id).block, credentials)
         }
 

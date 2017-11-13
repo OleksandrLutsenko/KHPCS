@@ -15,7 +15,6 @@
         model.setActiveBlock = setActiveBlock;
         model.getActiveBlock = getActiveBlock;
 
-
         return model;
 
         function setQuestion(items) {

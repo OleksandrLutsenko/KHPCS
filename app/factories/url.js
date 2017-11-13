@@ -24,7 +24,6 @@
                     block : baseUrl + 'api/survey/' + id + '/add-block',
                     createQuestion : baseUrl + 'api/block/' + id + '/add-question',
                     updateQuestion : baseUrl + 'api/question/' + id,
-
                     createAnswer: baseUrl + 'api/question/' + id + '/add-answer',
                     updateAnswer: baseUrl + 'api/answer/' + id,
                 }
@@ -37,9 +36,6 @@
                     updateCustomers : baseUrl + 'api/customer/'+ id
                 }
             }
-
-
         };
     }
-
 })();

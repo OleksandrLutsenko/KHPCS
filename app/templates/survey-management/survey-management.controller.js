@@ -48,7 +48,7 @@
                 userService.deleteSurvey(id).then(function () {
                     console.log("Yeaahhhh!!!");
                 });
-            };
+            }
         };
 
         vm.showPrompt = function(ev) {

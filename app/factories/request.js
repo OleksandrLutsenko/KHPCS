@@ -57,7 +57,6 @@
                 config.headers.Authorization = 'Bearer ' + user.api_token;
             }
 
-
             if (method === 'GET') {
                 config.params = data;
                 config.timeout = 20000;
