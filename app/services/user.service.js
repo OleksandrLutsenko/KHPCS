@@ -19,6 +19,8 @@
         model.createSurvey = createSurvey;
         model.deleteSurvey = deleteSurvey;
         model.createBlock = createBlock;
+        model.updateBlock = updateBlock;
+        model.deleteBlock = deleteBlock;
         model.createQuestion = createQuestion;
         model.updateQuestion = updateQuestion;
         model.deleteQuestion = deleteQuestion;
@@ -67,7 +69,7 @@
                 if (res.success) {
                     setItems(res.data);
                 } else {
-                     //need to show error msg
+                    //need to show error msg
                 }
             });
         }
@@ -83,52 +85,58 @@
 
 
         // Survey management
-        function createSurvey (credentials) {
+        function createSurvey(credentials) {
             console.log(credentials);
             return http.post(url.survey_management.createSurvey, credentials);
         }
 
-        function deleteSurvey (id) {
+        function deleteSurvey(id) {
             return http.delete(url.survey_management_func(id).deleteSurvey);
         }
 
-        function createBlock(id, credentials) {
-            console.log(credentials);
-            return http.post(url.survey_management_func(id).block, credentials)
+        function createBlock(id, data) {
+            return http.post(url.survey_management_func(id).createBlock, data)
         }
 
-        function createQuestion (id, credentials) {
+        function updateBlock(id, data) {
+            console.log(data);
+            return http.put(url.survey_management_func(id).updateBlock, data)
+        }
+
+        function deleteBlock(id) {
+            return http.delete(url.survey_management_func(id).updateBlock, {})
+        }
+
+        function createQuestion(id, credentials) {
             console.log(id, credentials);
             return http.post(url.survey_management_func(id).createQuestion, credentials)
         }
 
-        function updateQuestion (id, credentials) {
+        function updateQuestion(id, credentials) {
             console.log(id, credentials);
             return http.put(url.survey_management_func(id).updateQuestion, credentials)
         }
 
-        function deleteQuestion (id) {
+        function deleteQuestion(id) {
             console.log(id);
             return http.delete(url.survey_management_func(id).updateQuestion, {})
         }
 
         //Answer survey
-        function createAnswer (id, credentials) {
+        function createAnswer(id, credentials) {
             console.log(id, credentials);
             return http.post(url.survey_management_func(id).createAnswer, credentials)
         }
 
-        function updateAnswer (id, credentials) {
+        function updateAnswer(id, credentials) {
             console.log(id, credentials);
             return http.put(url.survey_management_func(id).updateAnswer, credentials)
         }
-        function deleteAnswer (id) {
+
+        function deleteAnswer(id) {
             console.log(id);
             return http.delete(url.survey_management_func(id).updateAnswer, {})
         }
-
-        
-
 
 
         //User management
@@ -142,6 +150,7 @@
                 }
             });
         }
+
         function getCustomers() {
             return $sessionStorage['customers_index'];
         }
@@ -154,12 +163,15 @@
         function createCustomers(data) {
             return http.post(url.customers.customers, data);
         }
+
         function updateCustomers(id, data) {
             return http.put(url.customers_func(id).updateCustomers, data);
         }
+
         function deleteCustomers(id) {
             return http.delete(url.customers_func(id).updateCustomers, {});
         }
+
         function sendCustomerAnswer(id, data) {
             return http.post(url.customers_func(id).sendCustomerAnswer, data);
         }

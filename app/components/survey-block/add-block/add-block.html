@@ -7,13 +7,12 @@
         </md-card-title>
         <md-input-container class="input-width">
             <label>Name block</label>
-            <input ng-model="vm.blockName">
-
+            <input ng-model="vm.data.name">
         </md-input-container>
 
         <md-card-content>
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-button ng-click="vm.newBlockSave()">Save</md-button>
+                <md-button ng-click="vm.saveBlock()">Save</md-button>
                 <md-button ng-click="vm.newBlockClose()">Close</md-button>
             </section>
         </md-card-content>

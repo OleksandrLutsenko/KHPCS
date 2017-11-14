@@ -8,9 +8,9 @@
     function SurveyBlockController(userService, $state, survey, $scope, $mdDialog) {
         let vm = this;
         vm.setActiveBlock = setActiveBlock;
-        let id = survey.getActineSurvey();
+        let idSurvey = survey.getActineSurvey();
 
-        vm.items = userService.getItems()[id.indexSurvey].blocks;
+        vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
         // vm.activeBlockId;
         // vm.blockName;
 
@@ -33,7 +33,8 @@
 
         //////////////////////////////AddBlock////////////////////////////////
 
-        vm.addBlock = function () {
+        vm.addBlock = function (id, index) {
+
             $mdDialog.show({
                 controller: addBlockController,
                 controllerAs: 'vm',
@@ -44,12 +45,45 @@
             function addBlockController($mdDialog) {
                 let vs = this;
 
-                vs.newBlockSave = function () {
-                    alert('Здесь должна быть функция :/ Survey-block.controller.js  str=45');
-                    $mdDialog.cancel();
+                if(typeof id != 'undefined') {
+                    vs.data =  {
+                        name: vm.items[index].blockName,
+                    }
+                }
+
+                vs.saveBlock = function (id , index) {
+                    console.log(id, vs.data);
+                    console.log(id);
+
+                    if(typeof id != 'undefined') {
+                        userService.updateBlock(id, vs.data).then(function (res) {
+                            if (res.success) {
+                                console.log(res, 'succes');
+                                vm.items.splice(index, 1, res.data);
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            vs.cancel();
+                        });
+                    }
+                    else {
+                        console.log('fuck');
+                        userService.createBlock(idSurvey.id, vs.data).then(function (res) {
+                            console.log(id);
+                            if (res.success) {
+                                console.log(res, 'crea');
+                                vm.items.push(res.data);
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            vs.cancel();
+                        });
+                    }
                 };
 
-                vs.newBlockClose = function () {
+                vs.cancel = function () {
                     $mdDialog.cancel();
                 };
             }
@@ -79,9 +113,37 @@
             function editBlockController($mdDialog) {
                 let vs = this;
 
-                vs.save = function () {
-                    alert('Здесь должна быть функция :/ Survey-block.controller.js  str=80');
-                    $mdDialog.cancel();
+                vs.saveBlock = function () {
+                    console.log(id, vs.data);
+                    console.log(id);
+
+                    if(typeof id != 'undefined') {
+                        userService.updateBlock(id, vs.data).then(function (res) {
+                            if (res.success) {
+                                userService.loadItems().then(function () {
+                                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                                });
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            vs.cancel();
+                        });
+                    }
+                    else {
+                        console.log('fuck');
+                        userService.createBlock(idSurvey.id, vs.data).then(function (res) {
+                            console.log(id);
+                            if (res.success) {
+                                console.log(res, 'crea');
+                                vm.items.push(res.data);
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            vs.cancel();
+                        });
+                    }
                 };
 
                 vs.cancel = function () {
@@ -101,10 +163,23 @@
             });
 
             function deleteBlockController($mdDialog) {
-                let vs = this;
+                let vm = this;
 
-                vs.deleteYes = function () {
-                    alert('Здесь должна быть функция :/ Survey-block.controller.js  str=104');
+                vm.deleteYes = function () {
+                    if (typeof id != 'undefined') {
+                        userService.deleteBlock(id).then(function (res) {
+                            if (res.success) {
+                                vm.items.splice(index, 1);
+                                vm.cancel();
+                            }
+                            else {
+                                console.log('errorDelete');
+                            }
+                        });
+                    }
+                    else {
+                        console.log('deleteError');
+                    }
                     $mdDialog.cancel();
                 };
 
@@ -113,6 +188,5 @@
                 };
             }
         };
-
     }
 })();

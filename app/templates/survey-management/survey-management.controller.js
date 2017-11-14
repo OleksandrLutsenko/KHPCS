@@ -74,17 +74,6 @@
                 .cancel('Cancel')
                 .ok('Save');
 
-            // $mdDialog.show(confirm).then(function(res) {
-            //     let data = {
-            //         name: res,
-            //         description: 'test test',
-            //         status: "2"
-            //     };
-            //     userService.createSurvey(data).then(function (res) {
-            //         console.log(res);
-            //     });
-            // });
-
             $mdDialog.show(confirm).then(function(res) {
                 let data = {
                     name: res,
@@ -92,7 +81,6 @@
                     status: "2"
                 };
                 userService.createSurvey(data).then(function (res) {
-
 
                     if (res.success) {
                         console.log(res, 'succes');

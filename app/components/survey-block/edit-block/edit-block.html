@@ -1,4 +1,4 @@
-<md-dialog class="restyle section-width">{{vm.blockName}}
+<md-dialog class="restyle section-width">
     <md-card>
         <md-card-title>
             <md-card-title-text>
@@ -7,13 +7,13 @@
         </md-card-title>
         <md-input-container class="input-width">
             <label>Identifier </label>
-            <input ng-model="vm.blockName">
+            <input ng-model="vm.data.name">
 
         </md-input-container>
 
         <md-card-content>
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-button ng-click="vm.save()">Save</md-button>
+                <md-button ng-click="vm.saveBlock()">Save</md-button>
                 <md-button ng-click="vm.cancel()">Close</md-button>
             </section>
         </md-card-content>

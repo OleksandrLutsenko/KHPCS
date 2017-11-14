@@ -21,7 +21,8 @@
                 return {
                     survey: baseUrl + 'api/survey',
                     deleteSurvey: baseUrl + 'api/survey/' + id,
-                    block : baseUrl + 'api/survey/' + id + '/add-block',
+                    createBlock : baseUrl + 'api/survey/' + id + '/add-block',
+                    updateBlock : baseUrl + 'api/survey/' + id + '/add-block' + id,
                     createQuestion : baseUrl + 'api/block/' + id + '/add-question',
                     updateQuestion : baseUrl + 'api/question/' + id,
                     createAnswer: baseUrl + 'api/question/' + id + '/add-answer',
