@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -13,9 +14,15 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Customer $customer)
+    public function index(Customer $customer, User $user)
     {
+        if(Auth::user()->isAdmin()){
             return Customer::all();
+        }
+        else {
+            $customers = Customer::latest()->owned()->get();
+            return $customers;
+        }
     }
 
     /**

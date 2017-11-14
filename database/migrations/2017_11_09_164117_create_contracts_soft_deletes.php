@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIdentifierToQuestion extends Migration
+class CreateContractsSoftDeletes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddIdentifierToQuestion extends Migration
      */
     public function up()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            $table->string('identifier');
+        Schema::table('contracts', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +25,6 @@ class AddIdentifierToQuestion extends Migration
      */
     public function down()
     {
-        Schema::table('questions', function (Blueprint $table) {
-            $table->dropColumn('identifier');
-        });
+        //
     }
 }

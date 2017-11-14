@@ -41,4 +41,8 @@ class Customer extends Model
             $table->user_id = Auth::user()->id;
         });
     }
+
+    public function scopeOwned($query){
+        return $query->where('user_id', Auth::user()->id);
+    }
 }

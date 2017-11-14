@@ -3,13 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
 class Survey extends Model
 {
-    protected $fillable = ['name', 'description', 'status'];
+    use SoftDeletes;
 
-    protected $visible = ['id', 'name', 'survey_status', 'blocks', 'description'];
+    protected $fillable = ['name', 'status'];
+
+    protected $visible = ['id', 'name', 'status', 'survey_status', 'blocks'];
 
     protected $appends = ['survey_status', 'blocks'];
 
@@ -23,6 +26,10 @@ class Survey extends Model
 
     public function block(){
         return $this->hasMany(Block::class);
+    }
+
+    public function contracts(){
+        return $this->hasMany(Contract::class);
     }
 
     public function reports(){
@@ -50,6 +57,7 @@ class Survey extends Model
         return [
             1 => 'active',
             2 => 'inactive',
+            0 => 'archived'
         ];
     }
 

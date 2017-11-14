@@ -17,7 +17,13 @@ Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/report/{report}/download', 'DownloadController@downloadReport');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/report/{report}/contract/{contract}/review', 'ContractController@review');
+    Route::get('/report/{report}/download', 'DownloadController@downloadReport');
+    Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
+    Route::post('contract/save-image', 'ImageController@upload');
+
+});
 
 Route::group(['middleware' => 'api-response'], function() {
     Route::post('/register', 'Auth\RegisterController@register');
@@ -42,6 +48,10 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/survey/{survey}/add-block', 'SurveyController@addBlock');
         /** delete survey */
         Route::delete('/survey/{survey}', 'SurveyController@destroy');
+        /** change status active/inactive */
+        Route::put('/survey/{survey}/change-status', 'SurveyController@changeStatusActiveInactive');
+        /** change status archive/inactive */
+        Route::put('/survey/{survey}/archive-status', 'SurveyController@changeStatusArchive');
 
         /** BLOCKS */
         /** show block's questions */
@@ -71,6 +81,21 @@ Route::group(['middleware' => 'api-response'], function() {
         /** delete answer */
         Route::delete('/answer/{answer}', 'AnswerController@destroy');
 
+        /** CONTRACT BUILDER */
+        /** show contracts list */
+        Route::get('/contract', 'ContractController@index');
+        /** show contract */
+        Route::get('/contract/{contract}', 'ContractController@show');
+        /** save new contract */
+        Route::post('/contract', 'ContractController@store');
+        /** update contract */
+        Route::put('/contract/{contract}', 'ContractController@update');
+        /** save image */
+        Route::post('/contract/{contract}/save-image', 'ContractController@saveImage');
+        /** delete contract */
+        Route::delete('/contract/{contract}', 'ContractController@destroy');
+
+
         /** USER MANAGEMENT TAB */
         Route::get('/report', 'ReportController@index');
         Route::get('/report/{report}', 'ReportController@showCustomerAnswer');
@@ -96,7 +121,7 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
 
-            Route::get('lol', 'ReportController@showTheCompletedSurveys');
+            Route::get('customeranswer', 'CustomerAnswerController@show');
 
         });
     });

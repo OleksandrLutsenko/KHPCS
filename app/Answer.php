@@ -3,10 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Answer extends Model
 {
-    protected $fillable = ['name', 'next_question'];
+    use SoftDeletes;
+
+    protected $fillable = ['answer_text', 'next_question'];
 
     public function question(){
         return $this->belongsTo(Question::class);

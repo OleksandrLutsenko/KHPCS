@@ -32,7 +32,6 @@ class SurveyController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer, User $user){
-
         if ($user->can('answerAll', $survey)) {
             $customer = $customer->create($request->customer);
 
@@ -152,7 +151,54 @@ class SurveyController extends Controller
         }
     }
 
-    public function customerIndex(Survey $survey, Customer $customer)
+    public function changeStatusActiveInactive(Request $request, Survey $survey, User $user){
+        if ($user->can('update', $survey)) {
+            if ($survey->status == 2){
+                $surveys = Survey::all();
+
+                foreach ($surveys as $otherSurvey){
+                    $otherSurvey->status = 2;
+                    $otherSurvey->update();
+                }
+
+                $survey->status = 1;
+                $survey->update();
+            }
+            else if ($survey->status == 1 || $survey->status == 0){
+                $survey->status = 2;
+                $survey->update();
+            }
+
+            return response(['survey' => $survey]);
+
+        }else{
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
+    }
+
+    public function changeStatusArchive(Request $request, Survey $survey, User $user){
+        if ($user->can('update', $survey)) {
+            if ($survey->status == 2) {
+                $survey->status = 0;
+                $survey->update();
+            }
+            else if ($survey->status == 0){
+                $survey->status = 2;
+                $survey->update();
+            }
+            return response(['survey' => $survey]);
+        }else{
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
+
+    }
+
+
+        public function customerIndex(Survey $survey, Customer $customer)
     {
         return Survey::all();
     }
