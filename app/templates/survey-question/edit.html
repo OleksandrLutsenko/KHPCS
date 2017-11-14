@@ -27,6 +27,13 @@
                         <md-option ng-value="2"><em>Text</em></md-option>
                     </md-select>
                 </md-input-container>
+
+                <md-input-container ng-if="vm.data.type === 2">
+                    <label>Next question</label>
+                    <input  ng-model="vm.data.next_question">
+
+
+                </md-input-container>
             </div>
 
             <div layout="column" ng-if="vm.data.type === 1">

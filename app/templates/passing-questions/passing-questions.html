@@ -1,30 +1,33 @@
-<div ng-cloak class="md-inline-form">
+<div layout="row" layout-align="center center">
+    <div flex-gt-sm="70" flex="100">
+        <div ng-if="vm.typeQuestion === 1" layout-padding>
+            <md-content layout-gt-sm="row" layout-align="center none">
+                <h1>{{vm.activeQuestion.title}}</h1>
+            </md-content>
+            <md-content>
+                <md-radio-group ng-model="vm.dataIdAnswers" layout="column">
+                    <md-radio-button ng-repeat="answers in vm.activeQuestion.answers" value="{{answers.id}}">{{answers.answer_text}}</md-radio-button>
+                </md-radio-group>
+            </md-content>
+        </div>
 
-    <div ng-if="vm.typeQuestion === 1" layout-padding>
-        <md-content layout-gt-sm="row">
-            <h1>{{vm.activeQuestion.title}}</h1>
-        </md-content>
-        <md-content>
-            <md-radio-group ng-model="vm.dataIdAnswers" layout="column">
-                <md-radio-button ng-repeat="answers in vm.activeQuestion.answers" value="{{answers.id}}">{{answers.answer_text}}</md-radio-button>
-            </md-radio-group>
-        </md-content>
+        <div ng-if="vm.typeQuestion === 2">
+            <md-content layout-gt-sm="row" layout-align="center none">
+                <h1>{{vm.activeQuestion.title}}</h1>
+            </md-content>
+            <md-content layout-padding>
+                <form name="userForm">
+
+                    <md-input-container class="md-block">
+                        <label>{{vm.activeQuestion.title}}</label>
+                        <textarea ng-model="vm.dataTextAnswers" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                    </md-input-container>
+                </form>
+            </md-content>
+        </div>
+
+        <div>
+            <md-button ng-click="vm.next(vm.typeQuestion)" ng-if="vm.dataIdAnswers !== undefined || vm.dataTextAnswers !== undefined && vm.dataTextAnswers !== ''">Next</md-button>
+        </div>
     </div>
-
-    <div ng-if="vm.typeQuestion === 2">
-        <md-content layout-padding>
-            <form name="userForm">
-                <md-input-container class="md-block">
-                    <label>{{vm.activeQuestion.title}}</label>
-                    <textarea ng-model="vm.dataTextAnswers" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-                </md-input-container>
-            </form>
-        </md-content>
-    </div>
-
-    <div>
-        <md-button ng-click="vm.next(vm.typeQuestion)" ng-if="vm.dataIdAnswers !== undefined || vm.dataTextAnswers !== undefined && vm.dataTextAnswers !== ''">Next</md-button>
-    </div>
-
-
 </div>
