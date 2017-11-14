@@ -13,24 +13,13 @@
                 ui-sref="tab.survey-block.survey-question">
 
             <md-tab-label>
-                <div ng-show="vm.showDot(cell.id)" class="tab-icon-dots" ng-click="vm.test()">
+                <div ng-show="vm.showDot(cell.id)" class="tab-icon-dots">
                     <dot-edit-menu></dot-edit-menu>
                 </div>
                 <span>{{cell.name }} &nbsp </span>
             </md-tab-label>
 
         </md-tab>
-
-        <!--<md-tab label="Add new section" ui-sref="tab.survey-block.survey-question">-->
-            <!--<md-content class="md-padding">-->
-                <!--<div class="singQest clearfix" layout="row">-->
-                    <!--<md-input-container style="margin: 0; bottom: -14px;">-->
-                        <!--<label>Section name</label>-->
-                        <!--<input ng-model="vm.data.name">-->
-                    <!--</md-input-container>-->
-                    <!--<md-button class="md-raised" ng-click="vm.createBlock()" style="top: -5px;">Save</md-button>-->
-                <!--</div>-->
-            <!--</md-content>-->
 
         </md-tab>
     </md-tabs>

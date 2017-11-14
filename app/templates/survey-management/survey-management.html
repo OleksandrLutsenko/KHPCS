@@ -1,33 +1,74 @@
 <div class="menus clearfix">
 
-    <div  ng-repeat="it in vm.items" class="questionnaire-list">
+    <div class="tab-list clearfix">
+        <div   ng-repeat="it in vm.items" ng-if = "(it.survey_status === vm.superStatus) || vm.showAllStatus" class="questionnaire-list"
+               md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
+               ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
 
-        <md-menu md-offset="0 -7">
-            <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
-                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                <!--<md-icon md-menu-origin="" md-svg-icon="img/icons/more_vert.svg"></md-icon>-->
-            </md-button>
-            <md-menu-content width="4">
-                <md-menu-item ng-repeat="item in vm.QLOption">
-                    <md-button ng-click="vm.announceClick(item, it.id, $index, it.name, $event)"> {{item}} </md-button>
-                </md-menu-item>
-            </md-menu-content>
-        </md-menu>
+            <md-menu md-offset="0 -7">
+
+                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </md-button>
+
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="vm.activeSurvey(it.id, $index)">Active</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.archiveSurvey(it.id, $index)">Archive</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.editSurvey(it.id, $index)">Edit</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.deleteSurvey(it.id)">Delete</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+
+            </md-menu>
+
+            <p class="hidden-text">{{it.name}}</p>
+            <p>{{it.survey_status}}</p>
 
 
-        <p ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">{{it.name}}</p>
-        <p>{{it.description}}</p>
-        <p>{{it.status}}</p>
-        <p>{{it.survey_status}}</p>
-        <!--<p>{{vm.QLCurrentStatus}}</p>-->
+        </div>
 
+        <div ng-click="vm.createSurvey()"  class="questionnaire-list"
+             md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
+             ng-if="(vm.superStatus === 'active') || vm.showAllStatus">
+            <p class="plus-ico"><i class="fa fa-plus-circle" aria-hidden="true"></i></p>
+            <p>New Questionnaire</p>
+        </div>
 
     </div>
 
-    <div ng-click="vm.showPrompt($event)"  class="questionnaire-list">
-        <p class="plus-ico"><i class="fa fa-plus-circle" aria-hidden="true"></i></p>
-        <p>New Questionnaire</p>
-    </div>
+   <div class="filter-button">
+       <md-menu md-offset="0 -7">
+
+           <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+               <!--{{vm.superStatus}}-->
+           </md-button>
+
+           <md-menu-content width="4">
+               <md-menu-item>
+                   <md-button ng-click="vm.showActive()">Show Active</md-button>
+               </md-menu-item>
+               <md-menu-item>
+                   <md-button ng-click="vm.showInactive()")">Show Inactive</md-button>
+               </md-menu-item>
+               <md-menu-item>
+                   <md-button ng-click="vm.showArchive()">Show Archive</md-button>
+               </md-menu-item>
+               <md-menu-item>
+                   <md-button ng-click="vm.showAll()">Show All</md-button>
+               </md-menu-item>
+           </md-menu-content>
+
+       </md-menu>
+   </div>
+
 
 
 </div>

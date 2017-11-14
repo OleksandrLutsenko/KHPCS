@@ -8,15 +8,17 @@
     function SurveyBlockController(userService, $state, survey, $scope, $mdDialog) {
         let vm = this;
         vm.setActiveBlock = setActiveBlock;
-        let id = survey.getActineSurvey();
+        let idSurvey = survey.getActineSurvey();
+        let idBlock = survey.getActiveBlock();
 
-        vm.items = userService.getItems()[id.indexSurvey].blocks;
+        vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
         // vm.activeBlockId;
         // vm.blockName;
 
         function setActiveBlock(id, indexBlock, blockName) {
             survey.setActiveBlock(id, indexBlock);
             $scope.$broadcast('parent', indexBlock);
+            idBlock = survey.getActiveBlock();
             vm.activeBlockId = id;
             vm.blockName = blockName;
             console.log(blockName);
@@ -31,9 +33,10 @@
             console.log('no data');
         }
 
-    //////////////////////////////AddBlock////////////////////////////////
+        //////////////////////////////AddBlock////////////////////////////////
 
-        vm.addBlock = function () {
+        vm.addBlock = function (id, index) {
+
             $mdDialog.show({
                 controller: addBlockController,
                 controllerAs: 'vm',
@@ -44,9 +47,27 @@
             function addBlockController($mdDialog) {
                 let vs = this;
 
-                vs.newBlockSave = function () {
-                    alert('Здесь должна быть функция :/ Survey-block.controller.js  str=45');
-                    $mdDialog.cancel();
+                if(typeof id != 'undefined') {
+                    vs.data =  {
+                        name: vm.items[index].name,
+                    };
+                }
+
+                vs.saveBlock = function (id ) {
+                    userService.createBlock(idSurvey.id, vs.data).then(function (res) {
+                        console.log(id);
+                        if (res.success) {
+                            userService.loadItems().then(function () {
+                                vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                                // console.log(vm.items);
+                                $mdDialog.cancel();
+                            });
+                        }
+                        else {
+                            console.log('error');
+                        }
+                        vs.cancel();
+                    });
                 };
 
                 vs.newBlockClose = function () {
@@ -55,7 +76,7 @@
             }
         };
 
-    /////////////////////////////////showDotMenu/////////////////////////////
+        /////////////////////////////////showDotMenu/////////////////////////////
 
         vm.showDot = function (nameCurrentTab) {
             if (nameCurrentTab === vm.activeBlockId){
@@ -66,9 +87,9 @@
             }
         };
 
-    //////////////////////////////editBlock////////////////////////////////
+        //////////////////////////////editBlock////////////////////////////////
 
-        vm.editBlock = function () {
+        vm.editBlock = function (id, index) {
             $mdDialog.show({
                 controller: editBlockController,
                 controllerAs: 'vm',
@@ -79,9 +100,24 @@
             function editBlockController($mdDialog) {
                 let vs = this;
 
-                vs.save = function () {
-                    alert('Здесь должна быть функция :/ Survey-block.controller.js  str=80');
-                    $mdDialog.cancel();
+                vs.data =  {
+                    name: vm.blockName,
+                };
+
+                    vs.saveBlock = function () {
+                        userService.updateBlock(idBlock.id, vs.data).then(function (res) {
+                            if (res.success) {
+                                userService.loadItems().then(function () {
+                                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                                    console.log(vm.items);
+                                    $mdDialog.cancel();
+                                });
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            vs.cancel();
+                        });
                 };
 
                 vs.cancel = function () {
@@ -90,9 +126,9 @@
             }
         };
 
-    //////////////////////////////deleteBlock////////////////////////////////
+        //////////////////////////////deleteBlock////////////////////////////////
 
-        vm.deleteBlock = function () {
+        vm.deleteBlockTest = function () {
             $mdDialog.show({
                 controller: deleteBlockController,
                 controllerAs: 'vm',
@@ -103,16 +139,29 @@
             function deleteBlockController($mdDialog) {
                 let vs = this;
 
-                vs.deleteYes = function () {
-                    alert('Здесь должна быть функция :/ Survey-block.controller.js  str=104');
+                vs.deleteBlockYes = function () {
+                    console.log('test vm.deleteYes');
+                    console.log(idBlock);
+                        userService.deleteBlock(idBlock.id).then(function (res) {
+                            console.log(res);
+                            if (res.success) {
+                                console.log(res);
+                                userService.loadItems().then(function () {
+                                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                                    $mdDialog.cancel();
+                                });
+                            }
+                            else {
+                                console.log('errorDelete');
+                            }
+                        });
                     $mdDialog.cancel();
                 };
 
-                vs.deleteCancel = function () {
+                vs.deleteBlockCancel = function () {
                     $mdDialog.cancel();
                 };
             }
         };
-
     }
 })();

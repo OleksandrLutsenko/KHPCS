@@ -17,8 +17,11 @@
         model.getItems = getItems;
         // model.addSurvey = getItems;
         model.createSurvey = createSurvey;
+        model.updateSurvey = updateSurvey;
         model.deleteSurvey = deleteSurvey;
         model.createBlock = createBlock;
+        model.updateBlock = updateBlock;
+        model.deleteBlock = deleteBlock;
         model.createQuestion = createQuestion;
         model.updateQuestion = updateQuestion;
         model.deleteQuestion = deleteQuestion;
@@ -63,6 +66,8 @@
             return http.get(url.user.getItems, {}).then(function (res) {
                 if (res.success) {
                     setItems(res.data);
+                    // console.log('res.data = ');
+                    // console.log(res.data);
                 } else {
                      //need to show error msg
                 }
@@ -76,6 +81,7 @@
         function setItems(items) {
             delete $sessionStorage['user_items'];
             $sessionStorage['user_items'] = items;
+            // console.log(items);
         }
 
 
@@ -85,42 +91,54 @@
             return http.post(url.survey_management.createSurvey, credentials);
         }
 
+        function updateSurvey (id, data) {
+            return http.put(url.survey_management_func(id).updateSurvey, data);
+        }
+
         function deleteSurvey (id) {
             return http.delete(url.survey_management_func(id).deleteSurvey);
         }
 
         function createBlock(id, credentials) {
-            return http.post(url.survey_management_func(id).block, credentials)
+            return http.post(url.survey_management_func(id).block, credentials);
+        }
+
+        function deleteBlock(id) {
+            return http.delete(url.survey_management_func(id).deleteBlock);
+        }
+
+        function updateBlock(id, data) {
+            return http.put(url.survey_management_func(id).updateBlock, data);
         }
 
         function createQuestion (id, credentials) {
             console.log(id, credentials);
-            return http.post(url.survey_management_func(id).createQuestion, credentials)
+            return http.post(url.survey_management_func(id).createQuestion, credentials);
         }
 
         function updateQuestion (id, credentials) {
             console.log(id, credentials);
-            return http.put(url.survey_management_func(id).updateQuestion, credentials)
+            return http.put(url.survey_management_func(id).updateQuestion, credentials);
         }
 
         function deleteQuestion (id) {
             console.log(id);
-            return http.delete(url.survey_management_func(id).updateQuestion, {})
+            return http.delete(url.survey_management_func(id).updateQuestion, {});
         }
 
         //Answer survey
         function createAnswer (id, credentials) {
             console.log(id, credentials);
-            return http.post(url.survey_management_func(id).createAnswer, credentials)
+            return http.post(url.survey_management_func(id).createAnswer, credentials);
         }
 
         function updateAnswer (id, credentials) {
             console.log(id, credentials);
-            return http.put(url.survey_management_func(id).updateAnswer, credentials)
+            return http.put(url.survey_management_func(id).updateAnswer, credentials);
         }
         function deleteAnswer (id) {
             console.log(id);
-            return http.delete(url.survey_management_func(id).updateAnswer, {})
+            return http.delete(url.survey_management_func(id).updateAnswer, {});
         }
 
         
