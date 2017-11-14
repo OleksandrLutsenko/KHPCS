@@ -10,9 +10,9 @@ class Survey extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'status'];
+    protected $fillable = ['name', 'status'];
 
-    protected $visible = ['id', 'name', 'survey_status', 'blocks', 'description'];
+    protected $visible = ['id', 'name', 'status', 'survey_status', 'blocks'];
 
     protected $appends = ['survey_status', 'blocks'];
 
@@ -57,6 +57,7 @@ class Survey extends Model
         return [
             1 => 'active',
             2 => 'inactive',
+            0 => 'archived'
         ];
     }
 

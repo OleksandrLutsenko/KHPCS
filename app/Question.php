@@ -13,9 +13,9 @@ class Question extends Model
     const TYPE_RADIO = 1;
     const TYPE_TXT = 2;
 
-    protected $fillable = ['title', 'type', 'identifier'];
+    protected $fillable = ['title', 'type', 'identifier', 'next_question'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'identifier'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'next_question'];
 //    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'customer_answers'];
 
     protected $appends = ['answers'];

@@ -9,7 +9,7 @@ class Answer extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'next_question'];
+    protected $fillable = ['answer_text', 'next_question'];
 
     public function question(){
         return $this->belongsTo(Question::class);

@@ -14,7 +14,7 @@ class AddSurveyTable extends Migration
     public function up()
     {
         Schema::table('surveys', function($table) {
-            $table->integer('status', false, 10)->default('1');
+            $table->integer('status', false, 10)->default('2');
         });
     }
     /**

@@ -17,7 +17,13 @@ Route::middleware(['auth:api'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/report/{report}/download', 'DownloadController@downloadReport');
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/report/{report}/contract/{contract}/review', 'ContractController@review');
+    Route::get('/report/{report}/download', 'DownloadController@downloadReport');
+    Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
+    Route::post('contract/save-image', 'ImageController@upload');
+
+});
 
 Route::group(['middleware' => 'api-response'], function() {
     Route::post('/register', 'Auth\RegisterController@register');
@@ -42,6 +48,10 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/survey/{survey}/add-block', 'SurveyController@addBlock');
         /** delete survey */
         Route::delete('/survey/{survey}', 'SurveyController@destroy');
+        /** change status active/inactive */
+        Route::put('/survey/{survey}/change-status', 'SurveyController@changeStatusActiveInactive');
+        /** change status archive/inactive */
+        Route::put('/survey/{survey}/archive-status', 'SurveyController@changeStatusArchive');
 
         /** BLOCKS */
         /** show block's questions */
@@ -109,6 +119,9 @@ Route::group(['middleware' => 'api-response'], function() {
 
             /** Make answer by customer */
             Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
+
+
+            Route::get('customeranswer', 'CustomerAnswerController@show');
 
         });
     });

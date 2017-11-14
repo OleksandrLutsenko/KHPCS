@@ -13,7 +13,9 @@ class CreateContractsSoftDeletes extends Migration
      */
     public function up()
     {
-        //
+        Schema::table('contracts', function (Blueprint $table) {
+            $table->softDeletes();
+        });
     }
 
     /**
