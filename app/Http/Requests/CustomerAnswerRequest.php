@@ -35,8 +35,8 @@ class CustomerAnswerRequest extends FormRequest
     public function rules()
     {
         return [
-            'answer_id' => 'integer|required_without:answer_text',
-            'answer_text' => 'string|required_without:answer_id',
+//            'answer_id' => 'integer|required_without:answer_text',
+//            'answer_text' => 'string|required_without:answer_id',
             'value' => 'max:50'
         ];
     }

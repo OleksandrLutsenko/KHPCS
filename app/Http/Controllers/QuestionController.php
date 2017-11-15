@@ -42,7 +42,7 @@ class QuestionController extends Controller
                 return compact('answer');
             }
             else{
-            return response([
+                return response([
                 'errors' => 'This is not the radio type question'
             ], 400);
 
@@ -68,7 +68,8 @@ class QuestionController extends Controller
         if ($user->can('update', $question)) {
             $question->update($request->all());
             return compact('question');
-        }else{
+        }
+        else{
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -87,14 +88,15 @@ class QuestionController extends Controller
         if ($user->can('delete', $question)) {
             $question->delete();
             return compact('question');
-        } else {
+        }
+        else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
         }
     }
 
-        public function customerShow(Customer $customer, Question $question)
+    public function customerShow(Customer $customer, Question $question)
     {
         $answers = $question->answers;
         return compact('question');
