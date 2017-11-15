@@ -120,8 +120,7 @@ Route::group(['middleware' => 'api-response'], function() {
             /** Make answer by customer */
             Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
-
-            Route::get('customeranswer', 'CustomerAnswerController@show');
+            Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
 
         });
     });

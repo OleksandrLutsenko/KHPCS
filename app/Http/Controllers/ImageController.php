@@ -33,8 +33,7 @@ class ImageController extends Controller
 //        }
         $file = $request->file('image_file');
         $filename = $file->getClientOriginalName();
-        $file->move('../images', $filename);
-        dd($file);
+        $file->move(storage_path('/storage/images'), $filename);
 
         return response(['ll' => 'oo']);
     }

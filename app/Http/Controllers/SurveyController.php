@@ -160,14 +160,13 @@ class SurveyController extends Controller
                     $otherSurvey->status = 2;
                     $otherSurvey->update();
                 }
-
                 $survey->status = 1;
                 $survey->update();
             }
-            else if ($survey->status == 1 || $survey->status == 0){
-                $survey->status = 2;
-                $survey->update();
-            }
+//            else if ($survey->status == 1 || $survey->status == 0){
+//                $survey->status = 2;
+//                $survey->update();
+//            }
 
             return response(['survey' => $survey]);
 
@@ -197,12 +196,21 @@ class SurveyController extends Controller
 
     }
 
-
-        public function customerIndex(Survey $survey, Customer $customer)
+    /**
+     * @param Survey $survey
+     * @param Customer $customer
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function customerIndex(Survey $survey, Customer $customer)
     {
         return Survey::all();
     }
 
+    /**
+     * @param Survey $survey
+     * @param Customer $customer
+     * @return array
+     */
     public function customerShow(Survey $survey, Customer $customer)
     {
         return compact('survey');
