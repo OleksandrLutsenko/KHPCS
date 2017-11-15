@@ -22,13 +22,29 @@
 
 
         vm.activeSurvey = function (id, index) {
-            console.log('id = ' + id);
-            console.log('index = ' + index);
+            userService.changeStatusSurvey(id).then(function (res) {
+                if (res.success) {
+                    userService.loadItems().then(function () {
+                        vm.items = userService.getItems();
+                    });
+                } else {
+                    console.log('Change Status Survey error');
+                }
+
+            });
         };
 
         vm.archiveSurvey = function (id, index) {
-            console.log('id = ' + id);
-            console.log('index = ' + index);
+            userService.archiveStatusSurvey(id).then(function (res) {
+                if (res.success) {
+                    userService.loadItems().then(function () {
+                        vm.items = userService.getItems();
+                    });
+                } else {
+                    console.log('Archive Status Survey error');
+                }
+
+            });
         };
 
         vm.editSurvey = function (id, index) {
@@ -129,7 +145,7 @@
         };
 
         vm.superStatus = 'active';
-        vm.showAllStatus = false;
+        vm.showAllStatus = true;
 
         vm.showActive = function () {
             vm.superStatus = 'active';
@@ -142,7 +158,8 @@
         };
 
         vm.showArchive = function () {
-            console.log('Archive');
+            vm.superStatus = 'archived';
+            vm.showAllStatus = false;
 
         }
 

@@ -22,6 +22,8 @@
                     survey: baseUrl + 'api/survey',
                     updateSurvey: baseUrl + 'api/survey/' + id,
                     deleteSurvey: baseUrl + 'api/survey/' + id,
+                    changeStatusSurvey: baseUrl + 'api/survey/' + id + '/change-status',
+                    archiveStatusSurvey: baseUrl + 'api/survey/' + id + '/archive-status',
                     block : baseUrl + 'api/survey/' + id + '/add-block',
                     createBlock : baseUrl + 'api/survey/' + id + '/add-block',
                     updateBlock : baseUrl + 'api/block/' + id,

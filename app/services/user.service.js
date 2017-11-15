@@ -19,6 +19,8 @@
         model.createSurvey = createSurvey;
         model.updateSurvey = updateSurvey;
         model.deleteSurvey = deleteSurvey;
+        model.changeStatusSurvey = changeStatusSurvey;
+        model.archiveStatusSurvey = archiveStatusSurvey;
         model.createBlock = createBlock;
         model.updateBlock = updateBlock;
         model.deleteBlock = deleteBlock;
@@ -97,6 +99,14 @@
 
         function deleteSurvey (id) {
             return http.delete(url.survey_management_func(id).deleteSurvey);
+        }
+
+        function changeStatusSurvey (id) {
+            return http.put(url.survey_management_func(id).changeStatusSurvey);
+        }
+
+        function archiveStatusSurvey (id) {
+            return http.put(url.survey_management_func(id).archiveStatusSurvey);
         }
 
         function createBlock(id, credentials) {
