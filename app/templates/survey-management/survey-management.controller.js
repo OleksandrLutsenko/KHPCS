@@ -129,7 +129,8 @@
         };
 
         vm.superStatus = 'active';
-        vm.showAllStatus = false;
+        // vm.showAllStatus = false;
+        vm.showAllStatus = true;
 
         vm.showActive = function () {
             vm.superStatus = 'active';
