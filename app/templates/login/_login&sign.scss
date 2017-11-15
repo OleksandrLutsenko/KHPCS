@@ -1,84 +1,83 @@
-.logBtnText {
-  color: white;
-  text-transform: none;
-  margin: 0;
-}
+.enterForm {
 
-.logBot {
-  display: inline-flex;
-  justify-content: center;
-  width: 100%;
-}
+  .logBtnText {
+    color: white;
+    text-transform: none;
+    margin: 0;
+  }
 
-.logBotSec {
-  display: flex;
-  justify-content: center;
-}
+  .logBot {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+  }
 
-.toTab {
-  position: absolute;
-}
+  .toTab {
+    position: absolute;
+  }
 
-.loginForm {
-  height: 100vh;
-}
+  .loginForm {
+    height: 100vh;
+  }
 
-.mainLogo {
-  padding: 20px 40px;
-}
+  .mainLogo {
+    padding: 20px 40px;
+  }
 
-.divInput {
-  flex-direction: column;
-}
+  .divInput {
+    flex-direction: column;
+  }
 
-.loginLogo {
-  display: flex;
-  justify-content: center;
-}
+  .loginLogo {
+    display: flex;
+    justify-content: center;
+  }
 
-.loginInput {
-  width: 100%;
-  margin-bottom: 0;
-}
+  .loginInput {
+    width: 100%;
+    margin:0;
+  }
 
-.loginInput2 {
-  width: 100%;
-  margin: 0;
-}
+  .loginInput:first-child {
+    margin-top: 20px;
+  }
 
-.logIn {
-  margin: 0;
-  background-color: #001041;
-}
+  .logIn {
+    margin: 0;
+    background-color: #001041;
+  }
 
-.textLogin {
-  color: #001041;
-}
+  .textLogin {
+    color: #001041;
+    margin-left: 10px;
+  }
 
-.divTextLogin {
-  padding-left: 20px;
-}
+  .divTextLogin {
+    padding-left: 20px;
+  }
 
-.textLogin:hover {
-  cursor: pointer;
-}
+  .textLogin:hover {
+    cursor: pointer;
+  }
 
-.textBottom {
-  color: #001041;
-  margin: 0 30px;
-  cursor: pointer;
-}
+  .logBotSec p {
+    color: #001041;
+    margin: 0;
+    cursor: pointer;
+    text-align: center;
+  }
 
-.textUnderBtn {
-  color: gray;
-}
+  .textUnderBtn {
+    color: gray;
+  }
 
-.divBtn button {
-  width: 100%;
-  background-color: #001041;
-  margin: 0;
-}
+  .divBtn button {
+    width: 100%;
+    background-color: #001041;
+    margin: 0;
+  }
 
-.divBtn .md-button:hover {
-  background-color: #001041;
+  .divBtn .md-button:hover {
+    background-color: #001041;
+  }
 }

@@ -16,12 +16,7 @@
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
-                controllerAs: 'vm',
-                resolve: {
-                    items: function (userService) {
-                        return userService.loadAll();
-                    }
-                }
+                controllerAs: 'vm'
             })
             .state('login', {
                 url: '/login',
@@ -39,18 +34,23 @@
                 url: '/user-management',
                 templateUrl: 'templates/user-management/user-management.html',
                 controller: 'UserManagementController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    load: function (userService) {
+                        return userService.loadCustomers();
+                    }
+                }
             })
             .state('tab.survey-management', {
                 url: '/survey-management',
                 templateUrl: 'templates/survey-management/survey-management.html',
                 controller: 'SurveyManagementController',
                 controllerAs: 'vm',
-                // resolve: {
-                //     items: function (userService) {
-                //         return userService.loadItems()
-                //     }
-                // }
+                resolve: {
+                    load: function (userService) {
+                        return userService.loadItems();
+                    }
+                }
             })
             .state('tab.settings', {
                 url: '/settings',
@@ -63,11 +63,17 @@
                 templateUrl: 'templates/survey-block/survey-block.html',
                 controller: 'SurveyBlockController',
                 controllerAs: 'vm'
-            },{reload:true})
+            })
             .state('tab.survey-block.survey-question', {
                 url: '/survey-question',
                 templateUrl: 'templates/survey-question/survey-question.html',
                 controller: 'SurveyQuestionController',
+                controllerAs: 'vm'
+            })
+            .state('tab.passing-question', {
+                url: '/passing-question',
+                templateUrl: 'templates/passing-questions/passing-questions.html',
+                controller: 'PassingQuestionController',
                 controllerAs: 'vm'
             })
     }

@@ -40,6 +40,9 @@
         model.updateCustomers = updateCustomers;
         model.deleteCustomers = deleteCustomers;
 
+        //Passing questions
+        model.sendCustomerAnswer = sendCustomerAnswer;
+
 
         return model;
 
@@ -183,6 +186,9 @@
         }
         function deleteCustomers(id) {
             return http.delete(url.customers_func(id).updateCustomers, {});
+        }
+        function sendCustomerAnswer(id, data) {
+            return http.post(url.customers_func(id).sendCustomerAnswer, data);
         }
     }
 })();

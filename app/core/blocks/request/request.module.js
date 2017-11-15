@@ -4,7 +4,8 @@
     angular.module('blocks.request', [
         'factory.url',
         'factory.request',
-        'factory.survey'
+        'factory.survey',
+        'factory.customers'
     ]);
 
 })();
