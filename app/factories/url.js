@@ -22,12 +22,14 @@
                     survey: baseUrl + 'api/survey',
                     updateSurvey: baseUrl + 'api/survey/' + id,
                     deleteSurvey: baseUrl + 'api/survey/' + id,
+
                     block : baseUrl + 'api/survey/' + id + '/add-block',
-                    createBlock : baseUrl + 'api/survey/' + id + '/add-block',
-                    updateBlock : baseUrl + 'api/block/' + id,
-                    deleteBlock : baseUrl + 'api/block/' + id,
-                    createQuestion : baseUrl + 'api/block/' + id + '/add-question',
-                    updateQuestion : baseUrl + 'api/question/' + id,
+                    createBlock: baseUrl + 'api/survey/' + id + '/add-block',
+                    updateBlock: baseUrl + 'api/block/' + id,
+                    deleteBlock: baseUrl + 'api/block/' + id,
+
+                    createQuestion: baseUrl + 'api/block/' + id + '/add-question',
+                    updateQuestion: baseUrl + 'api/question/' + id,
 
                     createAnswer: baseUrl + 'api/question/' + id + '/add-answer',
                     updateAnswer: baseUrl + 'api/answer/' + id,
@@ -38,8 +40,18 @@
             },
             customers_func(id) {
                 return {
-                    updateCustomers : baseUrl + 'api/customer/'+ id,
-                    sendCustomerAnswer : baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer'
+                    updateCustomers: baseUrl + 'api/customer/'+ id,
+                    sendCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer',
+
+                    getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'
+                }
+            },
+            report: {
+                createReport: baseUrl + 'api/report'
+            },
+            report_func(id) {
+                return {
+                    // update: baseUrl + 'dfsdf'
                 }
             }
 

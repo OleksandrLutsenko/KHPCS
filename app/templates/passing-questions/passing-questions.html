@@ -6,7 +6,9 @@
             </md-content>
             <md-content>
                 <md-radio-group ng-model="vm.dataIdAnswers" layout="column">
-                    <md-radio-button ng-repeat="answers in vm.activeQuestion.answers" value="{{answers.id}}">{{answers.answer_text}}</md-radio-button>
+                    <md-radio-button ng-repeat="answers in vm.activeQuestion.answers" value="{{answers.id}}">
+                        {{answers.answer_text}}
+                    </md-radio-button>
                 </md-radio-group>
             </md-content>
         </div>
@@ -29,5 +31,7 @@
         <div>
             <md-button ng-click="vm.next(vm.typeQuestion)" ng-if="vm.dataIdAnswers !== undefined || vm.dataTextAnswers !== undefined && vm.dataTextAnswers !== ''">Next</md-button>
         </div>
+
+        <button ng-click="vm.aaaa()"></button>
     </div>
 </div>

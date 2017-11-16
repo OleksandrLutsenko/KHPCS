@@ -7,10 +7,10 @@
     customers.$inject = ['$localStorage', '$sessionStorage'];
 
     function customers($localStorage, $sessionStorage) {
-        let model = {        };
+        let model = {};
 
         model.setActiveCustomers = setActiveCustomers;
-        model.getActineCustomers = getActineCustomers;
+        model.getActiveCustomers = getActiveCustomers;
 
         return model;
 
@@ -20,7 +20,7 @@
             $sessionStorage['active_customers'] = id;
         }
 
-        function getActineCustomers(id) {
+        function getActiveCustomers() {
             return $sessionStorage['active_customers'];
         }
 

@@ -40,6 +40,8 @@
 
         //Passing questions
         model.sendCustomerAnswer = sendCustomerAnswer;
+        model.getCustomerAnswer = getCustomerAnswer;
+        model.createReport = createReport;
 
 
         return model;
@@ -177,8 +179,19 @@
         function deleteCustomers(id) {
             return http.delete(url.customers_func(id).updateCustomers, {});
         }
+
+
+        //Pasing question
         function sendCustomerAnswer(id, data) {
             return http.post(url.customers_func(id).sendCustomerAnswer, data);
+        }
+        
+        function getCustomerAnswer(id) {
+            return http.get(url.customers_func(id).getCustomerAnswer, {});
+        }
+
+        function createReport(data) {
+            return http.post(url.report.createReport, data);
         }
     }
 })();

@@ -12,16 +12,39 @@
 
         vm.next = next;
 
+
         let indexActiveSurvey = 0;
         let indexActiveBlock = 0;
         let indexActiveQuestion = 0;
 
-        let activeCustomers = customers.getActineCustomers();
+        let activeCustomers = customers.getActiveCustomers();
         let items = userService.getItems();
 
         let activeSurvey = items[indexActiveSurvey];
+
+        let activeSurveyId = activeSurvey.id;
+
         let activeBlock = activeSurvey.blocks[indexActiveBlock];
         vm.activeQuestion = activeBlock.questions[indexActiveQuestion];
+
+        let id = {
+            customer: activeCustomers,
+            survey: activeSurveyId
+        };
+
+        let customerAnswer = userService.getCustomerAnswer(id);
+
+        vm.aaaa = function () {
+            console.log('sssssssssss');
+            console.log(customerAnswer, 'customer answers all');
+            console.log(JSON.stringify(customerAnswer));
+        };
+
+
+        // if(customerAnswer.$$state.value.data.customerAnswers.length > 0){
+        //     console.log('in progress')
+        // }
+
 
         function getType() {
             if(vm.activeQuestion.answers.length > 0 && vm.activeQuestion.type === 1){
@@ -60,9 +83,24 @@
             userService.sendCustomerAnswer(id, data).then(function (res) {
                 console.log(res);
                 if(res.success){
-                   console.log('ok');
-                    vm.activeQuestion = res.data.next_question;
-                    getType();
+                   if(res.data.next_question === 'This is the last question in this survey'){
+                        console.log('last');
+                        let data = {
+                            customer_id: activeCustomers,
+                            survey_id: activeSurveyId
+                        };
+                        console.log(data, 'data id customer and customers');
+                        userService.createReport(data).then(function (res) {
+                            console.log(res);
+                            if(res.success){
+                                $state.go('tab.user-management');
+                            }
+                        })
+                   }
+                   else{
+                       vm.activeQuestion = res.data.next_question;
+                       getType();
+                   }
                 }
             })
         }
