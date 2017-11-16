@@ -1,10 +1,10 @@
 ;(function () {
     'use strict';
     angular.module('app')
-        .directive('deleteBlock', function() {
+        .directive('editSurvey', function() {
             return {
                 restrict: 'E', // Е -елемент А- атрибут
-                templateUrl: 'components/survey-block/delete-block/delete-block.html',
+                templateUrl: 'components/survey-management/edit-survey/edit-survey.html',
             };
         });
 })();

@@ -1,24 +1,32 @@
 .tabsdemoDynamicHeight md-content {
-  background-color: transparent !important; }
+  background-color: transparent !important;
+}
+
 .tabsdemoDynamicHeight md-content md-tabs {
   background: #f6f6f6;
-  border: 1px solid #e1e1e1; }
+  border: 1px solid #e1e1e1;
+}
+
 .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
-  background: white; }
+  background: white;
+}
+
 .tabsdemoDynamicHeight md-content h1:first-child {
-  margin-top: 0; }
+  margin-top: 0;
+}
 
 .clearfix:after,
-.clearfix:before{
+.clearfix:before {
   display: table;
   content: '';
 }
-.clearfix:after{
+
+.clearfix:after {
   clear: both;
 }
 
-.label-tab{
-  text-transform: capitalize ;
+.label-tab {
+  text-transform: capitalize;
   color: red;
 }
 
@@ -32,6 +40,7 @@
   //width: 100%;
   float: left;
 }
+
 //div.sm-left.ng-binding {
 //  max-width: 80%;
 //}
@@ -50,6 +59,7 @@ md-edit-sm {
   width: 50%;
   background-color: #555555;
 }
+
 md-dialog {
   max-height: 95%;
 }

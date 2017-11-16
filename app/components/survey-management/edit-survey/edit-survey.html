@@ -1,21 +1,28 @@
 <md-dialog class="restyle section-width">
+    <!--{{vm.blockName}}-->
     <md-card>
         <md-card-title>
             <md-card-title-text>
-                <span class="md-headline section-width">Please enter section name</span>
+                <span class="md-headline section-width">Edit survey</span>
             </md-card-title-text>
         </md-card-title>
-        <md-input-container class="input-width">
-            <label>Identifier</label>
-            <input ng-model="vm.data.name">
 
+        <md-input-container class="input-width">
+            <label>Name</label>
+            <input ng-model="vm.data.name">
         </md-input-container>
+
+        <!--<md-input-container class="input-width">-->
+            <!--<label>Description</label>-->
+            <!--<input ng-model="vm.data.description">-->
+        <!--</md-input-container>-->
 
         <md-card-content>
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-button ng-click="vm.saveBlock()">Save</md-button>
-                <md-button ng-click="vm.newBlockClose()">Close</md-button>
+                <md-button ng-click="vm.save()">Save</md-button>
+                <md-button ng-click="vm.cancel()">Close</md-button>
             </section>
         </md-card-content>
+
     </md-card>
 </md-dialog>

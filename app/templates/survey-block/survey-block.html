@@ -1,10 +1,10 @@
+<div class="blockQuest">
 <md-content>
     <md-tabs md-dynamic-height md-border-bottom md-selected="1">
 
-        <md-tab ng-click="vm.addBlock()" md-no-ink="true">
+        <md-tab ng-click="vm.addBlock()" >
             <md-tab-label>
                 <span class="add-button-position">Add section</span>
-                <!--<i class="material-icons">add_circle_outline</i>-->
                 <i class="fa fa-plus-square-o" aria-hidden="true"></i>
             </md-tab-label>
         </md-tab>
@@ -13,7 +13,7 @@
                 ui-sref="tab.survey-block.survey-question">
 
             <md-tab-label>
-                <div ng-show="vm.showDot(cell.id)" class="tab-icon-dots" ng-click="vm.test()">
+                <div ng-show="vm.showDot(cell.id)" class="tab-icon-dots">
                     <dot-edit-menu></dot-edit-menu>
                 </div>
                 <span>{{cell.name }} &nbsp </span>
@@ -25,3 +25,4 @@
     </md-tabs>
     <div ui-view></div>
 </md-content>
+</div>

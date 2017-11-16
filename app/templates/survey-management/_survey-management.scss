@@ -1,76 +1,15 @@
-//.tabsdemoDynamicHeight md-content {
-//  background-color: transparent !important; }
-//.tabsdemoDynamicHeight md-content md-tabs {
-//  background: #f6f6f6;
-//  border: 1px solid #e1e1e1; }
-//.tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
-//  background: white; }
-//.tabsdemoDynamicHeight md-content h1:first-child {
-//  margin-top: 0; }
-//
-//.clearfix:after,
-//.clearfix:before{
-//  display: table;
-//  content: '';
-//}
-//.clearfix:after{
-//  clear: both;
-//}
-//
-//.label-tab{
-//  text-transform: capitalize ;
-//  color: red;
-//}
-//
-//.singQest {
-//  box-sizing: border-box;
-//  padding: 15px 40px;
-//  width: 100%;
-//}
-//
-//.sm-left {
-//  //width: 100%;
-//  float: left;
-//}
-////div.sm-left.ng-binding {
-////  max-width: 80%;
-////}
-//
-//.sm-right {
-//  float: right;
-//}
-//
-//.sm-right i {
-//  color: black;
-//  margin-left: 20px;
-//  font-size: 20px;
-//}
-//
-//md-edit-sm {
-//  width: 50%;
-//  background-color: #555555;
-//}
-//md-dialog {
-//  max-height: 95%;
-//}
-
-
-
-////////////////////////////////////////////////
-
-
-
 .clearfix:after,
-.clearfix:before{
+.clearfix:before {
   display: table;
   content: '';
 }
-.clearfix:after{
+
+.clearfix:after {
   clear: both;
 }
 
-.label-tab{
-  text-transform: capitalize ;
+.label-tab {
+  text-transform: capitalize;
   color: red;
 }
 
@@ -99,19 +38,22 @@ md-edit-sm {
   width: 50%;
   background-color: #555555;
 }
+
 md-dialog {
   max-height: 95%;
 }
+
 .tab-icon-dots {
   display: inline-block;
   width: 30px;
   //height: 100%;
 }
+
 /////////////////Restyle//////////////////////////////
 
 .restyle {
 
-  .dialog-max-height{
+  .dialog-max-height {
     max-height: 95%;
   }
   .survey-input-container {
@@ -147,8 +89,17 @@ md-dialog {
 }
 
 /////////////////questionnaire-list///////////////////
+.menus {
+  position: relative;
+  margin-top: 20px;
+}
 
-.questionnaire-list{
+.tab-list {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.questionnaire-list {
   background-color: #f7f7f7;
   width: 300px;
   margin: 10px 10px;
@@ -157,21 +108,42 @@ md-dialog {
   height: 150px;
   float: left;
 }
+
 .questionnaire-list i {
   font-size: 25px;
   text-align: right;
   color: #aaaaaa;
 
 }
+
 .questionnaire-list p {
   text-align: center;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .questionnaire-list p:last-child {
   color: #aaaaaa;
 }
 
-.fa-plus-circle:before{
+.fa-plus-circle:before {
   font-size: 60px;
 }
 
+.hidden-text {
+  white-space: nowrap; /* Отменяем перенос текста */
+  overflow: hidden; /* Обрезаем содержимое */
+  text-overflow: ellipsis;
+}
+
+.filter-button i {
+  font-size: 25px;
+  text-align: right;
+  color: #aaaaaa;
+}
+
+.filter-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

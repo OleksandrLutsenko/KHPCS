@@ -20,14 +20,18 @@
             survey_management_func(id) {
                 return {
                     survey: baseUrl + 'api/survey',
+                    updateSurvey: baseUrl + 'api/survey/' + id,
                     deleteSurvey: baseUrl + 'api/survey/' + id,
+                    block : baseUrl + 'api/survey/' + id + '/add-block',
                     createBlock : baseUrl + 'api/survey/' + id + '/add-block',
-                    updateBlock : baseUrl + 'api/survey/' + id + '/add-block' + id,
+                    updateBlock : baseUrl + 'api/block/' + id,
+                    deleteBlock : baseUrl + 'api/block/' + id,
                     createQuestion : baseUrl + 'api/block/' + id + '/add-question',
                     updateQuestion : baseUrl + 'api/question/' + id,
+
                     createAnswer: baseUrl + 'api/question/' + id + '/add-answer',
                     updateAnswer: baseUrl + 'api/answer/' + id,
-                }
+                };
             },
             customers: {
                 customers: baseUrl + 'api/customer'
@@ -38,6 +42,9 @@
                     sendCustomerAnswer : baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer'
                 }
             }
+
+
         };
     }
+
 })();

@@ -27,10 +27,22 @@
                         <md-option ng-value="2"><em>Text</em></md-option>
                     </md-select>
                 </md-input-container>
+
+                <md-input-container ng-if="vm.data.type === 2">
+                    <label>Next question</label>
+                    <input  ng-model="vm.data.next_question">
+
+
+                </md-input-container>
             </div>
 
-            <div layout="column">
-                <div layout="row" ng-if="vm.data.type === 1" ng-repeat="answers in vm.data.answers">
+            <div layout="column" ng-if="vm.data.type === 1">
+                <div class="row">
+                    <md-button class="md-fab md-primary" aria-label="Add" ng-click="vm.addAnsver()" style="font-size: 25px; float: right">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </md-button>
+                </div>
+                <div layout="row" ng-repeat="answers in vm.data.answers">
                     <div layout="column">
                         <md-input-container>
                             <label>Name</label>
@@ -44,13 +56,19 @@
                             <input ng-model="answers.next_question">
                         </md-input-container>
                     </div>
+                    <div layout="row">
+                        <md-button class="md-fab md-mini" ng-click="vm.deleteAnsver(answers.id, $index)" aria-label="Del answer">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </md-button>
+                    </div>
                 </div>
 
-                <div layout="row" layout-align="center center" layout-wrap>
-                    <md-button class="md-raised" ng-click="vm.save()">Save</md-button>
-                    <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
-                </div>
             </div>
+            <div layout="row" layout-align="center center" layout-wrap>
+                <md-button class="md-raised" ng-click="vm.save()">Save</md-button>
+                <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
+            </div>
+
 
         </md-card-content>
     </md-card>
