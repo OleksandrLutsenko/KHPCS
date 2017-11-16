@@ -10,6 +10,7 @@
 
             <div class="addIcon" ng-click="vm.addCustomer()">
                 <i class="material-icons">person_add</i>
+
             </div>
         </div>
         <div class="md-whiteframe-3dp" flex="90">
@@ -28,16 +29,19 @@
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in vm.customers | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit | filter: vm.search">
+                            ng-repeat="customers in vm.customers | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
-                            <td md-cell ng-click="vm.go(customers.id)">{{customers.reports.length}} Go </td>
-                            <td md-cell>?</td>
+                            <td md-cell >{{customers.reports.length}}
+                                <md-button class="md-raised md-primary" ng-click="vm.go(customers.id)"> <p class="startBtn">Get started</p></md-button>
+                            </td>
+                            <td md-cell>?
+                                 </td>
                             <td md-cell>
                                 Date
                             </td>
                             <td md-cell>
-                                <i class="material-icons" ng-click="vm.addCustomer(customers.id, $index)">mode_edit</i>
+                                <i class="material-icons" ng-click="vm.addCustomer(customers.id, $index, customers)">mode_edit</i>
                                 <i class="material-icons" ng-click="vm.deleteCustomer(customers.id, $index)">highlight_off</i>
                             </td>
                         </tr>

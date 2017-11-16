@@ -19,41 +19,7 @@
             $state.go('tab.passing-question');
         }
 
-        vm.deleteCustomer = function (id, index) {
-            $mdDialog.show({
-                controller: deleteController,
-                controllerAs: 'vm',
-                templateUrl: 'components/user-management/deleteCustomer/deleteCustomer.html',
-                clickOutsideToClose: true
-        });
-
-            function deleteController($mdDialog) {
-                let vs = this;
-
-                vs.delete = function () {
-                    if (typeof id != 'undefined') {
-                        userService.deleteCustomers(id).then(function (res) {
-                            if (res.success) {
-                                vm.customers.splice(index, 1);
-                                vs.cancel();
-                            }
-                            else {
-                                console.log('errorDelete');
-                            }
-                        });
-                    }
-                    else {
-                        console.log('deleteError');
-                    }
-                };
-
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
-        };
-
-        vm.addCustomer = function (id, index) {
+        vm.addCustomer = function (id, index, customers) {
 
             $mdDialog.show({
                 controller: DialogController,
@@ -67,10 +33,11 @@
 
                 if(typeof id != 'undefined') {
                     vs.data =  {
-                        name: vm.customers[index].name,
-                        surname: vm.customers[index].surname,
-                        classification: vm.customers[index].classification
-                    }
+                        name: customers.name,
+                        surname: customers.surname,
+                        classification: customers.classification
+                    };
+                    console.log(id);
                 }
 
                 vs.saved = function () {
@@ -79,7 +46,10 @@
                         userService.updateCustomers(id, vs.data).then(function (res) {
                             if (res.success) {
                                 console.log(res, 'succes');
-                                vm.customers.splice(index, 1, res.data);
+                                userService.loadCustomers().then(function () {
+                                    vm.customers = userService.getCustomers();
+                                    $mdDialog.cancel();
+                                });
                             }
                             else {
                                 console.log('error');
@@ -113,4 +83,42 @@
                 };
             }
         };
-}}());
+
+        vm.deleteCustomer = function (id) {
+            $mdDialog.show({
+                controller: deleteController,
+                controllerAs: 'vm',
+                templateUrl: 'components/user-management/deleteCustomer/deleteCustomer.html',
+                clickOutsideToClose: true
+            });
+
+            function deleteController($mdDialog) {
+                let vs = this;
+
+                vs.delete = function () {
+                    if (typeof id != 'undefined') {
+                        userService.deleteCustomers(id).then(function (res) {
+                            if (res.success) {
+
+                                vs.cancel();
+                                userService.loadCustomers().then(function () {
+                                    vm.customers = userService.getCustomers();
+                                    $mdDialog.cancel();
+                                });
+                            }
+                            else {
+                                console.log('errorDelete');
+                            }
+                        });
+                    }
+                    else {
+                        console.log('deleteError');
+                    }
+                };
+
+                vs.cancel = function () {
+                    $mdDialog.cancel();
+                };
+            }
+        };
+    }}());

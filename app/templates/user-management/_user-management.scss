@@ -50,6 +50,10 @@
     margin-left: 25px;
   }
 
+  td{
+    text-transform: capitalize;
+  }
+
   .tHeadText {
     display: flex;
   }
@@ -62,6 +66,11 @@
   table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
     padding: 0;
   }
+  .botTextClient, .botBtn button, .botBtn button, .startBtn {
+    margin: 0;
+    text-transform: none;
+  }
+
 }
 
 .botBtn {

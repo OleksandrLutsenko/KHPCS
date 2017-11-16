@@ -39,7 +39,7 @@
 
   .loginInput {
     width: 100%;
-    margin:0;
+    margin: 0;
   }
 
   .loginInput:first-child {
@@ -48,7 +48,7 @@
 
   .logIn {
     margin: 0;
-    background-color: #001041;
+    background: #001041;
   }
 
   .textLogin {
@@ -64,11 +64,15 @@
     cursor: pointer;
   }
 
+  .logBotSec{
+    display: flex;
+    justify-content: center;
+  }
+
   .logBotSec p {
     color: #001041;
     margin: 0;
     cursor: pointer;
-    text-align: center;
   }
 
   .textUnderBtn {
@@ -77,11 +81,11 @@
 
   .divBtn button {
     width: 100%;
-    background-color: #001041;
+    background: #001041;
     margin: 0;
   }
 
   .divBtn .md-button:hover {
-    background-color: #001041;
+    background: #001041;
   }
 }
