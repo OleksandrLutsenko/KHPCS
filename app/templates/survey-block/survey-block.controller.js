@@ -3,26 +3,40 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog'];
+    SurveyBlockController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog', '$sessionStorage'];
 
-    function SurveyBlockController(userService, $state, survey, $scope, $mdDialog) {
+    function SurveyBlockController(userService, $state, survey, $scope, $mdDialog, $sessionStorage) {
         let vm = this;
+        console.log('controller started');
         vm.setActiveBlock = setActiveBlock;
         let idSurvey = survey.getActineSurvey();
         let idBlock = survey.getActiveBlock();
 
+
         vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-        // vm.activeBlockId;
-        // vm.blockName;
+
+        function setActiveDot() {
+            if(vm.items.length) {
+                vm.activeBlockIndex = idBlock.indexBlock;
+                vm.activeBlockIndex2 = 0;
+            }
+        }
+        setActiveDot();
 
         function setActiveBlock(id, indexBlock, blockName) {
             survey.setActiveBlock(id, indexBlock);
             $scope.$broadcast('parent', indexBlock);
             idBlock = survey.getActiveBlock();
-            vm.activeBlockId = id;
+            vm.activeBlockIndex = indexBlock;
+            vm.activeBlockIndex2 = indexBlock;
             vm.blockName = blockName;
-            console.log(blockName);
+            console.log('Name: ' + blockName + ', ID: ' + id + ', Index: ' +indexBlock);
         }
+
+        vm.testIndex = function () {
+            vm.activeBlockIndex++;
+            console.log(vm.activeBlockIndex);
+        };
 
         if(vm.items.length > 0) {
             console.log('item not undefine', vm.items);
@@ -32,6 +46,17 @@
         else {
             console.log('no data');
         }
+
+        /////////////////////////////////showDotMenu/////////////////////////////
+
+        vm.showDot = function (indexCurrentBlock) {
+            if (indexCurrentBlock === vm.activeBlockIndex){
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
 
         //////////////////////////////AddBlock////////////////////////////////
 
@@ -53,20 +78,37 @@
                     };
                 }
 
-                vs.saveBlock = function (id ) {
+                vs.saveBlock = function () {
                     userService.createBlock(idSurvey.id, vs.data).then(function (res) {
-                        console.log(id);
+                        // console.log(idSurvey.id);
                         if (res.success) {
+                            console.log(res);
                             userService.loadItems().then(function () {
+
+                                // console.log(userService.getItems()[idSurvey.indexSurvey].blocks[userService.getItems()[idSurvey.indexSurvey].blocks.length - 1], 'log')
+                                // vm.items.push(userService.getItems()[idSurvey.indexSurvey].blocks[userService.getItems()[idSurvey.indexSurvey].blocks.length - 1]);
+
                                 vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-                                // console.log(vm.items);
+
+                                console.log(vm.items);
+
+                                let indexBlock = vm.items.length-1;
+                                let id = vm.items[indexBlock].id;
+                                let blockName = vm.items[indexBlock].name;
+
+                                console.log('Передаем ID: ' + id);
+                                console.log('Передаем Index: ' + indexBlock);
+
+                                vm.setActiveBlock(id, indexBlock, blockName);
+                                // vm.activeBlockIndex2 = 'AddCtrl';
                                 $mdDialog.cancel();
+
                             });
                         }
                         else {
                             console.log('error');
                         }
-                        vs.cancel();
+                        vs.newBlockClose();
                     });
                 };
 
@@ -76,20 +118,9 @@
             }
         };
 
-        /////////////////////////////////showDotMenu/////////////////////////////
-
-        vm.showDot = function (nameCurrentTab) {
-            if (nameCurrentTab === vm.activeBlockId){
-                return true;
-            }
-            else {
-                return false;
-            }
-        };
-
         //////////////////////////////editBlock////////////////////////////////
 
-        vm.editBlock = function (id, index) {
+        vm.editBlock = function () {
             $mdDialog.show({
                 controller: editBlockController,
                 controllerAs: 'vm',
@@ -109,7 +140,7 @@
                             if (res.success) {
                                 userService.loadItems().then(function () {
                                     vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-                                    console.log(vm.items);
+                                    // console.log(vm.items);
                                     $mdDialog.cancel();
                                 });
                             }
@@ -128,7 +159,7 @@
 
         //////////////////////////////deleteBlock////////////////////////////////
 
-        vm.deleteBlockTest = function () {
+        vm.deleteBlock = function () {
             $mdDialog.show({
                 controller: deleteBlockController,
                 controllerAs: 'vm',
@@ -140,21 +171,35 @@
                 let vs = this;
 
                 vs.deleteBlockYes = function () {
-                    console.log('test vm.deleteYes');
-                    console.log(idBlock);
-                        userService.deleteBlock(idBlock.id).then(function (res) {
+                    console.log('Удален блок с ID: ' + idBlock.id);
+                    userService.deleteBlock(idBlock.id).then(function (res) {
+                        if (res.success) {
                             console.log(res);
-                            if (res.success) {
-                                console.log(res);
-                                userService.loadItems().then(function () {
-                                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-                                    $mdDialog.cancel();
-                                });
-                            }
-                            else {
-                                console.log('errorDelete');
-                            }
-                        });
+                            userService.loadItems().then(function () {
+                                $mdDialog.cancel();
+                                vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                                // console.log(vm.items);
+
+                                if (vm.items.length){
+                                    let id;
+                                    let index;
+
+                                    if (idBlock.indexBlock === 0) {
+                                        id = vm.items[idBlock.indexBlock].id;
+                                        index = idBlock.indexBlock;
+                                    } else {
+                                        id = vm.items[idBlock.indexBlock-1].id;
+                                        index = idBlock.indexBlock-1;
+                                    }
+
+                                    vm.setActiveBlock(id, index);
+                                }
+                            });
+                        }
+                        else {
+                            console.log('errorDelete');
+                        }
+                    });
                     $mdDialog.cancel();
                 };
 
