@@ -5,15 +5,18 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['userService', '$state', '$mdDialog', 'customers', '$scope'];
+    PassingQuestionController.$inject = ['userService', '$state', '$mdDialog', 'customers', '$scope', 'customaerAnswer', 'survey'];
 
-    function PassingQuestionController(userService, $state, $mdDialog, customers, $scope) {
+    function PassingQuestionController(userService, $state, $mdDialog, customers, $scope, customaerAnswer, survey) {
         let vm = this;
 
         vm.next = next;
 
+        console.log(customaerAnswer, 'customaerAnswer');
 
-        let indexActiveSurvey = 0;
+
+        let indexActiveSurvey = survey.getActiveQuestionair();
+        console.log(indexActiveSurvey);
         let indexActiveBlock = 0;
         let indexActiveQuestion = 0;
 
@@ -25,25 +28,67 @@
         let activeSurveyId = activeSurvey.id;
 
         let activeBlock = activeSurvey.blocks[indexActiveBlock];
-        vm.activeQuestion = activeBlock.questions[indexActiveQuestion];
-
-        let id = {
-            customer: activeCustomers,
-            survey: activeSurveyId
-        };
-
-        let customerAnswer = userService.getCustomerAnswer(id);
-
-        vm.aaaa = function () {
-            console.log('sssssssssss');
-            console.log(customerAnswer, 'customer answers all');
-            console.log(JSON.stringify(customerAnswer));
-        };
 
 
-        // if(customerAnswer.$$state.value.data.customerAnswers.length > 0){
-        //     console.log('in progress')
-        // }
+
+        if(customaerAnswer.data.customerAnswers.length > 0 && customaerAnswer.data.status === 'completed'){
+                console.log('compleated');
+        }
+        else{
+            if(customaerAnswer.data.customerAnswers.length > 0){
+                let LastPassQuestion = customaerAnswer.data.customerAnswers[customaerAnswer.data.customerAnswers.length - 1];
+
+                let allQuestion = [];
+
+                activeSurvey.blocks.forEach(function(item, i, arr) {
+                    item.questions.forEach(function (item, i, arr) {
+                        allQuestion.push(item);
+                    })
+                });
+
+                for(let indexQuestion = 0; indexQuestion < allQuestion.length; indexQuestion++){
+                    if(allQuestion[indexQuestion].id === LastPassQuestion.question_id){
+                        if(allQuestion[indexQuestion].type === 1){
+                            console.log('type === 1');
+                            for(let indexAnswer = 0; indexAnswer < allQuestion[indexQuestion].answers.length; indexAnswer++){
+                                if(allQuestion[indexQuestion].answers[indexAnswer].id === LastPassQuestion.answer_id){
+                                    let nextQuestion = allQuestion[indexQuestion].answers[indexAnswer].next_question;
+                                    for (let index = 0; index < allQuestion.length; index++){
+                                        if(allQuestion[index].identifier === nextQuestion){
+                                            vm.activeQuestion = allQuestion[index];
+                                            break
+                                        }
+                                    }
+                                    break
+                                }
+                            }
+                        }
+                        else{
+                            console.log('type === 2');
+                            let nextQuestion = allQuestion[indexQuestion].next_question;
+                            for (let index = 0; index < allQuestion.length; index++){
+                                if(allQuestion[index].identifier === nextQuestion){
+                                    vm.activeQuestion = allQuestion[index];
+                                    break
+                                }
+                            }
+                        }
+                        break
+                    }
+                }
+            }
+            else{
+                console.log('start');
+                vm.activeQuestion = activeBlock.questions[indexActiveQuestion];
+            }
+        }
+
+        //
+        // $scope.mass = [{id:1, name:'first'}, {id:2, name:'second'}, {id:3, name:'three'}, {id:4, name:'fourth'}, {id:5, name:'five'}, {id:6, name:'six'}];
+        // $scope.massFiltered = $scope.mass.filter(function (i) {
+        //     return (i.id >= 2) && (i.id < 6);
+        // });
+        //
 
 
         function getType() {

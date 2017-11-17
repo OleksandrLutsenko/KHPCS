@@ -76,23 +76,15 @@
                 controller: 'PassingQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    loadis: function (userService, customers) {
+                    customaerAnswer: function (userService, customers, survey) {
                         let indexActiveSurvey = 0;
 
-                        let activeCustomers = customers.getActiveCustomers();
-                        let items = userService.getItems();
-
-                        let activeSurvey = items[indexActiveSurvey];
-                        let activeSurveyId = activeSurvey.id;
-
                         let id = {
-                            customer: activeCustomers,
-                            survey: activeSurveyId
+                            customer: customers.getActiveCustomers(),
+                            survey: userService.getItems()[indexActiveSurvey].id
                         };
 
-                        let data = userService.getCustomerAnswer(id);
-
-                        return data;
+                        return userService.getCustomerAnswer(id);
                     }
                 }
             })
