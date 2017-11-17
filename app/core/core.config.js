@@ -74,7 +74,19 @@
                 url: '/passing-question',
                 templateUrl: 'templates/passing-questions/passing-questions.html',
                 controller: 'PassingQuestionController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    customaerAnswer: function (userService, customers, survey) {
+                        let indexActiveSurvey = 0;
+
+                        let id = {
+                            customer: customers.getActiveCustomers(),
+                            survey: userService.getItems()[indexActiveSurvey].id
+                        };
+
+                        return userService.getCustomerAnswer(id);
+                    }
+                }
             })
     }
 })();

@@ -40,8 +40,18 @@
             },
             customers_func(id) {
                 return {
-                    updateCustomers : baseUrl + 'api/customer/'+ id,
-                    sendCustomerAnswer : baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer'
+                    updateCustomers: baseUrl + 'api/customer/'+ id,
+                    sendCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer',
+
+                    getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'
+                }
+            },
+            report: {
+                createReport: baseUrl + 'api/report'
+            },
+            report_func(id) {
+                return {
+                    // update: baseUrl + 'dfsdf'
                 }
             }
 

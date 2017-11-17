@@ -3,10 +3,9 @@
         .module('factory.survey', [])
         .factory('survey', survey);
 
+    survey.$inject = ['$localStorage', '$sessionStorage', 'userService'];
 
-    survey.$inject = ['$localStorage', '$sessionStorage'];
-
-    function survey($localStorage, $sessionStorage) {
+    function survey($localStorage, $sessionStorage, userService) {
         let model = {};
         model.setQuestion = setQuestion;
         model.getQuestion = getQuestion;
@@ -14,7 +13,7 @@
         model.getActineSurvey = getActineSurvey;
         model.setActiveBlock = setActiveBlock;
         model.getActiveBlock = getActiveBlock;
-
+        model.getActiveQuestionair = getActiveQuestionair;
 
         return model;
 
@@ -22,7 +21,6 @@
             delete $sessionStorage['survey_question'];
             $sessionStorage['survey_question'] = items;
         }
-
         function getQuestion() {
             return $sessionStorage['survey_question'];
         }
@@ -54,6 +52,15 @@
                 indexBlock: $sessionStorage['active_block_index']
             };
             return  tmpObj;
+        }
+
+        function getActiveQuestionair() {
+            let items = userService.getItems();
+            for (let index = 0; index < items.length - 1; index++){
+                if(items[index].status === 1){
+                    return index;
+                }
+            }
         }
 
 

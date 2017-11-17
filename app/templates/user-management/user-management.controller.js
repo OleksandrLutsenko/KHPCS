@@ -10,6 +10,8 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
+        let activeSurvey = 0;
+
         vm.go = go;
 
         vm.customers = userService.getCustomers();
