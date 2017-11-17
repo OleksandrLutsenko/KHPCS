@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Block;
 use App\Customer;
+use App\Http\Requests\AnswerRequest;
+use App\Http\Requests\QuestionRequest;
 use App\Question;
 use App\Survey;
 use App\User;
@@ -16,6 +18,7 @@ class QuestionController extends Controller
      * Show question's answers
      *
      * @param Question $question
+     * @param User $user
      * @return array
      */
     public function show(Question $question, User $user)
@@ -28,12 +31,12 @@ class QuestionController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Question $question
-     * @param Request $request
+     * @param AnswerRequest $request
      * @param User $user
      * @return array
      */
 
-    public function addAnswer(Question $question, Request $request, User $user)
+    public function addAnswer(Question $question, AnswerRequest $request, User $user)
     {
         if ($user->can('addAnswer', $question)) {
             if($question->hasRadioAnswer()) {
@@ -47,8 +50,7 @@ class QuestionController extends Controller
             ], 400);
 
             }
-        }
-        else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -59,17 +61,16 @@ class QuestionController extends Controller
      * Update question
      *
      * @param Question $question
-     * @param Request $request
+     * @param QuestionRequest $request
      * @param User $user
      * @return array
      */
-    public function update(Question $question, Request $request, User $user)
+    public function update(Question $question, QuestionRequest $request, User $user)
     {
         if ($user->can('update', $question)) {
             $question->update($request->all());
             return compact('question');
-        }
-        else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -88,8 +89,7 @@ class QuestionController extends Controller
         if ($user->can('delete', $question)) {
             $question->delete();
             return compact('question');
-        }
-        else {
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );

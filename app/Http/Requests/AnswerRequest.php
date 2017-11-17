@@ -13,7 +13,7 @@ class AnswerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class AnswerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:1|max:50',
+            'answer_text' => 'required|min:1|max:50',
         ];
     }
 }

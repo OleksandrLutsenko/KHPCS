@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\CustomerAnswer;
+use App\Http\Requests\BlockRequest;
+use App\Http\Requests\SurveyRequest;
 use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
@@ -11,12 +13,16 @@ use Illuminate\Support\Facades\Auth;
 
 class SurveyController extends Controller
 {
+    /**
+     * @param Survey $survey
+     * @param User $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Database\Eloquent\Collection|\Symfony\Component\HttpFoundation\Response|static[]
+     */
     public function index(Survey $survey, User $user)
     {
         if ($user->can('answerAll', $survey)) {
             return Survey::all();
-        }
-        else {
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -44,8 +50,7 @@ class SurveyController extends Controller
                 ]);
             }
             return response()->json($customer, 200);
-        }
-        else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -55,17 +60,17 @@ class SurveyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SurveyRequest $request
      * @param Survey $survey
      * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Survey $survey, User $user)
+    public function store(SurveyRequest $request, Survey $survey, User $user)
     {
         if ($user->can('create', $survey)) {
             $survey = $survey->create($request->all());
             return compact('survey');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
 
@@ -76,16 +81,17 @@ class SurveyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param BlockRequest $request
      * @param Survey $survey
+     * @param User $user
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addBlock(Request $request, Survey $survey, User $user)
+    public function addBlock(BlockRequest $request, Survey $survey, User $user)
     {
         if ($user->can('addBlock', $survey)) {
             $block = $survey->block()->create($request->all());
             return compact('block');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -96,6 +102,7 @@ class SurveyController extends Controller
      * Display the specified resource.
      *
      * @param Survey $survey
+     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
@@ -103,7 +110,7 @@ class SurveyController extends Controller
     {
         if ($user->can('show', $survey)) {
             return compact('survey');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -113,18 +120,18 @@ class SurveyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param SurveyRequest $request
      * @param Survey $survey
      * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(Request $request, Survey $survey, User $user)
+    public function update(SurveyRequest $request, Survey $survey, User $user)
     {
         if ($user->can('update', $survey)) {
             $survey->update($request->all());
             return compact('survey');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -144,13 +151,19 @@ class SurveyController extends Controller
         if ($user->can('delete', $survey)) {
             $survey->delete();
             return compact('survey');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Survey $survey
+     * @param User $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function changeStatusActiveInactive(Request $request, Survey $survey, User $user){
         if ($user->can('update', $survey)) {
             if ($survey->status == 2){
@@ -163,20 +176,26 @@ class SurveyController extends Controller
                 $survey->status = 1;
                 $survey->update();
             }
-//            else if ($survey->status == 1 || $survey->status == 0){
+//            else if ($survey->status == 1){
 //                $survey->status = 2;
 //                $survey->update();
 //            }
 
             return response(['survey' => $survey]);
 
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Survey $survey
+     * @param User $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function changeStatusArchive(Request $request, Survey $survey, User $user){
         if ($user->can('update', $survey)) {
             if ($survey->status == 2) {
@@ -188,7 +207,7 @@ class SurveyController extends Controller
                 $survey->update();
             }
             return response(['survey' => $survey]);
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );

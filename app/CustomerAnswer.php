@@ -11,19 +11,23 @@ class CustomerAnswer extends Model
 
     protected $fillable = ['value', 'answer_id', 'question_id', 'customer_id'];
 
-//    protected $appends = ['value', 'answer_id', 'question_id', 'customer_id', 'answers'];
-
-//    protected $visible = ['value', 'answer_id', 'question_id', 'customer_id', 'answers'];
-
-
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function question(){
         return $this->hasOne(Question::class, 'id', 'question_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function answer(){
         return $this->hasOne(Answer::class, 'id', 'answer_id');
     }
@@ -32,5 +36,4 @@ class CustomerAnswer extends Model
 //    {
 //        return $this->answer();
 //    }
-
 }

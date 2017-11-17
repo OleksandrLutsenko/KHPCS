@@ -15,15 +15,24 @@ class Block extends Model
 
     protected $appends = ['questions'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function survey(){
         return $this->belongsTo(Survey::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function question()
     {
         return $this->hasMany(Question::class);
     }
 
+    /**
+     * @return mixed
+     */
     public function getQuestionsAttribute(){
         return $this->question;
     }

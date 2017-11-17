@@ -2,74 +2,92 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImageRequest;
+use App\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param ImageRequest $request
+     * @param Image $image
      * @return \Illuminate\Http\Response
      */
-    public function upload(Request $request)
+    public function upload(ImageRequest $request, Image $image)
     {
-//        foreach ($request->file() as $file) {
-//            foreach ($file as $f) {
-//                $f->move(storage_path('images'), time().'_'.$f->getClientOriginalName());
-//            }
-//        }
         $file = $request->file('image_file');
-        $filename = $file->getClientOriginalName();
-        $file->move(storage_path('/storage/images'), $filename);
+        $filename = time().'.'.$file->getClientOriginalExtension();
+        $file->move(storage_path('images'), $filename);
 
-        return response(['ll' => 'oo']);
+        $filePathUri = 'storage/images/' . $filename;
+        $filePathUrl = url($filePathUri);
+
+        $image = $image->create($request->getImagePathAttribute($filePathUri));
+
+        return compact('image', 'filePathUrl');
+    }
+
+    /**
+     * @param ImageRequest $request
+     * @param Image $image
+     * @return $this|\Illuminate\Database\Eloquent\Model
+     */
+    public function reUpload(ImageRequest $request, Image $image)
+    {
+        $fileUri = $image->link;
+        File::delete('../'.$fileUri);
+
+        $file = $request->file('image_file');
+        $filename = time().'.'.$file->getClientOriginalExtension();
+        $file->move(storage_path('images'), $filename);
+
+        $filePathUri = 'storage/images/' . $filename;
+        $filePathUrl = url($filePathUri);
+
+        $image->update($request->getImagePathAttribute($filePathUri));
+
+        return compact('image', 'filePathUrl');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param $filename
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function show($id)
+    public function show($filename)
     {
-        //
-    }
+        $path = storage_path() .'/images/'. $filename;
 
+        if(!File::exists($path)) {
+            return response()->json(['message' => 'Image not found.'], 404);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Image $image
      * @return \Illuminate\Http\Response
+     * @internal param int $id
      */
-    public function destroy($id)
+    public function destroy(Image $image)
     {
-        //
+        $image->delete();
+        return compact('image');
     }
 }

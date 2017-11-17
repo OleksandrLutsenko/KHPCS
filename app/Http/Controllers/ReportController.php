@@ -6,6 +6,7 @@ use App\Answer;
 use App\Block;
 use App\Customer;
 use App\CustomerAnswer;
+use App\Http\Requests\ReportRequest;
 use App\Report;
 use App\Survey;
 use App\User;
@@ -57,29 +58,34 @@ class ReportController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Report $report
-     * @param  \Illuminate\Http\Request $request
+     * @param ReportRequest $request
      * @param User $user
      * @return \Illuminate\Http\Response
      */
 
 
-    public function store(Report $report, Request $request, User $user)
+    public function store(Report $report, ReportRequest $request, User $user)
     {
         $report = Report::create($request->all());
+
+//        $customer = $report->customer;
+//        $customer->survey_status = null;
+//        $customer->update();
+
         return response()->json($report, 201);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param ReportRequest $request
      * @param Report $report
      * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
 
-    public function update(Request $request, Report $report, User $user)
+    public function update(ReportRequest $request, Report $report, User $user)
     {
         $report->update($request->all());
         return response()->json($report, 200);

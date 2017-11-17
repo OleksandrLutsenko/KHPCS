@@ -16,10 +16,8 @@ class Question extends Model
     protected $fillable = ['title', 'type', 'identifier', 'next_question'];
 
     protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'next_question'];
-//    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'customer_answers'];
 
     protected $appends = ['answers'];
-//    protected $appends = ['answers', 'customer_answers'];
 
     public function setVisibleAnswers(){
         $this->visible = ['title', 'answers'];
@@ -34,36 +32,61 @@ class Question extends Model
         $this->visible = $attribute;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function block(){
         return $this->belongsTo(Block::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function answer(){
         return $this->hasMany(Answer::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function answerRelate(){
         return $this->hasOne(Answer::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function customerAnswer(){
         return $this->hasOne(CustomerAnswer::class);
     }
 
+    /**
+     * @return mixed
+     */
     public function getAnswersAttribute()
     {
         return $this->answer;
     }
 
+    /**
+     * @return bool
+     */
     public function hasRadioAnswer(){
         return $this->type == static::TYPE_RADIO;
     }
 
+    /**
+     * @return mixed
+     */
     public function getCustomerAnswersAttribute()
     {
         return $this->customerAnswer;
     }
 
+    /**
+     * @param Customer $customer
+     * @return Model|null|static
+     */
     public function findCustomersAnswer(Customer $customer){
         return $this->customerAnswer()->where('customer_id', $customer->id)->first();
     }

@@ -22,7 +22,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
     Route::post('contract/save-image', 'ImageController@upload');
-
+    Route::post('contract/image/{image}', 'ImageController@reUpload');
+    Route::delete('contract/image/{image}', 'ImageController@destroy');
 });
 
 Route::group(['middleware' => 'api-response'], function() {

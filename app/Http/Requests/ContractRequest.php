@@ -24,7 +24,8 @@ class ContractRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|min:1|max:50',
+            'body' => 'required|min:1'
         ];
     }
 }

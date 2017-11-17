@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Block;
+use App\Http\Requests\AnswerRequest;
 use App\Question;
 use App\Survey;
 use App\User;
@@ -16,6 +17,7 @@ class AnswerController extends Controller
      * Display the specified resource.
      *
      * @param Answer $answer
+     * @param User $user
      * @return array
      */
     public function show(Answer $answer, User $user)
@@ -35,12 +37,12 @@ class AnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param Answer $answer
-     * @param  \Illuminate\Http\Request $request
+     * @param AnswerRequest $request
      * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(Answer $answer, Request $request, User $user)
+    public function update(Answer $answer, AnswerRequest $request, User $user)
     {
         if ($user->can('update', $answer)) {
             if ($answer->question->hasRadioAnswer()){

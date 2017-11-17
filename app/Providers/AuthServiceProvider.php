@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Answer;
 use App\Block;
+use App\Contract;
 use App\Customer;
 use App\CustomerAnswer;
 use App\Policies\AnswerPolicy;
 use App\Policies\BlockPolicy;
+use App\Policies\ContractPolicy;
 use App\Policies\CustomerAnswerPolicy;
 use App\Policies\CustomerPolicy;
 use App\Policies\QuestionPolicy;
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         CustomerAnswer::class => CustomerAnswerPolicy::class,
         Question::class => QuestionPolicy::class,
         Survey::class => SurveyPolicy::class,
+        Contract::class => ContractPolicy::class,
     ];
 
     /**
