@@ -5,46 +5,51 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['userService', '$state', '$mdDialog', 'customers', '$scope', 'customaerAnswer', 'survey'];
+    PassingQuestionController.$inject = ['userService', '$state', 'customers', 'customaerAnswer', 'survey'];
 
-    function PassingQuestionController(userService, $state, $mdDialog, customers, $scope, customaerAnswer, survey) {
+    function PassingQuestionController(userService, $state, customers, customaerAnswer, survey) {
         let vm = this;
 
         vm.next = next;
 
-        console.log(customaerAnswer, 'customaerAnswer');
-
-
         let indexActiveSurvey = survey.getActiveQuestionair();
-        console.log(indexActiveSurvey);
-        let indexActiveBlock = 0;
-        let indexActiveQuestion = 0;
-
         let activeCustomers = customers.getActiveCustomers();
         let items = userService.getItems();
 
         let activeSurvey = items[indexActiveSurvey];
-
         let activeSurveyId = activeSurvey.id;
 
-        let activeBlock = activeSurvey.blocks[indexActiveBlock];
+        let allQuestion = [];
 
+        activeSurvey.blocks.forEach(function(item) {
+            item.questions.forEach(function (item) {
+                allQuestion.push(item);
+            })
+        });
 
-
-        if(customaerAnswer.data.customerAnswers.length > 0 && customaerAnswer.data.status === 'completed'){
-                console.log('compleated');
+        function getType() {
+            console.log(vm.activeQuestion);
+            if(vm.activeQuestion.type === 1){
+                vm.typeQuestion = 1;
+            }
+            else {
+                vm.typeQuestion = 2;
+            }
         }
-        else{
+
+        if(allQuestion.length === 0){
+            console.log('no question in active survey');
+            $state.go('tab.user-management');
+        }
+        else if(customaerAnswer.data.status === 'completed'){
+            console.log('compleated active survey');
+            $state.go('tab.user-management');
+        }
+        else {
             if(customaerAnswer.data.customerAnswers.length > 0){
                 let LastPassQuestion = customaerAnswer.data.customerAnswers[customaerAnswer.data.customerAnswers.length - 1];
 
-                let allQuestion = [];
 
-                activeSurvey.blocks.forEach(function(item, i, arr) {
-                    item.questions.forEach(function (item, i, arr) {
-                        allQuestion.push(item);
-                    })
-                });
 
                 for(let indexQuestion = 0; indexQuestion < allQuestion.length; indexQuestion++){
                     if(allQuestion[indexQuestion].id === LastPassQuestion.question_id){
@@ -79,32 +84,12 @@
             }
             else{
                 console.log('start');
-                vm.activeQuestion = activeBlock.questions[indexActiveQuestion];
+                vm.activeQuestion = allQuestion[0];
             }
+            getType();
         }
-
-        //
-        // $scope.mass = [{id:1, name:'first'}, {id:2, name:'second'}, {id:3, name:'three'}, {id:4, name:'fourth'}, {id:5, name:'five'}, {id:6, name:'six'}];
-        // $scope.massFiltered = $scope.mass.filter(function (i) {
-        //     return (i.id >= 2) && (i.id < 6);
-        // });
-        //
-
-
-        function getType() {
-            if(vm.activeQuestion.answers.length > 0 && vm.activeQuestion.type === 1){
-                vm.typeQuestion = 1;
-            }
-            else {
-                vm.typeQuestion = 2;
-            }
-        }
-
-        getType();
 
         function next(type) {
-            console.log('next is presed');
-
             let data;
 
             let id = {
@@ -112,7 +97,6 @@
                 question: vm.activeQuestion.id
             };
             if(type === 1){
-                console.log(vm.dataIdAnswers, 'id answer');
                 data = {
                     answer_id: vm.dataIdAnswers
                 };
@@ -123,21 +107,17 @@
                 };
             }
 
-            console.log(data, 'data');
-
             userService.sendCustomerAnswer(id, data).then(function (res) {
-                console.log(res);
                 if(res.success){
-                   if(res.data.next_question === 'This is the last question in this survey'){
-                        console.log('last');
+                   if(res.data.next_question === 'This is the last question in this survey' || res.data.next_question === null){
+                        console.log('This is the last question in this survey');
                         let data = {
                             customer_id: activeCustomers,
                             survey_id: activeSurveyId
                         };
-                        console.log(data, 'data id customer and customers');
                         userService.createReport(data).then(function (res) {
-                            console.log(res);
                             if(res.success){
+                                Console.log('Report created');
                                 $state.go('tab.user-management');
                             }
                         })
@@ -149,31 +129,6 @@
                 }
             })
         }
-
-        // for(let i = 0; i < activeSurvey.blocks.length; i++){
-        //     for (let j = 0; j < activeSurvey.blocks[i].length; j++){
-        //         console.log(j);
-        //     }
-        //
-        // }
-
-        // activeSurvey.blocks.forEach(function (item, i, arr) {
-        //     item.questions.forEach(function (item, i, arr) {
-        //         console.log(item);
-        //     })
-        // });
-
-
-
-
-
-
-        //     .config(function ($mdThemingProvider) {
-        //         $mdThemingProvider.theme('docs-dark', 'default')
-        //             .primaryPalette('yellow')
-        //             .dark();
-        //     })
-        // //////////
     }
 
 })();

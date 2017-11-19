@@ -68,7 +68,6 @@
 
             config.url = url;
 
-            console.log(config, 'request')
             return $http(config)
                 .then(requestComplete)
                 .catch(requestFailed);
@@ -158,7 +157,7 @@
             // else {
             //     promise.reject(response.data);
             // }
-            console.log(response, 'response');
+            console.log(response, 'request response');
             return response.data;
 
 
