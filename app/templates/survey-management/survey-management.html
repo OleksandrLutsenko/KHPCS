@@ -1,9 +1,10 @@
 <div class="menus clearfix">
 
     <div class="tab-list clearfix">
-        <div   ng-repeat="it in vm.items" ng-if = "(it.survey_status === vm.superStatus) || vm.showAllStatus" class="questionnaire-list"
-               md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
-               ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
+        <div ng-repeat="it in vm.items" ng-if="(it.survey_status === vm.superStatus) || vm.showAllStatus"
+             class="questionnaire-list"
+             md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
+             ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
 
             <md-menu md-offset="0 -7">
 
@@ -34,7 +35,7 @@
 
         </div>
 
-        <div ng-click="vm.createSurvey()"  class="questionnaire-list"
+        <div ng-click="vm.createSurvey()" class="questionnaire-list"
              md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
              ng-if="(vm.superStatus === 'active') || vm.showAllStatus">
             <p class="plus-ico"><i class="fa fa-plus-circle" aria-hidden="true"></i></p>
@@ -56,7 +57,7 @@
                     <md-button ng-click="vm.showActive()">Show Active</md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button ng-click="vm.showInactive()")">Show Inactive</md-button>
+                    <md-button ng-click="vm.showInactive()">Show Inactive</md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="vm.showArchive()">Show Archive</md-button>
@@ -68,7 +69,6 @@
 
         </md-menu>
     </div>
-
 
 
 </div>

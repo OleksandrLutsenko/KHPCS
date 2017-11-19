@@ -1,65 +1,67 @@
-.tabsdemoDynamicHeight md-content {
-  background-color: transparent !important;
-}
+.createQuest {
 
-.tabsdemoDynamicHeight md-content md-tabs {
-  background: #f6f6f6;
-  border: 1px solid #e1e1e1;
-}
+  .tabsdemoDynamicHeight md-content {
+    background-color: transparent !important;
+  }
 
-.tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
-  background: white;
-}
+  .tabsdemoDynamicHeight md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1;
+  }
 
-.tabsdemoDynamicHeight md-content h1:first-child {
-  margin-top: 0;
-}
+  .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+    background: white;
+  }
 
-.clearfix:after,
-.clearfix:before {
-  display: table;
-  content: '';
-}
+  .tabsdemoDynamicHeight md-content h1:first-child {
+    margin-top: 0;
+  }
 
-.clearfix:after {
-  clear: both;
-}
+  .clearfix:after,
+  .clearfix:before {
+    display: table;
+    content: '';
+  }
 
-.label-tab {
-  text-transform: capitalize;
-  color: red;
-}
+  .clearfix:after {
+    clear: both;
+  }
 
-.singQest {
-  box-sizing: border-box;
-  padding: 15px 40px;
-  width: 100%;
-}
+  .label-tab {
+    text-transform: capitalize;
+    color: red;
+  }
 
-.sm-left {
-  //width: 100%;
-  float: left;
-}
+  .singQest {
+    box-sizing: border-box;
+    padding: 15px 40px;
+    width: 100%;
+  }
 
-//div.sm-left.ng-binding {
-//  max-width: 80%;
-//}
+  .sm-left {
+    float: left;
+  }
 
-.sm-right {
-  float: right;
-}
+  .sm-right {
+    float: right;
+  }
 
-.sm-right i {
-  color: black;
-  margin-left: 20px;
-  font-size: 20px;
-}
+  .sm-right i {
+    color: black;
+    margin-left: 20px;
+    font-size: 20px;
+  }
 
-md-edit-sm {
-  width: 50%;
-  background-color: #555555;
-}
+  md-edit-sm {
+    width: 50%;
+    background-color: #555555;
+  }
 
-md-dialog {
-  max-height: 95%;
+  md-dialog {
+    max-height: 95%;
+  }
+
+  i {
+    cursor: pointer;
+  }
 }

@@ -1,6 +1,6 @@
 <div class="addQuest">
-    <md-dialog style="max-height: 95%;">
-        <md-card style="margin: 0;">
+    <md-dialog>
+        <md-card>
             <md-card-title>
                 <md-card-title-text>
                     <span class="md-headline">Enter the question</span>
@@ -8,14 +8,14 @@
             </md-card-title>
 
             <md-card-content>
-                <div layout="column">
+                <div layout="column" class="inputCreate">
                     <md-input-container>
                         <label>Identifier</label>
                         <input ng-model="vm.data.identifier">
                     </md-input-container>
 
                     <md-input-container>
-                        <label>Type your question</label>
+                        <label>Name your question</label>
                         <input ng-model="vm.data.title">
 
 
@@ -39,8 +39,7 @@
 
                 <div layout="column" ng-if="vm.data.type === 1">
                     <div class="row">
-                        <md-button class="md-fab md-primary" aria-label="Add" ng-click="vm.addAnsver()"
-                                   style="font-size: 25px; float: right">
+                        <md-button class="md-fab md-primary" aria-label="Add" ng-click="vm.addAnsver()">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                         </md-button>
                     </div>
@@ -68,7 +67,7 @@
 
                 </div>
                 <div layout="row" layout-align="center center" layout-wrap>
-                    <md-button class="md-raised md-primary" ng-click="vm.save()"> Save</md-button>
+                    <md-button class="md-raised md-primary" ng-click="vm.saveQuest()"> Save</md-button>
                     <md-button class="md-raised md-primary" ng-click="vm.cancel()"> Cancel</md-button>
                 </div>
 

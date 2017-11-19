@@ -32,7 +32,7 @@
         };
 
         vm.editSurvey = function (id, index) {
-            console.log('Survey name: '+ vm.items[index].name);
+            console.log('Survey name: ' + vm.items[index].name);
             console.log('Survey id: ' + id);
             // console.log( vm.items[index]);
 
@@ -46,17 +46,17 @@
             function EditSurveyController($mdDialog) {
                 let vs = this;
 
-                if(typeof id != 'undefined') {
-                    vs.data =  {
+                if (typeof id != 'undefined') {
+                    vs.data = {
                         name: vm.items[index].name,
                         description: vm.items[index].description
                     };
                 }
 
                 vs.save = function () {
-                    if(typeof id != 'undefined') {
+                    if (typeof id != 'undefined') {
                         userService.updateSurvey(id, vs.data).then(function (res) {
-                            if (res.success){
+                            if (res.success) {
                                 userService.loadItems().then(function () {
                                     vm.items = userService.getItems();
                                 });
@@ -150,13 +150,5 @@
         vm.showAll = function () {
             vm.showAllStatus = true;
         };
-
-
-
-
-
-
-
     }
-
 })();

@@ -1,0 +1,23 @@
+.deleteQuest {
+  .deleteWindow {
+    padding: 10px;
+  }
+  .deleteTop h1 {
+    text-align: center;
+  }
+
+  .dltBtn button {
+    margin: 0;
+    text-transform: none;
+  }
+
+  .dltBtn {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
+  }
+
+  .dltBtn button:first-child {
+    margin-right: 10px;
+  }
+}
