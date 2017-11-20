@@ -49,7 +49,10 @@
             vmd.delete = function () {
                 userService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
-                        vm.customers.splice(index, 1);
+                        userService.loadCustomers().then(function () {
+                            vm.customers = userService.getCustomers();
+                        });
+
                         cancel();
                     }
                     else {
