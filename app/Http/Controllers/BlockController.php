@@ -23,7 +23,8 @@ class BlockController extends Controller
     public function show(Block $block, User $user)
     {
         if ($user->can('show', $block)) {
-            return ['questions' => $block->question()->get(), 'block' => $block];
+//            return ['questions' => $block->question()->get(), 'block' => $block];
+            return compact('block');
         }
         else {
             return response([

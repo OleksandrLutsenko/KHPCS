@@ -47,7 +47,18 @@ class AnswerController extends Controller
         if ($user->can('update', $answer)) {
             if ($answer->question->hasRadioAnswer()){
                 $answer->update($request->all());
+
+                $qq = Question::where('identifier', $answer->next_question)->get()->first();
+
+                if($answer->hasExtra == 1){
+                    $qq->extra = 1;
+                    $qq->update();
+                }else{
+                    $qq->extra = 0;
+                    $qq->update();
+                }
             }
+
             return compact('answer');
         }else{
             return response([

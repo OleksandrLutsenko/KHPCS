@@ -15,7 +15,7 @@ class Question extends Model
 
     protected $fillable = ['title', 'type', 'identifier', 'next_question'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'next_question'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'extra', 'next_question'];
 
     protected $appends = ['answers'];
 

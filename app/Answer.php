@@ -9,7 +9,7 @@ class Answer extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['answer_text', 'next_question'];
+    protected $fillable = ['answer_text', 'next_question', 'hasExtra'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -31,5 +31,4 @@ class Answer extends Model
     public function customerAnswers(){
         return $this->hasMany(CustomerAnswer::class);
     }
-
 }
