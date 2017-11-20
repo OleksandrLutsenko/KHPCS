@@ -11,24 +11,13 @@ class User extends Authenticatable implements CanResetPassword
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password', 'api_token'
-    ];
+    protected $fillable = ['name', 'email', 'password', 'api_token'];
+
+    protected $hidden = ['password', 'remember_token',];
 
     /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
+     * @return mixed|string
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
     public function generateToken()
     {
         $this->api_token = str_random(60);
@@ -36,22 +25,38 @@ class User extends Authenticatable implements CanResetPassword
         return $this->api_token;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function role(){
         return $this->belongsTo(Role::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function survey(){
         return $this->belongsToMany(Survey::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function customer(){
         return $this->belongsToMany(Customer::class);
     }
 
+    /**
+     * @return bool
+     */
     public function isAdmin(){
         return $this->role_id === 2;
     }
 
+    /**
+     * @param $token
+     * @param $user
+     */
     public function sendLinkToReset($token, $user)
     {
         $letter['from'] = 'knights@gmail.com';

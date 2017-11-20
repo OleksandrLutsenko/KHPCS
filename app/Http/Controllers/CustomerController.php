@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\CustomerAnswer;
+use App\Http\Requests\CustomerRequest;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -12,6 +14,8 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Customer $customer
+     * @param User $user
      * @return \Illuminate\Http\Response
      */
     public function index(Customer $customer, User $user)
@@ -29,11 +33,11 @@ class CustomerController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Customer $customer
-     * @param  \Illuminate\Http\Request $request
+     * @param CustomerRequest $request
      * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function store(Customer $customer, Request $request, User $user)
+    public function store(Customer $customer, CustomerRequest $request, User $user)
     {
         $customer = Customer::create($request->all());
         return response()->json($customer, 201);
@@ -62,13 +66,13 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param CustomerRequest $request
      * @param Customer $customer
      * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(Request $request, Customer $customer, User $user)
+    public function update(CustomerRequest $request, Customer $customer, User $user)
     {
             $customer->update($request->all());
             return response()->json($customer, 200);

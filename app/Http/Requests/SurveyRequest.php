@@ -13,7 +13,7 @@ class SurveyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,6 @@ class SurveyRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3|max:200',
-            'description' => 'max:1000',
 //            'status' => 'required',
         ];
     }

@@ -9,6 +9,10 @@ use PDF;
 
 class DownloadController extends Controller
 {
+    /**
+     * @param Report $report
+     * @return mixed
+     */
     public function downloadReport(Report $report){
 
         $data['customer'] = $report->customer;

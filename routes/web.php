@@ -15,3 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/storage/images/{filename}', 'ImageController@show');

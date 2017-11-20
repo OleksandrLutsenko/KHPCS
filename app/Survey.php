@@ -16,43 +16,70 @@ class Survey extends Model
 
     protected $appends = ['survey_status', 'blocks'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function user(){
         return $this->belongsToMany(User::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function customers(){
         return $this->belongsToMany(Customer::class, 'customer_surveys');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function block(){
         return $this->hasMany(Block::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function contracts(){
         return $this->hasMany(Contract::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function reports(){
         return $this->hasMany(Report::class);
     }
 
+    /**
+     * @return mixed
+     */
     public function getBlocksAttribute()
     {
         return $this->block;
     }
 
+    /**
+     * @return mixed
+     */
     public function getSurveyStatusAttribute()
     {
         return $this->getStatusLabel();
     }
-//
+
+    /**
+     * @return mixed
+     */
     public function getStatusLabel(){
         $statusValueLabelMap = static::getStatusValueLabelMap();
 
 //        return isset($statusValueLabelMap[$this->status]) ? $statusValueLabelMap[$this->status] : null;
         return $statusValueLabelMap[$this->status];
     }
-//
+
+    /**
+     * @return array
+     */
     public static function getStatusValueLabelMap(){
         return [
             1 => 'active',

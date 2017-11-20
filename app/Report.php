@@ -17,14 +17,23 @@ class Report extends Model
 
     protected $appends = ['surveys'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function survey(){
         return $this->belongsTo(Survey::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function customer(){
         return $this->belongsTo(Customer::class);
     }
 
+    /**
+     * @return mixed
+     */
     public function getSurveysAttribute()
     {
         return $this->question;

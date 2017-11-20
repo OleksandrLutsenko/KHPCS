@@ -31,55 +31,36 @@ class ContractController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @param Contract $contract
-     * @param Report $report
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Contract $contract, Report $report)
-    {
-
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param ContractRequest|Request $request
      * @param Contract $contract
-     * @param User $user
      * @return \Illuminate\Http\Response
      */
-    public function store(ContractRequest $request, Contract $contract, User $user)
+    public function store(ContractRequest $request, Contract $contract)
     {
-//        if ($user->can('create', $contract)) {
+        $user = Auth::user();
+        if ($user->can('create', $contract)) {
             $contract = $contract->create($request->all());
 //            return stripcslashes($contract->body);
             return compact('contract');
-//        }else{
-//            return response([
-//                "error" => "You do not have a permission"], 404
-//            );
-//        }
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
     /**
      * Display the specified resource.
      *
      * @param Contract $contract
-     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function show(Contract $contract, User $user)
+    public function show(Contract $contract)
     {
-//        if ($user->can('show', $contract)) {
             return compact('contract');
-//        }else{
-//            return response([
-//                "error" => "You do not have a permission"], 404
-//            );
-//        }
     }
 
     /**
@@ -91,8 +72,7 @@ class ContractController extends Controller
     public function review(Report $report, Contract $contract, User $user)
     {
         $body = stripcslashes($contract->body);
-        File::put('../resources/views/contract.blade.php',$body);
-
+        File::put('../resources/views/contract.blade.php', $body);
 
         $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
         foreach ($customerAnswers as $customerAnswer) {
@@ -101,21 +81,9 @@ class ContractController extends Controller
             if ($question->block->survey_id == $report->survey_id) {
                 $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
                 $contractAnswers[$question->id]  = $finalAnswer[0]->value;
-
             }
         }
         return view('contract', compact('contractAnswers', 'report'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -123,46 +91,51 @@ class ContractController extends Controller
      *
      * @param ContractRequest|Request $request
      * @param Contract $contract
-     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function update(ContractRequest $request, Contract $contract, User $user)
+    public function update(ContractRequest $request, Contract $contract)
     {
-//        if ($user->can('update', $contract)) {
+        $user = Auth::user();
+        if ($user->can('update', $contract)) {
             $contract->update($request->all());
             return compact('contract');
-//        }else{
-//            return response([
-//                "error" => "You do not have a permission"], 404
-//            );
-//        }
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Contract $contract
-     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function destroy(Contract $contract, User $user)
+    public function destroy(Contract $contract)
     {
-//        if ($user->can('delete', $contract)) {
+        $user = Auth::user();
+        if ($user->can('delete', $contract)) {
             $contract->delete();
             return compact('contract');
-//        }else{
-//            return response([
-//                "error" => "You do not have a permission"], 404
-//            );
-//        }
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
     }
 
-    public function downloadContract(Report $report, Contract $contract){
-
+    /**
+     * @param Report $report
+     * @param Contract $contract
+     * @return mixed
+     */
+    public function downloadContract(Report $report, Contract $contract)
+    {
         $body = stripcslashes($contract->body);
-        File::put('../resources/views/contract.blade.php',$body);
+        File::put('../resources/views/contract.blade.php', $body);
 
         $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
         foreach ($customerAnswers as $customerAnswer) {
@@ -179,5 +152,4 @@ class ContractController extends Controller
         $pdf = PDF::loadView('contract', $data);
         return $pdf->download('contract.pdf');
     }
-
 }

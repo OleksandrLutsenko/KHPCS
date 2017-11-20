@@ -19,10 +19,16 @@ class Contract extends Model
 
     protected $appends = ['surveys'];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function survey(){
         return $this->belongsTo(Survey::class);
     }
 
+    /**
+     * @return mixed
+     */
     public function getSurveysAttribute()
     {
         return $this->survey->name;
