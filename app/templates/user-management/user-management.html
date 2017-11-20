@@ -28,7 +28,7 @@
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in vm.customers | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit | filter: vm.search">
+                            ng-repeat="customers in vm.customers | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-click="vm.pass(customers.id)">{{customers.reports.length}} Go </td>
