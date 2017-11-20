@@ -19,6 +19,9 @@
         let activeSurvey = items[indexActiveSurvey];
         let activeSurveyId = activeSurvey.id;
 
+        let activeBlock = activeSurvey.blocks[0];
+        console.log(activeBlock);
+
         let allQuestion = [];
 
         activeSurvey.blocks.forEach(function(item) {
@@ -41,53 +44,56 @@
             console.log('no question in active survey');
             $state.go('tab.user-management');
         }
-        else if(customaerAnswer.data.status === 'completed'){
-            console.log('compleated active survey');
-            $state.go('tab.user-management');
+        else{
+            vm.questions = activeBlock.questions
         }
-        else {
-            if(customaerAnswer.data.customerAnswers.length > 0){
-                let LastPassQuestion = customaerAnswer.data.customerAnswers[customaerAnswer.data.customerAnswers.length - 1];
-
-
-
-                for(let indexQuestion = 0; indexQuestion < allQuestion.length; indexQuestion++){
-                    if(allQuestion[indexQuestion].id === LastPassQuestion.question_id){
-                        if(allQuestion[indexQuestion].type === 1){
-                            console.log('type === 1');
-                            for(let indexAnswer = 0; indexAnswer < allQuestion[indexQuestion].answers.length; indexAnswer++){
-                                if(allQuestion[indexQuestion].answers[indexAnswer].id === LastPassQuestion.answer_id){
-                                    let nextQuestion = allQuestion[indexQuestion].answers[indexAnswer].next_question;
-                                    for (let index = 0; index < allQuestion.length; index++){
-                                        if(allQuestion[index].identifier === nextQuestion){
-                                            vm.activeQuestion = allQuestion[index];
-                                            break
-                                        }
-                                    }
-                                    break
-                                }
-                            }
-                        }
-                        else{
-                            console.log('type === 2');
-                            let nextQuestion = allQuestion[indexQuestion].next_question;
-                            for (let index = 0; index < allQuestion.length; index++){
-                                if(allQuestion[index].identifier === nextQuestion){
-                                    vm.activeQuestion = allQuestion[index];
-                                    break
-                                }
-                            }
-                        }
-                        break
-                    }
-                }
-            }
-            else{
-                console.log('start');
-                vm.activeQuestion = allQuestion[0];
-            }
-            getType();
-        }
+        // else if(customaerAnswer.data.status === 'completed'){
+        //     console.log('compleated active survey');
+        //     $state.go('tab.user-management');
+        // }
+        // else {
+        //     if(customaerAnswer.data.customerAnswers.length > 0){
+        //         let LastPassQuestion = customaerAnswer.data.customerAnswers[customaerAnswer.data.customerAnswers.length - 1];
+        //
+        //
+        //
+        //         for(let indexQuestion = 0; indexQuestion < allQuestion.length; indexQuestion++){
+        //             if(allQuestion[indexQuestion].id === LastPassQuestion.question_id){
+        //                 if(allQuestion[indexQuestion].type === 1){
+        //                     console.log('type === 1');
+        //                     for(let indexAnswer = 0; indexAnswer < allQuestion[indexQuestion].answers.length; indexAnswer++){
+        //                         if(allQuestion[indexQuestion].answers[indexAnswer].id === LastPassQuestion.answer_id){
+        //                             let nextQuestion = allQuestion[indexQuestion].answers[indexAnswer].next_question;
+        //                             for (let index = 0; index < allQuestion.length; index++){
+        //                                 if(allQuestion[index].identifier === nextQuestion){
+        //                                     vm.activeQuestion = allQuestion[index];
+        //                                     break
+        //                                 }
+        //                             }
+        //                             break
+        //                         }
+        //                     }
+        //                 }
+        //                 else{
+        //                     console.log('type === 2');
+        //                     let nextQuestion = allQuestion[indexQuestion].next_question;
+        //                     for (let index = 0; index < allQuestion.length; index++){
+        //                         if(allQuestion[index].identifier === nextQuestion){
+        //                             vm.activeQuestion = allQuestion[index];
+        //                             break
+        //                         }
+        //                     }
+        //                 }
+        //                 break
+        //             }
+        //         }
+        //     }
+        //     else{
+        //         console.log('start');
+        //         vm.activeQuestion = allQuestion[0];
+        //     }
+        //     getType();
+        // }
 
         function next(type) {
             let data;

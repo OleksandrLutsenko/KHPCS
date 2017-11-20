@@ -56,10 +56,15 @@
                             <input ng-model="answers.next_question">
                         </md-input-container>
                     </div>
-                    <div layout="row">
+                    <div layout="column">
                         <md-button class="md-fab md-mini" ng-click="vm.deleteAnsver(answers.id, $index)" aria-label="Del answer">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                         </md-button>
+                    </div>
+                    <div layout="column">
+                        <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="answers.hasExtra">
+                            Has Extra
+                        </md-switch>
                     </div>
                 </div>
 

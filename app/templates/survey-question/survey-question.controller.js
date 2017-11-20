@@ -71,6 +71,14 @@
 
             if(typeof id !== 'undefined') {
                 vmd.data =  vm.items[index];
+                for(let i = 0; i < vm.items[index].answers.length; i++){
+                    if(vm.items[index].answers[i].hasExtra === 1){
+                        vmd.data.answers[i].hasExtra = true;
+                    }
+                    else if (vm.items[index].answers[i].hasExtra === 0){
+                        vmd.data.answers[i].hasExtra = false;
+                    }
+                }
             }
             else {
                 vmd.data = {
@@ -108,6 +116,7 @@
                         title:          vmd.data.title,
                         identifier:     vmd.data.identifier,
                         type:           vmd.data.type,
+
                     };
                     if(vmd.data.type === 2){
                         data.next_question = vmd.data.next_question;
@@ -118,6 +127,12 @@
                             if (vmd.data.answers.length > 0 && vmd.data.type === 1){
                                 for(let i = 0; i < vmd.data.answers.length; i++){
                                     let data = vmd.data.answers[i];
+                                    if(data.hasExtra === true){
+                                        data.hasExtra = 1;
+                                    }
+                                    else{
+                                        data.hasExtra = 0;
+                                    }
                                     if(typeof data.id !== 'undefined'){
                                         if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                             userService.updateAnswer(data.id, data).then(function (res) {
@@ -160,6 +175,12 @@
                             if (vmd.data.answers.length > 0 && vmd.data.type === 1){
                                 for(let i = 0; i < vmd.data.answers.length; i++){
                                     let data = vmd.data.answers[i];
+                                    if(data.hasExtra === true){
+                                        data.hasExtra = 1;
+                                    }
+                                    else{
+                                        data.hasExtra = 0;
+                                    }
                                     if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                         userService.createAnswer(res.data.question.id, data).then(function (res) {
                                             if(res.success){
