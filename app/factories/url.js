@@ -20,6 +20,10 @@
             survey_management_func(id) {
                 return {
                     updateSurvey: baseUrl + 'api/survey/' + id,
+                    deleteSurvey: baseUrl + 'api/survey/' + id,
+                    changeStatusSurvey: baseUrl + 'api/survey/' + id + '/change-status',
+                    archiveStatusSurvey: baseUrl + 'api/survey/' + id + '/archive-status',
+                    block : baseUrl + 'api/survey/' + id + '/add-block',
                     createBlock : baseUrl + 'api/survey/' + id + '/add-block',
                     updateBlock : baseUrl + 'api/block/' + id,
                     createQuestion : baseUrl + 'api/block/' + id + '/add-question',
@@ -33,8 +37,18 @@
             },
             customers_func(id) {
                 return {
-                    updateCustomers : baseUrl + 'api/customer/'+ id,
-                    sendCustomerAnswer : baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer'
+                    updateCustomers: baseUrl + 'api/customer/'+ id,
+                    sendCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer',
+
+                    getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'
+                }
+            },
+            report: {
+                createReport: baseUrl + 'api/report'
+            },
+            report_func(id) {
+                return {
+                    // update: baseUrl + 'dfsdf'
                 }
             }
 

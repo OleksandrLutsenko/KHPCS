@@ -7,118 +7,112 @@
 
     function UserManagementController(userService, $state, $mdDialog, customers) {
         let vm = this;
-        vm.myLimit = 5;
-        vm.myPage = 1;
 
-        vm.go = go;
+        vm.myLimit = 10;
+        vm.myPage = 1;
 
         vm.customers = userService.getCustomers();
 
-        function go(id) {
+        vm.pass = pass;
+        vm.deleteCustomer = deleteCustomer;
+        vm.createOrUpdate = createOrUpdate;
+
+        function pass(id) {
             customers.setActiveCustomers(id);
             $state.go('tab.passing-question');
         }
 
-        vm.addCustomer = function (id, index, customers) {
+        function cancel() {
+            $mdDialog.cancel();
+        }
 
-            $mdDialog.show({
-                controller: DialogController,
-                controllerAs: 'vm',
-                templateUrl: 'components/user-management/addClient/addClient.html',
-                clickOutsideToClose: true
-            });
-
-            function DialogController($mdDialog) {
-                let vs = this;
-
-                if(typeof id != 'undefined') {
-                    vs.data =  {
-                        name: customers.name,
-                        surname: customers.surname,
-                        classification: customers.classification
-                    };
-                    console.log(id);
-                }
-
-                vs.saved = function () {
-                    console.log(id, vs.data);
-                    if(typeof id != 'undefined') {
-                        userService.updateCustomers(id, vs.data).then(function (res) {
-                            if (res.success) {
-                                console.log(res, 'succes');
-                                userService.loadCustomers().then(function () {
-                                    vm.customers = userService.getCustomers();
-                                    $mdDialog.cancel();
-                                });
-                            }
-                            else {
-                                console.log('error');
-                            }
-                            vs.cancel();
-                        });
-                    }
-                    else {
-                        userService.createCustomers(vs.data).then(function (res) {
-                            if (res.success) {
-                                console.log(res, 'crea');
-                                vm.customers.push(res.data);
-                            }
-                            else {
-                                console.log('error');
-                            }
-                            vs.cancel();
-
-                            $mdDialog.show({
-                                controller: DialogController,
-                                controllerAs: 'vm',
-                                templateUrl: 'components/user-management/addClient/annonce.html',
-                                clickOutsideToClose: true
-                            });
-                        });
-                    }
-                };
-
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
-        };
-
-        vm.deleteCustomer = function (id) {
+        function deleteCustomer(id, index, customers) {
             $mdDialog.show({
                 controller: deleteController,
                 controllerAs: 'vm',
+                locals: {
+                    data: {
+                        id: id,
+                        index: index
+                    }
+                },
                 templateUrl: 'components/user-management/deleteCustomer/deleteCustomer.html',
                 clickOutsideToClose: true
-            });
+            })
+        }
+        function deleteController(data) {
+            let vmd = this;
 
-            function deleteController($mdDialog) {
-                let vs = this;
+            let id = data.id;
+            let index = data.index;
 
-                vs.delete = function () {
-                    if (typeof id != 'undefined') {
-                        userService.deleteCustomers(id).then(function (res) {
-                            if (res.success) {
-
-                                vs.cancel();
-                                userService.loadCustomers().then(function () {
-                                    vm.customers = userService.getCustomers();
-                                    $mdDialog.cancel();
-                                });
-                            }
-                            else {
-                                console.log('errorDelete');
-                            }
-                        });
+            vmd.delete = function () {
+                userService.deleteCustomers(id).then(function (res) {
+                    if (res.success) {
+                        vm.customers.splice(index, 1);
+                        cancel();
                     }
                     else {
-                        console.log('deleteError');
+                        console.log('error');
                     }
-                };
-
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
+                })
             }
-        };
-    }}());
+        }
+
+        function createOrUpdate(id, index, customers) {
+            $mdDialog.show({
+                controller: DialogController,
+                controllerAs: 'vm',
+                locals: {
+                    data: {
+                        id: id,
+                        index: index,
+                        customers: customers
+                    }
+                },
+                templateUrl: 'components/user-management/addClient/addClient.html',
+                clickOutsideToClose: true
+            })
+        }
+        function DialogController(data) {
+            let vmd = this;
+
+            let id = data.id;
+            let index = data.index;
+            let customers = data.customers;
+
+            if(typeof id !== 'undefined') {
+                vmd.data =  {
+                    name: customers.name,
+                    surname: customers.surname,
+                    classification: customers.classification
+                }
+            }
+
+            vmd.save = function () {
+                if(typeof id !== 'undefined') {
+                    userService.updateCustomers(id, vmd.data).then(function (res) {
+                        if (res.success) {
+                            vm.customers.splice(index, 1, res.data);
+                        }
+                        else {
+                            console.log('error');
+                        }
+                        cancel();
+                    });
+                }
+                else {
+                    userService.createCustomers(vmd.data).then(function (res) {
+                        if (res.success) {
+                            vm.customers.push(res.data);
+                        }
+                        else {
+                            console.log('error');
+                        }
+                        cancel();
+                    });
+                }
+            };
+        }
+    }
+}());
