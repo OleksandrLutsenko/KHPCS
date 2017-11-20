@@ -17,7 +17,7 @@ class Customer extends Model
     protected $appends = ['reports'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function report(){
         return $this->hasMany(Report::class);
