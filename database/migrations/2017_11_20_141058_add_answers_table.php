@@ -13,18 +13,8 @@ class AddAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::table('answers', function($table) {
-            $table->integer('hasExtra')->nullable();
+        Schema::table('answers', function ($table) {
+            $table->integer('hasExtra')->default('0');
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        //
     }
 }

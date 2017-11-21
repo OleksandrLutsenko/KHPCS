@@ -48,8 +48,7 @@ class QuestionController extends Controller
                 }
 
                 return compact('answer');
-            }
-            else{
+            } else {
                 return response([
                 'errors' => 'This is not the radio type question'
             ], 400);
