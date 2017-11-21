@@ -41,7 +41,16 @@
     padding-top: 20px;
   }
 
+  .botBtn{
+    display: flex;
+    justify-content: flex-end;
+  }
+
   .md-button.md-raised:first-child {
     margin-right: 10px;
+  }
+
+  .md-button.md-raised{
+    text-transform: capitalize;
   }
 }

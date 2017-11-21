@@ -45,4 +45,12 @@
   .md-button.md-raised:first-child {
     margin-right: 10px;
   }
+
+  button {
+    text-transform: capitalize;
+  }
+  .botBtn{
+    display: flex;
+    justify-content: flex-end;
+  }
 }

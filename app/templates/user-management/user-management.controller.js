@@ -5,6 +5,7 @@
 
     UserManagementController.$inject = ['userService', '$state', '$mdDialog', 'customers'];
 
+
     function UserManagementController(userService, $state, $mdDialog, customers) {
         let vm = this;
 
@@ -26,6 +27,14 @@
             $mdDialog.cancel();
         }
 
+        function annonce() {
+            $mdDialog.show({
+                controllerAs: 'vm',
+                templateUrl: 'components/user-management/addClient/annonce.html',
+                clickOutsideToClose: true
+            })
+        }
+
         function deleteCustomer(id, index, customers) {
             $mdDialog.show({
                 controller: deleteController,
@@ -44,7 +53,6 @@
             let vmd = this;
 
             let id = data.id;
-            let index = data.index;
 
             vmd.delete = function () {
                 userService.deleteCustomers(id).then(function (res) {
@@ -59,7 +67,7 @@
                         console.log('error');
                     }
                 })
-            }
+            };
         }
 
         function createOrUpdate(id, index, customers) {
@@ -96,7 +104,10 @@
                 if(typeof id !== 'undefined') {
                     userService.updateCustomers(id, vmd.data).then(function (res) {
                         if (res.success) {
-                            vm.customers.splice(index, 1, res.data);
+
+                            userService.loadCustomers().then(function () {
+                                vm.customers = userService.getCustomers();
+                            });
                         }
                         else {
                             console.log('error');
@@ -113,9 +124,11 @@
                             console.log('error');
                         }
                         cancel();
+                        annonce();
                     });
                 }
             };
+
         }
     }
 }());
