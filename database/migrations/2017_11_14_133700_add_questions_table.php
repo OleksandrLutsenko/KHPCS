@@ -15,7 +15,8 @@ class AddQuestionsTable extends Migration
     {
         Schema::table('questions', function($table) {
             $table->string('next_question')->nullable();
-            $table->integer('extra')->nullable();
+            $table->integer('extra')->default('0');
+            $table->integer('last')->default('0');
         });
     }
 

@@ -53,7 +53,7 @@ class AnswerController extends Controller
                 if($answer->hasExtra == 1){
                     $qq->extra = 1;
                     $qq->update();
-                }else{
+                } else {
                     $qq->extra = 0;
                     $qq->update();
                 }

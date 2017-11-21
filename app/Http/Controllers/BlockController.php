@@ -102,6 +102,7 @@ class BlockController extends Controller
      */
     public function customerShow(Customer $customer, Block $block)
     {
-        return ['questions' => $block->question()->get(), 'block' => $block];
+//        return ['questions' => $block->question()->get(), 'block' => $block];
+        return compact('block');
     }
 }
