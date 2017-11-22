@@ -133,6 +133,9 @@
                                     else{
                                         data.hasExtra = 0;
                                     }
+                                    if(data.next_question == ''){
+                                        data.next_question = null;
+                                    }
                                     if(typeof data.id !== 'undefined'){
                                         if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                             userService.updateAnswer(data.id, data).then(function (res) {

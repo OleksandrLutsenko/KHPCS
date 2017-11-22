@@ -1,34 +1,36 @@
 <div layout-padding>
-    <div ng-repeat="questions in vm.questions" layout="row" layout-align="center center">
-        <div ng-if="questions.type === 1" flex="80">
-            <md-content layout="row">
-                <h3>{{questions.title}}</h3>
-            </md-content>
-            <md-content layout="colums">
-                <md-radio-group>
-                    <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}">
-                        {{answers.answer_text}}
-                    </md-radio-button>
-                </md-radio-group>
-            </md-content>
-        </div>
+    <div ng-repeat="questions in vm.questions" >
+        <div layout="row" layout-align="center center" ng-if="questions.extra == 0 || questions.extraAfte == 0">
+            <div ng-if="questions.type === 1" flex="80">
+                <md-content layout="row">
+                    <h3>{{questions.title}}</h3>
+                </md-content>
+                <md-content layout="colums">
+                    <md-radio-group ng-model="vm.data[$index]">
+                        <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}">
+                            {{answers.answer_text}}
+                        </md-radio-button>
+                    </md-radio-group>
+                </md-content>
+            </div>
 
-        <div ng-if="questions.type === 2" flex="80">
-            <md-content>
-                <h3>{{questions.title}}</h3>
-            </md-content>
-            <md-content>
-                <form name="userForm">
+            <div ng-if="questions.type === 2" flex="80">
+                <md-content>
+                    <h3>{{questions.title}}</h3>
+                </md-content>
+                <md-content>
+                    <form name="userForm">
 
-                    <md-input-container class="md-block" flex="90">
-                        <label>{{questions.title}}</label>
-                        <input ng-model="vm.dataTextAnswers" md-maxlength="150" md-select-on-focus>
-                    </md-input-container>
-                </form>
-            </md-content>
+                        <md-input-container class="md-block" flex="90">
+                            <label>{{questions.title}}</label>
+                            <input ng-model="vm.data[$index]" md-maxlength="150" md-select-on-focus>
+                        </md-input-container>
+                    </form>
+                </md-content>
+            </div>
         </div>
     </div>
     <div layout="row" flex="80" layout-align="center center">
-        <md-button ng-click="vm.next(vm.typeQuestion)" ng-if="vm.dataIdAnswers !== undefined || vm.dataTextAnswers !== undefined && vm.dataTextAnswers !== ''">Next</md-button>
+        <md-button ng-click="vm.next()">Next</md-button>
     </div>
 </div>
