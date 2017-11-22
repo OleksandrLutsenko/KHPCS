@@ -14,9 +14,9 @@
             console.log(vm.data);
             userService.registration(vm.data).then(function (res) {
                 console.log(res, 'reg ctrl');
-                if (res.status){
+                if (res.success){
                     userService.setUser(res.data);
-                    $state.go('tab');
+                    $state.go('login');
                 }
                 else {
                     console.log('eror');

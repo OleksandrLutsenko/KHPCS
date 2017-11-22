@@ -16,9 +16,7 @@
         vm.year = vm.time.getFullYear();
         vm.month = vm.time.getMonth() +1;
         vm.date = vm.time.getDate();
-        vm.all = vm.year + "." + vm.month + "." + vm.date;
-
-
+        vm.all = vm.date + "." + vm.month + "." + vm.year;
 
         vm.customers = userService.getCustomers();
 

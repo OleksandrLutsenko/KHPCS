@@ -12,7 +12,7 @@
             user: {
                 login: baseUrl + 'api/login',
                 getItems: baseUrl + 'api/survey',
-                register: baseUrl + 'public/api/register'
+                register: baseUrl + 'api/register'
             },
             survey_management: {
                 createSurvey: baseUrl + 'api/survey',

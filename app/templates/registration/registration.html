@@ -11,25 +11,25 @@
                         <div class="divInput">
                             <md-input-container class="loginInput">
                                 <label>Full name</label>
-                                <input type="text">
+                                <input ng-model="vm.data.name" type="text" >
                             </md-input-container>
 
                             <md-input-container class="loginInput">
                                 <label>Email</label>
-                                <input type="email">
+                                <input ng-model="vm.data.email" type="email">
                             </md-input-container>
 
                             <md-input-container class="loginInput">
                                 <label>Password</label>
-                                <input type="password">
+                                <input ng-model="vm.data.password" type="password">
                             </md-input-container>
 
                             <md-input-container class="loginInput">
                                 <label>Confirm password</label>
-                                <input type="password">
+                                <input ng-model="vm.data.password_confirmation" type="password">
                             </md-input-container>
                         </div>
-                        <div class="divBtn">
+                        <div class="divBtn" ng-click="vm.register()">
                             <md-button>
                                 <p class="logBtnText">Sign up</p>
                             </md-button>
