@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     width: 95%;
-    padding: 10px 40px;
+    padding: 10px 0 10px 40px;
   }
 
   .search md-input-container {
@@ -50,7 +50,7 @@
     margin-left: 25px;
   }
 
-  td{
+  td {
     text-transform: capitalize;
   }
 
@@ -71,15 +71,9 @@
     text-transform: none;
   }
 
+  button {
+    text-transform: capitalize;
+  }
+
 }
 
-.botBtn {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.botTextClient, .botBtn button, .botBtn button {
-  margin: 0;
-  text-transform: none;
-}

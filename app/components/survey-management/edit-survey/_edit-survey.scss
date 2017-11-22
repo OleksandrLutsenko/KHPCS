@@ -1,5 +1,9 @@
 .editSurvey {
 
+  width: 0;
+  display: flex;
+  justify-content: center;
+
   .dialog-max-height {
     max-height: 95%;
   }

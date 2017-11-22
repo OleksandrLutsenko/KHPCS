@@ -45,6 +45,15 @@
   i {
     cursor: pointer;
   }
+
+  button {
+    text-transform: capitalize;
+  }
+
+  .botBtn{
+    display: flex;
+    justify-content: flex-end;
+  }
 }
 
 .annonce {
@@ -69,5 +78,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+  button {
+    text-transform: capitalize;
   }
 }

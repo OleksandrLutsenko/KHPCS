@@ -7,8 +7,7 @@
   }
 
   .dltBtn button {
-    margin: 0;
-    text-transform: none;
+    text-transform: capitalize;
   }
 
   .dltBtn {
@@ -20,4 +19,5 @@
   .dltBtn button:first-child {
     margin-right: 10px;
   }
+
 }
