@@ -12,7 +12,7 @@
         let indexBlock = idB.indexBlock;
         let idBlock = idB.id;
 
-        $scope.$on('parent', function (event, data) {
+        $scope.$on('parent', function(event, data){
             indexBlock = data;
             vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
             idB = survey.getActiveBlock();
@@ -25,7 +25,7 @@
             $mdDialog.cancel();
         }
 
-        vm.showConfirm = function (ev, id, index) {
+        vm.showConfirm = function(ev, id, index) {
             let confirm = $mdDialog.confirm({
                 clickOutsideToClose: true
             })
@@ -34,9 +34,9 @@
                 .ok('Yes')
                 .cancel('No');
 
-            $mdDialog.show(confirm).then(function () {
+            $mdDialog.show(confirm).then(function() {
                 userService.deleteQuestion(id).then(function (res) {
-                    if (res.success) {
+                    if(res.success){
                         vm.items.splice(index, 1);
                     }
                     else {
@@ -56,7 +56,7 @@
                         index: index
                     }
                 },
-                templateUrl: 'components/survey-question/addQuest/addQuest.html',
+                templateUrl: 'components/survey-question/edit.html',
                 clickOutsideToClose: true
             })
         };
@@ -69,29 +69,37 @@
             let id = data.id;
             let index = data.index;
 
-            if (typeof id !== 'undefined') {
-                vmd.data = vm.items[index];
+            if(typeof id !== 'undefined') {
+                vmd.data =  vm.items[index];
+                for(let i = 0; i < vm.items[index].answers.length; i++){
+                    if(vm.items[index].answers[i].hasExtra === 1){
+                        vmd.data.answers[i].hasExtra = true;
+                    }
+                    else if (vm.items[index].answers[i].hasExtra === 0){
+                        vmd.data.answers[i].hasExtra = false;
+                    }
+                }
             }
             else {
                 vmd.data = {
-                    answers: []
+                    answers:  []
                 }
             }
 
             vmd.addAnsver = function () {
-                if (vmd.data.answers.length === 0 ||
+                if(vmd.data.answers.length === 0 ||
                     typeof vmd.data.answers[vmd.data.answers.length - 1].answer_text !== 'undefined'
-                    && vmd.data.answers[vmd.data.answers.length - 1].answer_text !== '') {
+                    && vmd.data.answers[vmd.data.answers.length - 1].answer_text !== ''){
 
                     vmd.data.answers.push({});
                 }
             };
 
-            vmd.deleteAnsver = function (id, indexAns) {
-                if (typeof id !== 'undefined') {
+            vmd.deleteAnsver = function(id, indexAns){
+                if(typeof id !== 'undefined'){
                     userService.deleteAnswer(id).then(function (res) {
                         console.log(res);
-                        if (res.success) {
+                        if(res.success){
                             vmd.data.answers.splice(indexAns, 1);
                         }
                     })
@@ -103,34 +111,44 @@
             };
 
             vmd.save = function () {
-                if (typeof id !== 'undefined') {
+                if(typeof id !== 'undefined') {
                     let data = {
-                        title: vmd.data.title,
-                        identifier: vmd.data.identifier,
-                        type: vmd.data.type,
+                        title:          vmd.data.title,
+                        identifier:     vmd.data.identifier,
+                        type:           vmd.data.type,
+
                     };
-                    if (vmd.data.type === 2) {
+                    if(vmd.data.type === 2){
                         data.next_question = vmd.data.next_question;
                     }
                     userService.updateQuestion(id, data).then(function (res) {
-                        if (res.success) {
+                        if (res.success){
                             vm.items.splice(index, 1, res.data.question);
-                            if (vmd.data.answers.length > 0 && vmd.data.type === 1) {
-                                for (let i = 0; i < vmd.data.answers.length; i++) {
+                            if (vmd.data.answers.length > 0 && vmd.data.type === 1){
+                                for(let i = 0; i < vmd.data.answers.length; i++){
                                     let data = vmd.data.answers[i];
-                                    if (typeof data.id !== 'undefined') {
-                                        if (typeof data.answer_text !== 'undefined' && data.answer_text !== '') {
+                                    if(data.hasExtra === true){
+                                        data.hasExtra = 1;
+                                    }
+                                    else{
+                                        data.hasExtra = 0;
+                                    }
+                                    if(data.next_question == ''){
+                                        data.next_question = null;
+                                    }
+                                    if(typeof data.id !== 'undefined'){
+                                        if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                             userService.updateAnswer(data.id, data).then(function (res) {
-                                                if (res.success) {
+                                                if(res.success){
                                                     vm.items[index].answers.splice(i, 1, res.data.answer);
                                                 }
                                             });
                                         }
                                     }
-                                    else {
-                                        if (typeof data.answer_text !== 'undefined' && data.answer_text !== '') {
+                                    else{
+                                        if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                             userService.createAnswer(res.data.question.id, data).then(function (res) {
-                                                if (res.success) {
+                                                if(res.success){
                                                     vm.items[index].answers.push(res.data.answer);
                                                 }
                                             });
@@ -147,22 +165,28 @@
                 }
                 else {
                     let data = {
-                        title: vmd.data.title,
-                        identifier: vmd.data.identifier,
-                        type: vmd.data.type,
+                        title:          vmd.data.title,
+                        identifier:     vmd.data.identifier,
+                        type:           vmd.data.type,
                     };
-                    if (vmd.data.type === 2) {
+                    if(vmd.data.type === 2){
                         data.next_question = vmd.data.next_question;
                     }
                     userService.createQuestion(idBlock, data).then(function (res) {
                         if (res.success) {
                             vm.items.push(res.data.question);
-                            if (vmd.data.answers.length > 0 && vmd.data.type === 1) {
-                                for (let i = 0; i < vmd.data.answers.length; i++) {
+                            if (vmd.data.answers.length > 0 && vmd.data.type === 1){
+                                for(let i = 0; i < vmd.data.answers.length; i++){
                                     let data = vmd.data.answers[i];
-                                    if (typeof data.answer_text !== 'undefined' && data.answer_text !== '') {
+                                    if(data.hasExtra === true){
+                                        data.hasExtra = 1;
+                                    }
+                                    else{
+                                        data.hasExtra = 0;
+                                    }
+                                    if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                         userService.createAnswer(res.data.question.id, data).then(function (res) {
-                                            if (res.success) {
+                                            if(res.success){
                                                 vm.items[vm.items.length - 1].answers.push(res.data.answer);
                                             }
                                         });
