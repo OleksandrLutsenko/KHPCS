@@ -1,0 +1,31 @@
+.surveyBlock {
+
+  md-tab-item {
+    display: inline-flex;
+    //padding: 12px 15px 12px 0;
+    padding: 12px 15px;
+  }
+
+  md-ink-bar {
+    background: #6A5ACD;
+  }
+
+  .add-button {
+    height: 100%;
+    border-bottom: 1px solid rgba(0,0,0, .12);
+  }
+
+  .blockName {
+    margin: 0;
+    text-transform: capitalize;
+  }
+  md-menu .md-button.md-icon-button {
+    padding: 0;
+    margin-left: 10px;
+  }
+  .md-button.md-icon-button {
+    width: 10px;
+    height: 0;
+    min-height: 26px;
+  }
+}

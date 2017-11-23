@@ -17,6 +17,8 @@
 
   .search md-input-container {
     width: 100%;
+    display: flex;
+    align-items: center;
   }
 
   i {
@@ -48,6 +50,10 @@
     margin-left: 25px;
   }
 
+  td{
+    text-transform: capitalize;
+  }
+
   .tHeadText {
     display: flex;
   }
@@ -60,6 +66,11 @@
   table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
     padding: 0;
   }
+  .botTextClient, .botBtn button, .botBtn button, .startBtn {
+    margin: 0;
+    text-transform: none;
+  }
+
 }
 
 .botBtn {
@@ -71,95 +82,4 @@
 .botTextClient, .botBtn button, .botBtn button {
   margin: 0;
   text-transform: none;
-}
-
-.addCustomer {
-
-  md-dialog {
-    max-width: 100%;
-  }
-
-  .allInput .addInput:last-child {
-    display: block;
-  }
-
-  .createWindow {
-    padding: 25px;
-  }
-
-  .addInput {
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  .editBtn button:first-child {
-    margin-right: 20px;
-  }
-
-  .createTop {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
-  }
-
-  .createTop h1 {
-    margin: 0;
-    font-size: 25px;
-  }
-
-  .allInput {
-    padding-bottom: 20px;
-    padding-top: 20px;
-  }
-  .createTop i {
-    position: absolute;
-    right: 0;
-  }
-
-  i {
-    cursor: pointer;
-  }
-}
-
-.annonce {
-
-  display: flex;
-  justify-content: center;
-
-  .annonceWindow {
-    padding: 20px;
-  }
-
-  md-dialog {
-    width: 50%;
-  }
-
-  .botBtn button:first-child {
-    margin-right: 10px;
-  }
-}
-
-.deleteCustomer {
-  .deleteWindow {
-    padding: 10px;
-  }
-  .deleteTop h1 {
-    text-align: center;
-  }
-
-  .dltBtn button {
-    margin: 0;
-    text-transform: none;
-  }
-  .dltBtn {
-    display: flex;
-    justify-content: center;
-    padding-bottom: 10px;
-  }
-  .dltBtn button:first-child {
-    margin-right: 10px;
-  }
-
 }

@@ -1,5 +1,5 @@
-<md-dialog class="restyle section-width">
-    <!--{{vm.blockName}}-->
+<md-dialog class="editSurvey">
+
     <md-card>
         <md-card-title>
             <md-card-title-text>
@@ -9,14 +9,8 @@
 
         <md-input-container class="input-width">
             <label>Name</label>
-            <input ng-model="vm.data.name">
+            <input ng-model="vm.data.name"  md-autofocus>
         </md-input-container>
-
-        <!--<md-input-container class="input-width">-->
-            <!--<label>Description</label>-->
-            <!--<input ng-model="vm.data.description">-->
-        <!--</md-input-container>-->
-
         <md-card-content>
             <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
                 <md-button ng-click="vm.save()">Save</md-button>

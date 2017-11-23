@@ -1,0 +1,15 @@
+.addQuest {
+
+  width: 0;
+  display: flex;
+  justify-content: center;
+
+  md-dialog {
+    min-width: 300px;
+  }
+
+  md-card {
+    margin: 0;
+  }
+
+}

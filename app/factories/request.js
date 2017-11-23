@@ -57,7 +57,6 @@
                 config.headers.Authorization = 'Bearer ' + user.api_token;
             }
 
-
             if (method === 'GET') {
                 config.params = data;
                 config.timeout = 20000;
@@ -68,7 +67,6 @@
 
             config.url = url;
 
-            console.log(config, 'request')
             return $http(config)
                 .then(requestComplete)
                 .catch(requestFailed);
@@ -158,7 +156,7 @@
             // else {
             //     promise.reject(response.data);
             // }
-            console.log(response, 'response');
+            console.log(response, 'request response');
             return response.data;
 
 

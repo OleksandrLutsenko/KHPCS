@@ -45,7 +45,6 @@
         model.getCustomerAnswer = getCustomerAnswer;
         model.createReport = createReport;
 
-
         return model;
 
         function loadAll() {
@@ -94,16 +93,15 @@
 
         // Survey management
         function createSurvey (credentials) {
-            console.log(credentials);
             return http.post(url.survey_management.createSurvey, credentials);
         }
 
-        function updateSurvey (id, data) {
+        function updateSurvey(id, data) {
             return http.put(url.survey_management_func(id).updateSurvey, data);
         }
 
-        function deleteSurvey (id) {
-            return http.delete(url.survey_management_func(id).deleteSurvey);
+        function deleteSurvey(id) {
+            return http.delete(url.survey_management_func(id).updateSurvey);
         }
 
         function changeStatusSurvey (id) {
@@ -115,11 +113,11 @@
         }
 
         function createBlock(id, credentials) {
-            return http.post(url.survey_management_func(id).block, credentials);
+            return http.post(url.survey_management_func(id).createBlock, credentials);
         }
 
         function deleteBlock(id) {
-            return http.delete(url.survey_management_func(id).deleteBlock);
+            return http.delete(url.survey_management_func(id).updateBlock);
         }
 
         function updateBlock(id, data) {
@@ -127,32 +125,26 @@
         }
 
         function createQuestion (id, credentials) {
-            console.log(id, credentials);
             return http.post(url.survey_management_func(id).createQuestion, credentials);
         }
 
         function updateQuestion (id, credentials) {
-            console.log(id, credentials);
             return http.put(url.survey_management_func(id).updateQuestion, credentials);
         }
 
         function deleteQuestion (id) {
-            console.log(id);
             return http.delete(url.survey_management_func(id).updateQuestion, {});
         }
 
         //Answer survey
         function createAnswer (id, credentials) {
-            console.log(id, credentials);
             return http.post(url.survey_management_func(id).createAnswer, credentials);
         }
 
         function updateAnswer (id, credentials) {
-            console.log(id, credentials);
             return http.put(url.survey_management_func(id).updateAnswer, credentials);
         }
         function deleteAnswer (id) {
-            console.log(id);
             return http.delete(url.survey_management_func(id).updateAnswer, {});
         }
 
@@ -163,7 +155,6 @@
         //User management
         function loadCustomers() {
             return http.get(url.customers.customers, {}).then(function (res) {
-                console.log(res);
                 if (res.success) {
                     setCustomers(res.data);
                 } else {
@@ -195,7 +186,7 @@
         function sendCustomerAnswer(id, data) {
             return http.post(url.customers_func(id).sendCustomerAnswer, data);
         }
-        
+
         function getCustomerAnswer(id) {
             return http.get(url.customers_func(id).getCustomerAnswer, {});
         }

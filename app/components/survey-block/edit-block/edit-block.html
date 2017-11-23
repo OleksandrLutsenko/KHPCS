@@ -1,21 +1,22 @@
-<md-dialog class="restyle section-width">
-    <md-card>
-        <md-card-title>
-            <md-card-title-text>
-                <span class="md-headline section-width">Please edit section name</span>
-            </md-card-title-text>
-        </md-card-title>
-        <md-input-container class="input-width">
-            <label>Identifier </label>
-            <input ng-model="vm.data.name">
+<div class="editBlock">
+    <md-dialog>
+        <div class="createWindow">
+            <div class="createTop">
+                <h1>Please enter new section name</h1>
 
-        </md-input-container>
+            </div>
+            <div class="allInput">
+                <md-input-container class="addInput">
+                    <label>Name section</label>
+                    <input ng-model="vm.data.name"  md-autofocus>
 
-        <md-card-content>
-            <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-                <md-button ng-click="vm.saveBlock()">Save</md-button>
-                <md-button ng-click="vm.cancel()">Close</md-button>
-            </section>
-        </md-card-content>
-    </md-card>
-</md-dialog>
+                </md-input-container>
+
+            </div>
+            <div class="botBtn">
+                <md-button class="md-raised md-primary" ng-click="vm.saveBlock()"> Create</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.cancel()"> Cancel</md-button>
+            </div>
+        </div>
+    </md-dialog>
+</div>

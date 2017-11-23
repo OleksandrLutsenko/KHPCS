@@ -77,7 +77,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     customaerAnswer: function (userService, customers, survey) {
-                        let indexActiveSurvey = 0;
+                        let indexActiveSurvey = survey.getActiveQuestionair();
 
                         let id = {
                             customer: customers.getActiveCustomers(),

@@ -1,9 +1,9 @@
 <div class="menus clearfix">
 
     <div class="tab-list clearfix">
-        <div   ng-repeat="it in vm.items" ng-if = "(it.survey_status === vm.superStatus) || vm.showAllStatus" class="questionnaire-list"
-               md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
-               ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
+        <div ng-repeat="it in vm.items" ng-if="(it.status === 1)" class="questionnaire-list"
+             md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
+             ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
 
             <md-menu md-offset="0 -7">
 
@@ -13,16 +13,13 @@
 
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="vm.activeSurvey(it.id, $index)">Active/Inactive</md-button>
+                        <md-button ng-click="vm.activeSurvey(it.id, $index)" ng-disabled="true">Inactive</md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="vm.archiveSurvey(it.id, $index)">Archive</md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="vm.editSurvey(it.id, $index)">Edit</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="vm.deleteSurvey(it.id)">Delete</md-button>
                     </md-menu-item>
                 </md-menu-content>
 
@@ -33,42 +30,74 @@
 
 
         </div>
-
-        <div ng-click="vm.createSurvey()"  class="questionnaire-list"
+        <div ng-repeat="it in vm.items" ng-if="(it.status === 2)" class="questionnaire-list"
              md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
-             ng-if="(vm.superStatus === 'active') || vm.showAllStatus">
+             ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
+
+            <md-menu md-offset="0 -7">
+
+                <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
+                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </md-button>
+
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="vm.activeSurvey(it.id, $index)">Active</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.archiveSurvey(it.id, $index)">Archive</md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="vm.editSurvey(it.id, $index)">Edit</md-button>
+                    </md-menu-item>
+                </md-menu-content>
+
+            </md-menu>
+
+            <p class="hidden-text">{{it.name}}</p>
+            <p>{{it.survey_status}}</p>
+
+        </div>
+
+        <div ng-click="vm.createSurvey()" class="questionnaire-list"
+             md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
             <p class="plus-ico"><i class="fa fa-plus-circle" aria-hidden="true"></i></p>
             <p>New Questionnaire</p>
         </div>
 
     </div>
 
-   <div class="filter-button">
-       <md-menu md-offset="0 -7">
+    <div layout="column" class="sidenavdemoBasicUsage sideNavHeight side-button">
+            <md-button ng-click="vm.toggleRightTest()" ng-hide="vm.isOpenRight()" class="md-icon-button">
+                <!--<i class="fa fa-ellipsis-v" aria-hidden="true"></i>-->
+                <!--<i class="material-icons" title="Archive list">more_vert</i>-->
+                <i class="material-icons" title="Archive list">menu</i>
+            </md-button>
 
-           <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
-               <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-               <!--{{vm.superStatus}}-->
-           </md-button>
+        <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-disable-backdrop md-component-id="right">
 
-           <md-menu-content width="4">
-               <md-menu-item>
-                   <md-button ng-click="vm.showActive()">Show Active</md-button>
-               </md-menu-item>
-               <md-menu-item>
-                   <md-button ng-click="vm.showInactive()")">Show Inactive</md-button>
-               </md-menu-item>
-               <md-menu-item>
-                   <md-button ng-click="vm.showArchive()">Show Archive</md-button>
-               </md-menu-item>
-               <md-menu-item>
-                   <md-button ng-click="vm.showAll()">Show All</md-button>
-               </md-menu-item>
-           </md-menu-content>
+            <md-toolbar class="md-theme-light">
+                <h1 class="md-toolbar-tools">Archive list</h1>
+            </md-toolbar>
 
-       </md-menu>
-   </div>
+            <md-content layout-padding="">
+                <div ng-repeat="archiveItem in vm.items"  ng-if="(archiveItem.status === 0)">
+                    <div flex="100" layout="row" layout-align="center center">
+                        <div class="sm-left" flex="70" layout-wrap="no-wrap"><p class="hidden-text deleting-margin">{{archiveItem.name}}</p></div>
+                        <div class="sm-right" flex="30" layout-align="center right">
+                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.id)" title="Remove">delete_forever</i>
+                            <i class="material-icons" ng-click="vm.archiveSurvey(archiveItem.id, $index)" title="Unarchive">unarchive</i>
+                        </div>
+                    </div>
+                </div>
+                
+                <md-button ng-click="vm.closeSideNav()" class="md-primary">
+                    Close archive
+                </md-button>
+            </md-content>
 
-
+        </md-sidenav>
+    </div>
+    <!--<div class="clearfix"></div>-->
 
 </div>
