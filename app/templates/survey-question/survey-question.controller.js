@@ -71,13 +71,25 @@
 
             if(typeof id !== 'undefined') {
                 vmd.data =  vm.items[index];
-                for(let i = 0; i < vm.items[index].answers.length; i++){
-                    if(vm.items[index].answers[i].hasExtra === 1){
-                        vmd.data.answers[i].hasExtra = true;
+
+                if(vmd.data.type == 2){
+                    if(vmd.data.last == 1){
+                        vmd.data.next_question = 'last';
                     }
-                    else if (vm.items[index].answers[i].hasExtra === 0){
-                        vmd.data.answers[i].hasExtra = false;
-                    }
+                }
+                else {
+                    vmd.data.answers.forEach(function (item) {
+                        if(item.hasExtra === 1){
+                            item.hasExtra = true;
+                        }
+                        else if(item.hasExtra === 0){
+                            item.hasExtra = false;
+                        }
+
+                        if(item.hasLast == 1){
+                            item.next_question = 'last';
+                        }
+                    });
                 }
             }
             else {
@@ -85,6 +97,8 @@
                     answers:  []
                 }
             }
+
+            console.log(vmd.data, 'pop ap data');
 
             vmd.addAnsver = function () {
                 if(vmd.data.answers.length === 0 ||
@@ -118,29 +132,41 @@
                         type:           vmd.data.type,
 
                     };
-                    if(vmd.data.type === 2){
+                    if(data.type == 2){
                         data.next_question = vmd.data.next_question;
+                        if(data.next_question == 'last'){
+                            data.last = 1;
+                            delete data.next_question;
+                        }
+                        else {
+                            data.last = 0
+                        }
                     }
                     userService.updateQuestion(id, data).then(function (res) {
                         if (res.success){
                             vm.items.splice(index, 1, res.data.question);
                             if (vmd.data.answers.length > 0 && vmd.data.type === 1){
-                                for(let i = 0; i < vmd.data.answers.length; i++){
-                                    let data = vmd.data.answers[i];
+
+                                vmd.data.answers.forEach(function (item, indexAnswer) {
+                                    let data = item;
                                     if(data.hasExtra === true){
                                         data.hasExtra = 1;
                                     }
                                     else{
                                         data.hasExtra = 0;
                                     }
-                                    if(data.next_question == ''){
-                                        data.next_question = null;
+                                    if(data.next_question == 'last'){
+                                        data.hasLast = 1;
+                                        delete data.next_question;
+                                    }
+                                    else {
+                                        data.hasLast = 0
                                     }
                                     if(typeof data.id !== 'undefined'){
                                         if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                             userService.updateAnswer(data.id, data).then(function (res) {
                                                 if(res.success){
-                                                    vm.items[index].answers.splice(i, 1, res.data.answer);
+                                                    vm.items[index].answers.splice(indexAnswer, 1, res.data.answer);
                                                 }
                                             });
                                         }
@@ -154,7 +180,7 @@
                                             });
                                         }
                                     }
-                                }
+                                });
                             }
                         }
                         else {
@@ -169,20 +195,34 @@
                         identifier:     vmd.data.identifier,
                         type:           vmd.data.type,
                     };
-                    if(vmd.data.type === 2){
+                    if(data.type === 2){
                         data.next_question = vmd.data.next_question;
+                        if(data.next_question == 'last'){
+                            data.last = 1;
+                            delete data.next_question;
+                        }
+                        else {
+                            data.last = 0
+                        }
                     }
                     userService.createQuestion(idBlock, data).then(function (res) {
                         if (res.success) {
                             vm.items.push(res.data.question);
                             if (vmd.data.answers.length > 0 && vmd.data.type === 1){
-                                for(let i = 0; i < vmd.data.answers.length; i++){
-                                    let data = vmd.data.answers[i];
+                                vmd.data.answers.forEach(function (item) {
+                                    let data = item;
                                     if(data.hasExtra === true){
                                         data.hasExtra = 1;
                                     }
                                     else{
                                         data.hasExtra = 0;
+                                    }
+                                    if(data.next_question == 'last'){
+                                        data.hasLast = 1;
+                                        delete data.next_question;
+                                    }
+                                    else {
+                                        data.hasLast = 0;
                                     }
                                     if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
                                         userService.createAnswer(res.data.question.id, data).then(function (res) {
@@ -191,7 +231,7 @@
                                             }
                                         });
                                     }
-                                }
+                                });
                             }
                         }
                         else {

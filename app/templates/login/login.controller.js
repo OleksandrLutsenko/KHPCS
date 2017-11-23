@@ -14,7 +14,6 @@
             userService.login(vm.data).then(function (res) {
                 if (res.success){
                     userService.setUser(res.data.user);
-                    userService.loadAll();
                     $state.go('tab.user-management');
                 }
                 else {

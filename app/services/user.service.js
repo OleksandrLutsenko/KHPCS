@@ -8,7 +8,6 @@
 
     function userService(http, url, $localStorage, $sessionStorage) {
         let model = {};
-        model.loadAll = loadAll;
         model.login = login;
         model.registration = registration;
         model.setUser = setUser;
@@ -47,11 +46,6 @@
 
         return model;
 
-        function loadAll() {
-            loadItems();
-            loadCustomers();
-        }
-
         function login(credentials) {
             return http.post(url.user.login, credentials)
         }
@@ -70,10 +64,9 @@
 
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
+                console.log(res,'res items')
                 if (res.success) {
                     setItems(res.data);
-                    // console.log('res.data = ');
-                    // console.log(res.data);
                 } else {
                      //need to show error msg
                 }
@@ -87,7 +80,6 @@
         function setItems(items) {
             delete $sessionStorage['user_items'];
             $sessionStorage['user_items'] = items;
-            // console.log(items);
         }
 
 

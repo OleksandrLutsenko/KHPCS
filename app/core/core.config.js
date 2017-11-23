@@ -37,7 +37,9 @@
                 controllerAs: 'vm',
                 resolve: {
                     load: function (userService) {
-                        return userService.loadCustomers();
+                        return userService.loadCustomers().then(function () {
+                            userService.loadItems();
+                        });
                     }
                 }
             })
