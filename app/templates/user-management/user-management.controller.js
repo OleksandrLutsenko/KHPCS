@@ -23,6 +23,7 @@
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
+        vm.update = update;
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -66,14 +67,15 @@
                         userService.loadCustomers().then(function () {
                             vm.customers = userService.getCustomers();
                         });
-
                         cancel();
                     }
                     else {
                         console.log('error');
                     }
                 })
+
             };
+
         }
 
         function createOrUpdate(id, index, customers) {
@@ -108,6 +110,56 @@
 
             vmd.save = function () {
                 if(typeof id !== 'undefined') {
+                    console.log('err');
+                }
+                else {
+                    userService.createCustomers(vmd.data).then(function (res) {
+                        if (res.success) {
+                            vm.customers.push(res.data);
+                        }
+                        else {
+                            console.log('error');
+                        }
+                        cancel();
+                        annonce();
+                    });
+                }
+            };
+
+        }
+
+        function update(id, index, customers) {
+            $mdDialog.show({
+                controller: updController,
+                controllerAs: 'vm',
+                locals: {
+                    data: {
+                        id: id,
+                        index: index,
+                        customers: customers
+                    }
+                },
+                templateUrl: 'components/user-management/addClient/editClient.html',
+                clickOutsideToClose: true
+            })
+        }
+        function updController(data) {
+            let vmd = this;
+
+            let id = data.id;
+            let index = data.index;
+            let customers = data.customers;
+
+            if(typeof id !== 'undefined') {
+                vmd.data =  {
+                    name: customers.name,
+                    surname: customers.surname,
+                    classification: customers.classification
+                }
+            }
+
+            vmd.save = function () {
+                if(typeof id !== 'undefined') {
                     userService.updateCustomers(id, vmd.data).then(function (res) {
                         if (res.success) {
 
@@ -122,16 +174,7 @@
                     });
                 }
                 else {
-                    userService.createCustomers(vmd.data).then(function (res) {
-                        if (res.success) {
-                            vm.customers.push(res.data);
-                        }
-                        else {
-                            console.log('error');
-                        }
-                        cancel();
-                        annonce();
-                    });
+                   console.log("error");
                 }
             };
 
