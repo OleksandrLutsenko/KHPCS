@@ -170,8 +170,10 @@ class SurveyController extends Controller
                 $surveys = Survey::all();
 
                 foreach ($surveys as $otherSurvey){
-                    $otherSurvey->status = 2;
-                    $otherSurvey->update();
+                    if($otherSurvey->status != 0) {
+                        $otherSurvey->status = 2;
+                        $otherSurvey->update();
+                    }
                 }
                 $survey->status = 1;
                 $survey->update();
