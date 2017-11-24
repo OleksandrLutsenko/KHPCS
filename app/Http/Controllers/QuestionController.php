@@ -41,11 +41,7 @@ class QuestionController extends Controller
         if ($user->can('addAnswer', $question)) {
             if($question->hasRadioAnswer()) {
                 $answer = $question->answer()->create($request->all());
-                if($answer->hasExtra == 1){
-                    $qq = Question::where('identifier', $answer->next_question)->get()->first();
-                    $qq->extra = 1;
-                    $qq->update();
-                }
+                $request->makeExtraQuestion($answer);
 
                 return compact('answer');
             } else {

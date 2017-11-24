@@ -32,6 +32,11 @@ class ReportController extends Controller
         return response()->json($reports, 201);
     }
 
+    /**
+     * @param User $user
+     * @param Report $report
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function showCustomerAnswer(User $user, Report $report){
 
         $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
@@ -39,10 +44,10 @@ class ReportController extends Controller
             $question = Question::find($customerAnswer->question_id);
 
             if($question->block->survey_id == $report->survey_id){
-                $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
+                $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get()->first();
 
                 $results[] = ['Question' => $question->title,
-                              'CustomerAnswer' => $finalAnswer[0]->value];
+                              'CustomerAnswer' => $finalAnswer->value];
             }
         }
 
@@ -67,11 +72,6 @@ class ReportController extends Controller
     public function store(Report $report, ReportRequest $request, User $user)
     {
         $report = Report::create($request->all());
-
-//        $customer = $report->customer;
-//        $customer->survey_status = null;
-//        $customer->update();
-
         return response()->json($report, 201);
     }
 
@@ -101,7 +101,7 @@ class ReportController extends Controller
      */
     public function destroy(Report $report, User $user)
     {
-            $report->delete();
-            return response()->json(null, 204);
+        $report->delete();
+        return response()->json(null, 204);
     }
 }

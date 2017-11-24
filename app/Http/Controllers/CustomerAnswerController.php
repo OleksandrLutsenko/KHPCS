@@ -45,7 +45,7 @@ class CustomerAnswerController extends Controller
                 Question::where('identifier', $answer->next_question)->get()->first()
                 : ($question->next_question ?
                     Question::where('identifier', $question->next_question)->get()->first()
-                    : 'This is the last question in this survey')
+                    : null)
         ];
     }
 

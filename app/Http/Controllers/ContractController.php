@@ -60,7 +60,7 @@ class ContractController extends Controller
      */
     public function show(Contract $contract)
     {
-            return compact('contract');
+        return compact('contract');
     }
 
     /**

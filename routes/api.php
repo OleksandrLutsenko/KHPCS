@@ -36,7 +36,6 @@ Route::group(['middleware' => 'api-response'], function() {
     Route::group(['middleware' => 'auth:api'], function() {
 
         /** SURVEYS */
-
         /** show surveys list */
         Route::get('/survey', 'SurveyController@index');
         /** show blocks of survey */
@@ -121,6 +120,7 @@ Route::group(['middleware' => 'api-response'], function() {
             /** Make answer by customer */
             Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
+            /** List of survey customer answers and status */
             Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
 
         });
