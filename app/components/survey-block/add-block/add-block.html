@@ -1,21 +1,21 @@
-<div class="addCustomer">
-    <md-dialog>
-        <div class="createWindow">
-            <div class="createTop">
-                <p>Please enter section name</p>
+<md-dialog flex="30" class="addBlock">
+    <div class="createWindow">
+        <div class="createTop">
+            <p>Please enter new section name</p>
+        </div>
+        <div class="content">
+            <div class="allInput">
+                <md-input-container class="addInput">
+                    <label>Name section</label>
+                    <input type="text" ng-model="vm.data.name" md-autofocus>
+                </md-input-container>
             </div>
-            <div class="contentAdd">
-                <div class="allInput">
-                    <md-input-container class="addInput">
-                        <label>Section name</label>
-                        <input type="text" ng-model="vm.data.name" md-autofocus>
-                    </md-input-container>
-                </div>
-                <div class="botBtn">
-                    <md-button class="md-raised md-primary" ng-click="vm.saveBlock()">Create</md-button>
-                    <md-button class="md-raised" ng-click="vm.newBlockClose()">Close</md-button>
-                </div>
+            <div class="botBtn">
+                <md-button class="md-raised md-primary" ng-click="vm.saveBlock()">Create</md-button>
+                <md-button class="md-raised" ng-click="vm.newBlockClose()">Cancel</md-button>
             </div>
         </div>
-    </md-dialog>
-</div>
+    </div>
+</md-dialog>
+
+

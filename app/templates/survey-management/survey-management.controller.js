@@ -115,7 +115,7 @@
             $mdDialog.show({
                 controller: deleteSurveyController,
                 controllerAs: 'vm',
-                templateUrl: 'components/survey-management/delete-survey/delete-survey.html',
+                templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             });
 
