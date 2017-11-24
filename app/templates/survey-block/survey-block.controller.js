@@ -203,7 +203,7 @@
                     $mdDialog.cancel();
                 };
 
-                vs.deleteBlockCancel = function () {
+                vs.cancel = function () {
                     $mdDialog.cancel();
                 };
             }

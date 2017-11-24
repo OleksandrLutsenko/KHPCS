@@ -122,7 +122,7 @@
             function deleteSurveyController($mdDialog) {
                 let vs = this;
 
-                vs.deleteSurveyYes = function () {
+                vs.delete = function () {
                     console.log('Удален опросник с ID: ' + surveyId);
                     userService.deleteSurvey(surveyId).then(function (res) {
                         if (res.success) {
@@ -141,7 +141,7 @@
                     $mdDialog.cancel();
                 };
 
-                vs.deleteSurveyCancel = function () {
+                vs.cancel = function () {
                     $mdDialog.cancel();
                 };
             }
