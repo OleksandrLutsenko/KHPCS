@@ -2,7 +2,7 @@
     angular
         .module('app')
         .config(mainConfig);
-
+п
     mainConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
     function mainConfig($stateProvider, $urlRouterProvider) {

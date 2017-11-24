@@ -76,7 +76,7 @@
                 }
                 if(item.extra == 0 || item.extraAfte == 0){
                     couterQuestion++;
-                    if(vm.data[index] !== 'undefined'){
+                    if(vm.data[index] == 'undefined'){
 
                         couterAnswer++;
                         console.log(vm.data[index]);
