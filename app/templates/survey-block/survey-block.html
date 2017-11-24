@@ -1,26 +1,26 @@
 <div class="surveyBlock">
-    <md-content flex="100" layout="row" layout-align="start start" layout-wrap="wrap">
+<md-content flex="100" layout="row" layout-align="start start" layout-wrap="wrap">
 
-        <div flex="20" style="height: 100%; border-bottom: 1px solid rgba(0,0,0, .12);">
-            <md-button class="blockBtn" ng-click="vm.addBlock()">
-                Add section
-            </md-button>
-        </div>
+    <div class="add-button">
+        <md-button ng-click="vm.addBlock()">
+            Add section
+        </md-button>
+    </div>
 
-        <span style="display: none;">{{selectedValue = vm.activeBlockIndex}}</span>
-        <md-tabs flex md-dynamic-height md-border-bottom md-selected='selectedValue'>
-            <!--<md-tabs flex md-dynamic-height md-border-bottom md-selected='vm.activeBlockIndex'>-->
-            <md-tab flex="80" ng-repeat="cell in vm.items" ng-click="vm.setActiveBlock(cell.id, $index, cell.name)"
-                    ui-sref="tab.survey-block.survey-question">
-                <md-tab-label>
-                    <div ng-if="vm.showDot($index)" class="tab-icon-dots">
-                        <dot-edit-menu></dot-edit-menu>
-                    </div>
-                    <span class="blockName">{{cell.name }} &nbsp </span>
-                </md-tab-label>
-            </md-tab>
-        </md-tabs>
+    <span style="display: none;">{{selectedValue = vm.activeBlockIndex}}</span>
+    <md-tabs flex md-dynamic-height md-border-bottom md-selected='selectedValue'>
+    <!--<md-tabs flex md-dynamic-height md-border-bottom md-selected='vm.activeBlockIndex'>-->
+        <md-tab ng-repeat="cell in vm.items" ng-click="vm.setActiveBlock(cell.id, $index, cell.name)"
+                ui-sref="tab.survey-block.survey-question">
+            <md-tab-label>
+                <div ng-if="vm.showDot($index)" class="tab-icon-dots">
+                    <dot-edit-menu></dot-edit-menu>
+                </div>
+                <span class="blockName">{{cell.name }} &nbsp </span>
+            </md-tab-label>
+        </md-tab>
+    </md-tabs>
 
-        <div flex="100" ui-view></div>
-    </md-content>
+    <div flex="100" ui-view></div>
+</md-content>
 </div>

@@ -113,7 +113,7 @@
          * @returns {promise}
          */
         function requestFailed(err) {
-            console.info('error', err.config.url, err);
+            console.info('error', err);
 
             if (err.data == null || !err.data.error) {
                 if (err.status === 200) {
@@ -157,7 +157,7 @@
             //     promise.reject(response.data);
             // }
             console.log(response, 'request response');
-            console.log(response.data);
+
             return response.data;
 
 
