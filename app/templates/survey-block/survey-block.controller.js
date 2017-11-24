@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog', '$sessionStorage'];
+    SurveyBlockController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog'];
 
-    function SurveyBlockController(userService, $state, survey, $scope, $mdDialog, $sessionStorage) {
+    function SurveyBlockController(userService, $state, survey, $scope, $mdDialog) {
         let vm = this;
         console.log('controller started');
         vm.setActiveBlock = setActiveBlock;
@@ -18,7 +18,6 @@
         function setActiveDot() {
             if(vm.items.length) {
                 vm.activeBlockIndex = idBlock.indexBlock;
-                vm.activeBlockIndex2 = 0;
             }
         }
         setActiveDot();
@@ -28,19 +27,13 @@
             $scope.$broadcast('parent', indexBlock);
             idBlock = survey.getActiveBlock();
             vm.activeBlockIndex = indexBlock;
-            vm.activeBlockIndex2 = indexBlock;
             vm.blockName = blockName;
             console.log('Name: ' + blockName + ', ID: ' + id + ', Index: ' +indexBlock);
         }
 
-        vm.testIndex = function () {
-            vm.activeBlockIndex++;
-            console.log(vm.activeBlockIndex);
-        };
-
         if(vm.items.length > 0) {
             console.log('item not undefine', vm.items);
-            survey.setActiveBlock(vm.items[0].id, 0);
+            setActiveBlock(vm.items[0].id, 0, vm.items[0].name);
             $state.go('tab.survey-block.survey-question');
         }
         else {
@@ -100,7 +93,11 @@
                                 console.log('Передаем Index: ' + indexBlock);
 
                                 vm.setActiveBlock(id, indexBlock, blockName);
-                                // vm.activeBlockIndex2 = 'AddCtrl';
+
+                                if (vm.items.length) {
+                                    $state.go('tab.survey-block.survey-question');
+                                }
+
                                 $mdDialog.cancel();
 
                             });
@@ -178,22 +175,25 @@
                             userService.loadItems().then(function () {
                                 $mdDialog.cancel();
                                 vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-                                // console.log(vm.items);
+                                console.log(vm.items);
 
-                                if (vm.items.length){
+                                if (vm.items.length === 0) {
+                                    $state.go('tab.survey-block');
+                                } else if (vm.items.length){
                                     let id;
-                                    let index;
-
-                                    if (idBlock.indexBlock === 0) {
+                                     let index;
+                                     
+                                     if (idBlock.indexBlock === 0) {
                                         id = vm.items[idBlock.indexBlock].id;
                                         index = idBlock.indexBlock;
-                                    } else {
+                                     } else {
                                         id = vm.items[idBlock.indexBlock-1].id;
                                         index = idBlock.indexBlock-1;
-                                    }
-
+                                     }
                                     vm.setActiveBlock(id, index);
                                 }
+
+
                             });
                         }
                         else {

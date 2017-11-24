@@ -1,7 +1,38 @@
 .menus {
   position: relative;
-  margin-top: 20px;
+  padding-top: 20px;
+  //overflow: hidden;
 
+  .md-sidenav-right {
+    height: fit-content;
+  }
+
+  //.sideNavHeight {
+  //  clear: both;
+  //}
+
+  .side-button {
+    color: #aaaaaa;
+    .material-icons {
+      font-size: 30px;
+    }
+  }
+
+  .sm-right i{
+    color: #636363;
+    float: right;
+  }
+  .deleting-margin {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+  }
+  .sm-right i:first-child {
+    margin-left: 10px;
+  }
+
+  i {
+    cursor: pointer;
+  }
   .tab-list {
     width: 80%;
     margin: 0 auto;
@@ -15,6 +46,7 @@
     text-align: right;
     height: 150px;
     float: left;
+    cursor: pointer;
   }
 
   .questionnaire-list i {
