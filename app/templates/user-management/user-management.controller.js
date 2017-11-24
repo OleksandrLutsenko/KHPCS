@@ -14,7 +14,7 @@
 
         vm.time = new Date();
         vm.year = vm.time.getFullYear();
-        vm.month = vm.time.getMonth() +1;
+        vm.month = vm.time.getMonth() + 1;
         vm.date = vm.time.getDate();
         vm.all = vm.date + "." + vm.month + "." + vm.year;
 
@@ -23,7 +23,6 @@
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
-        vm.update = update;
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -56,10 +55,15 @@
                 clickOutsideToClose: true
             })
         }
+
         function deleteController(data) {
             let vmd = this;
 
             let id = data.id;
+
+            vmd.cancel = function () {
+                $mdDialog.cancel();
+            };
 
             vmd.delete = function () {
                 userService.deleteCustomers(id).then(function (res) {
@@ -93,6 +97,7 @@
                 clickOutsideToClose: true
             })
         }
+
         function DialogController(data) {
             let vmd = this;
 
@@ -100,17 +105,31 @@
             let index = data.index;
             let customers = data.customers;
 
-            if(typeof id !== 'undefined') {
-                vmd.data =  {
+            if (typeof id !== 'undefined') {
+                vmd.data = {
                     name: customers.name,
                     surname: customers.surname,
                     classification: customers.classification
                 }
             }
 
+            vmd.cancel = function () {
+                $mdDialog.cancel();
+            };
+
             vmd.save = function () {
-                if(typeof id !== 'undefined') {
-                    console.log('err');
+                if (typeof id !== 'undefined') {
+                    userService.updateCustomers(id, vmd.data).then(function (res) {
+                        if (res.success) {
+                            userService.loadCustomers().then(function () {
+                                vm.customers = userService.getCustomers();
+                            });
+                        }
+                        else {
+                            console.log('error');
+                        }
+                        cancel();
+                    });
                 }
                 else {
                     userService.createCustomers(vmd.data).then(function (res) {
@@ -128,56 +147,5 @@
 
         }
 
-        function update(id, index, customers) {
-            $mdDialog.show({
-                controller: updController,
-                controllerAs: 'vm',
-                locals: {
-                    data: {
-                        id: id,
-                        index: index,
-                        customers: customers
-                    }
-                },
-                templateUrl: 'components/user-management/addClient/editClient.html',
-                clickOutsideToClose: true
-            })
-        }
-        function updController(data) {
-            let vmd = this;
-
-            let id = data.id;
-            let index = data.index;
-            let customers = data.customers;
-
-            if(typeof id !== 'undefined') {
-                vmd.data =  {
-                    name: customers.name,
-                    surname: customers.surname,
-                    classification: customers.classification
-                }
-            }
-
-            vmd.save = function () {
-                if(typeof id !== 'undefined') {
-                    userService.updateCustomers(id, vmd.data).then(function (res) {
-                        if (res.success) {
-
-                            userService.loadCustomers().then(function () {
-                                vm.customers = userService.getCustomers();
-                            });
-                        }
-                        else {
-                            console.log('error');
-                        }
-                        cancel();
-                    });
-                }
-                else {
-                   console.log("error");
-                }
-            };
-
-        }
     }
 }());

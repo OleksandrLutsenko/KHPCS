@@ -1,31 +1,21 @@
-.dltCustomer {
-
-  width: 100%;
+.dltMain {
+  min-width: 290px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
 
-   h1 {
-    text-align: center;
-  }
-
-  md-dialog{
-    min-width: 30%;
-  }
-
-  .dltHead p{
+  .dltHead p {
     text-align: center;
     margin: 0;
     color: white;
     padding: 12px;
   }
 
-  .dltTop p{
-    text-align: center;
+  .dltMid p {
     text-align: center;
     margin: 34px;
   }
 
-  .dltHead{
+  .dltHead {
     background: #3f51b5;
   }
 
@@ -49,5 +39,7 @@
     background: white;
     border: 2px solid #3f51b5;
     margin-left: 40px;
+    color: #3f51b5;
   }
+
 }
