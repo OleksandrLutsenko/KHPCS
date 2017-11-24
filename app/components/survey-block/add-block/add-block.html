@@ -1,19 +1,20 @@
-<div class="addBlock">
+<div class="addCustomer">
     <md-dialog>
         <div class="createWindow">
             <div class="createTop">
-                <h1>Please enter section name</h1>
-
+                <p>Please enter section name</p>
             </div>
-            <div class="allInput">
-                <md-input-container class="addInput">
-                    <label>Name section</label>
-                    <input ng-model="vm.data.name"  md-autofocus>
-                </md-input-container>
-            </div>
-            <div class="botBtn">
-                <md-button class="md-raised md-primary" ng-click="vm.saveBlock()"> Create</md-button>
-                <md-button class="md-raised md-primary" ng-click="vm.newBlockClose()"> Cancel</md-button>
+            <div class="contentAdd">
+                <div class="allInput">
+                    <md-input-container class="addInput">
+                        <label>Section name</label>
+                        <input type="text" ng-model="vm.data.name" md-autofocus>
+                    </md-input-container>
+                </div>
+                <div class="botBtn">
+                    <md-button class="md-raised md-primary" ng-click="vm.saveBlock()">Create</md-button>
+                    <md-button class="md-raised" ng-click="vm.newBlockClose()">Close</md-button>
+                </div>
             </div>
         </div>
     </md-dialog>

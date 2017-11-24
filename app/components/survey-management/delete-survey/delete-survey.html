@@ -1,15 +1,17 @@
-<div class="deleteBlock">
+<div class="deleteCustomer">
     <md-dialog>
         <div class="deleteWindow">
+            <div class="deleteHead">
+                <p>Confirm</p>
+            </div>
             <div class="deleteTop">
-                <h1>Are you sure?</h1>
+                <p>Are you sure?</p>
             </div>
             <div class="dltBtn">
-                <md-button class="md-raised md-primary" ng-click="vm.deleteSurveyYes()"><p class="botTextClient">Yes</p>
+                <md-button class="md-raised md-primary" ng-click="vm.deleteSurveyYes()">Yes
                 </md-button>
-                <md-button class="md-raised md-primary" ng-click="vm.deleteSurveyCancel()"><p class="botTextClient">
-                    No</p>
-                </md-button>
+                <md-button class="md-raised" ng-click="vm.deleteSurveyCancel()" >No</md-button>
+
             </div>
         </div>
     </md-dialog>

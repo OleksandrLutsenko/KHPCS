@@ -49,13 +49,13 @@
         };
         //////////////////////////////////////////////////////////////////
 
-        vm.toggleRightTest = buildToggler('right');
+        vm.toggleOpenArchive = buildToggler('right');
         function buildToggler(componentId) {
             return function() {
                 $mdSidenav(componentId).toggle();
             };
         }
-        vm.closeSideNav = function () {
+        vm.closeArchiveButton = function () {
             $mdSidenav('right').close();
             //     .then(function () {
             //         console.log("close RIGHT is done");

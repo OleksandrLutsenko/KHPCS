@@ -1,14 +1,11 @@
 .addCustomer {
+
+  width: 100%;
+  display: flex;
+  justify-content:center;
+
   md-dialog {
-    max-width: 100%;
-  }
-
-  .allInput .addInput:last-child {
-    display: block;
-  }
-
-  .createWindow {
-    padding: 25px;
+    min-width: 40%
   }
 
   .addInput {
@@ -22,20 +19,25 @@
   }
 
   .createTop {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    position: relative;
+    background: #3f51b5;
   }
 
-  .createTop h1 {
+  .createTop p {
     margin: 0;
     font-size: 25px;
+    text-align: center;
+    color:white;
+    padding: 10px;
+  }
+
+  .contentAdd{
+    padding: 20px;
   }
 
   .allInput {
     padding-bottom: 20px;
-    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
   }
   .createTop i {
     position: absolute;
@@ -45,20 +47,44 @@
   i {
     cursor: pointer;
   }
+
+  button {
+    text-transform: capitalize;
+    box-shadow: none !important;
+    margin: 0;
+    line-height: 0;
+    min-width: 98px;
+    min-height: 32px;
+  }
+
+  .botBtn{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .botBtn button:last-child {
+    background: white;
+    border: 2px solid #3f51b5;
+  }
 }
 
 .annonce {
 
-  width: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
+
+  md-dialog{
+    width: 30%;
+  }
 
   .annonceWindow {
     padding: 20px;
   }
 
-  .annonceWindow h1 {
+  .annHead h1 {
     margin: 0;
+    text-align: center;
   }
 
   .botBtn button:first-child {
@@ -69,5 +95,8 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+  button {
+    text-transform: capitalize;
   }
 }

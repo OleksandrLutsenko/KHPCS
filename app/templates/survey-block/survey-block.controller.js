@@ -33,7 +33,7 @@
 
         if(vm.items.length > 0) {
             console.log('item not undefine', vm.items);
-            survey.setActiveBlock(vm.items[0].id, 0);
+            setActiveBlock(vm.items[0].id, 0, vm.items[0].name);
             $state.go('tab.survey-block.survey-question');
         }
         else {
