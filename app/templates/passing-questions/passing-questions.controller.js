@@ -5,46 +5,95 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customaerAnswer', 'survey'];
+    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customaerAnswer', 'survey', '$q'];
 
-    function PassingQuestionController($scope, userService, $state, customers, customaerAnswer, survey) {
+    function PassingQuestionController($scope, userService, $state, customers, customaerAnswer, survey, $q) {
         let vm = this;
 
         vm.next = next;
+        vm.nextSucces = false;
 
         vm.data = [];
         //-!!-//
         console.log(customaerAnswer, 'customaerAnswer');
 
-        let indexActiveBlock = 0;
+        let indexActiveBlock;
 
-        let indexActiveSurvey = survey.getActiveQuestionair();
-        let activeCustomers = customers.getActiveCustomers();
         let items = userService.getItems();
+        let indexActiveSurvey = survey.getActiveQuestionair();
+        let idActiveSurvey = items[indexActiveSurvey].id;
+        let activeCustomers = customers.getActiveCustomers();
 
-        let allQuestionBlock = [];
-        let allAnswersBlock = [];
+
+        let allQuestionBlock;
+        let allAnswersBlock;
+
+        let customerAnswerOnActiveBlock;
+
+        if(customaerAnswer.status == 'continue'){
+            indexActiveBlock = 0;
+        }
+        else{
+            for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
+                if(customaerAnswer.data.customerAnswers[customaerAnswer.data.customerAnswers.length - 1].block_id == items[indexActiveSurvey].blocks[i].id){
+                    if(items[indexActiveSurvey].blocks.length - 1 == i){
+                        indexActiveBlock = i;
+                    }
+                    else{
+                        indexActiveBlock = i + 1;
+                    }
+                    break
+                }
+            }
+        }
 
         generete();
+        fill();
         start();
 
         function generete() {
 
-            allQuestionBlock = [];
             allAnswersBlock = [];
 
             let activeBlock = items[indexActiveSurvey].blocks[indexActiveBlock];
             console.log(activeBlock, 'active block');
 
+            allQuestionBlock = activeBlock.questions;
 
             activeBlock.questions.forEach(function(item) {
-                allQuestionBlock.push(item);
                 item.answers.forEach(function (item) {
                     allAnswersBlock.push(item);
                 });
             });
         }
 
+        function fill() {
+
+            customerAnswerOnActiveBlock = [];
+
+            let idActiveBlock = items[indexActiveSurvey].blocks[indexActiveBlock].id;
+
+            for(let i = 0; i < customaerAnswer.data.customerAnswers.length; i++){
+                if(customaerAnswer.data.customerAnswers[i].block_id == idActiveBlock){
+                    customerAnswerOnActiveBlock = customaerAnswer.data.customerAnswers[i].customerAnswers;
+                    break
+                }
+            }
+
+            customerAnswerOnActiveBlock.forEach(function (item) {
+                for(let i = 0; i < allQuestionBlock.length; i++){
+                    if(item.question_id == allQuestionBlock[i].id){
+                        if(allQuestionBlock[i].type == 1){
+                            vm.data[i] = item.answer_id;
+                        }
+                        else{
+                            vm.data[i] = item.value;
+                        }
+                        break
+                    }
+                }
+            })
+        }
 
         $scope.$watchCollection('vm.data', function() {
             console.log('hey, data has changed!');
@@ -76,22 +125,24 @@
                 }
                 if(item.extra == 0 || item.extraAfte == 0){
                     couterQuestion++;
-                    if(vm.data[index] == 'undefined'){
-
+                    if(typeof vm.data[index] != 'undefined' && vm.data[index] != ''){
                         couterAnswer++;
-                        console.log(vm.data[index]);
                     }
                 }
             });
 
+            console.log(couterAnswer, couterQuestion);
+
             if(couterAnswer == couterQuestion){
                 console.log('next question true');
-                console.log(couterAnswer, couterQuestion);
+                vm.nextSucces = true
+            }
+            else{
+                vm.nextSucces = false
             }
 
         });
 
-        // debugger;
 
         function start() {
             if(allQuestionBlock.length === 0){
@@ -107,12 +158,14 @@
 
         function next() {
 
+            let deferred = $q.defer();
+
             console.log(vm.data, 'all answers in block');
             console.log(allQuestionBlock, 'all question in block');
 
             allQuestionBlock.forEach(function (item, index) {
                 if(item.extra == 0 || item.extraAfte == 0){
-
+                    // debugger;
                     let data;
 
                     let id = {
@@ -138,15 +191,30 @@
                     })
                 }
             });
+            toNextBlock();
+        }
 
+        function toNextBlock() {
             if(items[indexActiveSurvey].blocks.length - 1 > indexActiveBlock){
                 indexActiveBlock++;
                 vm.data = [];
                 generete();
+                fill();
                 start();
             }
             else{
-                $state.go('tab.user-management');
+                let data = {
+                    customer_id: activeCustomers,
+                    survey_id: idActiveSurvey
+                };
+                userService.createReport(data).then(function (res) {
+                    if(res.success){
+                        $state.go('tab.user-management');
+                    }
+                    else {
+                        console.log('error');
+                    }
+                })
             }
         }
     }
