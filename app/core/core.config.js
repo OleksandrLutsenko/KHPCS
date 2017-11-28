@@ -36,9 +36,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     load: function (userService) {
-                        return userService.loadCustomers().then(function () {
-                            userService.loadItems();
-                        });
+                        return userService.loadCustomers();
                     }
                 }
             })
@@ -86,14 +84,16 @@
                 controllerAs: 'vm',
                 resolve: {
                     customaerAnswer: function (userService, customers, survey) {
-                        let indexActiveSurvey = survey.getActiveQuestionair();
+                        return userService.loadItems().then(function () {
+                            let indexActiveSurvey = survey.getActiveQuestionair();
 
-                        let id = {
-                            customer: customers.getActiveCustomers(),
-                            survey: userService.getItems()[indexActiveSurvey].id
-                        };
+                            let id = {
+                                customer: customers.getActiveCustomers(),
+                                survey: userService.getItems()[indexActiveSurvey].id
+                            };
 
-                        return userService.getCustomerAnswer(id);
+                            return userService.getCustomerAnswer(id);
+                        });
                     }
                 }
             })

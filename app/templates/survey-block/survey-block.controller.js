@@ -160,14 +160,14 @@
             $mdDialog.show({
                 controller: deleteBlockController,
                 controllerAs: 'vm',
-                templateUrl: 'components/survey-block/delete-block/delete-block.html',
+                templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             });
 
             function deleteBlockController($mdDialog) {
                 let vs = this;
 
-                vs.deleteBlockYes = function () {
+                vs.delete = function () {
                     console.log('Удален блок с ID: ' + idBlock.id);
                     userService.deleteBlock(idBlock.id).then(function (res) {
                         if (res.success) {
@@ -203,7 +203,7 @@
                     $mdDialog.cancel();
                 };
 
-                vs.deleteBlockCancel = function () {
+                vs.cancel = function () {
                     $mdDialog.cancel();
                 };
             }

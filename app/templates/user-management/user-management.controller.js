@@ -51,7 +51,7 @@
                         index: index
                     }
                 },
-                templateUrl: 'components/user-management/deleteCustomer/deleteCustomer.html',
+                templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             })
         }

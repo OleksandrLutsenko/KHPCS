@@ -1,40 +1,49 @@
-.editSurvey {
+.editQuest {
 
-  width: 0;
+  min-width: 290px;
   display: flex;
   justify-content: center;
 
-  .dialog-max-height {
-    max-height: 95%;
-  }
-  .survey-input-container {
+  .editHead p {
+    text-align: center;
     margin: 0;
-    bottom: -14px;
+    color: white;
+    padding: 12px;
   }
-  .survey-button {
-    top: -5px;
+
+
+  .editHead {
+    background: #3f51b5;
   }
-  .section-width {
-    width: 500px;
+
+  .content{
+    padding: 0 30px 20px 30px;
   }
-  .input-width {
-    width: 95%;
-  }
-  md-card {
+
+  .editBtn button {
+    text-transform: capitalize;
+    box-shadow: none !important;
+    line-height: 0;
+    min-height: 32px;
     margin: 0;
+    min-width: 98px;
   }
-  .md-button.md-icon-button {
-    padding: 0;
-    height: auto;
+
+  .editBtn {
+    display: flex;
+    justify-content: space-between;
   }
-  .md-button {
-    min-height: 0;
+
+  .addInput{
+    width: 100%;
+    margin-bottom: 25px;
+    margin-top: 40px;
   }
-  .add-button-position {
-    position: relative;
-    top: -6px;
-  }
-  .add-button-padding {
-    padding: 12px 40px;
+
+  .editBtn button:last-child {
+    background: white;
+    border: 2px solid #3f51b5;
+    margin-left: 40px;
+    color: #3f51b5;
   }
 }

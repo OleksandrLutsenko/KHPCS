@@ -1,16 +1,17 @@
-.addBlock {
-
+.createQuest {
+  min-width: 290px;
   display: flex;
   justify-content: center;
 
-  .createTop p {
+  .createHead p {
     text-align: center;
     margin: 0;
     color: white;
     padding: 12px;
   }
 
-  .createTop {
+
+  .createHead {
     background: #3f51b5;
   }
 
@@ -44,4 +45,5 @@
     margin-left: 40px;
     color: #3f51b5;
   }
+
 }
