@@ -53,6 +53,14 @@
                     }
                 }
             })
+
+            .state('tab.contract-editor', {
+                url: '/contract-editor',
+                templateUrl: 'templates/contract-editor/contract-editor.html',
+                controller: 'ContractEditorController',
+                controllerAs: 'vm'
+            })
+
             .state('tab.settings', {
                 url: '/settings',
                 templateUrl: 'templates/settings/settings.html',
