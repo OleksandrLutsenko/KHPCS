@@ -27,11 +27,6 @@ class CustomerAnswerController extends Controller
         if (!$customerAnswer = $question->findCustomersAnswer($customer)) {
             $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
 
-//            $block = $question->block;
-//            $survey = $block->survey;
-//            $customer->survey_status = $survey->id;
-//            $customer->update();
-
         } else {
             $customerAnswer->update($request->getAnswerAttributes($customer));
         }
@@ -71,6 +66,56 @@ class CustomerAnswerController extends Controller
         return response([
             'status' => count($questionArray) == count($customerAnswerArray) ? 'completed' : 'in progress',
             'customerAnswers' => $customerAnswerArray
+        ]);
+    }
+
+    /**
+     * @param CustomerAnswerRequest $request
+     * @param Customer $customer
+     * @param Question $question
+     * @param Survey $survey
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @internal param Block $block
+     */
+//    public function customerBlockAnswers(CustomerAnswerRequest $request, Customer $customer, Survey $survey, Block $block)
+//    {
+//        $questionArray = Question::where('block_id', $block->id)->get();
+//        $questionArrayIDs = array_column($questionArray->toArray(), 'id');
+//
+//        $customerAnswerArray = CustomerAnswer::whereIn('question_id', $questionArrayIDs)
+//                                             ->where('customer_id', '=', $customer->id)->get();
+//
+//        return response([
+//            'status' => count($questionArray) == count($customerAnswerArray) ? 'completed' : 'in progress',
+//            'customerAnswers' => $customerAnswerArray
+//        ]);
+//    }
+
+
+    /**
+     * @param CustomerAnswerRequest $request
+     * @param Customer $customer
+     * @param Question $question
+     * @param Survey $survey
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function customerSurveyBlockAnswers(CustomerAnswerRequest $request, Customer $customer, Question $question, Survey $survey)
+    {
+        $blockArray = Block::where('survey_id', '=', $survey->id)->get();
+
+        foreach ($blockArray as $block){
+            $questionArray = Question::where('block_id', $block->id)->get();
+            $questionArrayIDs = array_column($questionArray->toArray(), 'id');
+
+            $customerAnswerArray = CustomerAnswer::whereIn('question_id', $questionArrayIDs)
+                ->where('customer_id', '=', $customer->id)->get();
+
+            $result[] = ['block_id' => $block->id, 'customerAnswers' => $customerAnswerArray];
+        }
+
+        return response([
+            'status' => count($questionArray) == count($customerAnswerArray) ? 'completed' : 'in progress',
+            'customerAnswers' => $result
         ]);
     }
 }

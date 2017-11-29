@@ -118,6 +118,14 @@ class ContractController extends Controller
     {
         $user = Auth::user();
         if ($user->can('delete', $contract)) {
+            $images = $contract->images;
+
+            foreach ($images as $image){
+                $fileUri = $image->link;
+                File::delete('../'.$fileUri);
+                $image->delete();
+            }
+
             $contract->delete();
             return compact('contract');
         } else {
