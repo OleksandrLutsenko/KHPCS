@@ -15,8 +15,6 @@
                 <md-input-container>
                     <label>Type your question</label>
                     <input  ng-model="vm.data.title">
-
-
                 </md-input-container>
 
                 <md-input-container>
@@ -39,7 +37,7 @@
                     </md-input-container>
 
                     <md-input-container>
-                        <label>Next question</label>
+                        <label class="lab">Next question <i class="material-icons"  ng-click="vm.deleteAnsver(answers.id, $index)">close</i></label>
                         <input ng-model="answers.next_question">
                     </md-input-container>
                 </div>
@@ -48,22 +46,19 @@
             </div>
 
             <div layout="column" ng-if="vm.data.type === 1">
-                <div class="row">
-                    <md-button class="md-fab md-primary" aria-label="Add" ng-click="vm.addAnsver()" style="font-size: 25px; float: right">
-                        <i class="fa fa-plus" aria-hidden="true"></i>
-                    </md-button>
-                </div>
+
                 <div layout="row" ng-repeat="answers in vm.data.answers">
                     <div layout="column">
                         <md-input-container>
-                            <label>Name</label>
+                            <label>Name
+                            </label>
                             <input ng-model="answers.answer_text">
                         </md-input-container>
                     </div>
 
                     <div layout="column">
                         <md-input-container>
-                            <label>Next question</label>
+                            <label>Next questions </label>
                             <input ng-model="answers.next_question">
                         </md-input-container>
                     </div>
@@ -73,9 +68,10 @@
                         </md-button>
                     </div>
                     <div layout="column">
-                        <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="answers.hasExtra">
+
+                        <md-checkbox ng-model="answers.hasExtra" aria-label="Checkbox 1">
                             Has Extra
-                        </md-switch>
+                        </md-checkbox>
                     </div>
                 </div>
 

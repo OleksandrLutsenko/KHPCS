@@ -1,18 +1,23 @@
 .menus {
   position: relative;
   padding-top: 20px;
+  display: flex;
+  justify-content:center;
   //overflow: hidden;
 
   .md-sidenav-right {
     height: fit-content;
   }
 
+
   //.sideNavHeight {
   //  clear: both;
   //}
 
   .side-button {
+
     color: #aaaaaa;
+
     .material-icons {
       font-size: 30px;
     }
@@ -35,7 +40,9 @@
   }
   .tab-list {
     width: 80%;
-    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+
   }
 
   .questionnaire-list {

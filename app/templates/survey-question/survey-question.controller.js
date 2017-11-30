@@ -11,6 +11,7 @@
         let idB = survey.getActiveBlock();
         let indexBlock = idB.indexBlock;
         let idBlock = idB.id;
+        vm.deleteQuest = deleteQuest;
 
         $scope.$on('parent', function(event, data){
             indexBlock = data;
@@ -25,26 +26,46 @@
             $mdDialog.cancel();
         }
 
-        vm.showConfirm = function(ev, id, index) {
-            let confirm = $mdDialog.confirm({
+
+        function deleteQuest(id) {
+            $mdDialog.show({
+                controller: deleteQuestController,
+                controllerAs: 'vm',
+                locals: {
+                    data: {
+                        id: id,
+                    }
+                },
+                templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             })
-                .title('Would you like to delete question?')
-                .targetEvent(ev)
-                .ok('Yes')
-                .cancel('No');
+        }
 
-            $mdDialog.show(confirm).then(function() {
-                userService.deleteQuestion(id).then(function (res) {
+        function deleteQuestController(data) {
+            let vmd = this;
+
+            let id = data.id;
+
+            vmd.cancel = function () {
+                $mdDialog.cancel();
+            };
+
+            vmd.delete = function () {
+                userService.deleteQuestion(id).then(function (res)  {
                     if(res.success){
-                        vm.items.splice(index, 1);
+                        userService.loadItems().then(function () {
+                            vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
+                        });
+                        cancel();
                     }
                     else {
                         console.log('error');
                     }
                 })
-            });
-        };
+
+            };
+
+        }
 
         vm.showEdit = function (id, index) {
             $mdDialog.show({

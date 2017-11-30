@@ -20,6 +20,7 @@
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
+        vm.user = userService.getUser();
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -38,14 +39,13 @@
             })
         }
 
-        function deleteCustomer(id, index, customers) {
+        function deleteCustomer(id) {
             $mdDialog.show({
                 controller: deleteController,
                 controllerAs: 'vm',
                 locals: {
                     data: {
-                        id: id,
-                        index: index
+                        id: id
                     }
                 },
                 templateUrl: 'components/deleteView/deleteView.html',

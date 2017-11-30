@@ -4,19 +4,21 @@
     </div>
     <div ng-cloak>
         <md-content class="md-padding" class="navHead">
+
             <md-nav-bar
                     md-no-ink-bar="false"
-                    md-selected-nav-item="currentNavItem"
+                    md-selected-nav-item="vm.currentNavItem"
                     nav-bar-aria-label="navigation links"
                     layout="row" layout-align="center center"
-            class="nav">
-                <md-nav-item md-nav-sref="tab.user-management" name="page1">
+                    class="nav" >
+
+                <md-nav-item md-nav-sref="tab.user-management" name="page1" value = "page1" >
                     <p class="navP"> User Management</p>
                 </md-nav-item>
-                <md-nav-item md-nav-sref="tab.survey-management" name="page2" ng-if="vm.user.role_id > 1">
+                <md-nav-item md-nav-sref="tab.survey-management" name="page2" value = "page2" ng-if="vm.user.role_id > 1">
                     <p class="navP"> Survey Management</p>
                 </md-nav-item>
-                <md-nav-item md-nav-sref="tab.settings" name="page3">
+                <md-nav-item md-nav-sref="tab.settings" name="page3" value = "page3">
                     <p class="navP"> Settings</p>
                 </md-nav-item>
             </md-nav-bar>

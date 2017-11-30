@@ -34,7 +34,7 @@
 
   .singQest {
     box-sizing: border-box;
-    padding: 15px 40px;
+    padding: 8px 30px;
     width: 100%;
   }
 
@@ -44,12 +44,11 @@
 
   .sm-right {
     float: right;
+    display: flex;
   }
 
   .sm-right i {
-    color: black;
     margin-left: 20px;
-    font-size: 20px;
   }
 
   md-edit-sm {

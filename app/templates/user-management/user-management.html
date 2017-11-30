@@ -19,6 +19,7 @@
                     <tr md-row>
                         <th md-column>Client Name</th>
                         <th md-column>Client Classification</th>
+                        <th md-column ng-if="vm.user.role_id > 1">Financial Adviser</th>
                         <th md-column><p class="tHeadText">Questionnaire Responses</p></th>
                         <th md-column>Contract</th>
                         <th md-column>Date Completed</th>
@@ -29,7 +30,8 @@
                     <tr md-row
                         ng-repeat="customers in vm.customers | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                         <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
-                        <td md-cell>{{customers.classification}}</td>
+                        <td md-cell ng-if="vm.user.role_id > 1">{{customers.classification}}</td>
+                        <td md-cell>{{customers.name }}</td>
                         <td md-cell >
                             <!--{{customers.reports.length}}-->
                             <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)">
@@ -38,7 +40,7 @@
                         </td>
 
                         </md-button>
-                        <td md-cell>?</td>
+                        <td md-cell><i class="material-icons">file_download</i></td>
                         <td md-cell >
                             {{vm.all }}
                         </td>
