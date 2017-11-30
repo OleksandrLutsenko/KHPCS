@@ -1,8 +1,6 @@
 .tabs {
 
   .logoTabs {
-    display: flex;
-    justify-content: center;
     padding-top: 20px;
   }
 
@@ -17,12 +15,10 @@
 
   .nav {
     background-color: #001041;
-    padding-right: 70px;
   }
 
   .md-padding {
     padding: 0;
-    overflow: visible;
   }
 
 
@@ -39,7 +35,7 @@
   }
 
   .md-button._md-nav-button {
-    padding: 12px 46px;
+    padding: 12px 30px;
   }
 
 }

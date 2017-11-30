@@ -67,6 +67,8 @@
 
             config.url = url;
 
+            // console.log(config, 'data for sand');
+
             return $http(config)
                 .then(requestComplete)
                 .catch(requestFailed);

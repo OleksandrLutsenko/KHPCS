@@ -8,7 +8,11 @@ let watchSass = require("gulp-watch-sass");
 gulp.task('default', ['sass']);
 
 gulp.task('browser-reload',function () {
-    browserSync.reload();
+    setTimeout(reload, 100);
+
+    function reload() {
+        browserSync.reload();
+    }
 });
 
 gulp.task('browser-sync', function () {
@@ -24,11 +28,13 @@ gulp.task('sass', function () {
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('app/content/css'));
 });
-gulp.task('sass:watch', function () {
-    gulp.watch('app/templates/*/*.scss', ['sass', 'browser-reload']);
+gulp.task('watch', function () {
+    gulp.watch('./app/**/*.scss', ['sass']);
+
 });
 
 gulp.task('start', ['sass', 'browser-sync'], function () {
-    gulp.watch('app/templates/*/*.scss', ['sass', 'browser-reload']);
+    gulp.watch('app/**/*.scss', ['sass', 'browser-reload']);
     gulp.watch('app/**/*.js', ['browser-reload']);
+    gulp.watch('app/**/*.html', ['browser-reload']);
 });

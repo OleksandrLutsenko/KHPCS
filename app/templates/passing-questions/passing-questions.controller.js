@@ -5,16 +5,18 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customaerAnswer', 'survey', '$q'];
+    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customaerAnswer', 'survey'];
 
-    function PassingQuestionController($scope, userService, $state, customers, customaerAnswer, survey, $q) {
+    function PassingQuestionController($scope, userService, $state, customers, customaerAnswer, survey) {
         let vm = this;
 
         vm.next = next;
+        vm.back = back;
         vm.nextSucces = false;
+        vm.backSucces = false;
 
         vm.data = [];
-        //-!!-//
+
         console.log(customaerAnswer, 'customaerAnswer');
 
         let indexActiveBlock;
@@ -24,27 +26,33 @@
         let idActiveSurvey = items[indexActiveSurvey].id;
         let activeCustomers = customers.getActiveCustomers();
 
-
         let allQuestionBlock;
         let allAnswersBlock;
 
+        let massForSend = [];
         let customerAnswerOnActiveBlock;
 
         if(customaerAnswer.status == 'continue'){
             indexActiveBlock = 0;
         }
         else{
-            for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
-                if(customaerAnswer.data.customerAnswers[customaerAnswer.data.customerAnswers.length - 1].block_id == items[indexActiveSurvey].blocks[i].id){
-                    if(items[indexActiveSurvey].blocks.length - 1 == i){
-                        indexActiveBlock = i;
-                    }
-                    else{
-                        indexActiveBlock = i + 1;
+            for(let j = 0; j < customaerAnswer.data.customerAnswers.length; j++){
+                if(customaerAnswer.data.customerAnswers[j].customerAnswers.length == 0){
+                    for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
+                        if(customaerAnswer.data.customerAnswers[j].block_id == items[indexActiveSurvey].blocks[i].id){
+                            indexActiveBlock = i;
+                            break
+                        }
                     }
                     break
                 }
             }
+        }
+
+        // indexActiveBlock = 0;
+
+        if(typeof indexActiveBlock == 'undefined'){
+            indexActiveBlock = items[indexActiveSurvey].blocks.length - 1;
         }
 
         generete();
@@ -143,56 +151,80 @@
 
         });
 
+        $scope.$watch('vm.couter', function () {
+            if(massForSend.length == vm.couter){
+                toNextBlock();
+            }
+        });
+
 
         function start() {
-            if(allQuestionBlock.length === 0){
+            if(allQuestionBlock.length == 0){
                 console.log('no question in block');
                 $state.go('tab.user-management');
             }
             else{
                 vm.questions = allQuestionBlock;
+                vm.header = items[indexActiveSurvey].blocks[indexActiveBlock].name;
+                if(indexActiveBlock > 0){
+                    vm.backSucces = true;
+                }
+                else{
+                    vm.backSucces = false;
+                }
             }
         }
 
-
-
         function next() {
 
-            let deferred = $q.defer();
+            vm.couter = 0;
 
             console.log(vm.data, 'all answers in block');
             console.log(allQuestionBlock, 'all question in block');
 
-            allQuestionBlock.forEach(function (item, index) {
-                if(item.extra == 0 || item.extraAfte == 0){
-                    // debugger;
-                    let data;
-
-                    let id = {
-                        customer: activeCustomers,
-                        question: item.id
-                    };
-
-                    if(item.type == 1){
-                        data = {
-                            answer_id: vm.data[index]
-                        };
-                    }
-                    else {
-                        data = {
-                            answer_text:  vm.data[index]
-                        };
-                    }
-                    console.log(data, 'what we send');
-                    userService.sendCustomerAnswer(id, data).then(function (res) {
-                        if(res.success){
-                            console.log(index, 'question send succes');
-                        }
-                    })
-                }
+            massForSend = allQuestionBlock.filter(function(item) {
+                return item.extra == 0 || item.extraAfte == 0;
             });
-            toNextBlock();
+
+            console.log(massForSend);
+
+            massForSend.forEach(function (item, index) {
+                let data;
+
+                let id = {
+                    customer: activeCustomers,
+                    question: item.id
+                };
+
+                if(item.type == 1){
+                    data = {
+                        answer_id: vm.data[index]
+                    };
+                }
+                else {
+                    data = {
+                        answer_text:  vm.data[index]
+                    };
+                }
+                userService.sendCustomerAnswer(id, data).then(function (res) {
+                    if(res.success){
+                        console.log(index, 'question send succes');
+                        vm.couter++
+                    }
+                })
+            });
         }
+        function back() {
+            if(indexActiveBlock > 0){
+                indexActiveBlock--;
+                vm.data = [];
+                generete();
+                fill();
+                start();
+            }
+        }
+
+
 
         function toNextBlock() {
             if(items[indexActiveSurvey].blocks.length - 1 > indexActiveBlock){

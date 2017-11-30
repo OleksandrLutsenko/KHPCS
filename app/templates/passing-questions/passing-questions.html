@@ -1,7 +1,12 @@
-<div layout-padding>
+<div layout-padding class="passing-question">
+    <md-content layout="row" layout-align="center center">
+        <h2>{{vm.header}}</h2>
+    </md-content>
+
+
     <div ng-repeat="questions in vm.questions" >
         <div layout="row" layout-align="center center" ng-if="questions.extra == 0 || questions.extraAfte == 0">
-            <div ng-if="questions.type === 1" flex="80">
+            <div ng-if="questions.type === 1" flex="80" flex-xs="100">
                 <md-content layout="row">
                     <h3>{{questions.title}}</h3>
                 </md-content>
@@ -14,23 +19,22 @@
                 </md-content>
             </div>
 
-            <div ng-if="questions.type === 2" flex="80">
+            <div ng-if="questions.type === 2" flex="80" flex-xs="100">
                 <md-content>
-                    <h3>{{questions.title}}</h3>
-                </md-content>
-                <md-content>
-                    <form name="userForm">
-
-                        <md-input-container class="md-block" flex="90">
-                            <label>{{questions.title}}</label>
-                            <input ng-model="vm.data[$index]" md-maxlength="150" md-select-on-focus>
-                        </md-input-container>
-                    </form>
+                    <md-input-container class="question-text">
+                        <label>{{questions.title}}</label>
+                        <input ng-model="vm.data[$index]" md-maxlength="150" md-select-on-focus>
+                    </md-input-container>
                 </md-content>
             </div>
         </div>
     </div>
-    <div layout="row" flex="80" layout-align="center center">
-        <md-button ng-click="vm.next()" ng-if="vm.nextSucces">Next</md-button>
+    <div layout="row" layout-align="center center">
+        <div flex="80" flex-xs="100" layout="row" layout-align="end center">
+            <div>
+                <md-button  class="md-raised backButton" ng-click="vm.back()" ng-if="vm.backSucces">Back</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.next()" ng-if="vm.nextSucces">Next</md-button>
+            </div>
+        </div>
     </div>
 </div>
