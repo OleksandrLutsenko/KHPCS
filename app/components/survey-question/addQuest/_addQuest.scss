@@ -8,13 +8,22 @@
     margin: 0;
   }
 
-  .nameTop {
+  .createTop p {
     text-align: center;
     color: white;
   }
 
+  .delAns{
+    font-size: 18px;
+    cursor: pointer;
+  }
+
   md-card-content{
     padding: 20px;
+  }
+
+  .nextQuest{
+    margin-top: 20px;
   }
 
   .createTop {
@@ -38,6 +47,7 @@
 
   .addOpn{
     display: flex;
+    padding-top: 15px;
   }
 
   .addOpn p{
@@ -51,6 +61,10 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+  }
+
+  .answer{
+    padding-top: 20px;
   }
 
   .botBtn button {
