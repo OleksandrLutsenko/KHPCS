@@ -12,9 +12,9 @@ class CustomerPolicy
     public function show(User $user, Customer $customer)
     {
         if ($customer->user_id === Auth::user()->id) {
-                return true;
-            } else {
-                return false;
-            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -87,6 +87,9 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
+        $fileUri = $image->link;
+        File::delete('../'.$fileUri);
+        
         $image->delete();
         return compact('image');
     }

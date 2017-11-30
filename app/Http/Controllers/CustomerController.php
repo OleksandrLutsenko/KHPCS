@@ -22,8 +22,7 @@ class CustomerController extends Controller
     {
         if(Auth::user()->isAdmin()){
             return Customer::all();
-        }
-        else {
+        } else {
             $customers = Customer::latest()->owned()->get();
             return $customers;
         }
@@ -55,8 +54,7 @@ class CustomerController extends Controller
     {
         if ($user->can('show', $customer)) {
             return $customer;
-        }
-        else{
+        } else {
             return response([
                 "error" => "Page is not found"], 404
             );
@@ -74,8 +72,8 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, Customer $customer, User $user)
     {
-            $customer->update($request->all());
-            return response()->json($customer, 200);
+        $customer->update($request->all());
+        return response()->json($customer, 200);
     }
 
     /**

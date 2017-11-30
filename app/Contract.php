@@ -26,6 +26,10 @@ class Contract extends Model
         return $this->belongsTo(Survey::class);
     }
 
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
+
     /**
      * @return mixed
      */
