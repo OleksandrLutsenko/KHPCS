@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Contract;
 use App\Http\Requests\ImageRequest;
 use App\Image;
 use Illuminate\Http\Request;
@@ -16,9 +17,10 @@ class ImageController extends Controller
      *
      * @param ImageRequest $request
      * @param Image $image
+     * @param Contract $contract
      * @return \Illuminate\Http\Response
      */
-    public function upload(ImageRequest $request, Image $image)
+    public function upload(ImageRequest $request, Image $image, Contract $contract)
     {
         $file = $request->file('image_file');
         $filename = time().'.'.$file->getClientOriginalExtension();
@@ -27,7 +29,7 @@ class ImageController extends Controller
         $filePathUri = 'storage/images/' . $filename;
         $filePathUrl = url($filePathUri);
 
-        $image = $image->create($request->getImagePathAttribute($filePathUri));
+        $image = $contract->images()->create($request->getImagePathAttribute($filePathUri));
 
         return compact('image', 'filePathUrl');
     }
@@ -37,7 +39,7 @@ class ImageController extends Controller
      * @param Image $image
      * @return $this|\Illuminate\Database\Eloquent\Model
      */
-    public function reUpload(ImageRequest $request, Image $image)
+    public function reUpload(ImageRequest $request, Contract $contract, Image $image)
     {
         $fileUri = $image->link;
         File::delete('../'.$fileUri);
