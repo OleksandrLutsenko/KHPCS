@@ -3,7 +3,7 @@
         <md-content>
             <div layout="row" layout-align="center center" class="loginForm">
 
-                <div class="md-whiteframe-8dp" flex="40" flex-sm="100" flex-xs="100">
+                <div class="md-whiteframe-8dp" flex="40" flex-xs="90" flex-sm="60">
                     <div class="mainLogo">
                         <div class="loginLogo">
                             <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
@@ -11,7 +11,7 @@
                         <div class="divInput">
                             <md-input-container class="loginInput">
                                 <label>Full name</label>
-                                <input ng-model="vm.data.name" type="text" >
+                                <input ng-model="vm.data.name" type="text">
                             </md-input-container>
 
                             <md-input-container class="loginInput">
@@ -36,10 +36,10 @@
                         </div>
                         <div class="logBot">
                             <p class="textUnderBtn">Already have an account?</p>
-                           <p ui-sref="login" class="textLogin">Log in</p></div>
+                            <p ui-sref="login" class="textLogin">Log in</p></div>
 
                         <div class="logBotSec">
-                            <p md-nav-sref="#" >Forgotten a password?</p>
+                            <p ui-sref="forgot">Forgotten a password?</p>
                         </div>
                     </div>
                 </div>

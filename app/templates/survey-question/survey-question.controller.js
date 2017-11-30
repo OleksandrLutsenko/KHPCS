@@ -56,7 +56,7 @@
                         index: index
                     }
                 },
-                templateUrl: 'components/survey-question/edit.html',
+                templateUrl: 'components/survey-question/addQuest/addQuest.html',
                 clickOutsideToClose: true
             })
         };

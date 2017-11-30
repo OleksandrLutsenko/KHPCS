@@ -13,10 +13,7 @@
         vm.myPage = 1;
 
         vm.time = new Date();
-        vm.year = vm.time.getFullYear();
-        vm.month = vm.time.getMonth() + 1;
-        vm.date = vm.time.getDate();
-        vm.all = vm.date + "." + vm.month + "." + vm.year;
+        vm.all = vm.time.getDate() + "." + (vm.time.getMonth() +1)  + "." + vm.time.getFullYear();
 
         vm.customers = userService.getCustomers();
 
@@ -102,7 +99,7 @@
             let vmd = this;
 
             let id = data.id;
-            let index = data.index;
+            vmd.id = id;
             let customers = data.customers;
 
             if (typeof id !== 'undefined') {

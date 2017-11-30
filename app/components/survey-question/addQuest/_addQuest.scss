@@ -4,14 +4,67 @@
   display: flex;
   justify-content: center;
 
-  md-dialog {
-    min-width: 300px;
-  }
-
   md-card {
     margin: 0;
   }
-  button {
+
+  .nameTop {
+    text-align: center;
+    color: white;
+  }
+
+  md-card-content{
+    padding: 20px;
+  }
+
+  .createTop {
+    background: #3f51b5;
+  }
+
+  md-input-container{
+    margin: 0;
+  }
+
+  .nextInp{
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 20px;
+  }
+
+  .nextInp md-input-container{
+    width: 40%;
+  }
+
+  .addOpn{
+    display: flex;
+  }
+
+  .addOpn p{
+    color: #3f51b5;
+    margin: 10px 0;
+    cursor: pointer;
+    font-style: italic;
+  }
+
+  .botBtn button {
     text-transform: capitalize;
+    box-shadow: none !important;
+    margin: 0;
+    line-height: 0;
+    min-width: 98px;
+    min-height: 32px;
+  }
+
+  .botBtn {
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .botBtn button:last-child {
+    background: white;
+    border: 2px solid #3f51b5;
+    color: #3f51b5;
   }
 }
