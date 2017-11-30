@@ -12,7 +12,9 @@
             user: {
                 login: baseUrl + 'api/login',
                 getItems: baseUrl + 'api/survey',
-                register: baseUrl + 'api/register'
+                register: baseUrl + 'api/register',
+                forgot: baseUrl + 'api/user/request-reset',
+                reset:  baseUrl + 'api/user/reset-password?token='
             },
             survey_management: {
                 createSurvey: baseUrl + 'api/survey',

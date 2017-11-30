@@ -1,34 +1,44 @@
-<md-dialog flex="40" class="addMd">
-        <div class="createWindow">
+<md-dialog flex="40" flex-xs="90" flex-sm="60" class="addMd">
+    <div class="createWindow">
 
-            <div class="createTop">
-                <p>Add a new client</p>
+        <div class="createTop" ng-if="vm.id == undefined">
+            <p>Add a new client</p>
+        </div>
+        <div class="createTop" ng-if="vm.id !== undefined">
+            <p>Editing client</p>
+            <i class="material-icons"  ng-click="vm.cancel()">close</i>
+        </div>
+
+
+        <div class="contentAdd">
+            <div class="allInput">
+                <md-input-container class="addInput">
+                    <label>Client name</label>
+                    <input type="text" ng-model="vm.data.name">
+                </md-input-container>
+                <md-input-container class="addInput">
+                    <label>Client surname</label>
+                    <input type="text" ng-model="vm.data.surname">
+                </md-input-container>
+                <md-input-container class="addInput">
+                    <label>Client Classification</label>
+                    <md-select ng-model="vm.data.classification">
+                        <md-option value="retail">Retail</md-option>
+                        <md-option value="professional">Professional</md-option>
+                        <md-option value="eligible">Eligible counterparty</md-option>
+                    </md-select>
+                </md-input-container>
             </div>
-
-            <div class="contentAdd">
-                <div class="allInput">
-                    <md-input-container class="addInput">
-                        <label>Client name</label>
-                        <input type="text" ng-model="vm.data.name">
-                    </md-input-container>
-                    <md-input-container class="addInput">
-                        <label>Client surname</label>
-                        <input type="text" ng-model="vm.data.surname">
-                    </md-input-container>
-                    <md-input-container class="addInput">
-                        <label>Client Classification</label>
-                        <md-select ng-model="vm.data.classification">
-                            <md-option value="retail">Retail</md-option>
-                            <md-option value="professional">Professional</md-option>
-                            <md-option value="eligible">Eligible counterparty</md-option>
-                        </md-select>
-                    </md-input-container>
-                </div>
-                <div class="botBtn">
-                    <md-button class="md-raised md-primary" ng-click="vm.save()">Create
-                    </md-button>
-                    <md-button class="md-raised" ng-click="vm.cancel()" >Close</md-button>
-                </div>
+            <div class="botBtn" ng-if="vm.id == undefined">
+                <md-button class="md-raised md-primary" ng-click="vm.save()">Create
+                </md-button>
+                <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
+            </div>
+            <div class="botBtn" ng-if="vm.id !== undefined">
+                <md-button class="md-raised md-primary" ng-click="vm.save()">Update
+                </md-button>
+                <md-button class="md-raised" ng-click="vm.cancel()">Questionaire</md-button>
             </div>
         </div>
-    </md-dialog>
+    </div>
+</md-dialog>

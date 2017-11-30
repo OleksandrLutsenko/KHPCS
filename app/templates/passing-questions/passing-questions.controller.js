@@ -32,24 +32,17 @@
         let massForSend = [];
         let customerAnswerOnActiveBlock;
 
-        if(customaerAnswer.status == 'continue'){
-            indexActiveBlock = 0;
-        }
-        else{
-            for(let j = 0; j < customaerAnswer.data.customerAnswers.length; j++){
-                if(customaerAnswer.data.customerAnswers[j].customerAnswers.length == 0){
-                    for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
-                        if(customaerAnswer.data.customerAnswers[j].block_id == items[indexActiveSurvey].blocks[i].id){
-                            indexActiveBlock = i;
-                            break
-                        }
+        for(let j = 0; j < customaerAnswer.data.customerAnswers.length; j++){
+            if(customaerAnswer.data.customerAnswers[j].customerAnswers.length == 0){
+                for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
+                    if(customaerAnswer.data.customerAnswers[j].block_id == items[indexActiveSurvey].blocks[i].id){
+                        indexActiveBlock = i;
+                        break
                     }
-                    break
                 }
+                break
             }
         }
-
-        // indexActiveBlock = 0;
 
         if(typeof indexActiveBlock == 'undefined'){
             indexActiveBlock = items[indexActiveSurvey].blocks.length - 1;

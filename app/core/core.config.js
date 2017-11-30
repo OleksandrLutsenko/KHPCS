@@ -29,6 +29,12 @@
                 controller: 'RegistrationController',
                 controllerAs: 'vm'
             })
+            .state('forgot', {
+                url: '/sign-up/forgot',
+                templateUrl: 'templates/forgot-password/forgot-password.html',
+                controller: 'forgotController',
+                controllerAs: 'vm'
+            })
             .state('tab.user-management', {
                 url: '/user-management',
                 templateUrl: 'templates/user-management/user-management.html',

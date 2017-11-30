@@ -10,6 +10,8 @@
         let model = {};
         model.login = login;
         model.registration = registration;
+        model.forgot = forgot;
+        model.reset = reset;
         model.setUser = setUser;
         model.getUser = getUser;
         model.loadItems = loadItems;
@@ -39,6 +41,7 @@
         model.updateCustomers = updateCustomers;
         model.deleteCustomers = deleteCustomers;
 
+
         //Passing questions
         model.sendCustomerAnswer = sendCustomerAnswer;
         model.getCustomerAnswer = getCustomerAnswer;
@@ -52,6 +55,14 @@
 
         function registration(credentials) {
             return http.post(url.user.register, credentials)
+        }
+
+        function forgot(credentials) {
+            return http.post(url.user.forgot, credentials);
+        }
+
+        function reset(credentials){
+            return http.post(url.user.reset, credentials);
         }
 
         function setUser(user) {
