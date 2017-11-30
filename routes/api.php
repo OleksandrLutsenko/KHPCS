@@ -39,6 +39,7 @@ Route::group(['middleware' => 'api-response'], function() {
 
         /** show surveys list */
         Route::get('/survey', 'SurveyController@index');
+        Route::get('/onlysurvey', 'SurveyController@onlySurvey');
         /** show blocks of survey */
         Route::get('/survey/{survey}', 'SurveyController@show');
         /** save new survey */
@@ -121,8 +122,8 @@ Route::group(['middleware' => 'api-response'], function() {
             /** Make answer by customer */
             Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
-            Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
-
+           // Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
+	    Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyBlockAnswers');
         });
     });
 });

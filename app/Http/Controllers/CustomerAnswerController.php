@@ -73,4 +73,39 @@ class CustomerAnswerController extends Controller
             'customerAnswers' => $customerAnswerArray
         ]);
     }
+
+    public function customerBlockAnswers(CustomerAnswerRequest $request, Customer $customer, Survey $survey, Block $block)
+    {
+        $questionArray = Question::where('block_id', $block->id)->get();
+        $questionArrayIDs = array_column($questionArray->toArray(), 'id');
+
+        $customerAnswerArray = CustomerAnswer::whereIn('question_id', $questionArrayIDs)
+                                             ->where('customer_id', '=', $customer->id)->get();
+
+        return response([
+            'status' => count($questionArray) == count($customerAnswerArray) ? 'completed' : 'in progress',
+            'customerAnswers' => $customerAnswerArray
+        ]);
+    }
+
+    public function customerSurveyBlockAnswers(CustomerAnswerRequest $request, Customer $customer, Question $question, Survey $survey)
+    {
+        $blockArray = Block::where('survey_id', '=', $survey->id)->get();
+ 
+        foreach ($blockArray as $block){
+            $questionArray = Question::where('block_id', $block->id)->get();
+            $questionArrayIDs = array_column($questionArray->toArray(), 'id');
+
+            $customerAnswerArray = CustomerAnswer::whereIn('question_id', $questionArrayIDs)
+                ->where('customer_id', '=', $customer->id)->get();
+
+            $result[] = ['block_id' => $block->id, 'customerAnswers' => $customerAnswerArray];
+        }
+
+        return response([
+            'status' => count($questionArray) == count($customerAnswerArray) ? 'completed' : 'in progress',
+            'customerAnswers' => $result
+        ]);
+    }
+
 }

@@ -29,6 +29,26 @@ class SurveyController extends Controller
         }
     }
 
+    public function onlySurvey(Survey $survey, User $user)
+    {
+        if ($user->can('answerAll', $survey)) {
+            $surveys = Survey::all();
+            foreach ($surveys as $survey){
+                $result[] = [
+                    'survey_name' => $survey->name,
+                    'survey_id' => $survey->id,
+                    'survey_status' => $survey->status
+                ];
+            }
+            return compact('result');
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
+    }
+
+
     /**
      * @param Survey $survey
      * @param Customer $customer
@@ -169,9 +189,11 @@ class SurveyController extends Controller
             if ($survey->status == 2){
                 $surveys = Survey::all();
 
-                foreach ($surveys as $otherSurvey){
-                    $otherSurvey->status = 2;
-                    $otherSurvey->update();
+                 foreach ($surveys as $otherSurvey){
+                    if($otherSurvey->status != 0) {
+                        $otherSurvey->status = 2;
+                        $otherSurvey->update();
+                    }
                 }
                 $survey->status = 1;
                 $survey->update();
@@ -180,7 +202,6 @@ class SurveyController extends Controller
 //                $survey->status = 2;
 //                $survey->update();
 //            }
-
             return response(['survey' => $survey]);
 
         } else {
