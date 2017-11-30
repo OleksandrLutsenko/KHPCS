@@ -11,40 +11,90 @@
         let vm = this;
 
         vm.next = next;
+        vm.back = back;
+        vm.nextSucces = false;
+        vm.backSucces = false;
 
         vm.data = [];
-        //-!!-//
+
         console.log(customaerAnswer, 'customaerAnswer');
 
-        let indexActiveBlock = 0;
+        let indexActiveBlock;
 
-        let indexActiveSurvey = survey.getActiveQuestionair();
-        let activeCustomers = customers.getActiveCustomers();
         let items = userService.getItems();
+        let indexActiveSurvey = survey.getActiveQuestionair();
+        let idActiveSurvey = items[indexActiveSurvey].id;
+        let activeCustomers = customers.getActiveCustomers();
 
-        let allQuestionBlock = [];
-        let allAnswersBlock = [];
+        let allQuestionBlock;
+        let allAnswersBlock;
+
+        let massForSend = [];
+        let customerAnswerOnActiveBlock;
+
+        for(let j = 0; j < customaerAnswer.data.customerAnswers.length; j++){
+            if(customaerAnswer.data.customerAnswers[j].customerAnswers.length == 0){
+                for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
+                    if(customaerAnswer.data.customerAnswers[j].block_id == items[indexActiveSurvey].blocks[i].id){
+                        indexActiveBlock = i;
+                        break
+                    }
+                }
+                break
+            }
+        }
+
+        if(typeof indexActiveBlock == 'undefined'){
+            indexActiveBlock = items[indexActiveSurvey].blocks.length - 1;
+        }
 
         generete();
+        fill();
         start();
 
         function generete() {
 
-            allQuestionBlock = [];
             allAnswersBlock = [];
 
             let activeBlock = items[indexActiveSurvey].blocks[indexActiveBlock];
             console.log(activeBlock, 'active block');
 
+            allQuestionBlock = activeBlock.questions;
 
             activeBlock.questions.forEach(function(item) {
-                allQuestionBlock.push(item);
                 item.answers.forEach(function (item) {
                     allAnswersBlock.push(item);
                 });
             });
         }
 
+        function fill() {
+
+            customerAnswerOnActiveBlock = [];
+
+            let idActiveBlock = items[indexActiveSurvey].blocks[indexActiveBlock].id;
+
+            for(let i = 0; i < customaerAnswer.data.customerAnswers.length; i++){
+                if(customaerAnswer.data.customerAnswers[i].block_id == idActiveBlock){
+                    customerAnswerOnActiveBlock = customaerAnswer.data.customerAnswers[i].customerAnswers;
+                    break
+                }
+            }
+
+            customerAnswerOnActiveBlock.forEach(function (item) {
+                for(let i = 0; i < allQuestionBlock.length; i++){
+                    if(item.question_id == allQuestionBlock[i].id){
+                        if(allQuestionBlock[i].type == 1){
+                            vm.data[i] = item.answer_id;
+                        }
+                        else{
+                            vm.data[i] = item.value;
+                        }
+                        break
+                    }
+                }
+            })
+        }
 
         $scope.$watchCollection('vm.data', function() {
             console.log('hey, data has changed!');
@@ -76,77 +126,120 @@
                 }
                 if(item.extra == 0 || item.extraAfte == 0){
                     couterQuestion++;
-                    if(vm.data[index] == 'undefined'){
-
+                    if(typeof vm.data[index] != 'undefined' && vm.data[index] != ''){
                         couterAnswer++;
-                        console.log(vm.data[index]);
                     }
                 }
             });
 
+            console.log(couterAnswer, couterQuestion);
+
             if(couterAnswer == couterQuestion){
                 console.log('next question true');
-                console.log(couterAnswer, couterQuestion);
+                vm.nextSucces = true
+            }
+            else{
+                vm.nextSucces = false
             }
 
         });
 
-        // debugger;
+        $scope.$watch('vm.couter', function () {
+            if(massForSend.length == vm.couter){
+                toNextBlock();
+            }
+        });
+
 
         function start() {
-            if(allQuestionBlock.length === 0){
+            if(allQuestionBlock.length == 0){
                 console.log('no question in block');
                 $state.go('tab.user-management');
             }
             else{
                 vm.questions = allQuestionBlock;
+                vm.header = items[indexActiveSurvey].blocks[indexActiveBlock].name;
+                if(indexActiveBlock > 0){
+                    vm.backSucces = true;
+                }
+                else{
+                    vm.backSucces = false;
+                }
+            }
+        }
+
+        function next() {
+
+            vm.couter = 0;
+
+            console.log(vm.data, 'all answers in block');
+            console.log(allQuestionBlock, 'all question in block');
+
+            massForSend = allQuestionBlock.filter(function(item) {
+                return item.extra == 0 || item.extraAfte == 0;
+            });
+
+            console.log(massForSend);
+
+            massForSend.forEach(function (item, index) {
+                let data;
+
+                let id = {
+                    customer: activeCustomers,
+                    question: item.id
+                };
+
+                if(item.type == 1){
+                    data = {
+                        answer_id: vm.data[index]
+                    };
+                }
+                else {
+                    data = {
+                        answer_text:  vm.data[index]
+                    };
+                }
+                userService.sendCustomerAnswer(id, data).then(function (res) {
+                    if(res.success){
+                        console.log(index, 'question send succes');
+                        vm.couter++
+                    }
+                })
+            });
+        }
+        function back() {
+            if(indexActiveBlock > 0){
+                indexActiveBlock--;
+                vm.data = [];
+                generete();
+                fill();
+                start();
             }
         }
 
 
 
-        function next() {
-
-            console.log(vm.data, 'all answers in block');
-            console.log(allQuestionBlock, 'all question in block');
-
-            allQuestionBlock.forEach(function (item, index) {
-                if(item.extra == 0 || item.extraAfte == 0){
-
-                    let data;
-
-                    let id = {
-                        customer: activeCustomers,
-                        question: item.id
-                    };
-
-                    if(item.type == 1){
-                        data = {
-                            answer_id: vm.data[index]
-                        };
-                    }
-                    else {
-                        data = {
-                            answer_text:  vm.data[index]
-                        };
-                    }
-                    console.log(data, 'what we send');
-                    userService.sendCustomerAnswer(id, data).then(function (res) {
-                        if(res.success){
-                            console.log(index, 'question send succes');
-                        }
-                    })
-                }
-            });
-
+        function toNextBlock() {
             if(items[indexActiveSurvey].blocks.length - 1 > indexActiveBlock){
                 indexActiveBlock++;
                 vm.data = [];
                 generete();
+                fill();
                 start();
             }
             else{
-                $state.go('tab.user-management');
+                let data = {
+                    customer_id: activeCustomers,
+                    survey_id: idActiveSurvey
+                };
+                userService.createReport(data).then(function (res) {
+                    if(res.success){
+                        $state.go('tab.user-management');
+                    }
+                    else {
+                        console.log('error');
+                    }
+                })
             }
         }
     }

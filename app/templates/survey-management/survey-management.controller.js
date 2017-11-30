@@ -161,7 +161,6 @@
 
                 vs.createData = {
                     name: name,
-                    description: "description",
                     status: "2"
                 };
 
