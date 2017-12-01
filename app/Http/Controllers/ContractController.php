@@ -71,6 +71,10 @@ class ContractController extends Controller
      */
     public function review(Report $report, Contract $contract, User $user)
     {
+        $variables = Auth::user()->variables;
+        foreach ($variables as $variable){
+            $variables[] = $variable->text;
+        }
         $body = stripcslashes($contract->body);
         File::put('../resources/views/contract.blade.php', $body);
 
@@ -83,7 +87,7 @@ class ContractController extends Controller
                 $contractAnswers[$question->id]  = $finalAnswer[0]->value;
             }
         }
-        return view('contract', compact('contractAnswers', 'report'));
+        return view('contract', compact('contractAnswers', 'variables', 'report'));
     }
 
     /**
@@ -142,6 +146,10 @@ class ContractController extends Controller
      */
     public function downloadContract(Report $report, Contract $contract)
     {
+        $variables = Auth::user()->variables;
+        foreach ($variables as $variable){
+            $variables[] = $variable->text;
+        }
         $body = stripcslashes($contract->body);
         File::put('../resources/views/contract.blade.php', $body);
 
@@ -156,6 +164,7 @@ class ContractController extends Controller
         }
         $data['report'] = $report;
         $data['contractAnswers'] = $contractAnswers;
+        $data['variables'] = $variables;
 
         $pdf = PDF::loadView('contract', $data);
         return $pdf->download('contract.pdf');
