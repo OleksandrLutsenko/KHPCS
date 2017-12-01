@@ -1,18 +1,18 @@
 <div class="umMain">
     <md-content class="md-padding" flex="100" layout="column" layout-align="center center">
-        <div class="search">
-            <md-input-container>
-                <label class="searchDetail">
+        <div class="search" layout="row" layout-align="center center">
+            <md-input-container flex="100">
+                <label layout="row">
                     <i class="material-icons">search</i>
-                    <p class="searchText">Search</p></label>
+                    <p layout="row" layout-align="none end">Search</p></label>
                 <input type="text" ng-model="vm.search">
             </md-input-container>
 
-            <div class="addIcon" ng-click="vm.createOrUpdate()">
+            <div class="addIcon" layout="" layout-align="center center" ng-click="vm.createOrUpdate()">
                 <i class="material-icons">person_add</i>
             </div>
         </div>
-        <div class="md-whiteframe-3dp" flex="90" ng-if="vm.customers.length > 0">
+        <div class="table" ng-if="vm.customers.length > 0" >
             <md-card>
                 <table md-table>
                     <thead md-head>

@@ -1,11 +1,7 @@
 .addMd {
-  display: flex;
-  justify-content: center;
 
-  .addInput {
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 0;
+  md-input-container {
+    margin: 0;
   }
 
   .createTop {
@@ -13,7 +9,6 @@
   }
 
   .createTop p {
-    margin: 0 ;
     font-size: 25px;
     text-align: center;
     color: white;
@@ -26,10 +21,10 @@
 
   .allInput {
     padding-bottom: 20px;
-    display: flex;
-    flex-direction: column;
   }
+
   .createTop i {
+    color: #fff;
     cursor: pointer;
     position: absolute;
     right: 10px;
@@ -46,11 +41,6 @@
     min-height: 32px;
   }
 
-  .botBtn {
-    display: flex;
-    justify-content: space-between;
-  }
-
   .botBtn button:last-child {
     background: white;
     border: 2px solid #3f51b5;
@@ -65,7 +55,6 @@
   }
 
   .annHead p {
-    margin: 0;
     font-size: 25px;
     text-align: center;
     color:white;
@@ -77,20 +66,20 @@
   }
 
   .annCont{
-    padding: 0 20px 20px 20px;
+    padding: 20px;
   }
 
   .annBotBtn {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    padding-top: 10px;
   }
+
   button {
     text-transform: capitalize;
     box-shadow: none !important;
-    margin: 0;
     line-height: 0;
     min-width: 98px;
     min-height: 32px;
+    margin: 0;
   }
 }

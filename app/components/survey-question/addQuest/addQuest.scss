@@ -1,21 +1,17 @@
  .addQuest {
 
-  width: 0;
-  display: flex;
-  justify-content: center;
-
   md-card {
     margin: 0;
   }
 
+   .createTop {
+     background: #3f51b5;
+   }
+
   .createTop p {
     text-align: center;
     color: white;
-  }
-
-  .delAns{
-    font-size: 18px;
-    cursor: pointer;
+    padding: 10px;
   }
 
   md-card-content{
@@ -26,23 +22,8 @@
     margin-top: 20px;
   }
 
-  .createTop {
-    background: #3f51b5;
-  }
-
   md-input-container{
-    //margin: 0;
-  }
-
-  .nextInp{
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-top: 20px;
-  }
-
-  .nextInp md-input-container{
-    width: 40%;
+    margin: 0;
   }
 
   .addOpn{
@@ -57,16 +38,6 @@
     font-style: italic;
   }
 
-  .lab{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-
-  .answer{
-    padding-top: 20px;
-  }
-
   .botBtn button {
     text-transform: capitalize;
     box-shadow: none !important;
@@ -78,8 +49,6 @@
 
   .botBtn {
     padding-top: 20px;
-    display: flex;
-    justify-content: space-between;
   }
 
   .botBtn button:last-child {

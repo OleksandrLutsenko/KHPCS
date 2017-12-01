@@ -121,7 +121,7 @@
             $mdDialog.show({
                 controller: editBlockController,
                 controllerAs: 'vm',
-                templateUrl: 'components/survey-block/add-block/add-block.html',
+                templateUrl: 'components/survey-block/edit-block/edit-block.html',
                 clickOutsideToClose: true
             });
 

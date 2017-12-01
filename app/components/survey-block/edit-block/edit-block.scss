@@ -1,7 +1,5 @@
 .editBlock {
 
-  display: flex;
-  justify-content: center;
 
   .createTop p {
     text-align: center;
@@ -27,12 +25,7 @@
     min-width: 98px;
   }
 
-  .botBtn {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .addInput{
+  md-input-container{
     width: 100%;
     margin-bottom: 25px;
     margin-top: 40px;

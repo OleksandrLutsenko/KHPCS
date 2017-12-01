@@ -1,11 +1,8 @@
 .dltMain {
   min-width: 290px;
-  display: flex;
-  justify-content: center;
 
   .dltHead p {
     text-align: center;
-    margin: 0;
     color: white;
     padding: 12px;
   }
@@ -29,10 +26,7 @@
   }
 
   .dltBtn {
-    display: flex;
-    justify-content: space-between;
     padding: 0 30px 20px 30px;
-
   }
 
   .dltBtn button:last-child {

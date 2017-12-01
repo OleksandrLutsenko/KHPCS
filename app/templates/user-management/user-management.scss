@@ -1,38 +1,18 @@
 .umMain {
 
-  md-card {
-    margin: 0;
-  }
 
-  .layout-column > .flex-90 {
-    width: 95%;
-  }
 
   .search {
-    display: flex;
-    align-items: center;
     width: 95%;
     padding: 10px 0 10px 40px;
   }
 
   .search md-input-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
+    margin-bottom: 0;
   }
 
-  i {
-    cursor: pointer;
-  }
-
-  .searchText {
-    margin: 0;
-    display: flex;
-    align-items: flex-end;
-  }
-
-  .searchDetail {
-    display: inline-flex;
+  .table{
+    width: 95%;
   }
 
   .addIcon {
@@ -40,9 +20,6 @@
     height: 50px;
     border-radius: 50%;
     background: #c6c6c6;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
   }
 
@@ -54,20 +31,7 @@
     text-transform: capitalize;
   }
 
-  .tHeadText {
-    display: flex;
-  }
-
-
-  table.md-table td.md-cell:last-child, table.md-table th.md-column:last-child {
-    padding: 0;
-  }
-  .botTextClient, .botBtn button, .botBtn button, .startBtn {
-    margin: 0;
-    text-transform: none;
-  }
-
-  button {
+  button{
     text-transform: capitalize;
   }
 
