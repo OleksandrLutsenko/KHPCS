@@ -12,7 +12,7 @@
                 <i class="material-icons">person_add</i>
             </div>
         </div>
-        <div class="table" ng-if="vm.customers.length > 0" >
+        <div class="table" ng-if="vm.customers.length > 0">
             <md-card>
                 <table md-table>
                     <thead md-head>
@@ -31,8 +31,8 @@
                         ng-repeat="customers in vm.customers | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                         <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                         <td md-cell ng-if="vm.user.role_id > 1">{{customers.classification}}</td>
-                        <td md-cell>{{customers.name }}</td>
-                        <td md-cell >
+                        <td md-cell>{{vm.user.name }}</td>
+                        <td md-cell>
                             <!--{{customers.reports.length}}-->
                             <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)">
                                 Get started
@@ -41,7 +41,7 @@
 
                         </md-button>
                         <td md-cell><i class="material-icons">file_download</i></td>
-                        <td md-cell >
+                        <td md-cell>
                             {{vm.all }}
                         </td>
                         <td md-cell>
@@ -52,10 +52,11 @@
                     </tr>
                     </tbody>
                 </table>
+                <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
+                                     md-total="{{vm.customers.length}}" md-page-select>
+                </md-table-pagination>
             </md-card>
-            <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
-                                 md-total="{{vm.customers.length}}" md-page-select>
-            </md-table-pagination>
+
         </div>
     </md-content>
 </div>

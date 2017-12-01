@@ -13,7 +13,7 @@
         let idBlock = idB.id;
         vm.deleteQuest = deleteQuest;
 
-        $scope.$on('parent', function(event, data){
+        $scope.$on('parent', function (event, data) {
             indexBlock = data;
             vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
             idB = survey.getActiveBlock();
@@ -51,8 +51,8 @@
             };
 
             vmd.delete = function () {
-                userService.deleteQuestion(id).then(function (res)  {
-                    if(res.success){
+                userService.deleteQuestion(id).then(function (res) {
+                    if (res.success) {
                         userService.loadItems().then(function () {
                             vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
                         });
@@ -90,24 +90,24 @@
             let id = data.id;
             let index = data.index;
 
-            if(typeof id !== 'undefined') {
-                vmd.data =  vm.items[index];
+            if (typeof id !== 'undefined') {
+                vmd.data = vm.items[index];
 
-                if(vmd.data.type == 2){
-                    if(vmd.data.last == 1){
+                if (vmd.data.type == 2) {
+                    if (vmd.data.last == 1) {
                         vmd.data.next_question = 'last';
                     }
                 }
                 else {
                     vmd.data.answers.forEach(function (item) {
-                        if(item.hasExtra === 1){
+                        if (item.hasExtra === 1) {
                             item.hasExtra = true;
                         }
-                        else if(item.hasExtra === 0){
+                        else if (item.hasExtra === 0) {
                             item.hasExtra = false;
                         }
 
-                        if(item.hasLast == 1){
+                        if (item.hasLast == 1) {
                             item.next_question = 'last';
                         }
                     });
@@ -115,26 +115,26 @@
             }
             else {
                 vmd.data = {
-                    answers:  []
+                    answers: []
                 }
             }
 
             console.log(vmd.data, 'pop ap data');
 
             vmd.addAnsver = function () {
-                if(vmd.data.answers.length === 0 ||
+                if (vmd.data.answers.length === 0 ||
                     typeof vmd.data.answers[vmd.data.answers.length - 1].answer_text !== 'undefined'
-                    && vmd.data.answers[vmd.data.answers.length - 1].answer_text !== ''){
+                    && vmd.data.answers[vmd.data.answers.length - 1].answer_text !== '') {
 
                     vmd.data.answers.push({});
                 }
             };
 
-            vmd.deleteAnsver = function(id, indexAns){
-                if(typeof id !== 'undefined'){
+            vmd.deleteAnsver = function (id, indexAns) {
+                if (typeof id !== 'undefined') {
                     userService.deleteAnswer(id).then(function (res) {
                         console.log(res);
-                        if(res.success){
+                        if (res.success) {
                             vmd.data.answers.splice(indexAns, 1);
                         }
                     })
@@ -146,16 +146,16 @@
             };
 
             vmd.save = function () {
-                if(typeof id !== 'undefined') {
+                if (typeof id !== 'undefined') {
                     let data = {
-                        title:          vmd.data.title,
-                        identifier:     vmd.data.identifier,
-                        type:           vmd.data.type,
+                        title: vmd.data.title,
+                        identifier: vmd.data.identifier,
+                        type: vmd.data.type,
 
                     };
-                    if(data.type == 2){
+                    if (data.type == 2) {
                         data.next_question = vmd.data.next_question;
-                        if(data.next_question == 'last'){
+                        if (data.next_question == 'last') {
                             data.last = 1;
                             delete data.next_question;
                         }
@@ -164,38 +164,38 @@
                         }
                     }
                     userService.updateQuestion(id, data).then(function (res) {
-                        if (res.success){
+                        if (res.success) {
                             vm.items.splice(index, 1, res.data.question);
-                            if (vmd.data.answers.length > 0 && vmd.data.type === 1){
+                            if (vmd.data.answers.length > 0 && vmd.data.type === 1) {
 
                                 vmd.data.answers.forEach(function (item, indexAnswer) {
                                     let data = item;
-                                    if(data.hasExtra === true){
+                                    if (data.hasExtra === true) {
                                         data.hasExtra = 1;
                                     }
-                                    else{
+                                    else {
                                         data.hasExtra = 0;
                                     }
-                                    if(data.next_question == 'last'){
+                                    if (data.next_question == 'last') {
                                         data.hasLast = 1;
                                         delete data.next_question;
                                     }
                                     else {
                                         data.hasLast = 0
                                     }
-                                    if(typeof data.id !== 'undefined'){
-                                        if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
+                                    if (typeof data.id !== 'undefined') {
+                                        if (typeof data.answer_text !== 'undefined' && data.answer_text !== '') {
                                             userService.updateAnswer(data.id, data).then(function (res) {
-                                                if(res.success){
+                                                if (res.success) {
                                                     vm.items[index].answers.splice(indexAnswer, 1, res.data.answer);
                                                 }
                                             });
                                         }
                                     }
-                                    else{
-                                        if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
+                                    else {
+                                        if (typeof data.answer_text !== 'undefined' && data.answer_text !== '') {
                                             userService.createAnswer(res.data.question.id, data).then(function (res) {
-                                                if(res.success){
+                                                if (res.success) {
                                                     vm.items[index].answers.push(res.data.answer);
                                                 }
                                             });
@@ -212,13 +212,13 @@
                 }
                 else {
                     let data = {
-                        title:          vmd.data.title,
-                        identifier:     vmd.data.identifier,
-                        type:           vmd.data.type,
+                        title: vmd.data.title,
+                        identifier: vmd.data.identifier,
+                        type: vmd.data.type,
                     };
-                    if(data.type === 2){
+                    if (data.type === 2) {
                         data.next_question = vmd.data.next_question;
-                        if(data.next_question == 'last'){
+                        if (data.next_question == 'last') {
                             data.last = 1;
                             delete data.next_question;
                         }
@@ -229,25 +229,25 @@
                     userService.createQuestion(idBlock, data).then(function (res) {
                         if (res.success) {
                             vm.items.push(res.data.question);
-                            if (vmd.data.answers.length > 0 && vmd.data.type === 1){
+                            if (vmd.data.answers.length > 0 && vmd.data.type === 1) {
                                 vmd.data.answers.forEach(function (item) {
                                     let data = item;
-                                    if(data.hasExtra === true){
+                                    if (data.hasExtra === true) {
                                         data.hasExtra = 1;
                                     }
-                                    else{
+                                    else {
                                         data.hasExtra = 0;
                                     }
-                                    if(data.next_question == 'last'){
+                                    if (data.next_question == 'last') {
                                         data.hasLast = 1;
                                         delete data.next_question;
                                     }
                                     else {
                                         data.hasLast = 0;
                                     }
-                                    if(typeof data.answer_text !== 'undefined' && data.answer_text !== ''){
+                                    if (typeof data.answer_text !== 'undefined' && data.answer_text !== '') {
                                         userService.createAnswer(res.data.question.id, data).then(function (res) {
-                                            if(res.success){
+                                            if (res.success) {
                                                 vm.items[vm.items.length - 1].answers.push(res.data.answer);
                                             }
                                         });

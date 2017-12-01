@@ -14,18 +14,18 @@
                                 <input ng-model="vm.data.email" type="email">
                             </md-input-container>
 
-                            <md-input-container >
+                            <md-input-container>
                                 <label>Password</label>
                                 <input ng-model="vm.data.password" type="password">
                             </md-input-container>
                         </div>
                         <div class="divBtn">
                             <md-button ng-click="vm.login()">
-                               Log in
+                                Log in
                             </md-button>
                         </div>
                         <div class="logBot" layout="row" layout-align="center">
-                            <p>Don't have an account?</p>
+                            <p ng-click="showCustomToast()">Don't have an account?</p>
                             <p ui-sref="registration">Sign Up</p>
                         </div>
                         <div layout="" layout-align="center" class="lastText">

@@ -1,6 +1,9 @@
 .umMain {
 
-
+  md-card {
+    margin: 0;
+    margin-bottom: 20px;
+  }
 
   .search {
     width: 95%;
@@ -11,7 +14,7 @@
     margin-bottom: 0;
   }
 
-  .table{
+  .table {
     width: 95%;
   }
 
@@ -23,15 +26,11 @@
     cursor: pointer;
   }
 
-  td:nth-child(3) button {
-    margin-left: 25px;
-  }
-
   td {
     text-transform: capitalize;
   }
 
-  button{
+  button {
     text-transform: capitalize;
   }
 

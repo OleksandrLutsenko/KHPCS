@@ -1,7 +1,7 @@
 <md-dialog flex="40" flex-xs="90" flex-sm="60" class="addQuest">
-    <md-card >
+    <md-card>
 
-        <div class="createTop" >
+        <div class="createTop">
             <p>Enter the question</p>
         </div>
 
@@ -14,7 +14,7 @@
 
                 <md-input-container>
                     <label>Type your question</label>
-                    <input  ng-model="vm.data.title">
+                    <input ng-model="vm.data.title">
                 </md-input-container>
 
                 <md-input-container>
@@ -27,9 +27,8 @@
 
                 <md-input-container ng-if="vm.data.type === 2" class="nextQuest">
                     <label>Next question</label>
-                    <input  ng-model="vm.data.next_question">
+                    <input ng-model="vm.data.next_question">
                 </md-input-container>
-
                 <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type === 1">
                     <div layout="column">
                         <md-input-container>
@@ -46,7 +45,7 @@
                         </md-input-container>
                     </div>
                     <div layout="column">
-                        <i class="material-icons delAns"  ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
+                        <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
                     </div>
                     <div layout="column">
 
@@ -56,10 +55,10 @@
                     </div>
                 </div>
                 <div class="addOpn" ng-if="vm.data.type === 1">
-                <p  ng-click="vm.addAnsver()">Add question</p></div>
+                    <p ng-click="vm.addAnsver()">Add question</p></div>
             </div>
             <div layout="row" class="botBtn" layout-align="space-between" layout-wrap>
-                <md-button class="md-raised md-primary"  ng-click="vm.save()">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.save()">Save</md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
             </div>
         </md-card-content>
