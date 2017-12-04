@@ -16,10 +16,11 @@
         vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
 
         function setActiveDot() {
-            if(vm.items.length) {
+            if (vm.items.length) {
                 vm.activeBlockIndex = idBlock.indexBlock;
             }
         }
+
         setActiveDot();
 
         function setActiveBlock(id, indexBlock, blockName) {
@@ -28,10 +29,10 @@
             idBlock = survey.getActiveBlock();
             vm.activeBlockIndex = indexBlock;
             vm.blockName = blockName;
-            console.log('Name: ' + blockName + ', ID: ' + id + ', Index: ' +indexBlock);
+            console.log('Name: ' + blockName + ', ID: ' + id + ', Index: ' + indexBlock);
         }
 
-        if(vm.items.length > 0) {
+        if (vm.items.length > 0) {
             console.log('item not undefine', vm.items);
             setActiveBlock(vm.items[0].id, 0, vm.items[0].name);
             $state.go('tab.survey-block.survey-question');
@@ -43,7 +44,7 @@
         /////////////////////////////////showDotMenu/////////////////////////////
 
         vm.showDot = function (indexCurrentBlock) {
-            if (indexCurrentBlock === vm.activeBlockIndex){
+            if (indexCurrentBlock === vm.activeBlockIndex) {
                 return true;
             }
             else {
@@ -65,8 +66,8 @@
             function addBlockController($mdDialog) {
                 let vs = this;
 
-                if(typeof id != 'undefined') {
-                    vs.data =  {
+                if (typeof id != 'undefined') {
+                    vs.data = {
                         name: vm.items[index].name,
                     };
                 }
@@ -85,7 +86,7 @@
 
                                 console.log(vm.items);
 
-                                let indexBlock = vm.items.length-1;
+                                let indexBlock = vm.items.length - 1;
                                 let id = vm.items[indexBlock].id;
                                 let blockName = vm.items[indexBlock].name;
 
@@ -128,24 +129,24 @@
             function editBlockController($mdDialog) {
                 let vs = this;
 
-                vs.data =  {
+                vs.data = {
                     name: vm.blockName,
                 };
 
-                    vs.saveBlock = function () {
-                        userService.updateBlock(idBlock.id, vs.data).then(function (res) {
-                            if (res.success) {
-                                userService.loadItems().then(function () {
-                                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-                                    // console.log(vm.items);
-                                    $mdDialog.cancel();
-                                });
-                            }
-                            else {
-                                console.log('error');
-                            }
-                            vs.cancel();
-                        });
+                vs.saveBlock = function () {
+                    userService.updateBlock(idBlock.id, vs.data).then(function (res) {
+                        if (res.success) {
+                            userService.loadItems().then(function () {
+                                vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                                // console.log(vm.items);
+                                $mdDialog.cancel();
+                            });
+                        }
+                        else {
+                            console.log('error');
+                        }
+                        vs.cancel();
+                    });
                 };
 
                 vs.cancel = function () {
@@ -179,17 +180,17 @@
 
                                 if (vm.items.length === 0) {
                                     $state.go('tab.survey-block');
-                                } else if (vm.items.length){
+                                } else if (vm.items.length) {
                                     let id;
-                                     let index;
-                                     
-                                     if (idBlock.indexBlock === 0) {
+                                    let index;
+
+                                    if (idBlock.indexBlock === 0) {
                                         id = vm.items[idBlock.indexBlock].id;
                                         index = idBlock.indexBlock;
-                                     } else {
-                                        id = vm.items[idBlock.indexBlock-1].id;
-                                        index = idBlock.indexBlock-1;
-                                     }
+                                    } else {
+                                        id = vm.items[idBlock.indexBlock - 1].id;
+                                        index = idBlock.indexBlock - 1;
+                                    }
                                     vm.setActiveBlock(id, index);
                                 }
 

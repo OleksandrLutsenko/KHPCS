@@ -1,14 +1,16 @@
 <md-content class="quest">
-    <div class="singQest" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
+    <div class="question" md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6"
          ng-mouseleave="height = 3" ng-click="vm.showEdit()">Add new question
     </div>
-    <div ng-repeat="question in  vm.items" class="singQest clearfix" md-whiteframe="{{height}}"
-         flex="100" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3">
+    <div ng-repeat="question in  vm.items" class="question clearfix" md-whiteframe="{{height}}"
+         flex="100" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
+    >
         <div class="sm-left">{{question.title}}</div>
         <div class="sm-right">
-            <i class="fa fa-pencil" aria-hidden="true" ng-click="vm.showEdit(question.id, $index)"></i>
-            <i class="fa fa-times-circle-o" aria-hidden="true"
-               ng-click="vm.showConfirm($event, question.id, $index)"></i>
+
+            <i class="material-icons" ng-click="vm.showEdit(question.id, $index)">mode_edit</i>
+            <i class="material-icons"
+               ng-click="vm.deleteQuest(question.id)">highlight_off</i>
         </div>
     </div>
 </md-content>

@@ -56,8 +56,9 @@
 
         function getActiveQuestionair() {
             let items = userService.getItems();
-            for (let index = 0; index < items.length - 1; index++){
-                if(items[index].status === 1){
+
+            for (let index = 0; index < items.length; index++){
+                if(items[index].status == 1){
                     return index;
                 }
             }

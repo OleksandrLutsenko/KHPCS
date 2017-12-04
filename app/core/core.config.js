@@ -29,6 +29,12 @@
                 controller: 'RegistrationController',
                 controllerAs: 'vm'
             })
+            .state('forgot', {
+                url: '/sign-up/forgot',
+                templateUrl: 'templates/forgot-password/forgot-password.html',
+                controller: 'forgotController',
+                controllerAs: 'vm'
+            })
             .state('tab.user-management', {
                 url: '/user-management',
                 templateUrl: 'templates/user-management/user-management.html',
@@ -83,7 +89,7 @@
                 controller: 'PassingQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    customaerAnswer: function (userService, customers, survey) {
+                    customerAnswer: function (userService, customers, survey) {
                         return userService.loadItems().then(function () {
                             let indexActiveSurvey = survey.getActiveQuestionair();
 
@@ -92,7 +98,14 @@
                                 survey: userService.getItems()[indexActiveSurvey].id
                             };
 
-                            return userService.getCustomerAnswer(id);
+                            return userService.getCustomerAnswer(id).then(function (res) {
+                                if(res.success){
+                                    return res.data.customerAnswers
+                                }
+                                else{
+                                    console.log('error customer answer');
+                                }
+                            });
                         });
                     }
                 }

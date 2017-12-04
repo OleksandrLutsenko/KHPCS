@@ -1,0 +1,27 @@
+.tabs {
+  .logoTabs {
+    padding: 20px 0 5px 0;
+  }
+  .logoTabs img {
+    height: 100px;
+  }
+  .nav {
+    background-color: #001041;
+    p {
+      text-transform: none;
+      margin: 0;
+    }
+  }
+  md-nav-ink-bar {
+    background: white;
+  }
+  .md-button._md-nav-button {
+    color: white;
+  }
+  .md-button._md-nav-button.md-unselected {
+    color: gray;
+  }
+  .md-button._md-nav-button {
+    padding: 12px 30px;
+  }
+}

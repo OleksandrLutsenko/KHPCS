@@ -9,9 +9,8 @@
         let vm = this;
 
         vm.user = userService.getUser();
-        console.log(vm.user.role_id);
 
-
+        vm.currentNavItem = 'page1'
 
     }
 

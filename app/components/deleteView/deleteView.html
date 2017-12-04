@@ -1,4 +1,4 @@
-<md-dialog flex="30" class="dltMain">
+<md-dialog flex="30" flex-xs="70" class="dltMain">
     <div class="dltWindow">
         <div class="dltHead">
             <p>Confirm</p>
@@ -6,11 +6,10 @@
         <div class="dltMid">
             <p>Are you sure?</p>
         </div>
-        <div class="dltBtn">
+        <div class="botBtn" layout="" layout-align="space-between">
             <md-button class="md-raised md-primary" ng-click="vm.delete()">Yes
             </md-button>
             <md-button class="md-raised" ng-click="vm.cancel()">No</md-button>
-
         </div>
     </div>
 </md-dialog>

@@ -1,0 +1,67 @@
+.enterForm {
+
+  .logBtnText {
+    color: white;
+    text-transform: none;
+  }
+
+  .loginLogo img {
+    height: 50px;
+  }
+
+  .loginForm {
+    height: 100vh;
+  }
+
+  .mainLogo {
+    padding: 20px 40px;
+  }
+
+  md-input-container {
+    margin: 0;
+    width: 100%;
+  }
+
+  .divInput {
+    padding-top: 20px;
+  }
+
+  .logIn {
+    background: #001041;
+  }
+
+  .logBot {
+    padding-top: 15px;
+    padding-bottom: 10px;
+  }
+
+  .logBotSec p {
+    cursor: pointer;
+  }
+
+  .logBot p:first-child {
+    color: gray;
+  }
+
+  .logBot p:last-child {
+    color: #001041;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .divBtn button {
+    width: 100%;
+    background: #001041;
+    margin: 0;
+    color: white;
+    text-transform: capitalize;
+  }
+
+  .lastText p {
+    cursor: pointer;
+  }
+
+  .divBtn .md-button:hover {
+    background: #001041;
+  }
+}
