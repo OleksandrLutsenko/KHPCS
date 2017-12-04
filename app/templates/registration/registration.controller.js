@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('RegistrationController', RegistrationController);
 
-    RegistrationController.$inject = ['userService', '$state'];
+    RegistrationController.$inject = ['userService', '$state' , 'toastr'];
 
-    function RegistrationController(userService, $state) {
+    function RegistrationController(userService, $state , toastr) {
         let vm = this;
 
         vm.register = register;
@@ -17,6 +17,7 @@
                 if (res.success) {
                     userService.setUser(res.data);
                     $state.go('login');
+                    toastr.success('Registration successful');
                 }
                 else {
                     console.log('eror');

@@ -1,10 +1,9 @@
 .umMain {
 
-
-
   md-card {
     margin: 0;
     margin-bottom: 20px;
+    overflow: auto;
   }
 
   .search {
@@ -20,6 +19,11 @@
     width: 95%;
   }
 
+  table.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2), table.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+    padding: 5px;
+  }
+
+
   .addIcon {
     width: 50px;
     height: 50px;
@@ -28,12 +32,9 @@
     cursor: pointer;
   }
 
-  td {
+  td, button {
     text-transform: capitalize;
   }
 
-  button {
-    text-transform: capitalize;
-  }
 }
 

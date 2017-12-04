@@ -30,8 +30,8 @@
                     <tr md-row
                         ng-repeat="customers in vm.customers | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                         <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
-                        <td md-cell ng-if="vm.user.role_id > 1">{{customers.classification}}</td>
-                        <td md-cell>{{customers.name }}</td>
+                        <td md-cell>{{customers.classification}}</td>
+                        <td md-cell ng-if="vm.user.role_id > 1">{{customers.name }}</td>
                         <td md-cell>
                             <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)">
                                 Get started
@@ -55,7 +55,6 @@
                                      md-total="{{vm.customers.length}}" md-page-select>
                 </md-table-pagination>
             </md-card>
-
         </div>
     </md-content>
 </div>
