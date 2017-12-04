@@ -72,9 +72,6 @@ class ContractController extends Controller
     public function review(Report $report, Contract $contract, User $user)
     {
         $variables = Auth::user()->variables;
-        foreach ($variables as $variable){
-            $variables[] = $variable->text;
-        }
         $body = stripcslashes($contract->body);
         File::put('../resources/views/contract.blade.php', $body);
 
@@ -147,9 +144,6 @@ class ContractController extends Controller
     public function downloadContract(Report $report, Contract $contract)
     {
         $variables = Auth::user()->variables;
-        foreach ($variables as $variable){
-            $variables[] = $variable->text;
-        }
         $body = stripcslashes($contract->body);
         File::put('../resources/views/contract.blade.php', $body);
 
