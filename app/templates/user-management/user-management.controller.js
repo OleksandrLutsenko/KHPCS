@@ -37,6 +37,7 @@
                 templateUrl: 'components/user-management/addClient/annonce.html',
                 clickOutsideToClose: true
             })
+
         }
 
         function deleteCustomer(id) {
