@@ -46,6 +46,14 @@ class User extends Authenticatable implements CanResetPassword
         return $this->belongsToMany(Customer::class);
     }
 
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function variables(){
+        return $this->hasMany(Variable::class);
+    }
+
     /**
      * @return bool
      */
