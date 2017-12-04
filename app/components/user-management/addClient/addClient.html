@@ -11,16 +11,16 @@
 
 
         <div class="contentAdd">
-            <div class="allInput">
-                <md-input-container class="addInput">
+            <div class="allInput" layout="column" >
+                <md-input-container >
                     <label>Client name</label>
                     <input type="text" ng-model="vm.data.name">
                 </md-input-container>
-                <md-input-container class="addInput">
+                <md-input-container>
                     <label>Client surname</label>
                     <input type="text" ng-model="vm.data.surname">
                 </md-input-container>
-                <md-input-container class="addInput">
+                <md-input-container>
                     <label>Client Classification</label>
                     <md-select ng-model="vm.data.classification">
                         <md-option value="retail">Retail</md-option>
@@ -29,12 +29,12 @@
                     </md-select>
                 </md-input-container>
             </div>
-            <div class="botBtn" ng-if="vm.id == undefined">
+            <div class="botBtn" ng-if="vm.id == undefined" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Create
                 </md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
             </div>
-            <div class="botBtn" ng-if="vm.id !== undefined">
+            <div class="botBtn" ng-if="vm.id !== undefined" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Update
                 </md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Questionaire</md-button>

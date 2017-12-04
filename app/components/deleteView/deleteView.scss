@@ -1,11 +1,8 @@
 .dltMain {
   min-width: 290px;
-  display: flex;
-  justify-content: center;
 
   .dltHead p {
     text-align: center;
-    margin: 0;
     color: white;
     padding: 12px;
   }
@@ -19,27 +16,8 @@
     background: #3f51b5;
   }
 
-  .dltBtn button {
-    text-transform: capitalize;
-    box-shadow: none !important;
-    line-height: 0;
-    min-height: 32px;
-    margin: 0;
-    min-width: 98px;
-  }
-
-  .dltBtn {
-    display: flex;
-    justify-content: space-between;
+  .botBtn {
     padding: 0 30px 20px 30px;
-
-  }
-
-  .dltBtn button:last-child {
-    background: white;
-    border: 2px solid #3f51b5;
-    margin-left: 40px;
-    color: #3f51b5;
   }
 
 }

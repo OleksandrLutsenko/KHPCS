@@ -1,8 +1,8 @@
 <md-dialog flex="40" flex-xs="90" flex-sm="60" class="addQuest">
-    <md-card >
+    <md-card>
 
-        <div class="createTop" >
-            <p class="nameTop">Enter the question</p>
+        <div class="createTop">
+            <p>Enter the question</p>
         </div>
 
         <md-card-content>
@@ -14,7 +14,7 @@
 
                 <md-input-container>
                     <label>Type your question</label>
-                    <input  ng-model="vm.data.title">
+                    <input ng-model="vm.data.title">
                 </md-input-container>
 
                 <md-input-container>
@@ -25,29 +25,11 @@
                     </md-select>
                 </md-input-container>
 
-                <md-input-container ng-if="vm.data.type === 2">
+                <md-input-container ng-if="vm.data.type === 2" class="nextQuest">
                     <label>Next question</label>
-                    <input  ng-model="vm.data.next_question">
+                    <input ng-model="vm.data.next_question">
                 </md-input-container>
-
-                <div class="nextInp" layout="column">
-                    <md-input-container>
-                        <label>Name</label>
-                        <input ng-model="answers.answer_text">
-                    </md-input-container>
-
-                    <md-input-container>
-                        <label class="lab">Next question <i class="material-icons"  ng-click="vm.deleteAnsver(answers.id, $index)">close</i></label>
-                        <input ng-model="answers.next_question">
-                    </md-input-container>
-                </div>
-                <div class="addOpn" >
-                <p  ng-click="vm.addAnsver()">Add question</p></div>
-            </div>
-
-            <div layout="column" ng-if="vm.data.type === 1">
-
-                <div layout="row" ng-repeat="answers in vm.data.answers">
+                <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type === 1">
                     <div layout="column">
                         <md-input-container>
                             <label>Name
@@ -63,9 +45,7 @@
                         </md-input-container>
                     </div>
                     <div layout="column">
-                        <md-button class="md-fab md-mini" ng-click="vm.deleteAnsver(answers.id, $index)" aria-label="Del answer">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
-                        </md-button>
+                        <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
                     </div>
                     <div layout="column">
 
@@ -74,15 +54,13 @@
                         </md-checkbox>
                     </div>
                 </div>
-
+                <div class="addOpn" ng-if="vm.data.type === 1">
+                    <p ng-click="vm.addAnsver()">Add question</p></div>
             </div>
-            <div layout="row" class="botBtn" layout-align="center center" layout-wrap>
-                <md-button class="md-raised md-primary"  ng-click="vm.save()">Save</md-button>
+            <div layout="row" class="botBtn" layout-align="space-between" layout-wrap>
+                <md-button class="md-raised md-primary" ng-click="vm.save()">Save</md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
             </div>
-
-
-
         </md-card-content>
     </md-card>
 </md-dialog>

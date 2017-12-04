@@ -10,6 +10,8 @@
 
         vm.user = userService.getUser();
 
+        vm.currentNavItem = 'page1'
+
     }
 
 })();

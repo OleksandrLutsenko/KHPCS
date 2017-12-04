@@ -2,17 +2,11 @@
   position: relative;
   padding-top: 20px;
   display: flex;
-  justify-content:center;
-  //overflow: hidden;
+  justify-content: center;
 
   .md-sidenav-right {
     height: fit-content;
   }
-
-
-  //.sideNavHeight {
-  //  clear: both;
-  //}
 
   .side-button {
 
@@ -23,7 +17,7 @@
     }
   }
 
-  .sm-right i{
+  .sm-right i {
     color: #636363;
     float: right;
   }
@@ -54,6 +48,14 @@
     height: 150px;
     float: left;
     cursor: pointer;
+
+  }
+
+  .questionnaire-list:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .questionnaire-list i {
@@ -67,6 +69,11 @@
     text-align: center;
     margin-left: 20px;
     margin-right: 20px;
+
+  }
+
+  .textQuest {
+    padding-top: 20px;
   }
 
   .questionnaire-list p:last-child {
@@ -93,5 +100,10 @@
     position: absolute;
     top: 20px;
     right: 20px;
+  }
+
+  .md-button {
+    text-transform: capitalize;
+    line-height: 25px;
   }
 }

@@ -12,7 +12,7 @@
 
         function forgot() {
             userService.forgot(vm.data).then(function (res) {
-                if (res.success){
+                if (res.success) {
                     userService.setUser(res.data.user);
                     $state.go('login');
                 }

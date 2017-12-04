@@ -5,40 +5,40 @@
 
                 <div class="md-whiteframe-8dp" flex="40" flex-xs="90" flex-sm="60">
                     <div class="mainLogo">
-                        <div class="loginLogo">
+                        <div class="loginLogo" layout="" layout-align="center">
                             <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
                         </div>
                         <div class="divInput">
-                            <md-input-container class="loginInput">
+                            <md-input-container>
                                 <label>Full name</label>
                                 <input ng-model="vm.data.name" type="text">
                             </md-input-container>
 
-                            <md-input-container class="loginInput">
+                            <md-input-container>
                                 <label>Email</label>
                                 <input ng-model="vm.data.email" type="email">
                             </md-input-container>
 
-                            <md-input-container class="loginInput">
+                            <md-input-container>
                                 <label>Password</label>
                                 <input ng-model="vm.data.password" type="password">
                             </md-input-container>
 
-                            <md-input-container class="loginInput">
+                            <md-input-container>
                                 <label>Confirm password</label>
                                 <input ng-model="vm.data.password_confirmation" type="password">
                             </md-input-container>
                         </div>
                         <div class="divBtn" ng-click="vm.register()">
                             <md-button>
-                                <p class="logBtnText">Sign up</p>
+                                Sign up
                             </md-button>
                         </div>
-                        <div class="logBot">
-                            <p class="textUnderBtn">Already have an account?</p>
-                            <p ui-sref="login" class="textLogin">Log in</p></div>
+                        <div class="logBot" layout="row" layout-align="center">
+                            <p>Already have an account?</p>
+                            <p ui-sref="login">Log in</p></div>
 
-                        <div class="logBotSec">
+                        <div layout="" layout-align="center" class="lastText">
                             <p ui-sref="forgot">Forgotten a password?</p>
                         </div>
                     </div>

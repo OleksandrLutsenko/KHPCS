@@ -4,8 +4,13 @@
         <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
     </div>
 
-    <md-nav-bar layout="row" layout-align="center center" class="nav" flex="100">
-        <md-nav-item md-nav-sref="tab.user-management">
+    <md-nav-bar
+            layout="row"
+            layout-align="center center"
+            class="nav"
+            flex="100"
+            md-selected-nav-item="vm.currentNavItem">
+        <md-nav-item md-nav-sref="tab.user-management" name="page1">
             <p>User Management</p>
         </md-nav-item>
         <md-nav-item md-nav-sref="tab.survey-management" ng-if="vm.user.role_id > 1">
@@ -16,5 +21,5 @@
         </md-nav-item>
     </md-nav-bar>
 
-    <div ui-view class="row" layout-align="center center"></div>
+    <div ui-view></div>
 </md-content>

@@ -5,30 +5,30 @@
 
                 <div class="md-whiteframe-8dp" flex="40" flex-xs="90" flex-sm="60">
                     <div class="mainLogo">
-                        <div class="loginLogo">
+                        <div class="loginLogo" layout="" layout-align="center">
                             <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
                         </div>
                         <div class="divInput">
-                            <md-input-container class="loginInput">
+                            <md-input-container>
                                 <label>Email</label>
                                 <input ng-model="vm.data.email" type="email">
                             </md-input-container>
 
-                            <md-input-container class="loginInput">
+                            <md-input-container>
                                 <label>Password</label>
                                 <input ng-model="vm.data.password" type="password">
                             </md-input-container>
                         </div>
                         <div class="divBtn">
                             <md-button ng-click="vm.login()">
-                                <p class="logBtnText">Log in</p>
+                                Log in
                             </md-button>
                         </div>
-                        <div class="logBot">
-                            <p class="textUnderBtn">Don't have an account?</p>
-                            <p ui-sref="registration" class="textLogin">Sign Up</p>
+                        <div class="logBot" layout="row" layout-align="center">
+                            <p ng-click="showCustomToast()">Don't have an account?</p>
+                            <p ui-sref="registration">Sign Up</p>
                         </div>
-                        <div class="logBotSec">
+                        <div layout="" layout-align="center" class="lastText">
                             <p ui-sref="forgot">Forgotten a password?</p>
                         </div>
                     </div>

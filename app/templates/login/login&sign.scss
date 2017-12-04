@@ -3,21 +3,10 @@
   .logBtnText {
     color: white;
     text-transform: none;
-    margin: 0;
   }
 
   .loginLogo img {
     height: 50px;
-  }
-
-  .logBot {
-    display: inline-flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .toTab {
-    position: absolute;
   }
 
   .loginForm {
@@ -28,61 +17,48 @@
     padding: 20px 40px;
   }
 
-  .divInput {
-    flex-direction: column;
-  }
-
-  .loginLogo {
-    display: flex;
-    justify-content: center;
-  }
-
-  .loginInput {
-    width: 100%;
+  md-input-container {
     margin: 0;
+    width: 100%;
   }
 
-  .loginInput:first-child {
-    margin-top: 20px;
+  .divInput {
+    padding-top: 20px;
   }
 
   .logIn {
-    margin: 0;
     background: #001041;
   }
 
-  .textLogin {
-    color: #001041;
-    margin-left: 10px;
-  }
-
-  .divTextLogin {
-    padding-left: 20px;
-  }
-
-  .textLogin:hover {
-    cursor: pointer;
-  }
-
-  .logBotSec{
-    display: flex;
-    justify-content: center;
+  .logBot {
+    padding-top: 15px;
+    padding-bottom: 10px;
   }
 
   .logBotSec p {
-    color: #001041;
-    margin: 0;
     cursor: pointer;
   }
 
-  .textUnderBtn {
+  .logBot p:first-child {
     color: gray;
+  }
+
+  .logBot p:last-child {
+    color: #001041;
+    margin-left: 10px;
+    cursor: pointer;
   }
 
   .divBtn button {
     width: 100%;
     background: #001041;
     margin: 0;
+    color: white;
+    text-transform: capitalize;
+  }
+
+  .lastText p {
+    cursor: pointer;
   }
 
   .divBtn .md-button:hover {
