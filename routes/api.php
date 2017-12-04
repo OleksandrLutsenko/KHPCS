@@ -125,5 +125,10 @@ Route::group(['middleware' => 'api-response'], function() {
 //            Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
             Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyBlockAnswers');
         });
+        Route::get('/variable', 'VariableController@index');
+        Route::get('/variable/{variable}', 'VariableController@show');
+        Route::post('/variable', 'VariableController@store');
+        Route::put('/variable/{variable}', 'VariableController@update');
+        Route::delete('/variable/{variable}', 'VariableController@destroy');
     });
 });
