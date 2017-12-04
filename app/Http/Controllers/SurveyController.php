@@ -48,7 +48,6 @@ class SurveyController extends Controller
         }
     }
 
-
     /**
      * @param Survey $survey
      * @param Customer $customer
@@ -189,7 +188,7 @@ class SurveyController extends Controller
             if ($survey->status == 2){
                 $surveys = Survey::all();
 
-                 foreach ($surveys as $otherSurvey){
+                foreach ($surveys as $otherSurvey){
                     if($otherSurvey->status != 0) {
                         $otherSurvey->status = 2;
                         $otherSurvey->update();

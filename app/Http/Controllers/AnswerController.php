@@ -24,14 +24,12 @@ class AnswerController extends Controller
     {
         if ($user->can('show', $answer)) {
             return compact('answer');
-        }
-        else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
         }
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -47,20 +45,10 @@ class AnswerController extends Controller
         if ($user->can('update', $answer)) {
             if ($answer->question->hasRadioAnswer()){
                 $answer->update($request->all());
-
-                $qq = Question::where('identifier', $answer->next_question)->get()->first();
-
-                if($answer->hasExtra == 1){
-                    $qq->extra = 1;
-                    $qq->update();
-                } else {
-                    $qq->extra = 0;
-                    $qq->update();
-                }
+                $request->makeExtraQuestion($answer);
             }
-
             return compact('answer');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -85,7 +73,7 @@ class AnswerController extends Controller
                 $answer->delete();
             }
             return compact('answer');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );

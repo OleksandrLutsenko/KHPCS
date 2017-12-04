@@ -11,6 +11,8 @@ class CustomerAnswer extends Model
 
     protected $fillable = ['value', 'answer_id', 'question_id', 'customer_id'];
 
+    protected $appends = ['question'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -32,8 +34,9 @@ class CustomerAnswer extends Model
         return $this->hasOne(Answer::class, 'id', 'answer_id');
     }
 
-//    public function getAnswersAttribute()
-//    {
-//        return $this->answer();
-//    }
+    public function getQuestionAttribute()
+    {
+        $question = Question::find($this->question_id)->title;
+        return $question;
+    }
 }

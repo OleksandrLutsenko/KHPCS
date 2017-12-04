@@ -15,6 +15,7 @@ class AddAnswersTable extends Migration
     {
         Schema::table('answers', function ($table) {
             $table->integer('hasExtra')->default('0');
+            $table->integer('hasLast')->default('0');
         });
     }
 }

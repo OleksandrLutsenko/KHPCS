@@ -21,8 +21,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/report/{report}/contract/{contract}/review', 'ContractController@review');
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
-    Route::post('contract/save-image', 'ImageController@upload');
-    Route::post('contract/image/{image}', 'ImageController@reUpload');
+    Route::post('contract/{contract}/save-image', 'ImageController@upload');
+    Route::post('contract/{contract}/image/{image}', 'ImageController@reUpload');
     Route::delete('contract/image/{image}', 'ImageController@destroy');
 });
 
@@ -36,7 +36,6 @@ Route::group(['middleware' => 'api-response'], function() {
     Route::group(['middleware' => 'auth:api'], function() {
 
         /** SURVEYS */
-
         /** show surveys list */
         Route::get('/survey', 'SurveyController@index');
         Route::get('/onlysurvey', 'SurveyController@onlySurvey');
@@ -93,7 +92,7 @@ Route::group(['middleware' => 'api-response'], function() {
         /** update contract */
         Route::put('/contract/{contract}', 'ContractController@update');
         /** save image */
-        Route::post('/contract/{contract}/save-image', 'ContractController@saveImage');
+//        Route::post('/contract/{contract}/save-image', 'ContractController@saveImage');
         /** delete contract */
         Route::delete('/contract/{contract}', 'ContractController@destroy');
 
@@ -122,8 +121,9 @@ Route::group(['middleware' => 'api-response'], function() {
             /** Make answer by customer */
             Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
 
-           // Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
-	    Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyBlockAnswers');
+            /** List of survey customer answers and status */
+//            Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
+            Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyBlockAnswers');
         });
     });
 });

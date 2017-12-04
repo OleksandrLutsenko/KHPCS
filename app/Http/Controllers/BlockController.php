@@ -25,8 +25,7 @@ class BlockController extends Controller
         if ($user->can('show', $block)) {
 //            return ['questions' => $block->question()->get(), 'block' => $block];
             return compact('block');
-        }
-        else {
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -47,8 +46,7 @@ class BlockController extends Controller
         if ($user->can('addQuestion', $block)) {
             $question = $block->question()->create($request->all());
             return compact('question');
-        }
-        else {
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -69,7 +67,7 @@ class BlockController extends Controller
             $block->update($request->all());
 
             return compact('block');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
@@ -88,7 +86,7 @@ class BlockController extends Controller
         if ($user->can('delete', $block)) {
             $block->delete();
             return compact('block');
-        }else{
+        } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );

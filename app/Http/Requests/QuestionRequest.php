@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Question;
 use Illuminate\Foundation\Http\FormRequest;
 
 class QuestionRequest extends FormRequest

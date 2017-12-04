@@ -9,6 +9,7 @@ return array(
     'AddAnswersTable' => $baseDir . '/database/migrations/2017_11_20_141058_add_answers_table.php',
     'AddCustomerSurveyTable' => $baseDir . '/database/migrations/2017_10_25_145206_add_customer_survey_table.php',
     'AddCustomersTable' => $baseDir . '/database/migrations/2017_11_01_104343_add_customers_table.php',
+    'AddImagesTable' => $baseDir . '/database/migrations/2017_11_29_225219_add_images_table.php',
     'AddQuestionsTable' => $baseDir . '/database/migrations/2017_11_14_133700_add_questions_table.php',
     'AddSurveyTable' => $baseDir . '/database/migrations/2017_10_30_170700_add_survey_table.php',
     'App\\Answer' => $baseDir . '/app/Answer.php',

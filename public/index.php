@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 
-
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

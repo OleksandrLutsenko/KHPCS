@@ -329,6 +329,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'AddAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_20_141058_add_answers_table.php',
         'AddCustomerSurveyTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_25_145206_add_customer_survey_table.php',
         'AddCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_01_104343_add_customers_table.php',
+        'AddImagesTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_29_225219_add_images_table.php',
         'AddQuestionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_14_133700_add_questions_table.php',
         'AddSurveyTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_30_170700_add_survey_table.php',
         'App\\Answer' => __DIR__ . '/../..' . '/app/Answer.php',
