@@ -3,10 +3,10 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', '$state', '$mdDialog', 'customers'];
+    UserManagementController.$inject = ['userService', '$state', '$mdDialog', 'customers', 'survey'];
 
 
-    function UserManagementController(userService, $state, $mdDialog, customers) {
+    function UserManagementController(userService, $state, $mdDialog, customers, survey) {
         let vm = this;
 
         vm.myLimit = 10;
@@ -16,6 +16,24 @@
         vm.all = vm.time.getDate() + "." + (vm.time.getMonth() +1)  + "." + vm.time.getFullYear();
 
         vm.customers = userService.getCustomers();
+
+        // let activeQuestionair = survey.getActiveQuestionair;
+        // let activeQuestionairId = item[activeQuestionair]
+        //
+        // vm.status = getStatus;
+        //
+        // function getStatus(index) {
+        //     if(vm.customers[index].reports.length > 0){
+        //         for(let i = 0; i < vm.customers[index].reports.length; i++){
+        //             if(vm.customers[index].reports[i].survey_id == ){
+        //
+        //             }
+        //         }
+        //     }
+        //     else {
+        //         return false
+        //     }
+        // }
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -59,7 +77,7 @@
             let id = data.id;
 
             vmd.cancel = function () {
-                $mdDialog.cancel();
+                cancel();
             };
 
             vmd.delete = function () {

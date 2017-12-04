@@ -5,9 +5,9 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customaerAnswer', 'survey'];
+    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customerAnswer', 'survey'];
 
-    function PassingQuestionController($scope, userService, $state, customers, customaerAnswer, survey) {
+    function PassingQuestionController($scope, userService, $state, customers, customerAnswer, survey) {
         let vm = this;
 
         vm.next = next;
@@ -17,7 +17,7 @@
 
         vm.data = [];
 
-        console.log(customaerAnswer, 'customaerAnswer');
+        console.log(customerAnswer, 'customaerAnswer');
 
         let indexActiveBlock;
 
@@ -29,13 +29,12 @@
         let allQuestionBlock;
         let allAnswersBlock;
 
-        let massForSend = [];
         let customerAnswerOnActiveBlock;
 
-        for(let j = 0; j < customaerAnswer.data.customerAnswers.length; j++){
-            if(customaerAnswer.data.customerAnswers[j].customerAnswers.length == 0){
+        for(let j = 0; j < customerAnswer.length; j++){
+            if(customerAnswer[j].customerAnswers.length == 0){
                 for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
-                    if(customaerAnswer.data.customerAnswers[j].block_id == items[indexActiveSurvey].blocks[i].id){
+                    if(customerAnswer[j].block_id == items[indexActiveSurvey].blocks[i].id){
                         indexActiveBlock = i;
                         break
                     }
@@ -45,7 +44,7 @@
         }
 
         if(typeof indexActiveBlock == 'undefined'){
-            indexActiveBlock = items[indexActiveSurvey].blocks.length - 1;
+            indexActiveBlock = 0;
         }
 
         generete();
@@ -74,9 +73,9 @@
 
             let idActiveBlock = items[indexActiveSurvey].blocks[indexActiveBlock].id;
 
-            for(let i = 0; i < customaerAnswer.data.customerAnswers.length; i++){
-                if(customaerAnswer.data.customerAnswers[i].block_id == idActiveBlock){
-                    customerAnswerOnActiveBlock = customaerAnswer.data.customerAnswers[i].customerAnswers;
+            for(let i = 0; i < customerAnswer.length; i++){
+                if(customerAnswer[i].block_id == idActiveBlock){
+                    customerAnswerOnActiveBlock = customerAnswer[i].customerAnswers;
                     break
                 }
             }
@@ -132,10 +131,7 @@
                 }
             });
 
-            console.log(couterAnswer, couterQuestion);
-
             if(couterAnswer == couterQuestion){
-                console.log('next question true');
                 vm.nextSucces = true
             }
             else{
@@ -145,7 +141,7 @@
         });
 
         $scope.$watch('vm.couter', function () {
-            if(massForSend.length == vm.couter){
+            if(allQuestionBlock.length == vm.couter){
                 toNextBlock();
             }
         });
@@ -175,40 +171,65 @@
             console.log(vm.data, 'all answers in block');
             console.log(allQuestionBlock, 'all question in block');
 
-            massForSend = allQuestionBlock.filter(function(item) {
-                return item.extra == 0 || item.extraAfte == 0;
-            });
+            allQuestionBlock.forEach(function (item, index) {
+                if(item.extraAfte == 0 || item.extra == 0){
+                    let data;
 
-            console.log(massForSend);
-
-            massForSend.forEach(function (item, index) {
-                let data;
-
-                let id = {
-                    customer: activeCustomers,
-                    question: item.id
-                };
-
-                if(item.type == 1){
-                    data = {
-                        answer_id: vm.data[index]
+                    let id = {
+                        customer: activeCustomers,
+                        question: item.id
                     };
+
+                    if(item.type == 1){
+                        data = {
+                            answer_id: vm.data[index]
+                        };
+                    }
+                    else {
+                        data = {
+                            answer_text:  vm.data[index]
+                        };
+                    }
+                    userService.sendCustomerAnswer(id, data).then(function (res) {
+                        if(res.success){
+                            console.log(index, 'question send succes');
+                            vm.couter++
+                        }
+                    })
                 }
                 else {
-                    data = {
-                        answer_text:  vm.data[index]
+                    let data;
+
+                    let id = {
+                        customer: activeCustomers,
+                        question: item.id
                     };
+                    data = {
+                        answer_text:  null
+                    };
+                    userService.sendCustomerAnswer(id, data).then(function (res) {
+                        if(res.success){
+                            console.log(index, 'question send succes');
+                            vm.couter++
+                        }
+                    })
                 }
-                userService.sendCustomerAnswer(id, data).then(function (res) {
-                    if(res.success){
-                        console.log(index, 'question send succes');
-                        vm.couter++
-                    }
-                })
             });
         }
         function back() {
             if(indexActiveBlock > 0){
+                let id = {
+                    customer: activeCustomers,
+                    survey: idActiveSurvey
+                };
+                userService.getCustomerAnswer(id).then(function (res) {
+                    if(res.success){
+                        customerAnswer = res.data.customerAnswers
+                    }
+                    else{
+                        console.log('error customer answer');
+                    }
+                });
                 indexActiveBlock--;
                 vm.data = [];
                 generete();
@@ -221,6 +242,18 @@
 
         function toNextBlock() {
             if(items[indexActiveSurvey].blocks.length - 1 > indexActiveBlock){
+                let id = {
+                    customer: activeCustomers,
+                    survey: idActiveSurvey
+                };
+                userService.getCustomerAnswer(id).then(function (res) {
+                    if(res.success){
+                        customerAnswer = res.data.customerAnswers
+                    }
+                    else{
+                        console.log('error customer answer');
+                    }
+                });
                 indexActiveBlock++;
                 vm.data = [];
                 generete();
