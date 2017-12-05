@@ -5,7 +5,8 @@
         'factory.url',
         'factory.request',
         'factory.survey',
-        'factory.customers'
+        'factory.customers',
+        'factory.surveyQuestion'
     ]);
 
 })();

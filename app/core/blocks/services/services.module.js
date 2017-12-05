@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('blocks.services', [
-        'service.userService'
+        'service.userService',
+        'service.surveyService'
     ]);
 
 })();

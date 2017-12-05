@@ -29,7 +29,7 @@
                     <label>Next question</label>
                     <input ng-model="vm.data.next_question">
                 </md-input-container>
-                <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type === 1">
+                <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type == 1 && !answers.forDelete">
                     <div layout="column">
                         <md-input-container>
                             <label>Name
