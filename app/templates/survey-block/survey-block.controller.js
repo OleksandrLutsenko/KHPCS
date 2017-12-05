@@ -57,11 +57,18 @@
         vm.addBlock = function (id, index) {
 
             $mdDialog.show({
-                controller: addBlockController,
+                controller: 'AddBlockController',
                 controllerAs: 'vm',
                 templateUrl: 'components/survey-block/add-block/add-block.html',
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    items: vm.items
+                }
             });
+
+            // $rootScope.$on('nextSlide', function () {
+            //     vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+            // });
 
             function addBlockController($mdDialog) {
                 let vs = this;
@@ -71,6 +78,8 @@
                         name: vm.items[index].name,
                     };
                 }
+                console.log(vs.data);
+
 
                 vs.saveBlock = function () {
                     userService.createBlock(idSurvey.id, vs.data).then(function (res) {
@@ -95,9 +104,9 @@
 
                                 vm.setActiveBlock(id, indexBlock, blockName);
 
-                                if (vm.items.length) {
-                                    $state.go('tab.survey-block.survey-question');
-                                }
+                                // if (vm.items.length) {
+                                //     $state.go('tab.survey-block.survey-question');
+                                // }
 
                                 $mdDialog.cancel();
 
@@ -106,13 +115,10 @@
                         else {
                             console.log('error');
                         }
-                        vs.newBlockClose();
                     });
                 };
 
-                vs.newBlockClose = function () {
-                    $mdDialog.cancel();
-                };
+
             }
         };
 
@@ -139,6 +145,7 @@
                             userService.loadItems().then(function () {
                                 vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
                                 // console.log(vm.items);
+                                console.log(vm.items);
                                 $mdDialog.cancel();
                             });
                         }
