@@ -52,6 +52,10 @@
         model.loadAllTemplates = loadAllTemplates;
         model.removeTemplate = removeTemplate;
         model.updateTemplate = updateTemplate;
+        model.createVariability = createVariability;
+        model.editVariability = editVariability;
+        model.removeVariability = removeVariability;
+        model.getVariability = getVariability;
 
         return model;
 
@@ -206,6 +210,7 @@
 
 
 
+        // contractEditor
         function createTemplate(data) {
             return http.post(url.contract_editor_func().createSurveyTemplate, data);
         }
@@ -220,6 +225,23 @@
 
         function updateTemplate(id, data) {
             return http.put(url.contract_editor_func(id).updateTemplate, data);
+        }
+        ///////////
+
+        function createVariability(data) {
+            return http.post(url.contract_editor_func().createVariability, data);
+        }
+
+        function editVariability(id, data) {
+            return http.put(url.contract_editor_func(id).editVariability, data);
+        }
+
+        function removeVariability(id) {
+            return http.delete(url.contract_editor_func(id).deleteVariability);
+        }
+
+        function getVariability() {
+            return http.get(url.contract_editor_func().getVariability);
         }
     }
 })();

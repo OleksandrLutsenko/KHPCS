@@ -1,0 +1,19 @@
+<md-dialog flex="30" class="editUserVariability">
+    <div class="createWindow">
+        <div class="createTop">
+            <p>Please enter your variable</p>
+        </div>
+        <div class="content">
+            <div class="allInput">
+                <md-input-container>
+                    <label>Name variable</label>
+                    <input type="text" ng-model="vm.data.text" md-autofocus>
+                </md-input-container>
+            </div>
+            <div class="botBtn" layout="" layout-align="space-between">
+                <md-button class="md-raised md-primary" ng-click="vm.reSaveVariability()">Save</md-button>
+                <md-button class="md-raised" ng-click="vm.close()">Cancel</md-button>
+            </div>
+        </div>
+    </div>
+</md-dialog>

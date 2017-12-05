@@ -1,7 +1,6 @@
-
 <div class="menus clearfix">
 
-    <div class="tab-list clearfix" ng-show="vm.surveyMenuInContractEditor">
+    <div class="tab-list clearfix" ng-if="vm.surveyMenuInContractEditor">
         <div ng-repeat="it in vm.items" ng-if="(it.status === 1 || it.status === 2)" class="questionnaire-list"
              md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
              ng-click="vm.setActiveSurvey(it.id, $index, it.name)">
@@ -12,55 +11,67 @@
 
     <div layout="row" flex="100">
 
-        <div layout="column" ng-show="vm.contractEditor" flex="75">
+        <div flex="15" ng-if="vm.contractEditor">
+            <md-toolbar class="md-theme-light">
+                <h1 class="md-toolbar-tools">Templates</h1>
+            </md-toolbar>
+
+            <md-content>
+                <div ng-repeat="template in vm.templates">
+                    <h4 ng-click="vm.pasteTemplate(template)" ng-if="vm.showTemplates(template.survey_id)"
+                        style="border: 1px solid #3f51b5; cursor: pointer">
+                        {{template.title}}
+                    </h4>
+                </div>
+
+                <h4 style="border: 1px solid #3f51b5; cursor: pointer" ng-if="vm.availabilityOfTemplates()">
+                    No data(templates)
+                </h4>
+
+                <h4 ng-click="vm.conditionForCreatingNewTemplate()" style="border: 1px solid #a326b5; cursor: pointer">
+                    Add new template
+                </h4>
+            </md-content>
+        </div>
+
+        <div layout="column" ng-show="vm.contractEditor" flex="60">
 
             <div>
                 <textarea name="CKeditorArea" style="height: 600px"></textarea>
             </div>
 
             <div layout="row">
-                <div class="add-button" ng-show="vm.contractEditor">
+                <div class="add-button" ng-if="vm.contractEditor">
                     <md-button ng-click="vm.reelectActiveSurvey()" style="border: 1px solid #3f51b5;">
                         Re-elect the survey
                     </md-button>
                 </div>
 
-                <div class="add-button" ng-show="vm.contractEditor">
-                    <md-button ng-click="vm.testReplace()" style="border: 1px solid #3f51b5;">
-                        Replace
-                    </md-button>
-                </div>
-
-                <div class="add-button" ng-show="vm.contractEditor">
-                    <md-button ng-click="vm.getAnswer()" style="border: 1px solid #3f51b5;">
-                        Get the answer
-                    </md-button>
-                </div>
+                <!--<div class="add-button" ng-if="vm.contractEditor">-->
+                    <!--&lt;!&ndash;<md-button ng-click="vm.testReplace()" style="border: 1px solid #3f51b5;">&ndash;&gt;-->
+                    <!--<md-button style="border: 1px solid #3f51b5;">-->
+                        <!--Replace-->
+                    <!--</md-button>-->
+                <!--</div>-->
 
             </div>
 
             <div layout="row">
-                <div class="add-button" ng-show="vm.contractEditor">
-                    <md-button ng-click="vm.postTemplate()" style="border: 1px solid #3f51b5;">
-                        Send template
+                <div class="add-button" ng-if="vm.contractEditor">
+                    <md-button ng-click="vm.postTemplate()" ng-if="vm.activeTemplateId === undefined" style="border: 1px solid #3f51b5;">
+                        Save template
                     </md-button>
                 </div>
 
-                <div class="add-button" ng-show="vm.contractEditor">
-                    <md-button ng-click="vm.updateTemplate()" style="border: 1px solid #3f51b5;">
-                        Overwrite template
+                <div class="add-button" ng-if="vm.contractEditor">
+                    <md-button ng-click="vm.updateTemplate()" ng-if="vm.activeTemplateId !== undefined" style="border: 1px solid #3f51b5;">
+                        Update template
                     </md-button>
                 </div>
 
-                <div class="add-button" ng-show="vm.contractEditor">
-                    <md-button ng-click="vm.removeTemplate()" style="border: 1px solid #3f51b5;">
-                        Delete template
-                    </md-button>
-                </div>
-
-                <div class="add-button" ng-show="vm.contractEditor">
-                    <md-button ng-click="vm.loadTemplates()" style="border: 1px solid #3f51b5;">
-                        Download Templates
+                <div class="add-button" ng-if="vm.contractEditor">
+                    <md-button ng-click="vm.removeTemplate()" ng-if="vm.activeTemplateId !== undefined" style="border: 1px solid #3f51b5;">
+                        Remove template
                     </md-button>
                 </div>
 
@@ -68,13 +79,17 @@
 
         </div>
 
-        <div ng-show="vm.contractEditor" flex="25" style="border: 1px solid #3f51b5; height: fit-content;">
+        <div ng-if="vm.contractEditor" flex="25" style="border: 1px solid #3f51b5; height: fit-content;">
 
             <md-toolbar class="md-theme-light">
-                <h1 class="md-toolbar-tools">Survey variability</h1>
+                <h1 class="md-toolbar-tools">Survey variables</h1>
             </md-toolbar>
 
             <md-content>
+                <h4 ng-if="!vm.activeSurvey.blocks.length" style="border: 1px solid #3f51b5;">
+                    No data
+                </h4>
+
                 <div ng-repeat="block in vm.activeSurvey.blocks">
                     <h4 ng-click="vm.showQuestionsInBlock(block.id)" style="border: 1px solid #3f51b5; cursor: pointer">
                         {{block.name}}
@@ -101,14 +116,30 @@
             </md-content>
 
             <md-toolbar class="md-theme-light">
-                <h1 class="md-toolbar-tools">User variability</h1>
+                <h1 class="md-toolbar-tools">User variables</h1>
             </md-toolbar>
 
             <md-content>
                 <div>
-                    <p>
-                        Something
-                    </p>
+                    <div ng-repeat="var in vm.variability" style="background-color: #9e9e9e">
+                        <h4 ng-click="vm.pasteUserVariability(var.id)" style="cursor: pointer;">
+                            {{var.text}}
+                        </h4>
+                        <span ng-click="vm.editUserVariability(var.id, var.text)" style="cursor: pointer;">|edit|</span>
+                        <span ng-click="vm.removeUserVariability(var.id)" style="cursor: pointer;">|delete|</span>
+                    </div>
+
+                    <div style="background-color: #9e9e9e">
+                        <p ng-if="!vm.variability.length">
+                            No data
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 ng-click="vm.createUserVariability()" style="border: 1px solid #a326b5; cursor: pointer">
+                            Create variables
+                        </h4>
+                    </div>
                 </div>
             </md-content>
         </div>

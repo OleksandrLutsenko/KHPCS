@@ -59,7 +59,11 @@
                     createSurveyTemplate: baseUrl + 'api/contract',
                     getTemplates: baseUrl + 'api/contract',
                     deleteTemplate: baseUrl + 'api/contract/' + id,
-                    updateTemplate: baseUrl + 'api/contract/' + id
+                    updateTemplate: baseUrl + 'api/contract/' + id,
+                    createVariability: baseUrl + 'api/variable',
+                    getVariability: baseUrl + 'api/variable',
+                    editVariability: baseUrl + 'api/variable/' + id,
+                    deleteVariability: baseUrl + 'api/variable/' + id
                 };
             },
 
