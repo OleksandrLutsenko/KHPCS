@@ -1,5 +1,5 @@
 ;(function () {
-    // 'use strict';
+    'use strict';
     angular
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
@@ -26,49 +26,23 @@
 
         vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
 
-        function cancel() {
-            $mdDialog.cancel();
-        }
-
-
-        function deleteQuest(id) {
+        function deleteQuest(id, index) {
             $mdDialog.show({
-                controller: deleteQuestController,
+                controller: 'DeleteViewController',
                 controllerAs: 'vm',
-                locals: {
-                    data: {
-                        id: id,
-                    }
-                },
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
-            })
-        }
-
-        function deleteQuestController(data) {
-            let vmd = this;
-
-            let id = data.id;
-
-            vmd.cancel = function () {
-                $mdDialog.cancel();
-            };
-
-            vmd.delete = function () {
+            }).then(function () {
                 userService.deleteQuestion(id).then(function (res) {
+                    console.log(res);
                     if (res.success) {
-                        userService.loadItems().then(function () {
-                            vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
-                        });
-                        cancel();
+                        vm.items.splice(index, 1)
                     }
                     else {
                         console.log('error');
                     }
                 })
-
-            };
-
+            })
         }
 
         function showEdit(id, index) {
