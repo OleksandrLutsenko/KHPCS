@@ -1,7 +1,8 @@
 ;(function () {
     'use strict';
 
-    angular.module('service.userService', [])
+    angular
+        .module('service.userService', [])
         .service('userService', userService);
 
     userService.$inject = ['http', 'url', '$localStorage', '$sessionStorage'];
@@ -15,6 +16,7 @@
         model.setUser = setUser;
         model.getUser = getUser;
         model.loadItems = loadItems;
+        model.setItems = setItems;
         model.getItems = getItems;
         // model.addSurvey = getItems;
         model.createSurvey = createSurvey;
@@ -93,15 +95,15 @@
                 }
             });
         }
-
-        function getItems() {
-            return $sessionStorage['user_items'];
-        }
-
         function setItems(items) {
             delete $sessionStorage['user_items'];
             $sessionStorage['user_items'] = items;
         }
+        function getItems() {
+            return $sessionStorage['user_items'];
+        }
+
+
 
 
         // Survey management
