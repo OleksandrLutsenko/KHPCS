@@ -1,17 +1,20 @@
-<div class="menus clearfix">
+<div class="contract-editor menus clearfix">
 
     <div class="tab-list clearfix" ng-if="vm.surveyMenuInContractEditor">
         <div ng-repeat="it in vm.items" ng-if="(it.status === 1 || it.status === 2)" class="questionnaire-list"
              md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
              ng-click="vm.setActiveSurvey(it.id, $index, it.name)">
 
-            <p class="hidden-text">{{it.name}}</p>
+            <div class="qtext-center">
+                <p class="hidden-text">{{it.name}}</p>
+            </div>
+
         </div>
     </div>
 
-    <div layout="row" flex="100">
+    <div layout="row" flex="100" ng-show="vm.contractEditor" >
 
-        <div flex="15" ng-if="vm.contractEditor">
+        <div flex="15" ng-if="vm.contractEditor" class="right-tulbar h4go">
             <md-toolbar class="md-theme-light">
                 <h1 class="md-toolbar-tools">Templates</h1>
             </md-toolbar>
@@ -19,22 +22,28 @@
             <md-content>
                 <div ng-repeat="template in vm.templates">
                     <h4 ng-click="vm.pasteTemplate(template)" ng-if="vm.showTemplates(template.survey_id)"
-                        style="border: 1px solid #3f51b5; cursor: pointer">
+                        md-whiteframe="{{height}}" ng-init="height = 1" ng-mouseenter="height = 2" ng-mouseleave="height = 1"
+                        >
                         {{template.title}}
                     </h4>
                 </div>
 
-                <h4 style="border: 1px solid #3f51b5; cursor: pointer" ng-if="vm.availabilityOfTemplates()">
+                <h4  ng-if="vm.availabilityOfTemplates()"
+                     md-whiteframe="{{height}}" ng-init="height = 1" ng-mouseenter="height = 2" ng-mouseleave="height = 1"
+                >
                     No data(templates)
                 </h4>
 
-                <h4 ng-click="vm.conditionForCreatingNewTemplate()" style="border: 1px solid #a326b5; cursor: pointer">
+                <h4 ng-click="vm.conditionForCreatingNewTemplate()"
+                    md-whiteframe="{{height}}" ng-init="height = 1" ng-mouseenter="height = 2" ng-mouseleave="height = 1"
+                >
                     Add new template
                 </h4>
             </md-content>
         </div>
 
-        <div layout="column" ng-show="vm.contractEditor" flex="60">
+
+        <div layout="column" ng-show="vm.contractEditor" flex="60" >
 
             <div>
                 <textarea name="CKeditorArea" style="height: 600px"></textarea>
@@ -79,37 +88,39 @@
 
         </div>
 
-        <div ng-if="vm.contractEditor" flex="25" style="border: 1px solid #3f51b5; height: fit-content;">
+        <div ng-if="vm.contractEditor" flex="25" class="right-tulbar">
 
             <md-toolbar class="md-theme-light">
                 <h1 class="md-toolbar-tools">Survey variables</h1>
             </md-toolbar>
 
-            <md-content>
+            <md-content class="h4go">
                 <h4 ng-if="!vm.activeSurvey.blocks.length" style="border: 1px solid #3f51b5;">
                     No data
                 </h4>
 
                 <div ng-repeat="block in vm.activeSurvey.blocks">
-                    <h4 ng-click="vm.showQuestionsInBlock(block.id)" style="border: 1px solid #3f51b5; cursor: pointer">
+                    <h4 ng-click="vm.showQuestionsInBlock(block.id)"
+                        md-whiteframe="{{height}}" ng-init="height = 1" ng-mouseenter="height = 2" ng-mouseleave="height = 1"
+                    >
                         {{block.name}}
                     </h4>
 
                     <div ng-repeat="question in block.questions" ng-if="vm.showQuestions(block.id)"
-                         style="margin-left: 20px; background-color: #9e9e9e;">
+                         class="question-answer">
 
-                        <p ng-click="vm.pasteTitle(question.title)" style="cursor: pointer">
+                        <p ng-click="vm.pasteTitle(question.title)">
                             {{question.title}}
                         </p>
 
-                        <p ng-click="vm.pasteVariability(question.title, question.id)" style="cursor: pointer">
-                            Ответ
+                        <p ng-click="vm.pasteVariability(question.title, question.id)">
+                            Answer
                         </p>
                     </div>
 
-                    <div style="margin-left: 20px; background-color: #9e9e9e" ng-if="vm.showQuestions(block.id)">
+                    <div class="empty-block" ng-if="vm.showQuestions(block.id)">
                         <p ng-if="!block.questions.length">
-                            No data
+                            Empty block
                         </p>
                     </div>
                 </div>
@@ -119,14 +130,26 @@
                 <h1 class="md-toolbar-tools">User variables</h1>
             </md-toolbar>
 
-            <md-content>
+            <md-content class="h4go">
                 <div>
-                    <div ng-repeat="var in vm.variability" style="background-color: #9e9e9e">
-                        <h4 ng-click="vm.pasteUserVariability(var.id)" style="cursor: pointer;">
+                    <div ng-repeat="var in vm.variability"
+                         md-whiteframe="{{height}}" ng-init="height = 1" ng-mouseenter="height = 2" ng-mouseleave="height = 1">
+                        <div class="ce-left">
+                            <h4 ng-click="vm.pasteUserVariability(var.id)" class="clearfix">
                             {{var.text}}
                         </h4>
-                        <span ng-click="vm.editUserVariability(var.id, var.text)" style="cursor: pointer;">|edit|</span>
-                        <span ng-click="vm.removeUserVariability(var.id)" style="cursor: pointer;">|delete|</span>
+                        </div>
+
+
+                        <!--<span ng-click="vm.editUserVariability(var.id, var.text)" style="cursor: pointer;">|edit|</span>-->
+                        <!--<span ng-click="vm.removeUserVariability(var.id)" style="cursor: pointer;">|delete|</span>-->
+
+                        <!--<div class="sm-right">-->
+                        <div class="ce-right">
+                            <i class="material-icons" ng-click="vm.editUserVariability(var.id, var.text)">mode_edit</i>
+                            <i class="material-icons"
+                               ng-click="vm.removeUserVariability(var.id)">highlight_off</i>
+                        </div>
                     </div>
 
                     <div style="background-color: #9e9e9e">
@@ -136,7 +159,9 @@
                     </div>
 
                     <div>
-                        <h4 ng-click="vm.createUserVariability()" style="border: 1px solid #a326b5; cursor: pointer">
+                        <h4 ng-click="vm.createUserVariability()"
+                            md-whiteframe="{{height}}" ng-init="height = 1" ng-mouseenter="height = 2" ng-mouseleave="height = 1"
+                        >
                             Create variables
                         </h4>
                     </div>

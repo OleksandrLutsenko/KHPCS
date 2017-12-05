@@ -1,0 +1,96 @@
+.contract-editor {
+  .right-tulbar{
+    border: 1px solid #001041;
+    height: fit-content;
+  }
+
+  .qtext-center{
+    margin-top: 65px;
+  }
+
+  .h4go {
+    height: 300px;
+    //overflow-x: scroll;
+    overflow-y: scroll;
+  }
+
+  //.h4go h4{
+  //  margin: 0 10px;
+  //  padding: 7px 12px 10px 12px;
+  //  cursor: pointer;
+  //  text-transform: uppercase;
+  //  border-bottom: 1px solid #001041;
+  //  font-weight: normal;
+  //  font-size: 14px;
+  //}
+
+  .h4go h4{
+    margin: 0;
+    padding: 7px 12px 10px 12px;
+    cursor: pointer;
+    //text-transform: uppercase;
+    font-weight: normal;
+    font-size: 16px;
+  }
+
+
+  md-toolbar{
+      min-height: 0;
+      font-size: 15px;
+      background-color: #001041;
+      margin: 0;
+      height: 40px;
+
+    }
+
+  .md-toolbar-tools {
+    font-size: 18px;
+  }
+
+
+
+
+
+
+
+
+  .question-answer, .empty-block{
+    margin-left: 0 0;
+    border-bottom: 1px solid #d2d2d2;
+    margin: 0px 5px 0 20px;
+  }
+
+  //.empty-block{
+  //  color: darkgrey;
+  //  margin: 3px 3px 3px 10px;
+  //}
+
+  .empty-block p{
+    color: darkgrey;
+    margin: 3px 3px 3px 10px;
+  }
+
+
+  .question-answer p {
+    cursor: pointer;
+    margin: 3px 3px 3px 10px;
+  }
+
+  .ce-right{
+       //float: right;
+    margin-top: 6px;
+     }
+
+  //.ce-left{
+  //  float: left;
+  //}
+
+
+  .ce-right i{
+    font-size: 20px;
+  }
+
+
+
+
+}
