@@ -7,11 +7,10 @@
 
     function SurveyBlockController(userService, $state, survey, $scope, $mdDialog) {
         let vm = this;
-        console.log('controller started');
+
         vm.setActiveBlock = setActiveBlock;
         let idSurvey = survey.getActineSurvey();
         let idBlock = survey.getActiveBlock();
-
 
         vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
 
@@ -54,160 +53,83 @@
 
         //////////////////////////////AddBlock////////////////////////////////
 
-        vm.addBlock = function (id, index) {
+
+        vm.addBlock = addBlock;
+        function addBlock(id, cell) {
 
             $mdDialog.show({
-                controller: addBlockController,
+                controller: 'AddBlockController',
                 controllerAs: 'vm',
                 templateUrl: 'components/survey-block/add-block/add-block.html',
-                clickOutsideToClose: true
-            });
-
-            function addBlockController($mdDialog) {
-                let vs = this;
-
-                if (typeof id != 'undefined') {
-                    vs.data = {
-                        name: vm.items[index].name,
-                    };
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        idBlock: id,
+                        cell: cell,
+                    }
                 }
 
-                vs.saveBlock = function () {
-                    userService.createBlock(idSurvey.id, vs.data).then(function (res) {
-                        // console.log(idSurvey.id);
-                        if (res.success) {
-                            console.log(res);
-                            userService.loadItems().then(function () {
+            }).then(function (res) {
+                if (res.type == 'update') {
+                    console.log('backUpd');
+                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                }
+                else {
+                    console.log('backCreate');
+                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                    let indexBlock = vm.items.length - 1;
+                    let id = vm.items[indexBlock].id;
+                    let blockName = vm.items[indexBlock].name;
+                    if (vm.items.length) {
+                        $state.go('tab.survey-block.survey-question');
+                    }
 
-                                // console.log(userService.getItems()[idSurvey.indexSurvey].blocks[userService.getItems()[idSurvey.indexSurvey].blocks.length - 1], 'log')
-                                // vm.items.push(userService.getItems()[idSurvey.indexSurvey].blocks[userService.getItems()[idSurvey.indexSurvey].blocks.length - 1]);
-
-                                vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-
-                                console.log(vm.items);
-
-                                let indexBlock = vm.items.length - 1;
-                                let id = vm.items[indexBlock].id;
-                                let blockName = vm.items[indexBlock].name;
-
-                                console.log('Передаем ID: ' + id);
-                                console.log('Передаем Index: ' + indexBlock);
-
-                                vm.setActiveBlock(id, indexBlock, blockName);
-
-                                if (vm.items.length) {
-                                    $state.go('tab.survey-block.survey-question');
-                                }
-
-                                $mdDialog.cancel();
-
-                            });
-                        }
-                        else {
-                            console.log('error');
-                        }
-                        vs.newBlockClose();
-                    });
-                };
-
-                vs.newBlockClose = function () {
-                    $mdDialog.cancel();
-                };
-            }
-        };
-
-        //////////////////////////////editBlock////////////////////////////////
-
-        vm.editBlock = function () {
-            $mdDialog.show({
-                controller: editBlockController,
-                controllerAs: 'vm',
-                templateUrl: 'components/survey-block/edit-block/edit-block.html',
-                clickOutsideToClose: true
-            });
-
-            function editBlockController($mdDialog) {
-                let vs = this;
-
-                vs.data = {
-                    name: vm.blockName,
-                };
-
-                vs.saveBlock = function () {
-                    userService.updateBlock(idBlock.id, vs.data).then(function (res) {
-                        if (res.success) {
-                            userService.loadItems().then(function () {
-                                vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-                                // console.log(vm.items);
-                                $mdDialog.cancel();
-                            });
-                        }
-                        else {
-                            console.log('error');
-                        }
-                        vs.cancel();
-                    });
-                };
-
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
-        };
+                    vm.setActiveBlock(id, indexBlock, blockName);
+                }
+            })
+        }
 
         //////////////////////////////deleteBlock////////////////////////////////
 
-        vm.deleteBlock = function () {
+        vm.deleteBlock = deleteBlock;
+
+        function deleteBlock() {
             $mdDialog.show({
-                controller: deleteBlockController,
+                controller: 'DeleteViewController',
                 controllerAs: 'vm',
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
-            });
+            }).then(function () {
+                userService.deleteBlock(idBlock.id).then(function (res) {
+                    if (res.success) {
+                        console.log('delete');
+                        userService.loadItems().then(function () {
+                            vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                            if (vm.items.length === 0) {
+                                $state.go('tab.survey-block');
+                            } else if (vm.items.length) {
+                                let id;
+                                let index;
 
-            function deleteBlockController($mdDialog) {
-                let vs = this;
-
-                vs.delete = function () {
-                    console.log('Удален блок с ID: ' + idBlock.id);
-                    userService.deleteBlock(idBlock.id).then(function (res) {
-                        if (res.success) {
-                            console.log(res);
-                            userService.loadItems().then(function () {
-                                $mdDialog.cancel();
-                                vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
-                                console.log(vm.items);
-
-                                if (vm.items.length === 0) {
-                                    $state.go('tab.survey-block');
-                                } else if (vm.items.length) {
-                                    let id;
-                                    let index;
-
-                                    if (idBlock.indexBlock === 0) {
-                                        id = vm.items[idBlock.indexBlock].id;
-                                        index = idBlock.indexBlock;
-                                    } else {
-                                        id = vm.items[idBlock.indexBlock - 1].id;
-                                        index = idBlock.indexBlock - 1;
-                                    }
-                                    vm.setActiveBlock(id, index);
+                                if (idBlock.indexBlock === 0) {
+                                    id = vm.items[idBlock.indexBlock].id;
+                                    index = idBlock.indexBlock;
+                                } else {
+                                    id = vm.items[idBlock.indexBlock - 1].id;
+                                    index = idBlock.indexBlock - 1;
+                                    name = vm.items[idBlock.indexBlock -1].name;
                                 }
+                                vm.setActiveBlock(id, index);
+                            }
+                        })
+                    }
+                    else {
+                        console.log('error')
+                    }
+                });
+            })
+        }
 
 
-                            });
-                        }
-                        else {
-                            console.log('errorDelete');
-                        }
-                    });
-                    $mdDialog.cancel();
-                };
-
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
-        };
     }
 })();
