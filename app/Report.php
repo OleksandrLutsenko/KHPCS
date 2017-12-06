@@ -13,7 +13,7 @@ class Report extends Model
 
     protected $fillable = ['customer_id', 'survey_id'];
 
-    protected $visible = ['id', 'customer_id', 'survey_id'];
+    protected $visible = ['id', 'customer_id', 'survey_id', 'created_at'];
 
     protected $appends = ['surveys'];
 

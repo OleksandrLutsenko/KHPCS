@@ -86,6 +86,10 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer, User $user)
     {
+        $customerAnswers = $customer->customerAnswers;
+        foreach ($customerAnswers as $customerAnswer){
+            $customerAnswer->delete();
+        }
         $customer->delete();
         return response()->json(null, 204);
     }

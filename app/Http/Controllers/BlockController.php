@@ -84,6 +84,11 @@ class BlockController extends Controller
     public function destroy(Block $block, User $user)
     {
         if ($user->can('delete', $block)) {
+
+            $questions = $block->question;
+            foreach ($questions as $question){
+                $question->delete();
+            }
             $block->delete();
             return compact('block');
         } else {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Variable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VariableController extends Controller
 {
@@ -16,7 +17,8 @@ class VariableController extends Controller
      */
     public function index(Variable $variable, User $user)
     {
-        return Variable::all();
+        $variable = Variable::where('user_id', Auth::user()->id)->get();
+        return $variable;
     }
 
     /**
