@@ -59,6 +59,8 @@
             })
         }
 
+        console.log(vm.customers);
+
         function createOrUpdate(id, index, customers) {
             $mdDialog.show({
                 controller: 'AddClientController',

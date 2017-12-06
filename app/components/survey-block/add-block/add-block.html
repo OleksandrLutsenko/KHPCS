@@ -1,7 +1,10 @@
 <md-dialog flex="30" class="addBlock">
     <div class="createWindow">
-        <div class="viewHead">
+        <div class="viewHead" ng-if="vm.idBlockSec == undefined">
             <p>Please enter new section name</p>
+        </div>
+        <div class="viewHead" ng-if="vm.idBlockSec !== undefined">
+            <p>Edit section name</p>
         </div>
         <div class="content">
             <div class="allInput">
@@ -11,8 +14,8 @@
                 </md-input-container>
             </div>
             <div class="botBtn" layout="" layout-align="space-between">
-                <md-button class="md-raised md-primary" ng-click="vm.saveBlock()">Create</md-button>
-                <md-button class="md-raised" ng-click="vm.newBlockClose()">Cancel</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.saveBlock()">Save</md-button>
+                <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
             </div>
         </div>
     </div>
