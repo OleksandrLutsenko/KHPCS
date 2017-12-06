@@ -111,77 +111,49 @@
 
         };
 
-        vm.deleteSurvey = function (surveyId) {
+        vm.deleteSurvey = deleteSurvey;
+
+        function deleteSurvey(surveyId) {
             $mdDialog.show({
-                controller: deleteSurveyController,
+                controller: 'DeleteViewController',
                 controllerAs: 'vm',
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
-            });
+            }).then(function () {
+                userService.deleteSurvey(surveyId).then(function (res) {
+                    if (res.success) {
+                        userService.loadItems().then(function () {
+                            vm.items = userService.getItems();
+                        })
+                    }
+                    else {
+                        console.log('error')
+                    }
+                });
+            })
+        }
 
-            function deleteSurveyController($mdDialog) {
-                let vs = this;
-
-                vs.delete = function () {
-                    console.log('Удален опросник с ID: ' + surveyId);
-                    userService.deleteSurvey(surveyId).then(function (res) {
-                        if (res.success) {
-                            console.log(res);
-                            userService.loadItems().then(function () {
-                                vm.items = userService.getItems();
-                                $mdDialog.cancel();
-                                // console.log(vm.items);
-
-                            });
-                        }
-                        else {
-                            console.log('errorDelete');
-                        }
-                    });
-                    $mdDialog.cancel();
-                };
-
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
-        };
-
-        vm.createSurvey = function () {
+        vm.createSurvey = createSurvey;
+            function createSurvey() {
 
             $mdDialog.show({
-                controller: createSurveyController,
+                controller: 'CreateSurveyController',
                 controllerAs: 'vm',
                 templateUrl: 'components/survey-management/create-survey/create-survey.html',
                 clickOutsideToClose: true
-            });
+            }).then(function (res) {
+                if(res.type == 'update'){
+                    userService.updateSurvey(vm.createData).then(function () {
+                        vm.items = userService.getItems();
+                    })
+                }
+                else {
+                    vm.items = userService.getItems();
+                }
+            })
 
-            function createSurveyController($mdDialog) {
-                let vs = this;
 
-                vs.createData = {
-                    name: name,
-                    status: "2"
-                };
 
-                vs.save = function () {
-                    userService.createSurvey(vs.createData).then(function (res) {
-                        if (res.success) {
-                            userService.loadItems().then(function () {
-                                vm.items = userService.getItems();
-                                $mdDialog.cancel();
-                            });
-                        } else {
-                            console.log('Save error');
-                        }
-                    });
-                };
-
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
-
-        };
+        }
     }
 })();

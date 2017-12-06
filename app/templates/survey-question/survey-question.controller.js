@@ -33,7 +33,7 @@
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             }).then(function () {
-                userService.deleteQuestion(id).then(function (res) {
+                deleteQuestion.deleteQuestion(id).then(function (res) {
                     console.log(res);
                     if (res.success) {
                         vm.items.splice(index, 1)
