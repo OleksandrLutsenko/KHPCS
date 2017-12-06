@@ -81,6 +81,11 @@ class ContractController extends Controller
 
             if ($question->block->survey_id == $report->survey_id) {
                 $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
+                //
+                if($question->trashed()){
+                    $finalAnswer[0]->value = "<p style='color: red'>undefined value</p> ";
+                }
+                //
                 $contractAnswers[$question->id]  = $finalAnswer[0]->value;
             }
         }
