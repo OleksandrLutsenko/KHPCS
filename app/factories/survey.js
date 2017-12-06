@@ -13,6 +13,7 @@
         model.getActineSurvey = getActineSurvey;
         model.setActiveBlock = setActiveBlock;
         model.getActiveBlock = getActiveBlock;
+
         model.getActiveQuestionair = getActiveQuestionair;
 
         return model;

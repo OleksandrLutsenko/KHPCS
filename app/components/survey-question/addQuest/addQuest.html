@@ -30,28 +30,30 @@
                     <input ng-model="vm.data.next_question">
                 </md-input-container>
                 <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type == 1 && !answers.forDelete">
-                    <div layout="column">
+                    <div layout="row" flex="33">
                         <md-input-container>
-                            <label>Name
+                            <label>
+                                Name
                             </label>
                             <input ng-model="answers.answer_text">
                         </md-input-container>
                     </div>
-
-                    <div layout="column">
+                    <div layout="row" flex="33">
                         <md-input-container>
                             <label>Next questions </label>
                             <input ng-model="answers.next_question">
                         </md-input-container>
                     </div>
-                    <div layout="column">
-                        <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
-                    </div>
-                    <div layout="column">
 
-                        <md-checkbox ng-model="answers.hasExtra" aria-label="Checkbox 1">
-                            Has Extra
-                        </md-checkbox>
+                    <div layout="row" flex="33">
+                        <div flex="50" class="check-box">
+                            <md-checkbox class="md-primary" ng-model="answers.hasExtra">
+                                Has Extra
+                            </md-checkbox>
+                        </div>
+                        <div flex="50">
+                            <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
+                        </div>
                     </div>
                 </div>
                 <div class="addOpn" ng-if="vm.data.type === 1">

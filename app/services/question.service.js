@@ -2,32 +2,20 @@
     'use strict';
 
     angular
-        .module('service.surveyService', [])
-        .service('surveyService', surveyService);
+        .module('service.questionService', [])
+        .service('questionService', questionService);
 
-    surveyService.$inject = ['http', 'url'];
+    questionService.$inject = ['http', 'url'];
 
-    function surveyService(http, url) {
+    function questionService(http, url) {
         let model = {};
-
-        // //Survey
-        // model.createSurvey = createSurvey;
-        // model.updateSurvey = updateSurvey;
-        // model.deleteSurvey = deleteSurvey;
-        // model.changeStatusSurvey = changeStatusSurvey;
-        // model.archiveStatusSurvey = archiveStatusSurvey;
-        //
-        // //Survey block
-        // model.createBlock = createBlock;
-        // model.updateBlock = updateBlock;
-        // model.deleteBlock = deleteBlock;
 
         //Survey question
         model.createQuestion = createQuestion;
         model.updateQuestion = updateQuestion;
         model.deleteQuestion = deleteQuestion;
 
-        //Answer survey
+        //Survey answer
         model.createAnswer = createAnswer;
         model.updateAnswer = updateAnswer;
         model.deleteAnswer = deleteAnswer;
