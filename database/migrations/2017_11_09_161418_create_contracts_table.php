@@ -18,11 +18,13 @@ class CreateContractsTable extends Migration
             $table->string('title');
             $table->longText('body');
             $table->integer('survey_id', false, 10);
+            $table->integer('contract_research_id', false, 10);
             $table->timestamps();
         });
 
         Schema::table('contracts', function($table) {
             $table->foreign('survey_id')->references('id')->on('surveys');
+            $table->foreign('contract_research_id')->references('id')->on('contract_researches');
         });
     }
 

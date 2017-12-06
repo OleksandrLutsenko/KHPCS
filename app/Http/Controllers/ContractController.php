@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Contract;
+use App\ContractResearch;
 use App\Customer;
 use App\CustomerAnswer;
 use App\Http\Requests\ContractRequest;
@@ -37,12 +38,11 @@ class ContractController extends Controller
      * @param Contract $contract
      * @return \Illuminate\Http\Response
      */
-    public function store(ContractRequest $request, Contract $contract)
+    public function store(ContractRequest $request, Contract $contract, ContractResearch $contractResearch)
     {
         $user = Auth::user();
         if ($user->can('create', $contract)) {
-            $contract = $contract->create($request->all());
-//            return stripcslashes($contract->body);
+            $contract = $contractResearch->contract()->create($request->all());
             return compact('contract');
         } else {
             return response([
@@ -75,15 +75,27 @@ class ContractController extends Controller
         $body = stripcslashes($contract->body);
         File::put('../resources/views/contract.blade.php', $body);
 
-        $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
+        $customerAnswers = CustomerAnswer::withTrashed()->where('customer_id', $report->customer_id)->get();
+
         foreach ($customerAnswers as $customerAnswer) {
-            $question = Question::find($customerAnswer->question_id);
+            $question = Question::withTrashed()->find($customerAnswer->question_id);
 
             if ($question->block->survey_id == $report->survey_id) {
-                $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
-                $contractAnswers[$question->id]  = $finalAnswer[0]->value;
+                $finalAnswer = CustomerAnswer::withTrashed()->where('question_id', $question->id)->get();
+                //
+                if($question->trashed()){
+                    $finalAnswer[0]->value = "<p style='color: red'>undefined value</p> ";
+                }
+                //
+                $contractAnswers[$question->id] = $finalAnswer[0]->value;
             }
+
         }
+
+
+
+//        dd($contractAnswers);
+
         return view('contract', compact('contractAnswers', 'variables', 'report'));
     }
 
@@ -119,13 +131,20 @@ class ContractController extends Controller
     {
         $user = Auth::user();
         if ($user->can('delete', $contract)) {
-            $images = $contract->images;
+
+
+            $images = Image::where('contract_research_id', $contract->contractResearch->id)->get();
+//                dd($images);
+
+//            $images = $contract->images;
 
             foreach ($images as $image){
                 $fileUri = $image->link;
                 File::delete('../'.$fileUri);
                 $image->delete();
             }
+
+            $contract->contractResearch->delete();
 
             $contract->delete();
             return compact('contract');
@@ -153,6 +172,11 @@ class ContractController extends Controller
 
             if ($question->block->survey_id == $report->survey_id) {
                 $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
+                //
+                if($question->trashed()){
+                    $finalAnswer[0]->value = "<p style='color: red'>undefined value</p> ";
+                }
+                //
                 $contractAnswers[$question->id] = $finalAnswer[0]->value;
             }
         }
