@@ -12,11 +12,11 @@ class User extends Authenticatable implements CanResetPassword
 {
     use Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'api_token'];
+    protected $fillable = ['name', 'email', 'password'];
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $appends = ['tokens'];
+    protected $appends = ['api_token'];
 
     /**
      * @return mixed|string
@@ -66,7 +66,7 @@ class User extends Authenticatable implements CanResetPassword
 
 
 
-    public function getTokensAttribute()
+    public function getApiTokenAttribute()
     {
         $tokens = Token::where('user_id', Auth::user()->id)->get()->last();
         return $tokens->api_token;
