@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\ContractResearch;
+use App\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ContractResearchController extends Controller
 {
@@ -20,6 +22,15 @@ class ContractResearchController extends Controller
 
     public function destroy(ContractResearch $contractResearch)
     {
+        $images = $contractResearch->images;
+
+        foreach ($images as $image){
+            $fileUri = $image->link;
+            File::delete('../'.$fileUri);
+
+            $image->delete();
+        }
+
         $contractResearch->delete();
         return response()->json(null, 204);
     }

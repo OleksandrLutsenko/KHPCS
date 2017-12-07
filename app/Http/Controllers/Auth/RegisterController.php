@@ -71,7 +71,7 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
-        $user->generateToken(true);
+//        $user->generateToken(true);
 //        return ['user' => $user];
         return response(['user' => $user], 201);
     }
