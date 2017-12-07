@@ -3,9 +3,9 @@
         .module('factory.surveyQuestion', [])
         .factory('surveyQuestion', surveyQuestion);
 
-    surveyQuestion.$inject = ['surveyService'];
+    surveyQuestion.$inject = ['questionService'];
 
-    function surveyQuestion(surveyService) {
+    function surveyQuestion(questionService) {
         let model = {};
 
         model.createOrUpdateQuestion        = createOrUpdateQuestion;
@@ -34,7 +34,7 @@
             }
 
             if(typeof idQuestion == 'undefined'){
-                return surveyService.createQuestion(idBlock, dataForSend).then(function (res) {
+                return questionService.createQuestion(idBlock, dataForSend).then(function (res) {
                     if(res.success){
                         items.push(res.data.question);
                         return {type: res.data.question.type}
@@ -42,7 +42,7 @@
                 });
             }
             else {
-                return surveyService.updateQuestion(idQuestion, dataForSend).then(function (res) {
+                return questionService.updateQuestion(idQuestion, dataForSend).then(function (res) {
                     if(res.success){
                         items.splice(indexQuestion, 1, res.data.question);
                         return {type: res.data.question.type}
@@ -52,9 +52,12 @@
         }
 
         function createOrUpdateOrDeleteAnswer(answers, items, indexQuestion, idQuestion) {
+
+            let couterDelete = 0;
+
             answers.forEach(function (item, indexAnswer) {
                 if(item.forDelete){
-                    deleteAnswer(item, indexAnswer)
+                    deleteAnswer(item.id, indexAnswer)
                 }
                 else {
                     let data = {
@@ -86,21 +89,22 @@
                         }
                     }
                     else {
-                        console.log('Iinvalid data');
+                        console.log('Invalid data');
                     }
                 }
 
 
-                function deleteAnswer(answer, indexAnswer) {
-                    surveyService.deleteAnswer(answer.id).then(function (res) {
+                function deleteAnswer(idAnswer, indexAnswer) {
+                    questionService.deleteAnswer(idAnswer).then(function (res) {
                         if (res.success) {
-                            items[indexQuestion].answers.splice(indexAnswer, 1);
+                            items[indexQuestion].answers.splice(indexAnswer - couterDelete, 1);
                         }
-                    })
+                    });
+                    couterDelete++;
                 }
 
                 function createAnswer(data) {
-                    surveyService.createAnswer(idQuestion, data).then(function (res) {
+                    questionService.createAnswer(idQuestion, data).then(function (res) {
                         if (res.success) {
                             items[indexQuestion].answers.push(res.data.answer);
                         }
@@ -108,9 +112,9 @@
                 }
 
                 function updateAnswer(data, idAnswer, indexAnswer) {
-                    surveyService.updateAnswer(idAnswer, data).then(function (res) {
+                    questionService.updateAnswer(idAnswer, data).then(function (res) {
                         if(res.success) {
-                            items[indexQuestion].answers.splice(indexAnswer, 1, res.data.answer);
+                            items[indexQuestion].answers.splice(indexAnswer - couterDelete, 1, res.data.answer);
                         }
                     })
                 }

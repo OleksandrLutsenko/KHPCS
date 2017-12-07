@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddQuestionController', AddQuestionController);
 
-    AddQuestionController.$inject = ['$mdDialog', 'surveyService', 'surveyQuestion', 'data'];
+    AddQuestionController.$inject = ['$mdDialog', 'surveyQuestion', 'data'];
 
-    function AddQuestionController($mdDialog, surveyService, surveyQuestion, data) {
+    function AddQuestionController($mdDialog, surveyQuestion, data) {
         let vm = this;
 
         vm.addAnsver = addAnsver;
@@ -30,7 +30,7 @@
                 }
             }
             else {
-                vm.data.answers.forEach(function (item, indexAnswer) {
+                vm.data.answers.forEach(function (item) {
                     item.forDelete = false;
 
                     if (item.hasExtra == 1) {

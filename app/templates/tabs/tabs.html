@@ -16,7 +16,7 @@
         <md-nav-item md-nav-sref="tab.survey-management" ng-if="vm.user.role_id > 1">
             <p>Survey Management</p>
         </md-nav-item>
-        <md-nav-item md-nav-sref="tab.contract-editor">
+        <md-nav-item md-nav-sref="tab.contract-editor" ng-if="vm.user.role_id > 1">
             <p> Contract Editor</p>
         </md-nav-item>
         <md-nav-item md-nav-sref="tab.settings">

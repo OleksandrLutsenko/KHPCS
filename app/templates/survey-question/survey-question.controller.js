@@ -4,27 +4,28 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog'];
+    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'questionService'];
 
-    function SurveyQuestionController(userService, survey, $scope, $mdDialog) {
+    function SurveyQuestionController(userService, survey, $scope, $mdDialog, questionService) {
         let vm = this;
 
         let idS = survey.getActineSurvey();
         let idB = survey.getActiveBlock();
+        let indexSurvey = idS.indexSurvey;
         let indexBlock = idB.indexBlock;
         let idBlock = idB.id;
+
+        vm.items = userService.getItems()[indexSurvey].blocks[indexBlock].questions;
 
         vm.showEdit = showEdit;
         vm.deleteQuest = deleteQuest;
 
         $scope.$on('parent', function (event, data) {
             indexBlock = data;
-            vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
+            vm.items = userService.getItems()[indexSurvey].blocks[indexBlock].questions;
             idB = survey.getActiveBlock();
             idBlock = idB.id;
         });
-
-        vm.items = userService.getItems()[idS.indexSurvey].blocks[indexBlock].questions;
 
         function deleteQuest(id, index) {
             $mdDialog.show({
@@ -33,7 +34,7 @@
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             }).then(function () {
-                deleteQuestion.deleteQuestion(id).then(function (res) {
+                questionService.deleteQuestion(id).then(function (res) {
                     console.log(res);
                     if (res.success) {
                         vm.items.splice(index, 1)

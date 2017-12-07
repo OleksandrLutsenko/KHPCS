@@ -3,7 +3,7 @@
 
     angular.module('blocks.services', [
         'service.userService',
-        'service.surveyService',
+        'service.questionService',
         'service.customerService'
     ]);
 
