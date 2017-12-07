@@ -57,6 +57,19 @@
                     }
                 }
             })
+
+            .state('tab.contract-editor', {
+                url: '/contract-editor',
+                templateUrl: 'templates/contract-editor/contract-editor.html',
+                controller: 'ContractEditorController',
+                controllerAs: 'vm',
+                resolve: {
+                    load: function (userService) {
+                        return userService.loadItems();
+                    }
+                }
+            })
+
             .state('tab.settings', {
                 url: '/settings',
                 templateUrl: 'templates/settings/settings.html',
