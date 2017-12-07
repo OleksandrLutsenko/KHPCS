@@ -35,6 +35,16 @@
         model.getCustomerAnswer = getCustomerAnswer;
         model.createReport = createReport;
 
+        // contractEditor
+        model.createTemplate = createTemplate;
+        model.loadAllTemplates = loadAllTemplates;
+        model.removeTemplate = removeTemplate;
+        model.updateTemplate = updateTemplate;
+        model.createVariability = createVariability;
+        model.editVariability = editVariability;
+        model.removeVariability = removeVariability;
+        model.getVariability = getVariability;
+
         return model;
 
         function login(credentials) {
@@ -126,6 +136,42 @@
 
         function createReport(data) {
             return http.post(url.report.createReport, data);
+        }
+
+
+
+        // contractEditor
+        function createTemplate(data) {
+            return http.post(url.contract_editor_func().createSurveyTemplate, data);
+        }
+
+        function loadAllTemplates() {
+            return http.get(url.contract_editor_func().getTemplates);
+        }
+
+        function removeTemplate(id) {
+            return http.delete(url.contract_editor_func(id).deleteTemplate);
+        }
+
+        function updateTemplate(id, data) {
+            return http.put(url.contract_editor_func(id).updateTemplate, data);
+        }
+        ///////////
+
+        function createVariability(data) {
+            return http.post(url.contract_editor_func().createVariability, data);
+        }
+
+        function editVariability(id, data) {
+            return http.put(url.contract_editor_func(id).editVariability, data);
+        }
+
+        function removeVariability(id) {
+            return http.delete(url.contract_editor_func(id).deleteVariability);
+        }
+
+        function getVariability() {
+            return http.get(url.contract_editor_func().getVariability);
         }
     }
 })();

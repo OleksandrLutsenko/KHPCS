@@ -5,9 +5,14 @@
 @import "templates/survey-question/survey-question";
 @import "templates/passing-questions/passing-questions";
 @import "templates/survey-block/survey-block";
+@import "templates/contract-editor/contract-editor";
 @import "components/user-management/addClient/addClient";
 @import "components/deleteView/deleteView";
 @import "components/survey-question/addQuest/addQuest";
 @import "components/survey-management/create-survey/create-quest";
 @import "components/survey-block/add-block/add-block";
+@import "components/contract-editor/add-user-variability/add-user-variability";
+@import "components/contract-editor/edit-user-variability/edit-user-variability";
+@import "components/contract-editor/create-template-title/create-template-title";
+@import "components/contract-editor/update-template-title/update-template-title";
 @import "components/universal";
