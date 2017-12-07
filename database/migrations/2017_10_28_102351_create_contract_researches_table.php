@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddImagesTable extends Migration
+class CreateContractResearchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddImagesTable extends Migration
      */
     public function up()
     {
-        Schema::table('images', function($table) {
-            $table->integer('contract_research_id', false, 10)->nullable();
-            $table->foreign('contract_research_id')->references('id')->on('contract_researches');
+        Schema::create('contract_researches', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ class AddImagesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('contract_researches');
     }
 }

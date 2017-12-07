@@ -168,6 +168,17 @@ class SurveyController extends Controller
     public function destroy(Survey $survey, User $user)
     {
         if ($user->can('delete', $survey)) {
+
+
+            $blocks = $survey->block;
+            foreach ($blocks as $block){
+                $questions = $block->question;
+                foreach ($questions as $question){
+                    $question->delete();
+                }
+                $block->delete();
+            }
+
             $survey->delete();
             return compact('survey');
         } else {

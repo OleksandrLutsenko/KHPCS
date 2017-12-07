@@ -15,7 +15,7 @@ class Contract extends Model
 
     protected $fillable = ['title', 'body', 'survey_id'];
 
-    protected $visible = ['id', 'surveys', 'title', 'body', 'survey_id'];
+    protected $visible = ['id', 'surveys', 'title', 'body', 'survey_id', 'contract_research_id'];
 
     protected $appends = ['surveys'];
 
@@ -26,8 +26,8 @@ class Contract extends Model
         return $this->belongsTo(Survey::class);
     }
 
-    public function images(){
-        return $this->hasMany(Image::class);
+    public function contractResearch(){
+        return $this->belongsTo(ContractResearch::class);
     }
 
     /**

@@ -21,8 +21,8 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/report/{report}/contract/{contract}/review', 'ContractController@review');
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
-    Route::post('contract/{contract}/save-image', 'ImageController@upload');
-    Route::post('contract/{contract}/image/{image}', 'ImageController@reUpload');
+    Route::post('contract-research/{contractResearch}/save-image', 'ImageController@upload');
+    Route::post('contract-research/{contractResearch}/image/{image}', 'ImageController@reUpload');
     Route::delete('contract/image/{image}', 'ImageController@destroy');
 });
 
@@ -88,13 +88,16 @@ Route::group(['middleware' => 'api-response'], function() {
         /** show contract */
         Route::get('/contract/{contract}', 'ContractController@show');
         /** save new contract */
-        Route::post('/contract', 'ContractController@store');
+        Route::post('/contract-research/{contractResearch}/contract', 'ContractController@store');
         /** update contract */
         Route::put('/contract/{contract}', 'ContractController@update');
         /** save image */
 //        Route::post('/contract/{contract}/save-image', 'ContractController@saveImage');
         /** delete contract */
         Route::delete('/contract/{contract}', 'ContractController@destroy');
+
+        Route::post('/new-contract-research', 'ContractResearchController@store');
+        Route::delete('/contract-research/{contractResearch}', 'ContractResearchController@destroy');
 
 
         /** USER MANAGEMENT TAB */

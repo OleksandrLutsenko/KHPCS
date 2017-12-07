@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    protected $fillable = ['link', 'contract_id'];
+    protected $fillable = ['link', 'contract_id', 'contract_research_id'];
 
-    public function contract(){
-        return $this->belongsTo(Contract::class);
+    public function contractResearch(){
+        return $this->belongsTo(ContractResearch::class);
     }
 }
