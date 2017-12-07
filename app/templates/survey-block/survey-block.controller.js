@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog'];
+    SurveyBlockController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr'];
 
-    function SurveyBlockController(userService, $state, survey, $scope, $mdDialog) {
+    function SurveyBlockController(userService, $state, survey, $scope, $mdDialog , toastr) {
         let vm = this;
 
         vm.setActiveBlock = setActiveBlock;
@@ -71,11 +71,11 @@
 
             }).then(function (res) {
                 if (res.type == 'update') {
-                    console.log('backUpd');
                     vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                    toastr.success('Block was edited');
                 }
                 else {
-                    console.log('backCreate');
+                    toastr.success('New block was created');
                     vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
                     let indexBlock = vm.items.length - 1;
                     let id = vm.items[indexBlock].id;
@@ -122,6 +122,7 @@
                                 vm.setActiveBlock(id, index);
                             }
                         })
+                        toastr.success('Block was deleted');
                     }
                     else {
                         console.log('error')

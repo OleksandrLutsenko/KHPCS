@@ -5,9 +5,9 @@
         .controller('SurveyManagementController', SurveyManagementController);
 
 
-    SurveyManagementController.$inject = ['userService', '$mdDialog', 'survey', '$mdSidenav'];
+    SurveyManagementController.$inject = ['userService', '$mdDialog', 'survey', '$mdSidenav' , 'toastr'];
 
-    function SurveyManagementController(userService, $mdDialog, survey, $mdSidenav) {
+    function SurveyManagementController(userService, $mdDialog, survey, $mdSidenav , toastr) {
         let vm = this;
 
         vm.setActineSurvey = setActineSurvey;
@@ -37,6 +37,7 @@
                     userService.loadItems().then(function () {
                         vm.items = userService.getItems();
                     });
+                    toastr.success('Questionnaire was archived');
                 } else {
                     console.log('Archive Status Survey error');
                 }
@@ -70,6 +71,7 @@
                         userService.loadItems().then(function () {
                             vm.items = userService.getItems();
                         })
+                        toastr.success('Questionnaire was deleted');
                     }
                     else {
                         console.log('error')
@@ -94,8 +96,13 @@
                     }
                 }
             }).then(function (res) {
-                if (res.type !== undefined) {
+                if (res.type == 'update') {
                     vm.items = userService.getItems();
+                    toastr.success('Questionnaire was updated');
+                }
+                else {
+                    vm.items = userService.getItems();
+                    toastr.success('Questionnaire was created');
                 }
 
             })
