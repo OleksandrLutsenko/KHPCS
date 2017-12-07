@@ -59,16 +59,13 @@
             })
         }
 
-        console.log(vm.customers);
-
-        function createOrUpdate(id, index, customers) {
+        function createOrUpdate(id, customers) {
             $mdDialog.show({
                 controller: 'AddClientController',
                 controllerAs: 'vm',
                 locals: {
                     data: {
                         id: id,
-                        index: index,
                         customers: customers,
                     }
                 },

@@ -4,9 +4,19 @@
     margin: 0;
   }
 
+  .createTop {
+    background: #3f51b5;
+  }
+
+  .createTop p {
+    font-size: 25px;
+    text-align: center;
+    color: white;
+    padding: 10px;
+  }
 
   md-card-content {
-    padding: 30px;
+    padding: 20px;
   }
 
   .nextQuest {
@@ -42,8 +52,8 @@
     padding-top: 20px;
   }
 
-  md-checkbox.md-checked .md-icon{
-    background: #3f51b5;
+  .check-box {
+    margin-left: 10px;
   }
 
 }

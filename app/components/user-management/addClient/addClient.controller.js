@@ -9,16 +9,13 @@
     function AddClientController(data, $mdDialog, customerService , toastr) {
         let vm = this;
 
-
+        vm.id = data.id;
         vm.save = save;
         vm.cancel = cancel;
 
         let id = data.id;
         vm.id = id;
         let customers = data.customers;
-
-        console.log(vm.data);
-
 
         if (typeof id != 'undefined') {
             vm.data = {
@@ -27,12 +24,10 @@
                 classification: customers.classification
             }
         }
-        console.log(vm.data);
+
         function cancel() {
             $mdDialog.cancel()
         }
-
-        console.log(id);
 
         function save() {
             if (typeof id != 'undefined') {

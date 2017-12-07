@@ -4,15 +4,15 @@
     </md-content>
 
 
-    <div ng-repeat="questions in vm.questions">
-        <div layout="row" layout-align="center center" ng-if="questions.extra == 0 || questions.extraAfte == 0">
+    <div ng-repeat="questions in vm.questions" ng-if="questions.extra == 0 || questions.extraAfte == 0">
+        <div layout="row" layout-align="center center">
             <div ng-if="questions.type === 1" flex="80" flex-xs="100">
                 <md-content layout="row">
                     <h3>{{questions.title}}</h3>
                 </md-content>
                 <md-content layout="colums">
                     <md-radio-group ng-model="vm.data[$index]">
-                        <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}">
+                        <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}" class="md-primary">
                             {{answers.answer_text}}
                         </md-radio-button>
                     </md-radio-group>
@@ -32,7 +32,7 @@
     <div layout="row" layout-align="center center">
         <div flex="80" flex-xs="100" layout="row" layout-align="end center">
             <div>
-                <md-button class="md-raised backButton" ng-click="vm.back()" ng-if="vm.backSucces">Back</md-button>
+                <md-button  class="md-raised backButton" ng-click="vm.back()" ng-if="vm.backSucces">Back</md-button>
                 <md-button class="md-raised md-primary" ng-click="vm.next()" ng-if="vm.nextSucces">Next</md-button>
             </div>
         </div>

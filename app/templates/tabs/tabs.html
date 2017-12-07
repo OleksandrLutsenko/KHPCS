@@ -1,28 +1,25 @@
-<div class="tabs">
+<md-content class="tabs">
+
     <div class="logoTabs" layout="row" layout-align="center center">
         <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
     </div>
-    <div ng-cloak>
-        <md-content class="md-padding" class="navHead">
 
-            <md-nav-bar
-                    md-no-ink-bar="false"
-                    md-selected-nav-item="vm.currentNavItem"
-                    nav-bar-aria-label="navigation links"
-                    layout="row" layout-align="center center"
-                    class="nav" >
-                <md-nav-item md-nav-sref="tab.user-management" name="page1"  >
-                    <p class="navP"> User Management</p>
-                </md-nav-item>
-                <md-nav-item md-nav-sref="tab.survey-management" name="page2"  ng-if="vm.user.role_id > 1">
-                    <p class="navP"> Survey Management</p>
-                </md-nav-item>
-                <md-nav-item md-nav-sref="tab.settings" name="page3">
-                    <p class="navP"> Settings</p>
-                </md-nav-item>
-            </md-nav-bar>
-            <div ui-view ></div>
-        </md-content>
-    </div>
-</div>
+    <md-nav-bar
+            layout="row"
+            layout-align="center center"
+            class="nav"
+            flex="100"
+            md-selected-nav-item="vm.currentNavItem">
+        <md-nav-item md-nav-sref="tab.user-management" name="page1">
+            <p>User Management</p>
+        </md-nav-item>
+        <md-nav-item md-nav-sref="tab.survey-management" ng-if="vm.user.role_id > 1">
+            <p>Survey Management</p>
+        </md-nav-item>
+        <md-nav-item md-nav-sref="tab.settings">
+            <p>Settings</p>
+        </md-nav-item>
+    </md-nav-bar>
 
+    <div ui-view></div>
+</md-content>
