@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable implements CanResetPassword
@@ -13,7 +14,9 @@ class User extends Authenticatable implements CanResetPassword
 
     protected $fillable = ['name', 'email', 'password', 'api_token'];
 
-    protected $hidden = ['password', 'remember_token',];
+    protected $hidden = ['password', 'remember_token'];
+
+    protected $appends = ['tokens'];
 
     /**
      * @return mixed|string
@@ -52,6 +55,21 @@ class User extends Authenticatable implements CanResetPassword
      */
     public function variables(){
         return $this->hasMany(Variable::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tokens(){
+        return $this->hasMany(Token::class);
+    }
+
+
+
+    public function getTokensAttribute()
+    {
+        $tokens = Token::where('user_id', Auth::user()->id)->get()->last();
+        return $tokens->api_token;
     }
 
     /**
