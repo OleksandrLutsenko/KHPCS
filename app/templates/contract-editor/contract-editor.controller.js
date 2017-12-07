@@ -238,7 +238,7 @@
             function removeTemplateController($mdDialog) {
                 let vs = this;
 
-                vs.delete = function () {
+                vs.confirm = function () {
                     userService.removeTemplate(vm.activeTemplateId).then(function (res) {
                         console.log(res);
                         if (res.success) {
@@ -370,7 +370,7 @@
             function removeVariabilityController($mdDialog) {
                 let vs = this;
 
-                vs.delete = function () {
+                vs.confirm = function () {
                     userService.removeVariability(id).then(function (res) {
                         console.log(res);
                         if (res.success) {
