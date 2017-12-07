@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddClientController', AddClientController);
 
-    AddClientController.$inject = ['data', '$mdDialog', 'customerService'];
+    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'toastr'];
 
-    function AddClientController(data, $mdDialog, customerService) {
+    function AddClientController(data, $mdDialog, customerService , toastr) {
         let vm = this;
 
 
@@ -14,6 +14,7 @@
         vm.cancel = cancel;
 
         let id = data.id;
+        vm.id = id;
         let customers = data.customers;
 
         console.log(vm.data);
@@ -41,6 +42,7 @@
                             type: 'update'
                         };
                         $mdDialog.hide(tmpObj);
+                        toastr.success('Edit success');
                     }
                     else {
                         cancel();
