@@ -89,6 +89,8 @@ Route::group(['middleware' => 'api-response'], function() {
         /** CONTRACT BUILDER */
         /** show contracts list */
         Route::get('/contract', 'ContractController@index');
+
+        Route::get('/onlycontract', 'ContractController@indexWithoutBody');
         /** show contract */
         Route::get('/contract/{contract}', 'ContractController@show');
         /** save new contract */

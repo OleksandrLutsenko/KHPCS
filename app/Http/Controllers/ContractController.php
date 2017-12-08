@@ -31,6 +31,20 @@ class ContractController extends Controller
             return Contract::all();
     }
 
+    public function indexWithoutBody(Contract $contract, User $user)
+    {
+        $contracts = Contract::all();
+        foreach ($contracts as $contract){
+            $contractsWithoutBody[] = [
+                'id' => $contract->id,
+                'title' => $contract->title,
+                'survey_id' => $contract->survey_id,
+                'contract_research_id' => $contract->contract_research_id
+            ];
+        }
+        return compact('contractsWithoutBody');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
