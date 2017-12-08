@@ -10,11 +10,15 @@
     function userService(http, url, $localStorage, $sessionStorage) {
         let model = {};
         model.login = login;
+        model.getToken = getToken;
+        model.setToken = setToken;
+        model.loadUser = loadUser;
+        model.getUser = getUser;
+
+
         model.registration = registration;
         model.forgot = forgot;
         model.reset = reset;
-        model.setUser = setUser;
-        model.getUser = getUser;
         model.loadItems = loadItems;
         model.setItems = setItems;
         model.getItems = getItems;
@@ -57,6 +61,29 @@
         function login(credentials) {
             return http.post(url.user.login, credentials)
         }
+        function setToken(token) {
+            $localStorage.token = token;
+        }
+        function getToken() {
+            return $localStorage.token;
+        }
+        function loadUser() {
+            return http.get(url.user.loadUser, {}).then(function (res) {
+                if (res.success){
+                    setUser(res.data.result)
+                }
+                else {
+                //need to show error msg
+                }
+            })
+        }
+        function setUser(user) {
+            $localStorage.user = user;
+        }
+        function getUser() {
+            return $localStorage.user;
+        }
+
 
         function registration(credentials) {
             return http.post(url.user.register, credentials)
@@ -70,13 +97,7 @@
             return http.post(url.user.reset, credentials);
         }
 
-        function setUser(user) {
-            $localStorage.user = user;
-        }
 
-        function getUser() {
-            return $localStorage.user;
-        }
 
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {

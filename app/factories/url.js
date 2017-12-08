@@ -10,9 +10,10 @@
         let baseUrl = 'http://api.knightshayes.grassbusinesslabs.tk/';
         return {
             user: {
-                login: baseUrl + 'api/login',
+                login: baseUrl + 'api/auth/login',
+                loadUser: baseUrl + 'api/user',
                 getItems: baseUrl + 'api/survey',
-                register: baseUrl + 'api/register',
+                register: baseUrl + 'api/auth/register',
                 forgot: baseUrl + 'api/user/request-reset',
                 reset:  baseUrl + 'api/user/reset-password?token='
             },

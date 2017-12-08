@@ -6,7 +6,7 @@
 
     AddClientController.$inject = ['data', '$mdDialog', 'customerService'];
 
-    function AddClientController(data, $mdDialog, customerService) {
+    function AddClientController(data, $mdDialog, customerService ) {
         let vm = this;
 
         vm.id = data.id;
@@ -14,6 +14,7 @@
         vm.cancel = cancel;
 
         let id = data.id;
+        vm.id = id;
         let customers = data.customers;
 
         if (typeof id != 'undefined') {

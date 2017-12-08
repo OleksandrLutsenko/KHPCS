@@ -3,10 +3,10 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'customerService', '$state', '$mdDialog', 'customers', 'survey'];
+    UserManagementController.$inject = ['userService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr'];
 
 
-    function UserManagementController(userService, customerService, $state, $mdDialog, customers, survey) {
+    function UserManagementController(userService, customerService, $state, $mdDialog, customers, toastr) {
         let vm = this;
 
         vm.myLimit = 10;
@@ -51,6 +51,7 @@
                         customerService.loadCustomers().then(function () {
                             vm.customers = customerService.getCustomers()
                         })
+                        toastr.success('Delete success');
                     }
                     else {
                         console.log('error')
@@ -76,6 +77,7 @@
                     customerService.loadCustomers().then(function () {
                         vm.customers = customerService.getCustomers();
                     })
+                    toastr.success('Edit success');
                 }
                 else {
                     vm.customers.push(res.data);
