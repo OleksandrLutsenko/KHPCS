@@ -12,10 +12,10 @@
 
         function register() {
             console.log(vm.data);
+            userService.setToken(undefined);
             userService.registration(vm.data).then(function (res) {
                 console.log(res, 'reg ctrl');
                 if (res.success) {
-                    userService.setUser(res.data);
                     $state.go('login');
                     toastr.success('Registration successful');
                 }
