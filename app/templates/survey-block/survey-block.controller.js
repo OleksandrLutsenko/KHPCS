@@ -152,9 +152,9 @@
                         console.log('delete');
 
                         /////////////////////UpdateTemplate///////////////////
-                        // if (vm.items[vm.activeBlockIndex].questions.length) {
-                        //     updateTemplate(res);
-                        // }
+                        if (vm.items[vm.activeBlockIndex].questions.length) {
+                            updateTemplate(res);
+                        }
                         //////////////////////////////////////////////////////
                         userService.loadItems().then(function () {
                             vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
