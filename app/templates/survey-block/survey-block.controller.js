@@ -40,6 +40,53 @@
             console.log('no data');
         }
 
+        /////////////////////////////////Fix templates///////////////////////////
+        function updateTemplate(data) {
+            let block = data.data.block;
+            let surveyId = idSurvey.id;
+            let blockId = idBlock;
+            let templates;
+
+
+            userService.loadAllTemplates().then(function (res) {
+                if(res.success) {
+                    // if (res.length) {
+                    templates = res.data;
+
+                    for (let i=0; i<templates.length; i++) {
+                        if (templates[i].survey_id === surveyId) {
+                            let templateId = templates[i].id;
+                            let data = templates[i];
+                            // console.log(data);
+
+                            if (block.questions.length) {
+                                for (let x=0; x<block.questions.length; x++) {
+                                    let tmpVar = "{!!$contractAnswers["+block.questions[x].id+"]!!}";
+                                    data.body = data.body.split(tmpVar).join('<span style="background-color: #ff0000">[undefined]</span>');
+                                    userService.updateTemplate(templateId, data).then(function (res) {
+                                        console.log(res);
+                                        if (res.success) {
+                                            console.log('Update template success');
+                                        } else{
+                                            console.log('Update template error');
+                                        }
+                                    });
+                                }
+                                console.log(block.questions, 'Qustions');
+                            } else {
+                                console.log('No questions');
+                            }
+                            console.log(block, 'Removed block');
+                        }
+                    }
+                    // }
+
+                }else {
+                    console.log('load templates error');
+                }
+            });
+        }
+
         /////////////////////////////////showDotMenu/////////////////////////////
 
         vm.showDot = function (indexCurrentBlock) {
@@ -103,6 +150,12 @@
                 userService.deleteBlock(idBlock.id).then(function (res) {
                     if (res.success) {
                         console.log('delete');
+
+                        /////////////////////UpdateTemplate///////////////////
+                        // if (vm.items[vm.activeBlockIndex].questions.length) {
+                        //     updateTemplate(res);
+                        // }
+                        //////////////////////////////////////////////////////
                         userService.loadItems().then(function () {
                             vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
                             if (vm.items.length === 0) {

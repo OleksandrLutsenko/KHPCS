@@ -45,7 +45,7 @@
                         }
                     };
                 }else {
-                    console.log('no variability');
+                    console.log('load templates error');
                 }
             });
         }
@@ -88,6 +88,7 @@
 
 
         ///////////////////////////////////////////////////////////////////////////////
+        let tmpResearchId;
 
         vm.setActiveSurvey = function (id, index, name) {
             vm.surveyMenuInContractEditor = false;
@@ -96,6 +97,11 @@
             activeSurveyID = id;
             activeSurveyName = name;
             console.log(vm.activeSurvey, 'vm.activeSurvey');
+            userService.createNewResearch().then(function (res) {
+                console.log(res);
+                tmpResearchId = res.data.id;
+                console.log(tmpResearchId);
+            });
         };
 
         vm.reelectActiveSurvey = function () {
@@ -107,6 +113,9 @@
             activeBlockId = undefined;
             activeTemplateTitle = undefined;
             vm.activeTemplateId = undefined;
+            userService.removeResearch(tmpResearchId).then(function (res) {
+                console.log(res);
+            });
         };
 
         vm.pasteTitle = function (data) {
@@ -121,7 +130,12 @@
         //////////////////////////////Замена текста////////////////////////////////////
         vm.testReplace = function () {
             let tmpTextData = CKEDITOR.instances.CKeditorArea.getData();
-            CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(/1/g, '2'));
+            let id = 1;
+            let tmp = "{!!\$contractAnswers\[" + id + "\]!!}";
+            console.log(tmp);
+
+            // CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp('12345', "g" ), "Replace success"));
+            CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp(tmp, "g" ), "Replace success"));
             console.log(tmpTextData);
         };
         ///////////////////////////////////////////////////////////////////////////////
@@ -164,7 +178,7 @@
                     if (vs.data.title === ""){
                         vs.data.title = 'unnamed template';
                     }
-                    userService.createTemplate(vs.data).then(function (res) {
+                    userService.createTemplate(tmpResearchId, vs.data).then(function (res) {
                         console.log(res);
                         if (res.success) {
                             userService.loadAllTemplates().then(function (res) {
@@ -400,5 +414,7 @@
             console.log(CKEDITOR.instances['CKeditorArea'].setData(),    'заменить содержимое редактора');
         }
         ///////////////////////////////////////////////////////////////////////////////
+
+
     }
 })();
