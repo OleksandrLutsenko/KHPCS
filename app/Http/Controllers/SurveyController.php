@@ -179,6 +179,15 @@ class SurveyController extends Controller
                 $block->delete();
             }
 
+            $contracts = $survey->contracts;
+            foreach ($contracts as $contract){
+                $contractResearch = $contract->contractResearch;
+
+                $contractResearch->delete();
+
+                $contract->delete();
+            }
+
             $survey->delete();
             return compact('survey');
         } else {
