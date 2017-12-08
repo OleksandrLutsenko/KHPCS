@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
@@ -12,21 +13,23 @@ class User extends Authenticatable implements CanResetPassword
 {
     use Notifiable;
 
+    use SoftDeletes;
+
     protected $fillable = ['name', 'email', 'password'];
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected $appends = ['api_token'];
+//    protected $appends = ['api_token'];
 
     /**
      * @return mixed|string
      */
-    public function generateToken()
-    {
-        $this->api_token = str_random(60);
-        $this->save();
-        return $this->api_token;
-    }
+//    public function generateToken()
+//    {
+//        $this->api_token = str_random(60);
+//        $this->save();
+//        return $this->api_token;
+//    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -64,16 +67,11 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Token::class);
     }
 
-
-
-    public function getApiTokenAttribute()
-    {
-        $tokens = Token::where('user_id', Auth::user()->id)->get()->last();
-        if ($tokens){
-            return $tokens->api_token;
-        }
-
-    }
+//    public function getApiTokenAttribute()
+//    {
+//        $tokens = Token::where('user_id', Auth::user()->id)->get()->last();
+//        return $tokens->api_token;
+//    }
 
     /**
      * @return bool

@@ -13,11 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware(['auth:api'])->get('/user', function (Request $request) {
+Route::middleware(['jwt.auth'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => 'jwt.auth'], function() {
     Route::get('/report/{report}/contract/{contract}/review', 'ContractController@review');
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
@@ -27,13 +27,17 @@ Route::group(['middleware' => 'auth:api'], function() {
 });
 
 Route::group(['middleware' => 'api-response'], function() {
-    Route::post('/register', 'Auth\RegisterController@register');
-    Route::post('/login', 'Auth\LoginController@login');
+//    Route::post('/register', 'Auth\RegisterController@register');
+//    Route::post('/login', 'Auth\LoginController@login');
 
-    Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
-    Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
+    Route::post('/auth/register', 'UserController@register');
+    Route::post('/auth/login', 'UserController@login');
 
-    Route::group(['middleware' => 'auth:api'], function() {
+//    Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
+//    Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
+
+    Route::group(['middleware' => 'jwt.auth'], function() {
+        Route::get('/user', 'UserController@getAuthUser');
 
         /** SURVEYS */
         /** show surveys list */
