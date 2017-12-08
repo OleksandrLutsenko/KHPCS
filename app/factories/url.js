@@ -21,6 +21,7 @@
             },
             survey_management_func(id) {
                 return {
+                    loadOnlySurvey: baseUrl + 'api/onlysurvey',
                     updateSurvey: baseUrl + 'api/survey/' + id,
                     deleteSurvey: baseUrl + 'api/survey/' + id,
                     changeStatusSurvey: baseUrl + 'api/survey/' + id + '/change-status',
@@ -54,9 +55,17 @@
                 }
             },
 
+            contract_research_func(id) {
+                return {
+                    createResearch: baseUrl + 'api/new-contract-research',
+                    deleteResearch: baseUrl + 'api/contract-research/' + id
+                };
+            },
+
             contract_editor_func(id) {
                 return {
-                    createSurveyTemplate: baseUrl + 'api/contract',
+                    createSurveyTemplate: baseUrl + '/api/contract-research/' + id + '/contract',
+                    // createSurveyTemplate: baseUrl + 'api/contract',
                     getTemplates: baseUrl + 'api/contract',
                     deleteTemplate: baseUrl + 'api/contract/' + id,
                     updateTemplate: baseUrl + 'api/contract/' + id,
@@ -67,7 +76,11 @@
                 };
             },
 
-
+            contract_download_func (idReport, idContract) {
+                return {
+                    downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/download'
+                };
+            }
 
         };
     }

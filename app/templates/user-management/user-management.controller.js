@@ -83,5 +83,40 @@
                 }
             })
         }
+
+        vm.downloadPDF = function (reports) {
+            console.log(reports);
+            userService.loadSurveyOnly().then(function (res) {
+                let surveys = res.data.result;
+                console.log(res.data.result);
+                let activeSurveyId;
+                let actualReportId;
+
+                for (let i=0; i<surveys.length; i++) {
+                    if (surveys[i].survey_status === 1) {
+                        activeSurveyId = surveys[i].survey_id;
+                        console.log(activeSurveyId, 'Active survey id');
+                    }
+                }
+
+                for (let i=0; i<reports.length; i++) {
+                    if (activeSurveyId === reports[i].survey_id) {
+                        actualReportId = reports[i].id;
+                        console.log('совпадение', actualReportId);
+                    }
+                }
+
+                userService.loadAllTemplates().then(function (res) {
+                    console.log(res.data, 'Шаблоны');
+                });
+
+                userService.downloadContract(actualReportId, 5).then(function (data) {
+                    console.log(data);
+                }).save(function () {
+
+                });
+                //5 и 7
+            });
+        };
     }
 }());

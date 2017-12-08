@@ -39,8 +39,8 @@
                         </td>
 
                         </md-button>
-                        <td md-cell><i class="material-icons">file_download</i></td>
-                        <td md-cell>
+                        <td md-cell ng-if="customers.reports.length"><i class="material-icons" ng-click="vm.downloadPDF(customers.reports)">file_download</i></td>
+                        <td md-cell ng-if="!customers.reports.length"><i class="material-icons">do_not_disturb_alt</i></td>
                             {{vm.all }}
                         </td>
                         <td md-cell>

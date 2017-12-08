@@ -19,8 +19,8 @@
         model.setItems = setItems;
         model.getItems = getItems;
 
-
         //Survey
+        model.loadSurveyOnly = loadSurveyOnly;
         model.createSurvey = createSurvey;
         model.updateSurvey = updateSurvey;
         model.deleteSurvey = deleteSurvey;
@@ -35,6 +35,10 @@
         model.getCustomerAnswer = getCustomerAnswer;
         model.createReport = createReport;
 
+        // ContractResearch
+        model.createNewResearch = createNewResearch;
+        model.removeResearch = removeResearch;
+
         // contractEditor
         model.createTemplate = createTemplate;
         model.loadAllTemplates = loadAllTemplates;
@@ -44,6 +48,9 @@
         model.editVariability = editVariability;
         model.removeVariability = removeVariability;
         model.getVariability = getVariability;
+
+        //DownloadContract
+        model.downloadContract = downloadContract;
 
         return model;
 
@@ -76,7 +83,7 @@
                 if (res.success) {
                     setItems(res.data);
                 } else {
-                     //need to show error msg
+                    //need to show error msg
                 }
             });
         }
@@ -92,6 +99,10 @@
 
 
         // Survey management
+        function loadSurveyOnly() {
+            return http.get(url.survey_management_func().loadOnlySurvey);
+        }
+
         function createSurvey (credentials) {
             return http.post(url.survey_management.createSurvey, credentials);
         }
@@ -138,11 +149,17 @@
             return http.post(url.report.createReport, data);
         }
 
-
+        // ContractResearch
+        function createNewResearch() {
+            return http.post(url.contract_research_func().createResearch);
+        }
+        function removeResearch(id) {
+            return http.delete(url.contract_research_func(id).deleteResearch);
+        }
 
         // contractEditor
-        function createTemplate(data) {
-            return http.post(url.contract_editor_func().createSurveyTemplate, data);
+        function createTemplate(id, data) {
+            return http.post(url.contract_editor_func(id).createSurveyTemplate, data);
         }
 
         function loadAllTemplates() {
@@ -172,6 +189,11 @@
 
         function getVariability() {
             return http.get(url.contract_editor_func().getVariability);
+        }
+
+        //DownloadContract
+        function downloadContract(idReport, idContract) {
+            return http.get(url.contract_download_func(idReport, idContract).downloadPDF);
         }
     }
 })();
