@@ -42,7 +42,7 @@
 
         function request(method, url, data) {
 
-            let user = $localStorage.user;
+            let token = $localStorage.token;
 
 
             let config = {
@@ -53,8 +53,8 @@
                     'Content-Type': 'application/json'
                 }
             };
-            if(typeof user != 'undefined') {
-                config.headers.Authorization = 'Bearer ' + user.api_token;
+            if(typeof token != 'undefined') {
+                config.headers.token = token;
             }
 
             if (method === 'GET') {
