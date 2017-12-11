@@ -56,7 +56,7 @@
 
         //DownloadContract
         model.getContract = getContract;
-        model.downloadPdf = downloadPdf;
+        model.removePdf = removePdf;
 
         return model;
 
@@ -219,11 +219,11 @@
         }
 
         //DownloadContract
-        function getContract(idReport, idContract) {
-            return http.get(url.contract_download_func(idReport, idContract).downloadPDF);
+        function getContract(idReport, idContract, filename) {
+            return http.get(url.contract_download_func(idReport, idContract, filename).downloadPDF);
         }
-        function downloadPdf(link) {
-            return http.get(link);
+        function removePdf(idReport) {
+            return http.delete(url.contract_download_func(idReport).removePDF);
         }
     }
 })();

@@ -77,10 +77,10 @@
                 };
             },
 
-            contract_download_func (idReport, idContract) {
+            contract_download_func (idReport, idContract, filename) {
                 return {
-                    downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/review'
-                    // downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/download'
+                    downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/review/' + filename,
+                    removePDF: baseUrl + '/api/storage/contracts/' + idReport
                 };
             }
 

@@ -37,7 +37,39 @@
                 questionService.deleteQuestion(id).then(function (res) {
                     console.log(res);
                     if (res.success) {
-                        vm.items.splice(index, 1)
+                        vm.items.splice(index, 1);
+
+                        let surveyId = idS.id;
+                        let templates;
+
+                        userService.loadAllTemplates().then(function (res) {
+                            if(res.success) {
+                                // if (res.length) {
+                                templates = res.data;
+
+                                for (let i=0; i<templates.length; i++) {
+                                    if (templates[i].survey_id === surveyId) {
+                                        let templateId = templates[i].id;
+                                        let data = templates[i];
+                                        // console.log(data);
+
+                                        let tmpVar = "{!!$contractAnswers["+ id +"]!!}";
+                                        data.body = data.body.split(tmpVar).join('<span style="background-color: #ff0000">[undefined]</span>');
+                                        userService.updateTemplate(templateId, data).then(function (res) {
+                                            console.log(res);
+                                            if (res.success) {
+                                                console.log('Update template success');
+                                            } else{
+                                                console.log('Update template error');
+                                            }
+                                        });
+                                    }
+                                }
+                                // }
+                            }else {
+                                console.log('load templates error');
+                            }
+                        });
                     }
                     else {
                         console.log('error');

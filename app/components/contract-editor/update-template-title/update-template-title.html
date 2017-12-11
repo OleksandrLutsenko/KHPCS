@@ -5,10 +5,16 @@
         </div>
         <div class="content">
             <div class="allInput">
-                <md-input-container>
-                    <label>Name template</label>
-                    <input type="text" ng-model="vm.data.title" md-autofocus>
-                </md-input-container>
+                <form name="vm.templateForm">
+                    <md-input-container>
+                        <label>Name template</label>
+                        <input type="text" ng-model="vm.data.title" md-autofocus
+                               name="name" required maxlength="32">
+                        <div ng-messages="vm.templateForm.name.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                </form>
             </div>
             <div class="botBtn" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.updateTemplate()">Save</md-button>

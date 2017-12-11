@@ -86,105 +86,44 @@
             });
         }
 
-        vm.downloadPDF = function (reports, neededSurveyId) {
-            console.log(reports);
+        vm.downloadPDF = function (customer) {
             userService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.result;
-                console.log(surveys);
-                let neededSurveyId = 4;
-                let accessToCheckTemplates = false;
-                let reportId;
-                let templateId;
+                userService.loadAllTemplates().then(function (templateList) {
+                    // userService.loadTemplateList().then(function (templateList) {
+                    let templates = templateList.data;
+                    // console.log('reports = ', customer.reports);
+                    // console.log('surveys = ', surveys);
+                    // console.log('templates = ', templates);
 
-                if (!surveys.length) {
-                    warning('Ууупс,нет ни одного опросника... Куууда подевались? оО');
-                } else if (surveys.length) {
-                    for (let i=0; i<surveys.length; i++) {
-                        if (surveys[i].survey_id === neededSurveyId){
-                            accessToCheckTemplates = true;
-                            console.log('accessToCheckTemplates = ' + accessToCheckTemplates);
-                            break;
-                        }
-                    }
-                }
-
-                if (reports.length > 1 && accessToCheckTemplates === true) {
-                    console.log('Больше одного репорта');
-                    // warning('Больше одного репорта');
-                    selectReport('из')
-                    //Вызов диалогового окна для выбора контракта
+                    let dataFromDialog = {
+                        customer: customer.name + ' ' + customer.surname,
+                        reports: customer.reports,
+                        surveys: surveys,
+                        templates: templates
+                    };
+                    console.log(dataFromDialog);
+                    downloadContractDialog(dataFromDialog);
 
 
-
-                } else if (reports.length === 1 && accessToCheckTemplates === true) {
-                    reportId = reports[0].id;
-                    console.log('reportId = ' + reportId);
-                    userService.loadAllTemplates().then(function (templateList) {
-                        // userService.loadTemplateList().then(function (templateList) {
-                        let templates = templateList.data;
-                        let tmpTempaltes = [];
-                        console.log(templates);
-
-                        templates.forEach(function (item) {
-                            if (item.survey_id === reports[0].survey_id) {
-                                tmpTempaltes.push(item);
+                    function downloadContractDialog(dataFromDialog) {
+                        $mdDialog.show({
+                            controller: 'DialogViewController',
+                            controllerAs: 'vm',
+                            templateUrl: 'components/contract-editor/download-contract/dialog/dialog.html',
+                            clickOutsideToClose: true,
+                            locals: {
+                                dataFromDialog: {
+                                    customer: dataFromDialog.customer,
+                                    reports: dataFromDialog.reports,
+                                    surveys: dataFromDialog.surveys,
+                                    templates: dataFromDialog.templates
+                                }
                             }
                         });
-                        console.log('tmpTempaltes = ', tmpTempaltes);
+                    }
 
-                        if (!tmpTempaltes.length) {
-                            warning('Нет шаблонов для даного контракта, сначала сделайте шаблон!');
-                            // Вставить окно для оповещения об отсутствии шаблона
-                        } else {
-                            if (tmpTempaltes.length > 1) {
-                                console.log('Больше одного шаблона');
-                            } else if (tmpTempaltes.length === 1) {
-                                templateId = tmpTempaltes[0].id;
-                                console.log('templateId = ' + templateId);
-                                download(reportId, templateId);
-                            }
-                        }
-                    });
-
-                }
-
-
-                function selectReport(data) {
-
-                    $mdDialog.show({
-                        controller: 'SelectReportController',
-                        controllerAs: 'vm',
-                        templateUrl: 'components/contract-editor/download-contract/select-report/select-report.html',
-                        clickOutsideToClose: true,
-                        locals: {
-                            data: {
-                                text: data
-                            }
-                        }
-                    });
-                }
-
-                function warning(data) {
-
-                    $mdDialog.show({
-                        controller: 'SelectReportController',
-                        controllerAs: 'vm',
-                        templateUrl: 'components/contract-editor/download-contract/warnings/warning.html',
-                        clickOutsideToClose: true,
-                        locals: {
-                            data: {
-                                text: data
-                            }
-                        }
-                    });
-                }
-
-                function download(reportId, templateId) {
-                    userService.getContract(reportId, templateId).then(function (res) {
-                        console.log(res);
-                        // userService.downloadPdf("some link");
-                    });
-                }
+                });
             });
         };
     }

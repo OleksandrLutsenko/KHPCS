@@ -175,20 +175,22 @@
                 };
 
                 vs.createTemplate = function () {
-                    if (vs.data.title === ""){
-                        vs.data.title = 'unnamed template';
+                    if (vs.templateForm.name.$invalid) {
+                        toastr.error('Error invalid data');
                     }
-                    userService.createTemplate(tmpResearchId, vs.data).then(function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            userService.loadAllTemplates().then(function (res) {
-                                vm.templates = res.data;
-                                CKEDITOR.instances.CKeditorArea.setData("");
-                            });
-                        }
-                    });
-                    console.log(vs.data);
-                    $mdDialog.cancel();
+                   else {
+                        userService.createTemplate(tmpResearchId, vs.data).then(function (res) {
+                            console.log(res);
+                            if (res.success) {
+                                userService.loadAllTemplates().then(function (res) {
+                                    vm.templates = res.data;
+                                    CKEDITOR.instances.CKeditorArea.setData("");
+                                });
+                            }
+                        });
+                        console.log(vs.data);
+                        $mdDialog.cancel();
+                    }
                 };
 
                 vs.close = function () {
@@ -217,22 +219,25 @@
                 // console.log(vs.data);
 
                 vs.updateTemplate = function () {
-                    if (vs.data.title === ""){
-                        vs.data.title = 'unnamed template';
+                    if (vs.templateForm.name.$invalid) {
+                        toastr.error('Error invalid data');
                     }
-                    userService.updateTemplate(vm.activeTemplateId, vs.data).then(function (res) {
-                        console.log(res);
-                        activeTemplateTitle = res.data.contract.title;
-                        if (res.success) {
-                            userService.loadAllTemplates().then(function (res) {
-                                vm.templates = res.data;
-                                console.log(res.data, 'Template list');
-                            });
-                        } else{
-                            console.log('Update template error');
-                        }
-                    });
-                    $mdDialog.cancel();
+                    else {
+                        userService.updateTemplate(vm.activeTemplateId, vs.data).then(function (res) {
+                            console.log(res);
+                            activeTemplateTitle = res.data.contract.title;
+                            if (res.success) {
+                                userService.loadAllTemplates().then(function (res) {
+                                    vm.templates = res.data;
+                                    console.log(res.data, 'Template list');
+                                });
+                            } else{
+                                console.log('Update template error');
+                            }
+                        });
+                        $mdDialog.cancel();
+                    }
+
                 };
 
                 vs.close = function () {
@@ -317,19 +322,24 @@
                 let vs = this;
 
                 vs.saveVariability = function () {
-                    console.log(vs.data);
-                    userService.createVariability(vs.data).then(function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            userService.getVariability().then(function (res) {
-                                console.log(res.data, 'Variability list');
-                                vm.variability = res.data;
-                            });
-                        } else{
-                            console.log('Create user variability error');
-                        }
-                    });
-                    $mdDialog.cancel();
+                    if (vs.varForm.name.$invalid) {
+                        toastr.error('Error invalid data');
+                    }
+                    else {
+                        console.log(vs.data);
+                        userService.createVariability(vs.data).then(function (res) {
+                            console.log(res);
+                            if (res.success) {
+                                userService.getVariability().then(function (res) {
+                                    console.log(res.data, 'Variability list');
+                                    vm.variability = res.data;
+                                });
+                            } else{
+                                console.log('Create user variability error');
+                            }
+                        });
+                        $mdDialog.cancel();
+                    }
                 };
                 vs.close = function () {
                     $mdDialog.cancel();
@@ -353,19 +363,24 @@
                 };
 
                 vs.reSaveVariability = function () {
-                    console.log('saveVariability');
-                    userService.editVariability(id, vs.data).then(function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            userService.getVariability().then(function (res) {
-                                console.log(res.data, 'Variability list');
-                                vm.variability = res.data;
-                            });
-                        } else{
-                            console.log('Save user variability error');
-                        }
-                    });
-                    $mdDialog.cancel();
+                    if (vs.varForm.name.$invalid) {
+                        toastr.error('Error invalid data');
+                    }
+                    else {
+                        console.log('saveVariability');
+                        userService.editVariability(id, vs.data).then(function (res) {
+                            console.log(res);
+                            if (res.success) {
+                                userService.getVariability().then(function (res) {
+                                    console.log(res.data, 'Variability list');
+                                    vm.variability = res.data;
+                                });
+                            } else{
+                                console.log('Save user variability error');
+                            }
+                        });
+                        $mdDialog.cancel();
+                    }
                 };
                 vs.close = function () {
                     $mdDialog.cancel();
