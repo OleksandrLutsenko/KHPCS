@@ -104,7 +104,7 @@
             let couterQuestion = 0;
 
             allQuestionBlock.forEach(function (item, index) {
-                if(item.extra == 1){
+                if(item.hidden == 1){
                     for (let i = 0; i < allAnswersBlock.length; i++){
                         if(item.identifier == allAnswersBlock[i].next_question){
                             for(let j = 0; j < allQuestionBlock.length; j++){
@@ -114,16 +114,16 @@
                                 }
                             }
                             if(vm.data[indexQuestion] == allAnswersBlock[i].id){
-                                item.extraAfte = 0
+                                item.hiddenAfte = 0
                             }
                             else {
-                                item.extraAfte = 1
+                                item.hiddenAfte = 1
                             }
                             break
                         }
                     }
                 }
-                if(item.extra == 0 || item.extraAfte == 0){
+                if(item.hidden == 0 || item.hiddenAfte == 0){
                     couterQuestion++;
                     if(typeof vm.data[index] != 'undefined' && vm.data[index] != ''){
                         couterAnswer++;
@@ -172,7 +172,7 @@
             console.log(allQuestionBlock, 'all question in block');
 
             allQuestionBlock.forEach(function (item, index) {
-                if(item.extraAfte == 0 || item.extra == 0){
+                if(item.hiddenAfte == 0 || item.hidden == 0){
                     let data;
 
                     let id = {

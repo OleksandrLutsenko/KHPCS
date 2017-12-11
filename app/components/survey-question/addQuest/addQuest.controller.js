@@ -23,28 +23,6 @@
 
         if (typeof idQuestion != 'undefined') {
             vm.data = items;
-
-            if (vm.data.type == 2) {
-                if (vm.data.last == 1) {
-                    vm.data.next_question = 'last';
-                }
-            }
-            else {
-                vm.data.answers.forEach(function (item) {
-                    item.forDelete = false;
-
-                    if (item.hasExtra == 1) {
-                        item.hasExtra = true;
-                    }
-                    else {
-                        item.hasExtra = false;
-                    }
-
-                    if (item.hasLast == 1) {
-                        item.next_question = 'last';
-                    }
-                });
-            }
         }
         else {
             vm.data = {
@@ -72,20 +50,22 @@
         }
 
         function save() {
-            if ( vm.questForm.title.$invalid || vm.questForm.identifier.$invalid || vm.questForm.type.$invalid) {
+            if (vm.dfg) {
                 console.log('error');
                 toastr.error('Please try again');
             }
             else {
                 surveyQuestion.createOrUpdateQuestion(idQuestion, indexQuestion, idBlock, vm.data, data.items).then(function (res) {
-                    if (vm.data.answers.length > 0 && res.type == 1) {
-                        surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, idQuestion);
+                    if (vm.data.answers.length > 1 && res.type == 1) {
+                        surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, idQuestion, res.hidden, res.idQuestion);
                         cancel();
                     }
-                    else {
+                    else if(res.type == 2) {
                         cancel()
                     }
-                    toastr.success('Success');
+                    else {
+                        toastr.success('Answer lenght min 2');
+                    }
                 })
             }
         }

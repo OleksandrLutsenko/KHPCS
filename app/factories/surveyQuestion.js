@@ -16,28 +16,28 @@
         function createOrUpdateQuestion(idQuestion, indexQuestion, idBlock, data, items) {
             let dataForSend = {
                 title: data.title,
-                identifier: data.identifier,
-                type: data.type
+                type: data.type,
             };
-            if(dataForSend.type == 2){
-                dataForSend.next_question = data.next_question;
-                if (dataForSend.next_question == 'last') {
-                    dataForSend.last = 1;
-                    delete dataForSend.next_question;
-                }
-                else {
-                    dataForSend.last = 0
-                }
+
+            if(data.hidden){
+                dataForSend.identifier = data.identifier;
+                dataForSend.hidden = true;
             }
             else {
-                dataForSend.last = 0
+                dataForSend.identifier = null;
+                dataForSend.hidden = false;
             }
 
             if(typeof idQuestion == 'undefined'){
                 return questionService.createQuestion(idBlock, dataForSend).then(function (res) {
                     if(res.success){
                         items.push(res.data.question);
-                        return {type: res.data.question.type}
+                        console.log('res', res)
+                        return {
+                            type: res.data.question.type,
+                            hidden: res.data.question.hidden,
+                            idQuestion: res.data.question.id
+                        }
                     }
                 });
             }
@@ -45,13 +45,16 @@
                 return questionService.updateQuestion(idQuestion, dataForSend).then(function (res) {
                     if(res.success){
                         items.splice(indexQuestion, 1, res.data.question);
-                        return {type: res.data.question.type}
+                        return {
+                            type: res.data.question.type,
+                            hidden: res.data.question.hidden
+                        }
                     }
                 });
             }
         }
 
-        function createOrUpdateOrDeleteAnswer(answers, items, indexQuestion, idQuestion) {
+        function createOrUpdateOrDeleteAnswer(answers, items, indexQuestion, idQuestion, hidden, idQuestionForCreate) {
 
             let couterDelete = 0;
 
@@ -63,21 +66,19 @@
                     let data = {
                         answer_text: item.answer_text
                     };
-                    if(item.naxt_question == 'last'){
-                        data.hasLast = 1
-                    }
-                    else {
-                        data.hasLast = 0;
-                        if(item.next_question != null){
-                            data.next_question = item.next_question
-                        }
-                    }
 
-                    if(item.hasExtra === true){
-                        data.hasExtra = 1
+                    if(hidden == true){
+                        data.hasHidden = false;
                     }
                     else {
-                        data.hasExtra = 0
+                        if(item.hasHidden){
+                            data.hasHidden = item.hasHidden;
+                            data.next_question = item.next_question;
+                        }
+                        else {
+                            data.hasHidden = false;
+                            data.next_question = null;
+                        }
                     }
 
                     if(typeof data.answer_text != 'undefined' && data.answer_text != ''){
@@ -104,9 +105,10 @@
                 }
 
                 function createAnswer(data) {
-                    questionService.createAnswer(idQuestion, data).then(function (res) {
+                    console.log(idQuestionForCreate, 'idQuestionForCreate');
+                    questionService.createAnswer(idQuestionForCreate, data).then(function (res) {
                         if (res.success) {
-                            items[indexQuestion].answers.push(res.data.answer);
+                            items[items.length - 1].answers.push(res.data.answer);
                         }
                     })
                 }
