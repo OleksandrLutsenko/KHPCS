@@ -139,5 +139,9 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/variable', 'VariableController@store');
         Route::put('/variable/{variable}', 'VariableController@update');
         Route::delete('/variable/{variable}', 'VariableController@destroy');
+
+
+        Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
+
     });
 });

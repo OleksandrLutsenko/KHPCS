@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,7 +18,7 @@ class UserController extends Controller
         $this->user = $user;
     }
 
-    public function register(Request $request){
+    public function register(UserRequest $request){
         $user = $this->user->create([
             'name' => $request->get('name'),
             'email' => $request->get('email'),

@@ -10,6 +10,7 @@
         "guzzlehttp/guzzle": "~5.3|~6.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
+        "spatie/laravel-directory-cleanup": "^1.0",
         "tymon/jwt-auth": "^0.5.12"
     },
     "require-dev": {
@@ -49,6 +50,9 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.1"
+        }
     }
 }

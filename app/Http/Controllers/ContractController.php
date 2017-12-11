@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Contract;
 use App\ContractResearch;
 use App\Customer;
@@ -11,11 +12,14 @@ use App\Image;
 use App\Question;
 use App\Report;
 use App\User;
+use Dompdf\Dompdf;
+use Response;
 use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use View;
 
 class ContractController extends Controller
 {
@@ -28,7 +32,7 @@ class ContractController extends Controller
      */
     public function index(Contract $contract, User $user)
     {
-            return Contract::all();
+        return Contract::all();
     }
 
     public function indexWithoutBody(Contract $contract, User $user)
@@ -106,11 +110,52 @@ class ContractController extends Controller
 
         }
 
+        $view = Response::json(
+            array(View::make('contract',
+            compact('contractAnswers', 'variables', 'report'))->render())
+        );
+        $viewContent = $view->getOriginalContent();
+
+        $filename = 'contract_'.time().'.html';
+        $filenamePdf = 'contract_'.time().'.pdf';
+        $filePathUri = 'storage/contracts/' . $filename;
+        $filePathUriPdf = 'storage/contracts/' . $filenamePdf;
+        $filePathUrl = url($filePathUri);
+        $filePathUrlPdf = url($filePathUriPdf);
+        $path = '../'.$filePathUri;
+        $pathPdf = '../'.$filePathUriPdf;
+        File::put($path, $viewContent);
+
+        PDF::loadFile(storage_path().'/contracts/'.$filename)->setPaper('A4', 'landscape')->save(storage_path().'/contracts/'.$filenamePdf);
+
+        File::delete($path);
+        return compact('filenamePdf','filePathUrlPdf');
+//        return view('contract', compact('contractAnswers', 'variables', 'report'));
+    }
+
+    public function deletePDF($filenamePdf)
+    {
+        File::delete(storage_path().'/contracts/'.$filenamePdf);
+        return 'PDF file was deleted';
+    }
 
 
-//        dd($contractAnswers);
 
-        return view('contract', compact('contractAnswers', 'variables', 'report'));
+    public function showPDF($filename)
+    {
+        $path = storage_path().'/contracts/'.$filename;
+
+        if(!File::exists($path)) {
+            return response()->json(['message' => 'PDF not found.'], 404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 
     /**
