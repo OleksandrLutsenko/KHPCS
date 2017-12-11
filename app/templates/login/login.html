@@ -1,94 +1,54 @@
-<div class="enterForm">
-    <form name="loginForm">
-        <md-content>
-            <div layout="row" layout-align="center center" class="loginForm">
+<div class="enter-form">
 
-                <div class="md-whiteframe-8dp" flex="40" flex-xs="90" flex-sm="60">
-                    <div class="mainLogo">
-                        <div class="loginLogo" layout="" layout-align="center">
-                            <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
-                        </div>
-                        <div class="divInput">
-                            <md-input-container>
-                                <label>Email</label>
-                                <input ng-model="vm.data.email" type="email" name="email" required  maxlength="32">
-                                <div ng-messages="loginForm.email.$error">
-                                    <div ng-message="required">This is required.</div>
-                                    <div ng-message="maxlength">Password max length 32.</div>
-                                </div>
-                            </md-input-container>
+    <md-content>
+        <div layout="row" layout-align="center center" class="login-form">
 
-                            <md-input-container>
-                                <label>Password</label>
-                                <input ng-model="vm.data.password" type="password" name="password"
-                                       maxlength="32"
-                                       minlength="6"
-                                required>
-                                <div ng-messages="loginForm.password.$error">
-                                    <div ng-message="required">This is required.</div>
-                                    <div ng-message="maxlength">Password max length 32.</div>
-                                    <div ng-message="minlength">Password min length 6.</div>
-                                </div>
-                            </md-input-container>
-                        </div>
-                        <div class="divBtn">
-                            <md-button ng-click="vm.login()">
-                                Log in
-                            </md-button>
-                        </div>
-                        <div class="logBot" layout="row" layout-align="center">
-                            <p>Don't have an account?</p>
-                            <p ui-sref="registration">Sign Up</p>
-                        </div>
-                        <div layout="" layout-align="center" class="lastText">
-                            <p ui-sref="forgot">Forgotten a password?</p>
-                        </div>
-                    </div>
+            <div class="md-whiteframe-8dp main-div" flex="40" flex-xs="90" flex-sm="60">
+
+                <div class="top-logo" layout="" layout-align="center">
+                    <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
                 </div>
+                <div class="div-input">
+                    <form name="loginForm">
+                        <md-input-container>
+                            <label>Email</label>
+                            <input ng-model="vm.data.email" type="email" name="email" required maxlength="32">
+                            <div ng-messages="loginForm.email.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="maxlength">Password max length 32.</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container>
+                            <label>Password</label>
+                            <input ng-model="vm.data.password" type="password" name="password"
+                                   maxlength="32"
+                                   minlength="6"
+                                   required>
+                            <div ng-messages="loginForm.password.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="maxlength">Password max length 32.</div>
+                                <div ng-message="minlength">Password min length 6.</div>
+                            </div>
+                        </md-input-container>
+                    </form>
+                </div>
+                <div class="div-btn">
+                    <md-button ng-click="vm.login()">
+                        Log in
+                    </md-button>
+                </div>
+                <div class="log-bot" layout="row" layout-align="center">
+                    <p>Don't have an account?</p>
+                    <p ui-sref="registration">Sign Up</p>
+                </div>
+                <div layout="" layout-align="center" class="bot-text">
+                    <p ui-sref="forgot">Forgotten a password?</p>
+                </div>
+
             </div>
-        </md-content>
-    </form>
+        </div>
+    </md-content>
+
 </div>
 
-<!--<div class="enterForm">-->
-<!--<form name="loginForm">-->
-<!--<md-content>-->
-<!--<div layout="row" layout-align="center center" class="loginForm">-->
-
-<!--<div class="md-whiteframe-8dp" flex="40" flex-xs="90" flex-sm="60">-->
-<!--<div class="mainLogo">-->
-<!--<div class="loginLogo" layout="" layout-align="center">-->
-<!--<img src="content/img/knight_hayes_logo.fw.png" alt="Logo">-->
-<!--</div>-->
-<!--<div class="divInput">-->
-<!--<form  name="vm.form" ng-submit="vm.login()">-->
-<!--<md-input-container>-->
-<!--<label>Email</label>-->
-<!--<input ng-model="vm.data.email" type="email" required>-->
-<!--</md-input-container>-->
-
-<!--<md-input-container>-->
-<!--<label>Password</label>-->
-<!--<input ng-model="vm.data.password" type="password" maxlength="32"-->
-<!--minlength="6" required>-->
-<!--</md-input-container>-->
-<!--</form>-->
-<!--</div>-->
-<!--<div class="divBtn">-->
-<!--<md-button type="submit" ng-click="vm.login()">-->
-<!--Log in-->
-<!--</md-button>-->
-<!--</div>-->
-<!--<div class="logBot" layout="row" layout-align="center">-->
-<!--<p>Don't have an account?</p>-->
-<!--<p ui-sref="registration">Sign Up</p>-->
-<!--</div>-->
-<!--<div layout="" layout-align="center" class="lastText">-->
-<!--<p ui-sref="forgot">Forgotten a password?</p>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</div>-->
-<!--</md-content>-->
-<!--</form>-->
-<!--</div>-->

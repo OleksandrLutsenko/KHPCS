@@ -1,55 +1,46 @@
-.enterForm {
+.enter-form {
 
-  .logBtnText {
-    color: #fff;
-    text-transform: none;
-  }
-
-  .loginLogo img {
+  .top-logo img {
     height: 50px;
   }
 
-  .loginForm {
+  .login-form {
     height: 100vh;
   }
 
-  .mainLogo {
+  .main-div {
     padding: 20px 40px;
   }
 
   md-input-container {
-    margin: 0;
+    margin: 10px 0 0 0;
     width: 100%;
   }
 
-  .divInput {
+  .div-input {
     padding-top: 20px;
   }
 
-  .logIn {
-    background: #001041;
-  }
-
-  .logBot {
+  .log-bot {
     padding-top: 15px;
     padding-bottom: 10px;
   }
 
-  .logBotSec p {
+  .log-bot-sec p , .bot-text p{
     cursor: pointer;
   }
 
-  .logBot p:first-child {
+  .log-bot p:first-child {
     color: gray;
   }
 
-  .logBot p:last-child {
+  .log-bot p:last-child {
     color: #001041;
     margin-left: 10px;
     cursor: pointer;
   }
 
-  .divBtn button {
+  .div-btn button {
     width: 100%;
     background: #001041;
     margin: 0;
@@ -57,13 +48,17 @@
     text-transform: capitalize;
   }
 
-  .lastText p {
-    cursor: pointer;
-  }
-
-  .divBtn .md-button:hover {
+  .div-btn .md-button:hover {
     background: #001041;
   }
 
+  .logBtnText {
+    color: #fff;
+    text-transform: none;
+  }
+
+  .conf-pass{
+    font-size: 13px;
+  }
 
 }
