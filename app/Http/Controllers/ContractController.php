@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Response;
+use View;
 
 class ContractController extends Controller
 {
@@ -97,7 +99,36 @@ class ContractController extends Controller
 
 //        dd($contractAnswers);
 
-        return view('contract', compact('contractAnswers', 'variables', 'report'));
+        $up = Response::json(array(View::make('contract',compact('contractAnswers', 'variables', 'report'))->render()));
+        $uup = $up->getOriginalContent();
+
+        $filename = 'contract_'.time().'.blade.php';
+        $filePathUri = 'resources/views/' . $filename;
+        $filePathUrl = url($filePathUri);
+        $path = '../'.$filePathUri;
+        File::put($path, $uup);
+
+        return compact('filePathUrl');
+//        return view('contract', compact('contractAnswers', 'variables', 'report'));
+    }
+
+
+    
+    public function showPDF($filename)
+    {
+        $path = resource_path() .'/views/'. $filename;
+
+        if(!File::exists($path)) {
+            return response()->json(['message' => 'PDF not found.'], 404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
     }
 
     /**

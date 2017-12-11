@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::get('/storage/images/{filename}', 'ImageController@show');
+Route::get('/resources/views/{filename}', 'ContractController@showPDF');
+
