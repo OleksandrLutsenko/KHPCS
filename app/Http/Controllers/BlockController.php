@@ -6,6 +6,7 @@ use App\Block;
 use App\Customer;
 use App\Http\Requests\BlockRequest;
 use App\Http\Requests\QuestionRequest;
+use App\Question;
 use App\Survey;
 use App\User;
 use App\Question;

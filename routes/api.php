@@ -18,6 +18,7 @@ Route::middleware(['jwt.auth'])->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'jwt.auth'], function() {
+
     Route::get('/report/{report}/contract/{contract}/review/{userFilename}', 'ContractController@review');
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
@@ -32,11 +33,17 @@ Route::group(['middleware' => 'api-response'], function() {
 
     Route::post('/auth/register', 'UserController@register');
     Route::post('/auth/login', 'UserController@login');
+///////////////
+    Route::post('/recover', 'UserController@recover');
+    Route::post('password/reset', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 
-//    Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
+    Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
 //    Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
-
+//////////////////
     Route::group(['middleware' => 'jwt.auth'], function() {
+
+        Route::get('/logout', 'UserController@logout');
+
         Route::get('/user', 'UserController@getAuthUser');
 
         /** SURVEYS */
@@ -142,6 +149,5 @@ Route::group(['middleware' => 'api-response'], function() {
 
 
         Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
-
     });
 });

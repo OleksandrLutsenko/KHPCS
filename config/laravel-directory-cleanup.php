@@ -11,8 +11,8 @@ return [
          */
 
 
-        '/storage/contracts' => [
-            'deleteAllOlderThanMinutes' => 10 * 2
+        storage_path() => [
+            'deleteAllOlderThanMinutes' => 1
         ],
 
     ],

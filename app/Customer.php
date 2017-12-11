@@ -12,7 +12,7 @@ class Customer extends Model
 
     protected $fillable = ['name', 'surname', 'classification'];
 
-    protected $visible = ['id', 'name', 'surname', 'classification', 'reports', 'user_name', 'created_at'];
+    protected $visible = ['id', 'name', 'surname', 'classification', 'user_id', 'user_name', 'reports', 'created_at'];
 
     protected $appends = ['reports', 'user_name'];
 
