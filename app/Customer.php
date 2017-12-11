@@ -12,9 +12,9 @@ class Customer extends Model
 
     protected $fillable = ['name', 'surname', 'classification'];
 
-    protected $visible = ['id', 'name', 'surname', 'classification', 'reports'];
+    protected $visible = ['id', 'name', 'surname', 'classification', 'user_id', 'user_name', 'reports', 'created_at'];
 
-    protected $appends = ['reports'];
+    protected $appends = ['reports', 'user_name'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -47,6 +47,12 @@ class Customer extends Model
     public function getReportsAttribute()
     {
         return $this->report;
+    }
+
+    public function getUserNameAttribute()
+    {
+        $user = User::find($this->user_id);
+        return $user->name;
     }
 
     public static function boot()

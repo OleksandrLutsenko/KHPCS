@@ -18,3 +18,8 @@ Route::get('/', function () {
 Route::get('/storage/images/{filename}', 'ImageController@show');
 Route::get('/storage/contracts/{filename}', 'ContractController@showPDF');
 Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
+
+
+Route::get('user/verify/{verification_code}', 'UserController@verifyUser');
+Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ForgotPasswordController@sendResetLinkEmail');
