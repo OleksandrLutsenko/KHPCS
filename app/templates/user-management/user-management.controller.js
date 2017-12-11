@@ -34,8 +34,8 @@
                 templateUrl: 'components/user-management/addClient/annonce.html',
                 clickOutsideToClose: true
             }).then(function () {
-                pass(id)
-            })
+                pass(id);
+            });
         }
 
 
@@ -50,14 +50,14 @@
                     if (res.success) {
                         customerService.loadCustomers().then(function () {
                             vm.customers = customerService.getCustomers()
-                        })
+                        });
                         toastr.success('Delete success');
                     }
                     else {
-                        console.log('error')
+                        console.log('error');
                     }
                 });
-            })
+            });
         }
 
         function createOrUpdate(id, customers) {
@@ -76,48 +76,115 @@
                 if(res.type == 'update'){
                     customerService.loadCustomers().then(function () {
                         vm.customers = customerService.getCustomers();
-                    })
+                    });
                     toastr.success('Edit success');
                 }
                 else {
                     vm.customers.push(res.data);
-                    annonce(res.data.id)
+                    annonce(res.data.id);
                 }
-            })
+            });
         }
 
-        vm.downloadPDF = function (reports) {
+        vm.downloadPDF = function (reports, neededSurveyId) {
             console.log(reports);
             userService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.result;
-                console.log(res.data.result);
-                let activeSurveyId;
-                let actualReportId;
+                console.log(surveys);
+                let neededSurveyId = 4;
+                let accessToCheckTemplates = false;
+                let reportId;
+                let templateId;
 
-                for (let i=0; i<surveys.length; i++) {
-                    if (surveys[i].survey_status === 1) {
-                        activeSurveyId = surveys[i].survey_id;
-                        console.log(activeSurveyId, 'Active survey id');
+                if (!surveys.length) {
+                    warning('Ууупс,нет ни одного опросника... Куууда подевались? оО');
+                } else if (surveys.length) {
+                    for (let i=0; i<surveys.length; i++) {
+                        if (surveys[i].survey_id === neededSurveyId){
+                            accessToCheckTemplates = true;
+                            console.log('accessToCheckTemplates = ' + accessToCheckTemplates);
+                            break;
+                        }
                     }
                 }
 
-                for (let i=0; i<reports.length; i++) {
-                    if (activeSurveyId === reports[i].survey_id) {
-                        actualReportId = reports[i].id;
-                        console.log('совпадение', actualReportId);
-                    }
+                if (reports.length > 1 && accessToCheckTemplates === true) {
+                    console.log('Больше одного репорта');
+                    // warning('Больше одного репорта');
+                    selectReport('из')
+                    //Вызов диалогового окна для выбора контракта
+
+
+
+                } else if (reports.length === 1 && accessToCheckTemplates === true) {
+                    reportId = reports[0].id;
+                    console.log('reportId = ' + reportId);
+                    userService.loadAllTemplates().then(function (templateList) {
+                        // userService.loadTemplateList().then(function (templateList) {
+                        let templates = templateList.data;
+                        let tmpTempaltes = [];
+                        console.log(templates);
+
+                        templates.forEach(function (item) {
+                            if (item.survey_id === reports[0].survey_id) {
+                                tmpTempaltes.push(item);
+                            }
+                        });
+                        console.log('tmpTempaltes = ', tmpTempaltes);
+
+                        if (!tmpTempaltes.length) {
+                            warning('Нет шаблонов для даного контракта, сначала сделайте шаблон!');
+                            // Вставить окно для оповещения об отсутствии шаблона
+                        } else {
+                            if (tmpTempaltes.length > 1) {
+                                console.log('Больше одного шаблона');
+                            } else if (tmpTempaltes.length === 1) {
+                                templateId = tmpTempaltes[0].id;
+                                console.log('templateId = ' + templateId);
+                                download(reportId, templateId);
+                            }
+                        }
+                    });
+
                 }
 
-                userService.loadAllTemplates().then(function (res) {
-                    console.log(res.data, 'Шаблоны');
-                });
 
-                userService.downloadContract(actualReportId, 5).then(function (data) {
-                    console.log(data);
-                }).save(function () {
+                function selectReport(data) {
 
-                });
-                //5 и 7
+                    $mdDialog.show({
+                        controller: 'SelectReportController',
+                        controllerAs: 'vm',
+                        templateUrl: 'components/contract-editor/download-contract/select-report/select-report.html',
+                        clickOutsideToClose: true,
+                        locals: {
+                            data: {
+                                text: data
+                            }
+                        }
+                    });
+                }
+
+                function warning(data) {
+
+                    $mdDialog.show({
+                        controller: 'SelectReportController',
+                        controllerAs: 'vm',
+                        templateUrl: 'components/contract-editor/download-contract/warnings/warning.html',
+                        clickOutsideToClose: true,
+                        locals: {
+                            data: {
+                                text: data
+                            }
+                        }
+                    });
+                }
+
+                function download(reportId, templateId) {
+                    userService.getContract(reportId, templateId).then(function (res) {
+                        console.log(res);
+                        // userService.downloadPdf("some link");
+                    });
+                }
             });
         };
     }

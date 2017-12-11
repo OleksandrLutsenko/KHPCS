@@ -1,0 +1,16 @@
+<md-dialog flex="30" flex-xs="70" class="dltMain">
+    <div class="dltWindow">
+        <div class="viewHead">
+            <p>Warning!</p>
+        </div>
+        <div class="dltMid">
+            <p>{{vm.data}}</p>
+        </div>
+
+        <md-dialog-actions class="botBtn" layout-align="center">
+            <md-button class="md-raised" ng-click="vm.cancel()" style="margin: 0;">
+                OK
+            </md-button>
+        </md-dialog-actions>
+    </div>
+</md-dialog>

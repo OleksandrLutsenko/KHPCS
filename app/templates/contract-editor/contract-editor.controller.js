@@ -6,9 +6,9 @@
 
 
 
-    ContractEditorController.$inject = ['userService', '$mdDialog'];
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr'];
 
-    function ContractEditorController(userService, $mdDialog) {
+    function ContractEditorController(userService, $mdDialog, toastr) {
         let vm = this;
         console.log('contract-editor controller start');
 
@@ -391,6 +391,7 @@
                             userService.getVariability().then(function (res) {
                                 console.log(res.data, 'Variability list');
                                 vm.variability = res.data;
+                                toastr.success('Remove success');
                             });
                         } else{
                             console.log('Remove user variability error');

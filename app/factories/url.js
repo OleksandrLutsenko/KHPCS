@@ -53,7 +53,7 @@
             report_func(id) {
                 return {
                     // update: baseUrl + 'dfsdf'
-                }
+                };
             },
 
             contract_research_func(id) {
@@ -66,8 +66,8 @@
             contract_editor_func(id) {
                 return {
                     createSurveyTemplate: baseUrl + '/api/contract-research/' + id + '/contract',
-                    // createSurveyTemplate: baseUrl + 'api/contract',
                     getTemplates: baseUrl + 'api/contract',
+                    getTemplateList: baseUrl + 'api/onlycontract',
                     deleteTemplate: baseUrl + 'api/contract/' + id,
                     updateTemplate: baseUrl + 'api/contract/' + id,
                     createVariability: baseUrl + 'api/variable',
@@ -79,7 +79,8 @@
 
             contract_download_func (idReport, idContract) {
                 return {
-                    downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/download'
+                    downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/review'
+                    // downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/download'
                 };
             }
 

@@ -46,6 +46,7 @@
         // contractEditor
         model.createTemplate = createTemplate;
         model.loadAllTemplates = loadAllTemplates;
+        model.loadTemplateList = loadTemplateList;
         model.removeTemplate = removeTemplate;
         model.updateTemplate = updateTemplate;
         model.createVariability = createVariability;
@@ -54,7 +55,8 @@
         model.getVariability = getVariability;
 
         //DownloadContract
-        model.downloadContract = downloadContract;
+        model.getContract = getContract;
+        model.downloadPdf = downloadPdf;
 
         return model;
 
@@ -73,7 +75,7 @@
                     setUser(res.data.result)
                 }
                 else {
-                //need to show error msg
+                    //need to show error msg
                 }
             })
         }
@@ -183,6 +185,10 @@
             return http.post(url.contract_editor_func(id).createSurveyTemplate, data);
         }
 
+        function loadTemplateList() {
+            return http.get(url.contract_editor_func().getTemplateList);
+        }
+
         function loadAllTemplates() {
             return http.get(url.contract_editor_func().getTemplates);
         }
@@ -213,8 +219,11 @@
         }
 
         //DownloadContract
-        function downloadContract(idReport, idContract) {
+        function getContract(idReport, idContract) {
             return http.get(url.contract_download_func(idReport, idContract).downloadPDF);
+        }
+        function downloadPdf(link) {
+            return http.get(link);
         }
     }
 })();

@@ -134,7 +134,7 @@
                 <div>
                     <div ng-repeat="var in vm.variability"
                          md-whiteframe="{{height}}" ng-init="height = 1" ng-mouseenter="height = 2" ng-mouseleave="height = 1">
-                        <div class="ce-left">
+                        <div class="ce-left" layout="row" layout-align="start center">
                             <h4 ng-click="vm.pasteUserVariability(var.id)" class="clearfix">
                             {{var.text}}
                         </h4>
@@ -145,7 +145,7 @@
                         <!--<span ng-click="vm.removeUserVariability(var.id)" style="cursor: pointer;">|delete|</span>-->
 
                         <!--<div class="sm-right">-->
-                        <div class="ce-right">
+                        <div class="ce-left" layout="row" layout-align="end center">
                             <i class="material-icons" ng-click="vm.editUserVariability(var.id, var.text)">mode_edit</i>
                             <i class="material-icons" ng-click="vm.removeUserVariability(var.id)">highlight_off</i>
                         </div>
