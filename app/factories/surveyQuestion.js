@@ -110,7 +110,7 @@
                        id = idQuestionForCreate;
                     }
                     else {
-                        id = indexQuestion;
+                        id = idQuestion;
                     }
                     console.log(idQuestionForCreate, 'idQuestionForCreate');
                     questionService.createAnswer(id, data).then(function (res) {
