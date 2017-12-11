@@ -105,8 +105,15 @@
                 }
 
                 function createAnswer(data) {
+                    let id;
+                    if(indexQuestion == undefined){
+                       id = idQuestionForCreate;
+                    }
+                    else {
+                        id = indexQuestion;
+                    }
                     console.log(idQuestionForCreate, 'idQuestionForCreate');
-                    questionService.createAnswer(idQuestionForCreate, data).then(function (res) {
+                    questionService.createAnswer(id, data).then(function (res) {
                         if (res.success) {
                             items[items.length - 1].answers.push(res.data.answer);
                         }
