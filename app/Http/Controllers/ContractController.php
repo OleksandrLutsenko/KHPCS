@@ -87,7 +87,7 @@ class ContractController extends Controller
      * @param User $user
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
-    public function review(Report $report, Contract $contract, User $user)
+    public function review(Report $report, Contract $contract, User $user, $userFilename)
     {
         $variables = Auth::user()->variables;
         $body = stripcslashes($contract->body);
@@ -116,8 +116,10 @@ class ContractController extends Controller
         );
         $viewContent = $view->getOriginalContent();
 
-        $filename = 'contract_'.time().'.html';
-        $filenamePdf = 'contract_'.time().'.pdf';
+//        $filename = 'contract_'.time().'.html';
+        $filename = $userFilename.'.html';
+//        $filenamePdf = 'contract_'.time().'.pdf';
+        $filenamePdf = $userFilename.'.pdf';
         $filePathUri = 'storage/contracts/' . $filename;
         $filePathUriPdf = 'storage/contracts/' . $filenamePdf;
         $filePathUrl = url($filePathUri);

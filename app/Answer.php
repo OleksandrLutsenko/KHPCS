@@ -9,7 +9,7 @@ class Answer extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['answer_text', 'next_question', 'hasExtra', 'hasLast'];
+    protected $fillable = ['answer_text', 'next_question', 'hasHidden'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'api-response' => ApiResponse::class,
         'role-checking' => RoleChecking::class,
         'jwt.auth' => \App\Http\Middleware\VerifyJWTToken::class,
+//        'jwt.refresh' => Tymon\JWTAuth\Middleware\RefreshToken::class,
     ];
 }

@@ -71,6 +71,12 @@ class ReportController extends Controller
 
     public function store(Report $report, ReportRequest $request, User $user)
     {
+        $oldReport = Report::where('customer_id', $request->customer_id)->
+                            where('survey_id', $request->survey_id)->first();
+        if($oldReport){
+            $oldReport->delete();
+        }
+
         $report = Report::create($request->all());
         return response()->json($report, 201);
     }

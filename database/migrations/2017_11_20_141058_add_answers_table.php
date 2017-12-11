@@ -13,9 +13,18 @@ class AddAnswersTable extends Migration
      */
     public function up()
     {
-        Schema::table('answers', function ($table) {
-            $table->integer('hasExtra')->default('0');
-            $table->integer('hasLast')->default('0');
+        Schema::table('answers', function($table) {
+            $table->boolean('hasHidden')->default(false);
         });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //
     }
 }

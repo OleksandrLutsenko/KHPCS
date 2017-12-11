@@ -14,9 +14,7 @@ class AddQuestionsTable extends Migration
     public function up()
     {
         Schema::table('questions', function($table) {
-            $table->string('next_question')->nullable();
-            $table->integer('extra')->default('0');
-            $table->integer('last')->default('0');
+            $table->boolean('hidden')->default(false);
         });
     }
 

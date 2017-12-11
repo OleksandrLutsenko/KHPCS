@@ -6,6 +6,7 @@ use App\Block;
 use App\Customer;
 use App\Http\Requests\BlockRequest;
 use App\Http\Requests\QuestionRequest;
+use App\Question;
 use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
@@ -44,8 +45,17 @@ class BlockController extends Controller
     public function addQuestion(QuestionRequest $request, Block $block, User $user)
     {
         if ($user->can('addQuestion', $block)) {
-            $question = $block->question()->create($request->all());
-            return compact('question');
+
+            $identifier = Question::where('identifier', $request->identifier)->first();
+            if($identifier){
+                return response([
+                    "error" => "Identifier have to be unique"], 404
+                );
+            } else {
+                $question = $block->question()->create($request->all());
+                return compact('question');
+            }
+
         } else {
             return response([
                 "error" => "You do not have a permission"], 404
