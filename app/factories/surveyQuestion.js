@@ -108,9 +108,11 @@
                     let id;
                     if(indexQuestion == undefined){
                        id = idQuestionForCreate;
+                       index = items.length - 1
                     }
                     else {
                         id = idQuestion;
+                        index = indexQuestion;
                     }
                     console.log(idQuestionForCreate, 'idQuestionForCreate');
                     questionService.createAnswer(id, data).then(function (res) {
