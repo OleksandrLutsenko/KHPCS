@@ -32,7 +32,7 @@
                             ng-repeat="customers in vm.customers | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
-                            <td md-cell ng-if="vm.user.role_id > 1">{{customers.name }}</td>
+                            <td md-cell ng-if="vm.user.role_id > 1">{{customers.user_name }}</td>
                             <td md-cell>
                                 <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)">
                                     Get started
@@ -42,7 +42,7 @@
                             </md-button>
                             <td md-cell><i class="material-icons">file_download</i></td>
                             <td md-cell>
-                                {{vm.all }}
+                                {{customers.created_at }}
                             </td>
                             <td md-cell>
                                 <i class="material-icons"

@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddClientController', AddClientController);
 
-    AddClientController.$inject = ['data', '$mdDialog', 'customerService'];
+    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'toastr'];
 
-    function AddClientController(data, $mdDialog, customerService ) {
+    function AddClientController(data, $mdDialog, customerService , toastr) {
         let vm = this;
 
         vm.id = data.id;
@@ -29,33 +29,41 @@
             $mdDialog.cancel()
         }
 
+
         function save() {
-            if (typeof id != 'undefined') {
-                customerService.updateCustomers(id, vm.data).then(function (res) {
-                    if (res.success) {
-                        let tmpObj = {
-                            type: 'update'
-                        };
-                        $mdDialog.hide(tmpObj);
-                    }
-                    else {
-                        cancel();
-                    }
-                });
+            if (vm.customersForm.name.$invalid || vm.customersForm.secondName.$invalid || vm.customersForm.select.$invalid) {
+               console.log('error');
+                toastr.error('Please try again', 'All fields is required');
             }
             else {
-                customerService.createCustomers(vm.data).then(function (res) {
-                    if (res.success) {
-                        let tmpObj = {
-                            type: 'create',
-                            data: res.data
-                        };
-                        $mdDialog.hide(tmpObj);
-                    }
-                    else {
-                        cancel();
-                    }
-                });
+
+                if (typeof id != 'undefined') {
+                    customerService.updateCustomers(id, vm.data).then(function (res) {
+                        if (res.success) {
+                            let tmpObj = {
+                                type: 'update'
+                            };
+                            $mdDialog.hide(tmpObj);
+                        }
+                        else {
+                            cancel();
+                        }
+                    });
+                }
+                else {
+                    customerService.createCustomers(vm.data).then(function (res) {
+                        if (res.success) {
+                            let tmpObj = {
+                                type: 'create',
+                                data: res.data
+                            };
+                            $mdDialog.hide(tmpObj);
+                        }
+                        else {
+                            cancel();
+                        }
+                    });
+                }
             }
         }
     }

@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddQuestionController', AddQuestionController);
 
-    AddQuestionController.$inject = ['$mdDialog', 'surveyQuestion', 'data'];
+    AddQuestionController.$inject = ['$mdDialog', 'surveyQuestion', 'data' , 'toastr'];
 
-    function AddQuestionController($mdDialog, surveyQuestion, data) {
+    function AddQuestionController($mdDialog, surveyQuestion, data , toastr) {
         let vm = this;
 
         vm.addAnsver = addAnsver;
@@ -72,15 +72,22 @@
         }
 
         function save() {
-            surveyQuestion.createOrUpdateQuestion(idQuestion, indexQuestion, idBlock, vm.data, data.items).then(function (res) {
-                if(vm.data.answers.length > 0 && res.type == 1){
-                    surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, idQuestion);
-                    cancel()
-                }
-                else {
-                    cancel()
-                }
-            })
+            if ( vm.questForm.title.$invalid || vm.questForm.identifier.$invalid || vm.questForm.type.$invalid) {
+                console.log('error');
+                toastr.error('Please try again');
+            }
+            else {
+                surveyQuestion.createOrUpdateQuestion(idQuestion, indexQuestion, idBlock, vm.data, data.items).then(function (res) {
+                    if (vm.data.answers.length > 0 && res.type == 1) {
+                        surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, idQuestion);
+                        cancel();
+                    }
+                    else {
+                        cancel()
+                    }
+                    toastr.success('Success');
+                })
+            }
         }
 
         function cancel() {
