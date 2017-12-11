@@ -20,13 +20,7 @@ class SurveyController extends Controller
      */
     public function index(Survey $survey, User $user)
     {
-        if ($user->can('answerAll', $survey)) {
-            return Survey::all();
-        } else {
-            return response([
-                "error" => "You do not have a permission"], 404
-            );
-        }
+        return Survey::all();
     }
 
     public function onlySurvey(Survey $survey, User $user)

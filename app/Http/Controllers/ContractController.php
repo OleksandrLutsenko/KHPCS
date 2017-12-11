@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Contract;
 use App\ContractResearch;
 use App\Customer;
@@ -11,12 +12,13 @@ use App\Image;
 use App\Question;
 use App\Report;
 use App\User;
+use Dompdf\Dompdf;
+use Response;
 use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Response;
 use View;
 
 class ContractController extends Controller
@@ -30,7 +32,21 @@ class ContractController extends Controller
      */
     public function index(Contract $contract, User $user)
     {
-            return Contract::all();
+        return Contract::all();
+    }
+
+    public function indexWithoutBody(Contract $contract, User $user)
+    {
+        $contracts = Contract::all();
+        foreach ($contracts as $contract){
+            $contractsWithoutBody[] = [
+                'id' => $contract->id,
+                'title' => $contract->title,
+                'survey_id' => $contract->survey_id,
+                'contract_research_id' => $contract->contract_research_id
+            ];
+        }
+        return compact('contractsWithoutBody');
     }
 
     /**
@@ -71,7 +87,7 @@ class ContractController extends Controller
      * @param User $user
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
-    public function review(Report $report, Contract $contract, User $user)
+    public function review(Report $report, Contract $contract, User $user, $userFilename)
     {
         $variables = Auth::user()->variables;
         $body = stripcslashes($contract->body);
@@ -95,28 +111,42 @@ class ContractController extends Controller
 
         }
 
+        $view = Response::json(
+            array(View::make('contract',
+            compact('contractAnswers', 'variables', 'report'))->render())
+        );
+        $viewContent = $view->getOriginalContent();
 
-
-//        dd($contractAnswers);
-
-        $up = Response::json(array(View::make('contract',compact('contractAnswers', 'variables', 'report'))->render()));
-        $uup = $up->getOriginalContent();
-
-        $filename = 'contract_'.time().'.blade.php';
-        $filePathUri = 'resources/views/' . $filename;
+//        $filename = 'contract_'.time().'.html';
+        $filename = $userFilename.'.html';
+//        $filenamePdf = 'contract_'.time().'.pdf';
+        $filenamePdf = $userFilename.'.pdf';
+        $filePathUri = 'storage/contracts/' . $filename;
+        $filePathUriPdf = 'storage/contracts/' . $filenamePdf;
         $filePathUrl = url($filePathUri);
+        $filePathUrlPdf = url($filePathUriPdf);
         $path = '../'.$filePathUri;
-        File::put($path, $uup);
+        $pathPdf = '../'.$filePathUriPdf;
+        File::put($path, $viewContent);
 
-        return compact('filePathUrl');
+        PDF::loadFile(storage_path().'/contracts/'.$filename)->setPaper('A4', 'landscape')->save(storage_path().'/contracts/'.$filenamePdf);
+
+        File::delete($path);
+        return compact('filenamePdf','filePathUrlPdf');
 //        return view('contract', compact('contractAnswers', 'variables', 'report'));
     }
 
+    public function deletePDF($filenamePdf)
+    {
+        File::delete(storage_path().'/contracts/'.$filenamePdf);
+        return 'PDF file was deleted';
+    }
 
-    
+
+
     public function showPDF($filename)
     {
-        $path = resource_path() .'/views/'. $filename;
+        $path = storage_path().'/contracts/'.$filename;
 
         if(!File::exists($path)) {
             return response()->json(['message' => 'PDF not found.'], 404);

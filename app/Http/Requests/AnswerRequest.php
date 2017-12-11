@@ -37,9 +37,10 @@ class AnswerRequest extends FormRequest
         if($answer->hasExtra == 1){
             $question->extra = 1;
             $question->update();
-        } else {
-            $question->extra = 0;
-            $question->update();
+        // } else {
+        //     $question->extra = 0;
+        //     $question->update();
+        // }
         }
     }
 }

@@ -60,6 +60,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
+            'Spatie\\DirectoryCleanup\\' => 24,
         ),
         'R' => 
         array (
@@ -213,6 +214,10 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Spatie\\DirectoryCleanup\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/laravel-directory-cleanup/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -407,6 +412,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'App\\Http\\Requests\\ReportRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ReportRequest.php',
         'App\\Http\\Requests\\ResetEmailRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ResetEmailRequest.php',
         'App\\Http\\Requests\\SurveyRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SurveyRequest.php',
+        'App\\Http\\Requests\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserRequest.php',
         'App\\Image' => __DIR__ . '/../..' . '/app/Image.php',
         'App\\Policies\\AnswerPolicy' => __DIR__ . '/../..' . '/app/Policies/AnswerPolicy.php',
         'App\\Policies\\BlockPolicy' => __DIR__ . '/../..' . '/app/Policies/BlockPolicy.php',
@@ -3115,6 +3121,9 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'SebastianBergmann\\ResourceOperations\\ResourceOperations' => __DIR__ . '/..' . '/sebastian/resource-operations/src/ResourceOperations.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
+        'Spatie\\DirectoryCleanup\\DirectoryCleaner' => __DIR__ . '/..' . '/spatie/laravel-directory-cleanup/src/DirectoryCleaner.php',
+        'Spatie\\DirectoryCleanup\\DirectoryCleanupCommand' => __DIR__ . '/..' . '/spatie/laravel-directory-cleanup/src/DirectoryCleanupCommand.php',
+        'Spatie\\DirectoryCleanup\\DirectoryCleanupServiceProvider' => __DIR__ . '/..' . '/spatie/laravel-directory-cleanup/src/DirectoryCleanupServiceProvider.php',
         'Svg\\DefaultStyle' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/DefaultStyle.php',
         'Svg\\Document' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/Document.php',
         'Svg\\Gradient\\Stop' => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg/Gradient/Stop.php',

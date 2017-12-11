@@ -18,7 +18,7 @@ Route::middleware(['jwt.auth'])->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'jwt.auth'], function() {
-    Route::get('/report/{report}/contract/{contract}/review', 'ContractController@review');
+    Route::get('/report/{report}/contract/{contract}/review/{userFilename}', 'ContractController@review');
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
     Route::post('contract-research/{contractResearch}/save-image', 'ImageController@upload');
@@ -89,6 +89,8 @@ Route::group(['middleware' => 'api-response'], function() {
         /** CONTRACT BUILDER */
         /** show contracts list */
         Route::get('/contract', 'ContractController@index');
+
+        Route::get('/onlycontract', 'ContractController@indexWithoutBody');
         /** show contract */
         Route::get('/contract/{contract}', 'ContractController@show');
         /** save new contract */
@@ -137,5 +139,9 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/variable', 'VariableController@store');
         Route::put('/variable/{variable}', 'VariableController@update');
         Route::delete('/variable/{variable}', 'VariableController@destroy');
+
+
+        Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
+
     });
 });

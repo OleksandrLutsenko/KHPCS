@@ -169,6 +169,7 @@ return [
         Laravel\Tinker\TinkerServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Spatie\DirectoryCleanup\DirectoryCleanupServiceProvider::class,
 
         /*
          * Application Service Providers...
