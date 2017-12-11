@@ -26,6 +26,13 @@
 
         if (typeof idQuestion != 'undefined') {
             vm.data = items;
+
+            if(vm.data.hidden == 1){
+                vm.data.hidden = true;
+            }
+            else {
+                vm.data.hidden = false;
+            }
             
             if(vm.data.type == 1){
                 vm.data.answers.forEach(function (item) {
