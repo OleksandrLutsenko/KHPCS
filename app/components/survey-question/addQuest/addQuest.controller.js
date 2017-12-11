@@ -10,10 +10,13 @@
         let vm = this;
 
         vm.addAnsver = addAnsver;
+
+        vm.dropDown = data.dropDown;
+        console.log(' vm.dropDown', vm.dropDown);
+
         vm.deleteAnsver = deleteAnsver;
         vm.save = save;
         vm.cancel = cancel;
-
 
         let idQuestion = data.idQuestion;
         let indexQuestion = data.indexQuestion;
@@ -23,11 +26,24 @@
 
         if (typeof idQuestion != 'undefined') {
             vm.data = items;
+            
+            if(vm.data.type == 1){
+                vm.data.answers.forEach(function (item) {
+                    item.forDelete = false;
+
+                    if (item.hasHidden == 1) {
+                        item.hasHidden = true;}
+                    else {
+                        item.hasHidden = false;
+                    }
+                })
+            }
         }
         else {
             vm.data = {
-                answers: []
+                answers:  []
             }
+
         }
 
         function addAnsver() {
@@ -58,10 +74,10 @@
                 surveyQuestion.createOrUpdateQuestion(idQuestion, indexQuestion, idBlock, vm.data, data.items).then(function (res) {
                     if (vm.data.answers.length > 1 && res.type == 1) {
                         surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, idQuestion, res.hidden, res.idQuestion);
-                        cancel();
+                        $mdDialog.hide();
                     }
                     else if(res.type == 2) {
-                        cancel()
+                        $mdDialog.hide()
                     }
                     else {
                         toastr.success('Answer lenght min 2');

@@ -15,7 +15,24 @@
         let indexBlock = idB.indexBlock;
         let idBlock = idB.id;
 
+        let dropDown = [];
+
         vm.items = userService.getItems()[indexSurvey].blocks[indexBlock].questions;
+        console.log(vm.items);
+
+        dropDownFill();
+
+        function dropDownFill() {
+            dropDown = [];
+            vm.items.forEach(function (item) {
+                if(item.hidden == 1){
+                    dropDown.push(item.identifier)
+                }
+            });
+        }
+
+
+
 
         vm.showEdit = showEdit;
         vm.deleteQuest = deleteQuest;
@@ -38,6 +55,7 @@
                     console.log(res);
                     if (res.success) {
                         vm.items.splice(index, 1);
+                        dropDownFill();
                         toastr.success('Question was deleted');
                     }
                     else {
@@ -56,11 +74,14 @@
                         idQuestion: id,
                         idBlock: idBlock,
                         indexQuestion: index,
-                        items: vm.items
+                        items: vm.items,
+                        dropDown: dropDown
                     }
                 },
                 templateUrl: 'components/survey-question/addQuest/addQuest.html',
                 clickOutsideToClose: true,
+            }).then(function () {
+                dropDownFill();
             })
         }
     }

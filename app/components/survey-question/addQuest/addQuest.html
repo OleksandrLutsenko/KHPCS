@@ -78,16 +78,17 @@
                         </md-input-container>
                     </div>
 
-                    <div flex="10" layout="row" layout-align="center center" ng-if="!vm.data.hidden">
+                    <div flex="15" layout="row" layout-align="center center" ng-if="!vm.data.hidden">
                         <md-checkbox class="md-primary" ng-model="answers.hasHidden">
                             Has hidden
                         </md-checkbox>
                     </div>
 
-                    <div flex="30" layout="row" layout-align="center center" ng-if="answers.hasHidden && !vm.data.hiden">
+                    <div flex="30" layout="row" layout-align="center center" ng-if="answers.hasHidden && !vm.data.hidden">
                         <md-input-container>
-                            <label>Next questions </label>
-                            <input ng-model="answers.next_question">
+                            <md-select ng-model="answers.next_question">
+                                <md-option ng-repeat="dropDown in vm.dropDown" value="{{dropDown}}">{{dropDown}}</md-option>
+                            </md-select>
                         </md-input-container>
                     </div>
 
