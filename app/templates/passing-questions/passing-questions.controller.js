@@ -5,9 +5,9 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customerAnswer', 'survey'];
+    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customerAnswer', 'survey' , 'toastr'];
 
-    function PassingQuestionController($scope, userService, $state, customers, customerAnswer, survey) {
+    function PassingQuestionController($scope, userService, $state, customers, customerAnswer, survey , toastr) {
         let vm = this;
 
         vm.next = next;
@@ -268,6 +268,7 @@
                 userService.createReport(data).then(function (res) {
                     if(res.success){
                         $state.go('tab.user-management');
+                        toastr.success('Completed');
                     }
                     else {
                         console.log('error');

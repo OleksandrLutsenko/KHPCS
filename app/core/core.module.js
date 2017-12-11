@@ -4,7 +4,7 @@
     angular.module('app.core', [
         'ui.router', 'ngMaterial',
         'ngAnimate', 'toastr',
-        'ngStorage', 'md.data.table',
+        'ngStorage', 'md.data.table' ,
         'ngMessages'
     ]);
 

@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'questionService'];
+    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'questionService' , 'toastr'];
 
-    function SurveyQuestionController(userService, survey, $scope, $mdDialog, questionService) {
+    function SurveyQuestionController(userService, survey, $scope, $mdDialog, questionService , toastr) {
         let vm = this;
 
         let idS = survey.getActineSurvey();
@@ -38,6 +38,7 @@
                     console.log(res);
                     if (res.success) {
                         vm.items.splice(index, 1);
+                        toastr.success('Question was deleted');
 
                         let surveyId = idS.id;
                         let templates;

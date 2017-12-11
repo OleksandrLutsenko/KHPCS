@@ -115,7 +115,6 @@
                         cell: cell,
                     }
                 }
-
             }).then(function (res) {
                 if (res.type == 'update') {
                     vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;

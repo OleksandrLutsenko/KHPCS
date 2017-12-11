@@ -36,6 +36,12 @@
     box-sizing: border-box;
     padding: 15px 30px;
     width: 100%;
+    border-bottom: 1px solid #DDDDDD;
+  }
+
+  .question:hover {
+    background: #DDDDDD;
+    transition: .4s;
   }
 
   .sm-left {

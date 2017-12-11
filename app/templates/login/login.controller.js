@@ -20,11 +20,11 @@
                     userService.loadUser().then(function () {
                         userService.loadItems().then(function () {
                             $state.go('tab.user-management');
-                            toastr.success('Login successful');
                         })
                     })
                 }
                 else {
+                    toastr.error('Please try again', 'Login or password is invalid');
                     console.log('error');
                 }
             })
