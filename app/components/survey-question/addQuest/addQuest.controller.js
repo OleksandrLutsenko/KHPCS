@@ -78,7 +78,7 @@
                 toastr.error('Please try again');
 
             }
-            else if (vm.data.type == 1 && vm.data.answers < 2) {
+            else if (vm.data.type == 1 && vm.data.answers.length < 2) {
                 toastr.error('Answer lenght min 2');
             }
             else {

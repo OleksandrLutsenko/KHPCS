@@ -20,11 +20,9 @@
             };
 
             if(data.hidden){
-                dataForSend.identifier = data.identifier;
                 dataForSend.hidden = true;
             }
             else {
-                dataForSend.identifier = null;
                 dataForSend.hidden = false;
             }
 

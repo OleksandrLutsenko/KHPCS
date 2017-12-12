@@ -26,7 +26,11 @@
             dropDown = [];
             vm.items.forEach(function (item) {
                 if(item.hidden == 1){
-                    dropDown.push(item.identifier)
+                    let tmpObj = {
+                        title: item.title,
+                        value: item.id
+                    };
+                    dropDown.push(tmpObj);
                 }
             });
         }

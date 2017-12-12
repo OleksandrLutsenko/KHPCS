@@ -106,7 +106,7 @@
             allQuestionBlock.forEach(function (item, index) {
                 if(item.hidden == 1){
                     for (let i = 0; i < allAnswersBlock.length; i++){
-                        if(item.identifier == allAnswersBlock[i].next_question){
+                        if(item.id == allAnswersBlock[i].next_question){
                             for(let j = 0; j < allQuestionBlock.length; j++){
                                 if(allQuestionBlock[j].id == allAnswersBlock[i].question_id){
                                     indexQuestion = j;

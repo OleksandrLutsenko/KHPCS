@@ -25,12 +25,6 @@
                         </md-checkbox>
                     </md-input-container>
 
-                    <div flex="30">
-                        <md-input-container ng-if="vm.data.hidden">
-                            <label>Identifier</label>
-                            <input ng-model="vm.data.identifier">
-                        </md-input-container>
-                    </div>
                 </div>
 
                 <md-input-container>
@@ -87,7 +81,7 @@
                     <div flex="30" layout="row" layout-align="center center" ng-if="answers.hasHidden && !vm.data.hidden">
                         <md-input-container>
                             <md-select ng-model="answers.next_question">
-                                <md-option ng-repeat="dropDown in vm.dropDown" value="{{dropDown}}">{{dropDown}}</md-option>
+                                <md-option ng-repeat="dropDown in vm.dropDown" value="{{dropDown.value}}">{{dropDown.title}}</md-option>
                             </md-select>
                         </md-input-container>
                     </div>
