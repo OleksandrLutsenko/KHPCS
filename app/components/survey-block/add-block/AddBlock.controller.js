@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('AddBlockController', AddBlockController);
 
-    AddBlockController.$inject = ['userService', 'survey', '$mdDialog', 'data'];
+    AddBlockController.$inject = ['userService', 'survey', '$mdDialog', 'data' , 'toastr'];
 
-    function AddBlockController(userService, survey, $mdDialog, data) {
+    function AddBlockController(userService, survey, $mdDialog, data , toastr) {
         let vm = this;
 
         let cell = data.cell;
@@ -35,43 +35,50 @@
         vm.saveBlock = saveBlock;
         function saveBlock() {
 
-            if (typeof idBlockSec != 'undefined') {
-                userService.updateBlock(idBlock.id, vm.data).then(function (res) {
-                    userService.loadItems().then(function () {
-                        if (res.success) {
-                            let tmpObj = {
-                                type: 'update'
-                            };
-                            $mdDialog.hide(tmpObj);
-                        }
-                        else {
-                            console.log('errorUpd');
-                        }
-
-                        $mdDialog.cancel();
-
-                    });
-                });
+            if (vm.blockForm.$invalid) {
+                console.log('error');
+                toastr.error('Please try again', 'Form is invalid');
             }
             else {
 
-                userService.createBlock(idSurvey.id, vm.data).then(function (res) {
-                    console.log('create');
-                    userService.loadItems().then(function () {
-                        if (res.success) {
-                            let tmpObj = {
-                                type: 'create'
-                            };
-                            $mdDialog.hide(tmpObj);
-                        }
-                        else {
-                            cancel();
-                        }
+                if (typeof idBlockSec != 'undefined') {
+                    userService.updateBlock(idBlock.id, vm.data).then(function (res) {
+                        userService.loadItems().then(function () {
+                            if (res.success) {
+                                let tmpObj = {
+                                    type: 'update'
+                                };
+                                $mdDialog.hide(tmpObj);
+                            }
+                            else {
+                                console.log('errorUpd');
+                            }
 
-                        $mdDialog.cancel();
+                            $mdDialog.cancel();
 
+                        });
                     });
-                });
+                }
+                else {
+
+                    userService.createBlock(idSurvey.id, vm.data).then(function (res) {
+                        console.log('create');
+                        userService.loadItems().then(function () {
+                            if (res.success) {
+                                let tmpObj = {
+                                    type: 'create'
+                                };
+                                $mdDialog.hide(tmpObj);
+                            }
+                            else {
+                                cancel();
+                            }
+
+                            $mdDialog.cancel();
+
+                        });
+                    });
+                }
             }
         }
 

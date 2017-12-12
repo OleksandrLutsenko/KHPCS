@@ -13,8 +13,7 @@
         function forgot() {
             userService.forgot(vm.data).then(function (res) {
                 if (res.success) {
-                    userService.setUser(res.data.user);
-                    $state.go('login');
+                    console.log('sent token')
                 }
                 else {
                     console.log('error');

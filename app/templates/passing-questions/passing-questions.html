@@ -11,7 +11,7 @@
                     <h3>{{questions.title}}</h3>
                 </md-content>
                 <md-content layout="colums">
-                    <md-radio-group ng-model="vm.data[$index]">
+                    <md-radio-group ng-model="vm.data[$index]" class="radio-btn">
                         <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}" class="md-primary">
                             {{answers.answer_text}}
                         </md-radio-button>

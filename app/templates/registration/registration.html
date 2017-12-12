@@ -7,11 +7,11 @@
                     <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
                 </div>
                 <div class="div-input">
-                    <form name="regForm">
+                    <form name="vm.regForm">
                         <md-input-container>
                             <label>Full name</label>
                             <input ng-model="vm.data.name" type="text" name="name" required maxlength="32">
-                            <div ng-messages="regForm.name.$error">
+                            <div ng-messages="vm.regForm.name.$error">
                                 <div ng-message="required">This is required.</div>
                                 <div ng-message="maxlength">Name max length 32.</div>
                             </div>
@@ -22,7 +22,7 @@
                             <input ng-model="vm.data.email" type="email" name="email" required maxlength="32"
                                    ng-pattern="/^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9_\.-]+)\.([a-zA-Z\.]{2,6})$/"
                             >
-                            <div ng-messages="regForm.email.$error">
+                            <div ng-messages="vm.regForm.email.$error">
                                 <div ng-message="required">This is required.</div>
                                 <div ng-message="maxlength">Email max length 32.</div>
                                 <div ng-message="pattern">Invalid email.</div>
@@ -34,7 +34,7 @@
                             <input ng-model="vm.data.password" type="password" name="password" required
                                    minLength="6"
                                    maxlength="32">
-                            <div ng-messages="regForm.password.$error">
+                            <div ng-messages="vm.regForm.password.$error">
                                 <div ng-message="required">This is required.</div>
                                 <div ng-message="maxlength">Password max length 32.</div>
                                 <div ng-message="minlength">Password min length 6.</div>
@@ -48,7 +48,7 @@
                                    minLength="6"
                                    maxlength="32"
                             >
-                            <div ng-messages="regForm.passCon.$error">
+                            <div ng-messages="vm.regForm.passCon.$error">
                                 <div ng-message="required">This is required.</div>
                                 <div ng-message="maxlength">Password max length 32.</div>
                                 <div ng-message="minlength">Password min length 6.</div>
@@ -71,7 +71,7 @@
                 <p ui-sref="login">Log in</p></div>
 
                 <div layout="" layout-align="center" class="bot-text">
-                    <p ui-sref="forgot">Forgotten a password?</p>
+                    <p ui-sref="forgot">Forgotten password?</p>
                 </div>
             </div>
 

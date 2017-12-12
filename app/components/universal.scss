@@ -7,7 +7,7 @@ i {
   cursor: pointer;
 }
 
-.botBtn button {
+.bot-btn button {
   text-transform: capitalize;
   box-shadow: none !important;
   line-height: 0;
@@ -16,20 +16,20 @@ i {
   min-width: 98px;
 }
 
-.botBtn button:last-child {
+.bot-btn button:last-child {
   background: #fff;
   border: 2px solid #3f51b5;
   margin-left: 40px;
   color: #3f51b5;
 }
 
-.viewHead p{
+.view-head p{
   text-align: center;
   color: #fff;
   padding: 12px;
   font-size: 20px;
 }
 
-.viewHead{
+.view-head{
   background: #3f51b5;
 }

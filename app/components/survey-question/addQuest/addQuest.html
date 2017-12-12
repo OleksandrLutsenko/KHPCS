@@ -1,7 +1,7 @@
-<md-dialog flex="40" flex-xs="90" flex-sm="60" class="addQuest">
+<md-dialog flex="40" flex-xs="90" flex-sm="60" class="add-quest">
     <md-card>
 
-        <div class="createTop">
+        <div class="view-head">
             <p>Enter the question</p>
         </div>
 
@@ -17,7 +17,7 @@
                     <!--</div>-->
                 <!--</md-input-container>-->
 
-                <div class="nextQuest" layout="row" layout-align="none center">
+                <div class="next-quest" layout="row" layout-align="none center">
 
                     <md-input-container flex="20">
                         <md-checkbox class="md-primary" ng-model="vm.data.hidden">
@@ -97,10 +97,10 @@
                     </div>
 
                 </div>
-                <div class="addOpn" ng-if="vm.data.type === 1">
+                <div class="add-opn" ng-if="vm.data.type === 1">
                     <p ng-click="vm.addAnsver()">Add answer</p></div>
             </div>
-            <div layout="row" class="botBtn" layout-align="space-between" layout-wrap>
+            <div layout="row" class="bot-btn" layout-align="space-between" layout-wrap>
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Save</md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
             </div>
