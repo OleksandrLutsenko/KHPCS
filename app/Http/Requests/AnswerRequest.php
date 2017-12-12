@@ -47,8 +47,9 @@ class AnswerRequest extends FormRequest
     public function noIdentifier($answer)
     {
         if($answer->hasHidden == false){
-            $answer->identifier = null;
-            $answer->update();
+            $question = $answer->question;
+            $question->identifier = null;
+            $question->update();
         }
     }
 }
