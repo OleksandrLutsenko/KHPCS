@@ -41,7 +41,7 @@ class QuestionController extends Controller
         if ($user->can('addAnswer', $question)) {
             if($question->hasRadioAnswer()) {
                 $answer = $question->answer()->create($request->all());
-                $request->noIdentifier($answer);
+//                $request->noIdentifier($answer);
 
                 return compact('answer');
             } else {
