@@ -19,6 +19,7 @@ class CreateCustomerAnswersTable extends Migration
             $table->integer('customer_id', false, 10);
             $table->integer('answer_id', false, 10)->nullable();
             $table->integer('question_id', false, 10);
+            $table->softDeletes();
             $table->timestamps();
         });
 

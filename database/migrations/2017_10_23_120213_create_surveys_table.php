@@ -17,6 +17,8 @@ class CreateSurveysTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('user_id', false, 10);
+            $table->integer('status', false, 10)->default('2');
+            $table->softDeletes();
             $table->timestamps();
         });
 

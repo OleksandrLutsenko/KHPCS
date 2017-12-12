@@ -41,7 +41,7 @@ class QuestionController extends Controller
         if ($user->can('addAnswer', $question)) {
             if($question->hasRadioAnswer()) {
                 $answer = $question->answer()->create($request->all());
-                $request->noIdentifier($answer);
+                $request->ifHasNotHidden($answer);
 
                 return compact('answer');
             } else {
@@ -68,10 +68,6 @@ class QuestionController extends Controller
     public function update(Question $question, QuestionRequest $request, User $user)
     {
         if ($user->can('update', $question)) {
-
-            if($question->hidden == false){
-                $question->identifier = null;
-            }
 
             $question->update($request->all());
             return compact('question');

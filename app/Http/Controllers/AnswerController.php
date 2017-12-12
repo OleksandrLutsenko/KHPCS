@@ -45,10 +45,7 @@ class AnswerController extends Controller
         if ($user->can('update', $answer)) {
             if ($answer->question->hasRadioAnswer()){
                 $answer->update($request->all());
-                $request->noIdentifier($answer);
-
-
-//                $request->makeExtraQuestion($answer);
+                $request->ifHasNotHidden($answer);
             }
             return compact('answer');
         } else {

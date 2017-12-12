@@ -15,6 +15,7 @@ class CreateContractResearchesTable extends Migration
     {
         Schema::create('contract_researches', function (Blueprint $table) {
             $table->increments('id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
