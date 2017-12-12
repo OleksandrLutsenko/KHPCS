@@ -4,7 +4,8 @@
     angular.module('blocks.services', [
         'service.userService',
         'service.questionService',
-        'service.customerService'
+        'service.customerService',
+        'service.tabsService'
     ]);
 
 })();

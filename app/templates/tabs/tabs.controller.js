@@ -3,16 +3,29 @@
     angular.module('app')
         .controller('TabsController', TabsController);
 
-    TabsController.$inject = ['userService'];
+    TabsController.$inject = ['userService', 'tabs', 'tabsService', '$state'];
 
-    function TabsController(userService) {
+    function TabsController(userService, tabs, tabsService, $state) {
         let vm = this;
 
         vm.user = userService.getUser();
 
-        vm.currentNavItem = 'page1'
+        vm.currentNavItem = 'page1';
 
+        vm.profile = function () {
+            console.log('Test profile');
+        };
+
+        vm.logout = function () {
+            tabsService.logout().then(function (res) {
+                if (res.success === true) {
+                    $state.go('login');
+                    tabs.clearAfterLogout();
+                } else {
+                    console.log('Logout error');
+                }
+            });
+        };
     }
 
 })();
-

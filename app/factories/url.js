@@ -82,6 +82,12 @@
                     downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/review/' + filename,
                     removePDF: baseUrl + '/api/storage/contracts/' + idReport
                 };
+            },
+
+            logout_func (token) {
+                return {
+                    logout: baseUrl + '/api/logout?token=' + token
+                };
             }
 
         };

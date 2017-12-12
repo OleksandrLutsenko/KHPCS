@@ -61,6 +61,10 @@
         vm.surveyMenuInContractEditor = true;
         vm.contractEditor = false;
 
+        CKEDITOR.addCss('body{width: 21cm;min-height: 29.7cm;border: 1px #D3D3D3 solid;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);padding: 2.5cm; box-sizing: border-box; margin: 0 auto; font-family: -webkit-pictograph; font-size: 15px !important;line-height: 1.2 !important}');
+        CKEDITOR.addCss('body p{margin: 5px 0;}');
+        CKEDITOR.addCss('span[lang]{font-style: normal !important;}');
+
         vm.showTemplates = function (id) {
             if (id === activeSurveyID){
                 return true;
@@ -421,6 +425,7 @@
         };
 
         ///////////////////////////////////////////////////////////////////////////////
+
 
 
         ///////////////////////////////////Напоминание/////////////////////////////////

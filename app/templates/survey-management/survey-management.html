@@ -71,7 +71,7 @@
                 <h1 class="md-toolbar-tools">Archive list</h1>
             </md-toolbar>
 
-            <md-content layout-padding="">
+            <md-content layout-padding="" style="overflow: unset;">
                 <div ng-repeat="archiveItem in vm.items" ng-if="(archiveItem.status === 0)">
                     <div flex="100" layout="row" layout-align="center center">
                         <div class="sm-left" flex="70" layout-wrap="no-wrap"><p class="hidden-text deleting-margin">

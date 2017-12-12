@@ -6,7 +6,8 @@
         'factory.request',
         'factory.survey',
         'factory.customers',
-        'factory.surveyQuestion'
+        'factory.surveyQuestion',
+        'factory.tabs'
     ]);
 
 })();

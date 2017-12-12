@@ -6,10 +6,11 @@
 
 
 
-    SettingsController.$inject = ['userService', 'survey'];
+    SettingsController.$inject = ['$localStorage'];
 
-    function SettingsController(userService, survey) {
+    function SettingsController() {
         let vm = this;
+
 
         // vm.showSurvey = showSurvey;
         //

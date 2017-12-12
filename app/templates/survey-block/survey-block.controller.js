@@ -8,6 +8,7 @@
     function SurveyBlockController(userService, $state, survey, $scope, $mdDialog , toastr) {
         let vm = this;
 
+
         vm.setActiveBlock = setActiveBlock;
         let idSurvey = survey.getActineSurvey();
         let idBlock = survey.getActiveBlock();
