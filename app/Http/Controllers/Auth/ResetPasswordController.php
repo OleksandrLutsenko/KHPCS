@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Http\Requests\UserRequest;
+use App\PasswordReset;
 use App\Transformers\Json;
+use App\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Tymon\JWTAuth\JWTAuth;
 
 class ResetPasswordController extends Controller
 {
@@ -63,5 +68,18 @@ class ResetPasswordController extends Controller
         return $response == Password::PASSWORD_RESET
             ? $this->sendResetResponse($response)
             : $this->sendResetFailedResponse($request, $response);
+    }
+
+    public function customReset(ResetPasswordRequest $request)
+    {
+
+        $passwordReset = PasswordReset::where('token', $request->token)->first();
+
+        $user = User::where('email', $passwordReset->email);
+        $user->update([
+            'password' => bcrypt($request->get('password'))
+        ]);
+        return response()->json(['status'=>true,'message'=>'Password was updated successfully','data'=>$user]);
+
     }
 }

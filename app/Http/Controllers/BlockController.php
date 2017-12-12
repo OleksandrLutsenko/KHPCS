@@ -47,7 +47,7 @@ class BlockController extends Controller
         if ($user->can('addQuestion', $block)) {
 
             $identifier = Question::where('identifier', $request->identifier)->first();
-            if($identifier){
+            if($identifier && $identifier != null){
                 return response([
                     "error" => "Identifier have to be unique"], 404
                 );

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResetEmailRequest;
+use App\PasswordReset;
 use App\Transformers\Json;
 use App\User;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Mail;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ForgotPasswordController extends Controller
 {
@@ -41,7 +43,15 @@ class ForgotPasswordController extends Controller
         if ($request->wantsJson()) {
             $user = User::where('email', $request->input('email'))->first();
             if ($user) {
-                $token = $this->broker()->createToken($user);
+                $token = JWTAuth::fromUser($user);
+
+                $oldPasswordResets = PasswordReset::where('email', $user->email)->delete();
+
+                $passwordResets = new PasswordReset;
+                $passwordResets->email = $user->email;
+                $passwordResets->token = $token;
+                $passwordResets->save();
+//                $token = $this->broker()->createToken($user);
                 $user->sendLinkToReset($token, $user);
                 return response()->json(Json::response(['token' => $token]), 200);
             }

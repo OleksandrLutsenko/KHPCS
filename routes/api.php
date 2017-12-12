@@ -34,11 +34,11 @@ Route::group(['middleware' => 'api-response'], function() {
     Route::post('/auth/register', 'UserController@register');
     Route::post('/auth/login', 'UserController@login');
 ///////////////
-    Route::post('/recover', 'UserController@recover');
-    Route::post('password/reset', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+//    Route::post('/recover', 'UserController@recover');
+//    Route::post('password/reset', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 
     Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
-//    Route::post('user/reset-password', 'Auth\ResetPasswordController@reset');
+    Route::post('user/reset-password', 'Auth\ResetPasswordController@customReset');
 //////////////////
     Route::group(['middleware' => 'jwt.auth'], function() {
 
