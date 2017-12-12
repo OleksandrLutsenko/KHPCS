@@ -17,6 +17,7 @@ class CreateBlocksTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('survey_id', false, 10)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
 

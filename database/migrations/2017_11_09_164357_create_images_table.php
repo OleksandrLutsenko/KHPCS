@@ -18,6 +18,11 @@ class CreateImagesTable extends Migration
             $table->string('link');
             $table->timestamps();
         });
+
+        Schema::table('images', function($table) {
+            $table->integer('contract_research_id', false, 10)->nullable();
+            $table->foreign('contract_research_id')->references('id')->on('contract_researches');
+        });
     }
 
     /**

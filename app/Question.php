@@ -13,9 +13,9 @@ class Question extends Model
     const TYPE_RADIO = 1;
     const TYPE_TXT = 2;
 
-    protected $fillable = ['title', 'type', 'identifier', 'hidden'];
+    protected $fillable = ['title', 'type', 'hidden'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'identifier', 'hidden'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'hidden'];
 
     protected $appends = ['answers'];
 
@@ -47,10 +47,10 @@ class Question extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function answerRelate(){
-        return $this->hasOne(Answer::class);
+        return $this->belongsTo(Answer::class, 'next_question');
     }
 
     /**
@@ -85,7 +85,7 @@ class Question extends Model
 
     /**
      * @param Customer $customer
-     * @return Model|null|static
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function findCustomersAnswer(Customer $customer){
         return $this->customerAnswer()->where('customer_id', $customer->id)->first();

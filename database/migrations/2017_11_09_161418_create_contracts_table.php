@@ -19,6 +19,7 @@ class CreateContractsTable extends Migration
             $table->longText('body');
             $table->integer('survey_id', false, 10);
             $table->integer('contract_research_id', false, 10);
+            $table->softDeletes();
             $table->timestamps();
         });
 

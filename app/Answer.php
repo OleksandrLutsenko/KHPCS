@@ -19,10 +19,10 @@ class Answer extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function nextQuestion(){
-        return $this->hasOne(Question::class, 'id', 'next_question');
+    public function nextQuestions(){
+        return $this->hasMany(Question::class, 'next_question');
     }
 
     /**
