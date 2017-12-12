@@ -34,8 +34,8 @@
                 templateUrl: 'components/user-management/addClient/annonce.html',
                 clickOutsideToClose: true
             }).then(function () {
-                pass(id)
-            })
+                pass(id);
+            });
         }
 
 
@@ -54,10 +54,10 @@
                         toastr.success('Delete success');
                     }
                     else {
-                        console.log('error')
+                        console.log('error');
                     }
                 });
-            })
+            });
         }
 
         function createOrUpdate(id, customers) {
@@ -81,9 +81,50 @@
                 }
                 else {
                     vm.customers.push(res.data);
-                    annonce(res.data.id)
+                    annonce(res.data.id);
                 }
-            })
+            });
         }
+
+        vm.downloadPDF = function (customer) {
+            userService.loadSurveyOnly().then(function (res) {
+                let surveys = res.data.result;
+                userService.loadAllTemplates().then(function (templateList) {
+                    // userService.loadTemplateList().then(function (templateList) {
+                    let templates = templateList.data;
+                    // console.log('reports = ', customer.reports);
+                    // console.log('surveys = ', surveys);
+                    // console.log('templates = ', templates);
+
+                    let dataFromDialog = {
+                        customer: customer.name + ' ' + customer.surname,
+                        reports: customer.reports,
+                        surveys: surveys,
+                        templates: templates
+                    };
+                    console.log(dataFromDialog);
+                    downloadContractDialog(dataFromDialog);
+
+
+                    function downloadContractDialog(dataFromDialog) {
+                        $mdDialog.show({
+                            controller: 'DialogViewController',
+                            controllerAs: 'vm',
+                            templateUrl: 'components/contract-editor/download-contract/dialog/dialog.html',
+                            clickOutsideToClose: true,
+                            locals: {
+                                dataFromDialog: {
+                                    customer: dataFromDialog.customer,
+                                    reports: dataFromDialog.reports,
+                                    surveys: dataFromDialog.surveys,
+                                    templates: dataFromDialog.templates
+                                }
+                            }
+                        });
+                    }
+
+                });
+            });
+        };
     }
 }());

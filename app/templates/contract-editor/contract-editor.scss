@@ -1,4 +1,16 @@
 .contract-editor {
+
+
+  .questionnaire-list:last-child {   ;
+    justify-content: normal;
+  }
+
+
+  .questionnaire-list p:last-child {
+    color: #000000;
+  }
+
+
   .right-tulbar{
     border: 1px solid #001041;
     height: fit-content;
@@ -13,16 +25,6 @@
     //overflow-x: scroll;
     overflow-y: scroll;
   }
-
-  //.h4go h4{
-  //  margin: 0 10px;
-  //  padding: 7px 12px 10px 12px;
-  //  cursor: pointer;
-  //  text-transform: uppercase;
-  //  border-bottom: 1px solid #001041;
-  //  font-weight: normal;
-  //  font-size: 14px;
-  //}
 
   .h4go h4{
     margin: 0;
@@ -78,12 +80,14 @@
 
   .ce-right{
        //float: right;
-    margin-top: 6px;
+    //margin-top: 6px;
+    display: inline-block;
      }
 
-  //.ce-left{
-  //  float: left;
-  //}
+  .ce-left{
+    //float: left;
+    display: inline-block;
+  }
 
 
   .ce-right i{

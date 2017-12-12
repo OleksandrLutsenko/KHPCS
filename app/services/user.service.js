@@ -23,8 +23,8 @@
         model.setItems = setItems;
         model.getItems = getItems;
 
-
         //Survey
+        model.loadSurveyOnly = loadSurveyOnly;
         model.createSurvey = createSurvey;
         model.updateSurvey = updateSurvey;
         model.deleteSurvey = deleteSurvey;
@@ -39,15 +39,24 @@
         model.getCustomerAnswer = getCustomerAnswer;
         model.createReport = createReport;
 
+        // ContractResearch
+        model.createNewResearch = createNewResearch;
+        model.removeResearch = removeResearch;
+
         // contractEditor
         model.createTemplate = createTemplate;
         model.loadAllTemplates = loadAllTemplates;
+        model.loadTemplateList = loadTemplateList;
         model.removeTemplate = removeTemplate;
         model.updateTemplate = updateTemplate;
         model.createVariability = createVariability;
         model.editVariability = editVariability;
         model.removeVariability = removeVariability;
         model.getVariability = getVariability;
+
+        //DownloadContract
+        model.getContract = getContract;
+        model.removePdf = removePdf;
 
         return model;
 
@@ -66,7 +75,7 @@
                     setUser(res.data.result)
                 }
                 else {
-                //need to show error msg
+                    //need to show error msg
                 }
             })
         }
@@ -97,7 +106,7 @@
                 if (res.success) {
                     setItems(res.data);
                 } else {
-                     //need to show error msg
+                    //need to show error msg
                 }
             });
         }
@@ -113,6 +122,10 @@
 
 
         // Survey management
+        function loadSurveyOnly() {
+            return http.get(url.survey_management_func().loadOnlySurvey);
+        }
+
         function createSurvey (credentials) {
             return http.post(url.survey_management.createSurvey, credentials);
         }
@@ -159,11 +172,21 @@
             return http.post(url.report.createReport, data);
         }
 
-
+        // ContractResearch
+        function createNewResearch() {
+            return http.post(url.contract_research_func().createResearch);
+        }
+        function removeResearch(id) {
+            return http.delete(url.contract_research_func(id).deleteResearch);
+        }
 
         // contractEditor
-        function createTemplate(data) {
-            return http.post(url.contract_editor_func().createSurveyTemplate, data);
+        function createTemplate(id, data) {
+            return http.post(url.contract_editor_func(id).createSurveyTemplate, data);
+        }
+
+        function loadTemplateList() {
+            return http.get(url.contract_editor_func().getTemplateList);
         }
 
         function loadAllTemplates() {
@@ -193,6 +216,14 @@
 
         function getVariability() {
             return http.get(url.contract_editor_func().getVariability);
+        }
+
+        //DownloadContract
+        function getContract(idReport, idContract, filename) {
+            return http.get(url.contract_download_func(idReport, idContract, filename).downloadPDF);
+        }
+        function removePdf(idReport) {
+            return http.delete(url.contract_download_func(idReport).removePDF);
         }
     }
 })();
