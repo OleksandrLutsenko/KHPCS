@@ -50,7 +50,7 @@
                     if (res.success) {
                         customerService.loadCustomers().then(function () {
                             vm.customers = customerService.getCustomers()
-                        })
+                        });
                         toastr.success('Delete success');
                     }
                     else {
@@ -76,7 +76,7 @@
                 if(res.type == 'update'){
                     customerService.loadCustomers().then(function () {
                         vm.customers = customerService.getCustomers();
-                    })
+                    });
                     toastr.success('Edit success');
                 }
                 else {

@@ -31,9 +31,6 @@
             });
         }
 
-
-
-
         vm.showEdit = showEdit;
         vm.deleteQuest = deleteQuest;
 
@@ -81,7 +78,11 @@
                 templateUrl: 'components/survey-question/addQuest/addQuest.html',
                 clickOutsideToClose: true,
             }).then(function () {
-                dropDownFill();
+                console.log('then');
+                userService.loadItems().then(function () {
+                    vm.items = userService.getItems()[indexSurvey].blocks[indexBlock].questions;
+                    dropDownFill();
+                })
             })
         }
     }

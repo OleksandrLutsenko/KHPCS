@@ -32,11 +32,12 @@
                 return questionService.createQuestion(idBlock, dataForSend).then(function (res) {
                     if(res.success){
                         items.push(res.data.question);
-                        console.log('res', res)
+                        console.log('res', res);
                         return {
                             type: res.data.question.type,
                             hidden: res.data.question.hidden,
-                            idQuestion: res.data.question.id
+                            idQuestion: res.data.question.id,
+
                         }
                     }
                 });
@@ -47,14 +48,16 @@
                         items.splice(indexQuestion, 1, res.data.question);
                         return {
                             type: res.data.question.type,
-                            hidden: res.data.question.hidden
+                            hidden: res.data.question.hidden,
+                            idQuestion: res.data.question.id,
+
                         }
                     }
                 });
             }
         }
 
-        function createOrUpdateOrDeleteAnswer(answers, items, indexQuestion, idQuestion, hidden, idQuestionForCreate) {
+        function createOrUpdateOrDeleteAnswer(answers, items, indexQuestion, idQuestion, hidden) {
 
             let couterDelete = 0;
 
@@ -83,7 +86,7 @@
 
                     if(typeof data.answer_text != 'undefined' && data.answer_text != ''){
                         if(typeof item.id == 'undefined'){
-                            createAnswer(data);
+                            createAnswer(data, indexAnswer);
                         }
                         else{
                             updateAnswer(data, item.id, indexAnswer);
@@ -97,36 +100,35 @@
 
                 function deleteAnswer(idAnswer, indexAnswer) {
                     questionService.deleteAnswer(idAnswer).then(function (res) {
-                        if (res.success) {
-                            items[indexQuestion].answers.splice(indexAnswer - couterDelete, 1);
-                        }
+                        // if (res.success) {
+                        //     items[indexQuestion].answers.splice(indexAnswer - couterDelete, 1);
+                        // }
                     });
-                    couterDelete++;
+                    // couterDelete++;
                 }
 
-                function createAnswer(data) {
-                    let id;
-                    if(indexQuestion == undefined){
-                       id = idQuestionForCreate;
-                       index = items.length - 1
+                function createAnswer(data, indexAnswer) {
+                    let index;
+                    if(typeof indexQuestion == 'undefined'){
+                        index = items.length - 1;
                     }
                     else {
-                        id = idQuestion;
-                        index = indexQuestion;
+                        index = indexQuestion
                     }
-                    console.log(idQuestionForCreate, 'idQuestionForCreate');
-                    questionService.createAnswer(id, data).then(function (res) {
-                        if (res.success) {
-                            items[items.length - 1].answers.push(res.data.answer);
-                        }
+
+                    console.log(idQuestion, 'idQuestionForCreate');
+                    questionService.createAnswer(idQuestion, data).then(function (res) {
+                        // if (res.success) {
+                        //     items[index].answers.splice(indexAnswer - couterDelete, 1, res.data.answer);
+                        // }
                     })
                 }
 
                 function updateAnswer(data, idAnswer, indexAnswer) {
                     questionService.updateAnswer(idAnswer, data).then(function (res) {
-                        if(res.success) {
-                            items[indexQuestion].answers.splice(indexAnswer - couterDelete, 1, res.data.answer);
-                        }
+                        // if(res.success) {
+                        //     items[indexQuestion].answers.splice(indexAnswer - couterDelete, 1, res.data.answer);
+                        // }
                     })
                 }
             });

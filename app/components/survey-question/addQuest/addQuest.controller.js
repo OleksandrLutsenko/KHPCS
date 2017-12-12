@@ -73,14 +73,18 @@
         }
 
         function save() {
-            if (vm.dfg) {
+            if (vm.questForm.title.$invalid || vm.questForm.type.$invalid) {
                 console.log('error');
                 toastr.error('Please try again');
+
+            }
+            else if (vm.data.type == 1 && vm.data.answers < 2) {
+                toastr.error('Answer lenght min 2');
             }
             else {
                 surveyQuestion.createOrUpdateQuestion(idQuestion, indexQuestion, idBlock, vm.data, data.items).then(function (res) {
                     if (vm.data.answers.length > 1 && res.type == 1) {
-                        surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, idQuestion, res.hidden, res.idQuestion);
+                        surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, res.idQuestion, res.hidden, res.create);
                         $mdDialog.hide();
                     }
                     else if(res.type == 2) {
