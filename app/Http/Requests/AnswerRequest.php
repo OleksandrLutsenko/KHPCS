@@ -44,10 +44,10 @@ class AnswerRequest extends FormRequest
 //        }
 //    }
 
-    public function noIdentifier($answer)
+    public function ifHasNotHidden($answer)
     {
         if($answer->hasHidden == false){
-            $answer->identifier = null;
+            $answer->next_question = null;
             $answer->update();
         }
     }

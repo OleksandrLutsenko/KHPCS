@@ -15,10 +15,11 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('identifier')->nullable()->unique();
             $table->text('title');
             $table->integer('block_id', false, 10);
             $table->integer('type', false, 10);
+            $table->boolean('hidden')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
 

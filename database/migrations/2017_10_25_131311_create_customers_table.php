@@ -19,7 +19,12 @@ class CreateCustomersTable extends Migration
             $table->string('name');
             $table->string('surname');
             $table->string('classification');
+            $table->softDeletes();
             $table->timestamps();
+        });
+
+        Schema::table('customers', function($table) {
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
