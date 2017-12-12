@@ -21,6 +21,10 @@ class UserController extends Controller
         $this->user = $user;
     }
 
+    /**
+     * @param UserRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(UserRequest $request){
         $user = $this->user->create([
             'name' => $request->get('name'),
@@ -30,6 +34,10 @@ class UserController extends Controller
         return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(Request $request){
         $credentials = $request->only('email', 'password');
         $token = null;
@@ -40,15 +48,22 @@ class UserController extends Controller
         } catch (JWTAuthException $e) {
             return response()->json(['failed_to_create_token'], 500);
         }
-        dd($token);
         return response()->json(compact('token'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAuthUser(Request $request){
         $user = JWTAuth::toUser($request->token);
         return response()->json(['result' => $user]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function recover(Request $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -70,6 +85,10 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request) {
         $this->validate($request, ['token' => 'required']);
         try {
