@@ -8,14 +8,24 @@
         <md-card-content>
             <form name="vm.questForm">
             <div layout="column">
-                <md-input-container>
-                    <label>Identifier</label>
-                    <input ng-model="vm.data.identifier" required maxlength="32" name="identifier">
-                    <div ng-messages="vm.questForm.identifier.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="maxlength">Password max length 32.</div>
-                    </div>
-                </md-input-container>
+                <!--<md-input-container>-->
+                    <!--<label>Identifier</label>-->
+                    <!--<input ng-model="vm.data.identifier" required maxlength="32" name="identifier">-->
+                    <!--<div ng-messages="vm.questForm.identifier.$error">-->
+                        <!--<div ng-message="required">This is required.</div>-->
+                        <!--<div ng-message="maxlength">Password max length 32.</div>-->
+                    <!--</div>-->
+                <!--</md-input-container>-->
+
+                <div class="nextQuest" layout="row" layout-align="none center">
+
+                    <md-input-container flex="20">
+                        <md-checkbox class="md-primary" ng-model="vm.data.hidden">
+                            Hidden
+                        </md-checkbox>
+                    </md-input-container>
+
+                </div>
 
                 <md-input-container>
                     <label>Name your question</label>
@@ -34,43 +44,55 @@
                     </md-select>
                     <div ng-messages="vm.questForm.type.$error">
                         <div ng-message="required">This is required.</div>
-
                     </div>
                 </md-input-container>
 
-                <md-input-container ng-if="vm.data.type === 2" class="nextQuest">
-                    <label>Next question</label>
-                    <input ng-model="vm.data.next_question">
-                </md-input-container>
+                <!--<md-input-container ng-if="vm.data.type == 2" class="nextQuest" layout="row" layout-align="center center">-->
+                    <!--<div flex="50">-->
+                        <!--<div flex="50" class="check-box">-->
+                            <!--<md-checkbox class="md-primary" ng-model="vm.data.hiden">-->
+                                <!--Hidden-->
+                            <!--</md-checkbox>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div flex="50">-->
+                        <!--<md-input-container ng-if="vm.data.hiden">-->
+                            <!--<label>Identifier</label>-->
+                            <!--<input ng-model="vm.data.identifier">-->
+                        <!--</md-input-container>-->
+                    <!--</div>-->
+                <!--</md-input-container>-->
+
                 <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type == 1 && !answers.forDelete">
-                    <div layout="row" flex="33">
+                    <div flex="30" layout="row" layout-align="none center">
                         <md-input-container>
-                            <label>
-                                Name
-                            </label>
+                            <label>Name</label>
                             <input ng-model="answers.answer_text">
                         </md-input-container>
                     </div>
-                    <div layout="row" flex="33">
+
+                    <div flex="15" layout="row" layout-align="center center" ng-if="!vm.data.hidden">
+                        <md-checkbox class="md-primary" ng-model="answers.hasHidden">
+                            Has hidden
+                        </md-checkbox>
+                    </div>
+
+                    <div flex="30" layout="row" layout-align="center center" ng-if="answers.hasHidden && !vm.data.hidden">
                         <md-input-container>
-                            <label>Next questions </label>
-                            <input ng-model="answers.next_question">
+                            <md-select ng-model="answers.next_question">
+                                <md-option ng-repeat="dropDown in vm.dropDown" value="{{dropDown.value}}">{{dropDown.title}}</md-option>
+                            </md-select>
                         </md-input-container>
                     </div>
 
-                    <div layout="row" flex="33">
-                        <div flex="50" class="check-box">
-                            <md-checkbox class="md-primary" ng-model="answers.hasExtra">
-                                Has Extra
-                            </md-checkbox>
-                        </div>
-                        <div flex="50">
-                            <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
-                        </div>
+                    <div flex="10" >
+                        <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
                     </div>
+
                 </div>
                 <div class="addOpn" ng-if="vm.data.type === 1">
-                    <p ng-click="vm.addAnsver()">Add question</p></div>
+                    <p ng-click="vm.addAnsver()">Add answer</p></div>
             </div>
             <div layout="row" class="botBtn" layout-align="space-between" layout-wrap>
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Save</md-button>

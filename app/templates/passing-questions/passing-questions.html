@@ -4,7 +4,7 @@
     </md-content>
 
 
-    <div ng-repeat="questions in vm.questions" ng-if="questions.extra == 0 || questions.extraAfte == 0">
+    <div ng-repeat="questions in vm.questions" ng-if="questions.hidden == 0 || questions.hiddenAfte == 0">
         <div layout="row" layout-align="center center">
             <div ng-if="questions.type === 1" flex="80" flex-xs="100">
                 <md-content layout="row">
