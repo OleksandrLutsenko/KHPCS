@@ -99,6 +99,7 @@ class ContractController extends Controller
             $question = Question::withTrashed()->find($customerAnswer->question_id);
 
             if ($question->block->survey_id == $report->survey_id) {
+
                 $finalAnswer = CustomerAnswer::withTrashed()->where('question_id', $question->id)->get();
                 //
                 if($question->trashed()){

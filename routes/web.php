@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/storage/images/{filename}', 'ImageController@show');
+
 Route::get('/storage/contracts/{filename}', 'ContractController@showPDF');
 Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
 

@@ -18,7 +18,7 @@ Route::middleware(['jwt.auth'])->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'jwt.auth'], function() {
-//    Route::get('/report/{report}/contract/{contract}/review/{userFilename}', 'ContractController@review');
+
     Route::get('/report/{report}/contract/{contract}/review/{userFilename}', 'ContractController@review');
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');

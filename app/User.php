@@ -67,8 +67,6 @@ class User extends Authenticatable implements CanResetPassword
         return $this->hasMany(Token::class);
     }
 
-
-
 //    public function getApiTokenAttribute()
 //    {
 //        $tokens = Token::where('user_id', Auth::user()->id)->get()->last();

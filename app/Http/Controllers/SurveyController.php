@@ -215,7 +215,6 @@ class SurveyController extends Controller
 //                $survey->status = 2;
 //                $survey->update();
 //            }
-
             return response(['survey' => $survey]);
 
         } else {

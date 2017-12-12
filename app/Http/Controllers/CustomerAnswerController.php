@@ -68,7 +68,6 @@ class CustomerAnswerController extends Controller
             'customerAnswers' => $customerAnswerArray
         ]);
     }
-
     /**
      * @param CustomerAnswerRequest $request
      * @param Customer $customer

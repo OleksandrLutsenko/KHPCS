@@ -32,6 +32,7 @@ class AnswerRequest extends FormRequest
     /**
      * @param $answer
      */
+
 //    public function makeExtraQuestion($answer){
 //        $question = Question::where('identifier', $answer->next_question)->get()->first();
 //        if($answer->hasExtra == 1){
