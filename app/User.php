@@ -93,5 +93,7 @@ class User extends Authenticatable implements CanResetPassword
                 ->to($user->email)
                 ->subject($letter['subject']);
         });
+
+        return 'Message was sent';
     }
 }

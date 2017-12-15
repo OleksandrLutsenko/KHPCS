@@ -74,7 +74,6 @@ class ResetPasswordController extends Controller
     {
 
         $passwordReset = PasswordReset::where('token', $request->token)->first();
-
         $user = User::where('email', $passwordReset->email);
         $user->update([
             'password' => bcrypt($request->get('password'))

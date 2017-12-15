@@ -34,13 +34,7 @@ class CustomerAnswerController extends Controller
         $answer = Answer::find($customerAnswer->answer_id);
 
         return [
-            'question identifier' => $question->identifier,
             'answer' => response()->json($customerAnswer, 201),
-            'next_question' => $customerAnswer->answer_id ?
-                Question::where('identifier', $answer->next_question)->get()->first()
-                : ($question->next_question ?
-                    Question::where('identifier', $question->next_question)->get()->first()
-                    : null)
         ];
     }
 

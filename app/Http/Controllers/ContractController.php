@@ -90,6 +90,11 @@ class ContractController extends Controller
     public function review(Report $report, Contract $contract, User $user, $userFilename)
     {
         $variables = Auth::user()->variables;
+        foreach ($variables as $variable){
+            $userVariables[] = $variable->text;
+
+        }
+
         $body = stripcslashes($contract->body);
         File::put('../resources/views/contract.blade.php', $body);
 
@@ -113,7 +118,7 @@ class ContractController extends Controller
 
         $view = Response::json(
             array(View::make('contract',
-            compact('contractAnswers', 'variables', 'report'))->render())
+            compact('contractAnswers', 'userVariables', 'report'))->render())
         );
         $viewContent = $view->getOriginalContent();
 

@@ -46,21 +46,8 @@ class BlockController extends Controller
     {
         if ($user->can('addQuestion', $block)) {
 
-            if (!is_null($request->identifier)){
-                $identifier = Question::where('identifier', $request->identifier)->first();
-                    if($identifier && $identifier != null){
-                        return response([
-                            "error" => "Identifier have to be unique"], 404
-                        );
-                    } else {
-                        $question = $block->question()->create($request->all());
-                        return compact('question');
-                    }
-            } else {
-                $question = $block->question()->create($request->all());
-                return compact('question');
-            }
-
+            $question = $block->question()->create($request->all());
+            return compact('question');
         } else {
             return response([
                 "error" => "You do not have a permission"], 404
