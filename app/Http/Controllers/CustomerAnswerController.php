@@ -34,7 +34,7 @@ class CustomerAnswerController extends Controller
         $answer = Answer::find($customerAnswer->answer_id);
 
         return [
-            'answer' => response()->json($customerAnswer, 201),
+            'answer' => response()->json($customerAnswer, 201)
         ];
     }
 
