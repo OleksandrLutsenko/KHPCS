@@ -57,6 +57,33 @@ class QuestionController extends Controller
         }
     }
 
+//    public function updateQuestionsBlock(Request $request, Block $block, User $user)
+//    {
+//        if ($user->can('addQuestion', $block)) {
+//            $requests = $request->all();
+//
+//            foreach ($requests as $questionObj) {
+//
+//                $question = $block->question()->createO($questionObj);
+//                if ($question->type == 1) {
+//
+//                    if (isset($questionObj['answer'])) {
+//                        foreach ($questionObj['answer'] as $answerObj){
+//
+//                            $question->answer()->create($answerObj);
+//                        }
+//                    }
+//                }
+//                $questions[] = $question;
+//            }
+//            return compact('questions');
+//        } else {
+//            return response([
+//                "error" => "You do not have a permission"], 404
+//            );
+//        }
+//    }
+
     /**
      * Update question
      *

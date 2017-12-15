@@ -17,15 +17,12 @@ class CreateAnswersTable extends Migration
             $table->increments('id');
             $table->string('answer_text')->default('text');
             $table->integer('question_id', false, 10);
-            $table->integer('next_question', false, 10)->nullable();
-            $table->boolean('hasHidden')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
 
         Schema::table('answers', function($table) {
             $table->foreign('question_id')->references('id')->on('questions');
-            $table->foreign('next_question')->references('id')->on('questions');
         });
     }
 

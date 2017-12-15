@@ -43,11 +43,11 @@ class AnswerRequest extends FormRequest
 //        }
 //    }
 
-    public function ifHasNotHidden($answer)
-    {
-        if($answer->hasHidden == false){
-            $answer->next_question = null;
-            $answer->update();
-        }
-    }
+//    public function ifHasNotHidden($answer)
+//    {
+//        if($answer->hasHidden == false){
+//            $answer->next_question = null;
+//            $answer->update();
+//        }
+//    }
 }

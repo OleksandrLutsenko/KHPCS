@@ -18,7 +18,9 @@ class CreateQuestionsTable extends Migration
             $table->text('title');
             $table->integer('block_id', false, 10);
             $table->integer('type', false, 10);
-            $table->boolean('hidden')->default(false);
+            $table->integer('order_number', false, 10)->nullable();
+            $table->integer('child_order_number', false, 10)->nullable();
+            $table->integer('parent_answer_id', false, 10)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
