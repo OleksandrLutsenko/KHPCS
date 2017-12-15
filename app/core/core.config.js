@@ -2,9 +2,9 @@
     angular
         .module('app')
         .config(mainConfig);
-    mainConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+    mainConfig.$inject = ['$stateProvider', '$urlRouterProvider' ];
 
-    function mainConfig($stateProvider, $urlRouterProvider) {
+    function mainConfig($stateProvider, $urlRouterProvider , $stateParams) {
 
 
         $urlRouterProvider.otherwise('/login');
@@ -32,8 +32,19 @@
             .state('forgot', {
                 url: '/sign-up/forgot',
                 templateUrl: 'templates/forgot-password/forgot-password.html',
-                controller: 'forgotController',
+                controller: 'ForgotController',
                 controllerAs: 'vm'
+            })
+            .state('reset', {
+                url: '/sign-up/reset/:token',
+                templateUrl: 'templates/reset-password/reset-password.html',
+                controller: 'ResetController',
+                controllerAs: 'vm',
+                resolve:{
+                    token: ['$stateParams', function($stateParams){
+                        return $stateParams.token;
+                    }]
+                }
             })
             .state('tab.user-management', {
                 url: '/user-management',

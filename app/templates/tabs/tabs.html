@@ -13,20 +13,20 @@
                 </md-toolbar>
                 <md-content>
                     <md-list flex>
-                        <md-list-item ui-sref="tab.user-management" ng-click="vm.closeArchiveButton()">
+                        <md-list-item ui-sref="tab.user-management" ng-click="vm.closeNavButton()">
                             <p>User Management</p>
                         </md-list-item>
-                        <md-list-item ui-sref="tab.survey-management" ng-if="vm.user.role_id > 1" ng-click="vm.closeArchiveButton()">
+                        <md-list-item ui-sref="tab.survey-management" ng-if="vm.user.role_id > 1" ng-click="vm.closeNavButton()">
                             <p>Survey Management</p>
                         </md-list-item>
-                        <md-list-item ui-sref="tab.contract-editor" ng-if="vm.user.role_id > 1" ng-click="vm.closeArchiveButton()">
+                        <md-list-item ui-sref="tab.contract-editor" ng-if="vm.user.role_id > 1" ng-click="vm.closeNavButton()">
                             <p> Contract Editor</p>
                         </md-list-item>
-                        <md-list-item  ui-sref="tab.settings" ng-click="vm.closeArchiveButton()">
+                        <md-list-item  ui-sref="tab.settings" ng-click="vm.closeNavButton()">
                             <p>Settings</p>
                         </md-list-item>
                     </md-list>
-                    <md-button ng-click="vm.closeArchiveButton()" class="md-raised md-primary" >
+                    <md-button ng-click="vm.closeNavButton()" class="md-raised md-primary" >
                     Close menu
                 </md-button>
                 </md-content>

@@ -1,11 +1,11 @@
 ;(function () {
     'use strict';
     angular.module('app')
-        .controller('forgotController', forgotController);
+        .controller('ForgotController', ForgotController);
 
-    forgotController.$inject = ['userService', '$state'];
+    ForgotController.$inject = ['userService', '$state' , 'toastr'];
 
-    function forgotController(userService, $state) {
+    function ForgotController(userService, $state , toastr) {
         let vm = this;
 
         vm.forgot = forgot;
@@ -13,7 +13,9 @@
         function forgot() {
             userService.forgot(vm.data).then(function (res) {
                 if (res.success) {
-                    console.log('sent token')
+                    console.log('sent token');
+                    toastr.success('Instructions was sent on your email');
+                    $state.go('login');
                 }
                 else {
                     console.log('error');
