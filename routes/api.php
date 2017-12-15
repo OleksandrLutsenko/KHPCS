@@ -72,6 +72,9 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::put('/block/{block}', 'BlockController@update');
         /** save new question */
         Route::post('/block/{block}/add-question', 'BlockController@addQuestion');
+
+
+        Route::post('/block/{block}/add-block-questions', 'BlockController@addQuestionsBlock');
         /** delete block */
         Route::delete('/block/{block}', 'BlockController@destroy');
 

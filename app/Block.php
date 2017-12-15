@@ -36,4 +36,29 @@ class Block extends Model
     public function getQuestionsAttribute(){
         return $this->question;
     }
+
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::deleting(function ($question) {
+//
+//
+//            $questions = $block->question;
+//            foreach ($questions as $question){
+//                $question->delete();
+//
+//            $answers = $question->answer;
+//            $customerAnswers = $question->customerAnswer;
+//            foreach ($customerAnswers as $customerAnswer) {
+//                $customerAnswer->delete();
+//            }
+//
+//            foreach ($answers as $answer) {
+//                $answer->delete();
+//            }
+//
+//        });
+//        }
+//    }
 }

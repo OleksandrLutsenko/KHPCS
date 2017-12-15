@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Block;
 use App\Customer;
 use App\Http\Requests\BlockRequest;
@@ -46,21 +47,80 @@ class BlockController extends Controller
     {
         if ($user->can('addQuestion', $block)) {
 
-            if (!is_null($request->identifier)){
-                $identifier = Question::where('identifier', $request->identifier)->first();
-                    if($identifier && $identifier != null){
-                        return response([
-                            "error" => "Identifier have to be unique"], 404
-                        );
-                    } else {
-                        $question = $block->question()->create($request->all());
-                        return compact('question');
-                    }
-            } else {
-                $question = $block->question()->create($request->all());
-                return compact('question');
-            }
+            $question = $block->question()->create($request->all());
+            return compact('question');
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
+    }
 
+    /**
+     * @param Request $request
+     * @param Block $block
+     * @param User $user
+     * @return array|\Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function addQuestionsBlock(Request $request, Block $block, User $user)
+    {
+        if ($user->can('addQuestion', $block)) {
+            $requests = $request->all();
+            foreach ($requests as $questionObj) {
+                if (isset($questionObj['id'])){
+                    $question = Question::find($questionObj['id']);
+                    if (isset($questionObj['delete']) && $questionObj['delete'] == true){
+                        $question->delete();
+                    } else {
+                        $question->update($questionObj);
+                        if ($question->type == 1) {
+                            if (isset($questionObj['answer'])) {
+                                foreach ($questionObj['answer'] as $answerObj) {
+
+
+                                    if (isset($answerObj['id'])) {
+                                        $answer = Answer::find($answerObj['id']);
+                                        if (isset($answerObj['delete']) && $answerObj['delete'] == true) {
+                                            $answer->delete();
+                                        } else {
+
+                                            if (!empty($answerObj['childQuestion'])) {
+
+                                                foreach ($answerObj['childQuestion'] as $childQuestionObj) {
+                                                    if (isset($childQuestionObj['id'])) {
+                                                        $childQuestion = Question::find($answerObj['answers']);
+                                                        if (isset($childQuestionObj['delete']) && $childQuestionObj['delete'] == true){
+                                                            $childQuestion->delete();
+                                                        } else {
+                                                            $childQuestion->update($childQuestionObj);
+                                                        }
+                                                    } else {
+                                                        $question = $block->question()->create($childQuestionObj);
+                                                    }
+                                                }
+                                                $answer->update($answerObj);
+                                            }
+                                        }
+                                    } else {
+                                        $question->answer()->create($answerObj);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    $question = $block->question()->create($questionObj);
+                    if ($question->type == 1) {
+                        if (isset($questionObj['answer'])) {
+                            foreach ($questionObj['answer'] as $answerObj){
+                                $question->answer()->create($answerObj);
+                            }
+                        }
+                    }
+                }
+                $questions[] = [$question];
+            }
+            return compact('questions');
         } else {
             return response([
                 "error" => "You do not have a permission"], 404
@@ -100,10 +160,10 @@ class BlockController extends Controller
     {
         if ($user->can('delete', $block)) {
 
-            $questions = $block->question;
-            foreach ($questions as $question){
-                $question->delete();
-            }
+//            $questions = $block->question;
+//            foreach ($questions as $question){
+//                $question->delete();
+//            }
             $block->delete();
             return compact('block');
         } else {

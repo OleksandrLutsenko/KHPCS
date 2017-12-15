@@ -13,17 +13,19 @@ class Question extends Model
     const TYPE_RADIO = 1;
     const TYPE_TXT = 2;
 
-    protected $fillable = ['title', 'type', 'hidden'];
+    protected $fillable = ['title', 'type', 'order_number', 'child_order_number'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'hidden'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number'];
 
     protected $appends = ['answers'];
 
-    public function setVisibleAnswers(){
+    public function setVisibleAnswers()
+    {
         $this->visible = ['title', 'answers'];
     }
 
-    public function setVisibleCustomerAnswers(){
+    public function setVisibleCustomerAnswers()
+    {
         $this->visible = ['title', 'customer_answers'];
     }
 
@@ -35,29 +37,33 @@ class Question extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function block(){
+    public function block()
+    {
         return $this->belongsTo(Block::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function answer(){
+    public function answer()
+    {
         return $this->hasMany(Answer::class);
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function answerRelate(){
+    public function answerRelate()
+    {
         return $this->belongsTo(Answer::class, 'next_question');
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function customerAnswer(){
-        return $this->hasOne(CustomerAnswer::class);
+    public function customerAnswer()
+    {
+        return $this->hasMany(CustomerAnswer::class);
     }
 
     /**
@@ -71,7 +77,8 @@ class Question extends Model
     /**
      * @return bool
      */
-    public function hasRadioAnswer(){
+    public function hasRadioAnswer()
+    {
         return $this->type == static::TYPE_RADIO;
     }
 
@@ -87,7 +94,26 @@ class Question extends Model
      * @param Customer $customer
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function findCustomersAnswer(Customer $customer){
+    public function findCustomersAnswer(Customer $customer)
+    {
         return $this->customerAnswer()->where('customer_id', $customer->id)->first();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($question) {
+            $answers = $question->answer;
+            $customerAnswers = $question->customerAnswer;
+                foreach ($customerAnswers as $customerAnswer) {
+                    $customerAnswer->delete();
+                }
+
+                foreach ($answers as $answer) {
+                    $answer->delete();
+                }
+
+        });
     }
 }
