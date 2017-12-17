@@ -37,7 +37,9 @@ class Answer extends Model
 
     public function getChildQuestionsAttribute()
     {
-        $childQuestions = Question::where('parent_answer_id', $this->id)->get();
+        $childQuestions = Question::where('parent_answer_id', $this->id)
+            ->whereNotNull('child_order_number')
+            ->orderBy('child_order_number')->get();
         if($childQuestions){
             return $childQuestions;
         }

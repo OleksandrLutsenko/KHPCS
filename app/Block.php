@@ -34,7 +34,10 @@ class Block extends Model
      * @return mixed
      */
     public function getQuestionsAttribute(){
-        return $this->question;
+        $question = $this->question()
+            ->whereNotNull('order_number')
+            ->orderBy('order_number')->get();
+        return $question;
     }
 
 //    protected static function boot()
