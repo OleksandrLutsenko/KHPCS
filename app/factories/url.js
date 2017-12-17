@@ -30,10 +30,13 @@
                     block : baseUrl + 'api/survey/' + id + '/add-block',
                     createBlock : baseUrl + 'api/survey/' + id + '/add-block',
                     updateBlock : baseUrl + 'api/block/' + id,
+                    //
                     createQuestion : baseUrl + 'api/block/' + id + '/add-question',
                     updateQuestion : baseUrl + 'api/question/' + id,
                     createAnswer: baseUrl + 'api/question/' + id + '/add-answer',
                     updateAnswer: baseUrl + 'api/answer/' + id,
+                    //
+                    addBlockQuestion: baseUrl + 'api/block/' + id + '/add-block-questions'
                 };
             },
             customers: {

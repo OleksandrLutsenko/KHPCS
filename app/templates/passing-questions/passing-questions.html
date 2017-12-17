@@ -4,19 +4,59 @@
     </md-content>
 
 
-    <div ng-repeat="questions in vm.questions" ng-if="questions.hidden == 0 || questions.hiddenAfte == 0">
+    <div ng-repeat="questions in vm.questions">
         <div layout="row" layout-align="center center">
             <div ng-if="questions.type === 1" flex="80" flex-xs="100">
-                <md-content layout="row">
-                    <h3>{{questions.title}}</h3>
-                </md-content>
-                <md-content layout="colums">
-                    <md-radio-group ng-model="vm.data[$index]">
-                        <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}" class="md-primary">
-                            {{answers.answer_text}}
-                        </md-radio-button>
-                    </md-radio-group>
-                </md-content>
+                <div>
+                    <md-content layout="row">
+                        <h3>{{questions.title}}</h3>
+                    </md-content>
+                    <md-content layout="colums">
+                        <md-radio-group ng-model="vm.data[$index]">
+                            <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}" class="md-primary">
+                                {{answers.answer_text}}
+                            </md-radio-button>
+                        </md-radio-group>
+                    </md-content>
+                </div>
+                <div ng-repeat="answers in questions.answers">
+                    <div ng-repeat="child_questions in answers.child_questions">
+                        <div layout="row" layout-align="center center">
+                            <div ng-if="child_questions.type === 1" flex="80" flex-xs="100">
+                                <div>
+                                    <md-content layout="row">
+                                        <h3>{{child_questions.title}}</h3>
+                                    </md-content>
+                                    <md-content layout="colums">
+                                        <md-radio-group ng-model="vm.data[$index]">
+                                            <md-radio-button ng-repeat="answers in child_questions.answers" value="{{answers.id}}" class="md-primary">
+                                                {{answers.answer_text}}
+                                            </md-radio-button>
+                                        </md-radio-group>
+                                    </md-content>
+                                </div>
+                                <div ng-repeat="answers in questions.answers">
+                                    <div ng-repeat="child_questions in answers.child_questions">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div ng-if="questions.type === 2" flex="80" flex-xs="100">
+                                <md-content>
+                                    <md-input-container class="question-text">
+                                        <label>{{questions.title}}</label>
+                                        <input ng-model="vm.data[$index]" md-maxlength="150" md-select-on-focus>
+                                    </md-input-container>
+                                </md-content>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <div ng-if="questions.type === 2" flex="80" flex-xs="100">

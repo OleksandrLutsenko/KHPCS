@@ -10,47 +10,29 @@
         let vm = this;
 
         vm.addAnsver = addAnsver;
-
-        vm.dropDown = data.dropDown;
-        console.log(' vm.dropDown', vm.dropDown);
-
         vm.deleteAnsver = deleteAnsver;
         vm.save = save;
         vm.cancel = cancel;
 
-        let idQuestion = data.idQuestion;
-        let indexQuestion = data.indexQuestion;
-        let idBlock = data.idBlock;
-        let items = angular.copy(data.items[indexQuestion]);
+        let mainKey = data.mainKey;
+        let answerKey = data.answerKey;
+        let questionKey = data.questionKey;
+        let itemsOrig;
 
 
-        if (typeof idQuestion != 'undefined') {
-            vm.data = items;
-
-            if(vm.data.hidden == 1){
-                vm.data.hidden = true;
-            }
-            else {
-                vm.data.hidden = false;
-            }
-            
-            if(vm.data.type == 1){
-                vm.data.answers.forEach(function (item) {
-                    item.forDelete = false;
-
-                    if (item.hasHidden == 1) {
-                        item.hasHidden = true;}
-                    else {
-                        item.hasHidden = false;
-                    }
-                })
-            }
+        if (typeof questionKey != 'undefined') {
+            itemsOrig = data.items[mainKey].answers[answerKey].child_questions;
+            vm.data = angular.copy(itemsOrig[questionKey]);
+        }
+        else if(typeof mainKey != 'undefined'){
+            itemsOrig = data.items;
+            vm.data = angular.copy(itemsOrig[mainKey]);
         }
         else {
+            itemsOrig = data.items;
             vm.data = {
-                answers:  []
+                answers: []
             }
-
         }
 
         function addAnsver() {
@@ -58,13 +40,18 @@
                 typeof vm.data.answers[vm.data.answers.length - 1].answer_text !== 'undefined'
                 && vm.data.answers[vm.data.answers.length - 1].answer_text !== '') {
 
-                vm.data.answers.push({});
+                let tmpObj = {
+                  child_questions: []
+                };
+
+                vm.data.answers.push(tmpObj);
             }
         }
 
         function deleteAnsver(id, indexAns) {
             if (typeof id != 'undefined') {
-                vm.data.answers[indexAns].forDelete = true;
+                vm.data.answers[indexAns].delete = true;
+                vm.data.answers[indexAns].child_questions = [];
             }
             else {
                 vm.data.answers.splice(indexAns, 1);
@@ -73,27 +60,42 @@
         }
 
         function save() {
-            if (vm.questForm.title.$invalid || vm.questForm.type.$invalid) {
-                console.log('error');
-                toastr.error('Please try again');
+            let succes = true;
+            let couterLenght = 0;
 
+            if(vm.data.type == 1){
+                vm.data.answers.forEach(function (item) {
+                    if(!item.delete){
+                        couterLenght++
+                    }
+
+                    if(typeof item.answer_text == 'undefined' || item.answer_text == ''){
+                        succes = false
+                    }
+                });
             }
-            else if (vm.data.type == 1 && vm.data.answers.length < 2) {
+            else {
+                succes = true;
+            }
+
+            if (vm.questForm.title.$invalid || vm.questForm.type.$invalid || !succes) {
+                toastr.error('Please try again');
+            }
+            else if (vm.data.type == 1 && couterLenght < 2) {
                 toastr.error('Answer lenght min 2');
             }
             else {
-                surveyQuestion.createOrUpdateQuestion(idQuestion, indexQuestion, idBlock, vm.data, data.items).then(function (res) {
-                    if (vm.data.answers.length > 1 && res.type == 1) {
-                        surveyQuestion.createOrUpdateOrDeleteAnswer(vm.data.answers, data.items, indexQuestion, res.idQuestion, res.hidden, res.create);
-                        $mdDialog.hide();
-                    }
-                    else if(res.type == 2) {
-                        $mdDialog.hide()
-                    }
-                    else {
-                        toastr.success('Answer lenght min 2');
-                    }
-                })
+                if(typeof questionKey != 'undefined'){
+                    itemsOrig.splice(questionKey, 1, vm.data);
+                }
+                else if(typeof mainKey != 'undefined') {
+                    itemsOrig.splice(mainKey, 1, vm.data);
+                }
+
+                else {
+                    itemsOrig.push(vm.data);
+                }
+                $mdDialog.hide();
             }
         }
 

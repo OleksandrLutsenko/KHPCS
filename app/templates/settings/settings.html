@@ -1,1 +1,8 @@
-Coming soon
+<div class="container">
+    <h2>People</h2>
+    <ul ui-sortable="sortableOptions" ng-model="people" class="list-group">
+        <li ng-repeat="person in vm.people" class="list-group-item">{{person}}</li>
+    </ul>
+
+    <pre>{{vm.people}}</pre>
+</div>

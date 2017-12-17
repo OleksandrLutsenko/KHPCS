@@ -20,6 +20,9 @@
         model.updateAnswer = updateAnswer;
         model.deleteAnswer = deleteAnswer;
 
+        //
+        model.addBlockQuestion = addBlockQuestion;
+
         return model;
 
         //Survey question
@@ -42,6 +45,11 @@
         }
         function deleteAnswer (id) {
             return http.delete(url.survey_management_func(id).updateAnswer, {});
+        }
+
+        //
+        function addBlockQuestion(id, credentials) {
+            return http.post(url.survey_management_func(id).addBlockQuestion, credentials);
         }
     }
 })();
