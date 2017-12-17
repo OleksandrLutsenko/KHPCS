@@ -71,7 +71,10 @@ class Question extends Model
      */
     public function getAnswersAttribute()
     {
-        return $this->answer;
+        $answes = $this->answer()
+        ->whereNotNull('order_number')
+        ->orderBy('order_number')->get();
+        return $answes;
     }
 
     /**
