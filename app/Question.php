@@ -13,9 +13,9 @@ class Question extends Model
     const TYPE_RADIO = 1;
     const TYPE_TXT = 2;
 
-    protected $fillable = ['title', 'type', 'order_number', 'child_order_number'];
+    protected $fillable = ['title', 'type', 'order_number', 'child_order_number', 'parent_answer_id'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number', 'parent_answer_id'];
 
     protected $appends = ['answers'];
 
