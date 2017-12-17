@@ -37,6 +37,9 @@ class Answer extends Model
 
     public function getChildQuestionsAttribute()
     {
-        return Question::where('parent_answer_id', $this->id)->get();
+        $childQuestions = Question::where('parent_answer_id', $this->id)->get();
+        if($childQuestions){
+            return $childQuestions;
+        }
     }
 }

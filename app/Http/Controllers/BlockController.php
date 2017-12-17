@@ -67,7 +67,9 @@ class BlockController extends Controller
     {
         if ($user->can('addQuestion', $block)) {
             $requests = $request->all();
+//            dd($request);
             foreach ($requests as $questionObj) {
+
                 if (isset($questionObj['id'])){
                     $question = Question::find($questionObj['id']);
                     if (isset($questionObj['delete']) && $questionObj['delete'] == true){
@@ -78,43 +80,79 @@ class BlockController extends Controller
                             if (isset($questionObj['answer'])) {
                                 foreach ($questionObj['answer'] as $answerObj) {
 
-
                                     if (isset($answerObj['id'])) {
                                         $answer = Answer::find($answerObj['id']);
                                         if (isset($answerObj['delete']) && $answerObj['delete'] == true) {
                                             $answer->delete();
                                         } else {
+                                            $answer->update($answerObj);
 
                                             if (!empty($answerObj['childQuestion'])) {
 
                                                 foreach ($answerObj['childQuestion'] as $childQuestionObj) {
                                                     if (isset($childQuestionObj['id'])) {
-                                                        $childQuestion = Question::find($answerObj['answers']);
+                                                        $childQuestion = Question::find($childQuestionObj['id']);
                                                         if (isset($childQuestionObj['delete']) && $childQuestionObj['delete'] == true){
                                                             $childQuestion->delete();
                                                         } else {
                                                             $childQuestion->update($childQuestionObj);
+                                                            $childQuestion->parent_answer_id = $answer->id;
+                                                            $childQuestion->save();
                                                         }
                                                     } else {
-                                                        $question = $block->question()->create($childQuestionObj);
+                                                        $childQuestion = $block->question()->create($childQuestionObj);
+                                                        $childQuestion->parent_answer_id = $answer->id;
+                                                        $childQuestion->save();
                                                     }
                                                 }
-                                                $answer->update($answerObj);
+
                                             }
                                         }
                                     } else {
-                                        $question->answer()->create($answerObj);
+                                        $answer = $question->answer()->create($answerObj);
+                                        if (!empty($answerObj['childQuestion'])){
+                                            foreach ($answerObj['childQuestion'] as $childQuestionObj){
+                                                if (isset($childQuestionObj['id'])){
+                                                    $childQuestion = Question::find($childQuestionObj['id']);
+                                                    $childQuestion->parent_answer_id = $answer->id;
+                                                    $childQuestion->save();
+                                                } else {
+                                                    $childQuestion = $block->question()->create($childQuestionObj);
+                                                    $childQuestion->parent_answer_id = $answer->id;
+                                                    $childQuestion->save();
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    //Question without id
                 } else {
                     $question = $block->question()->create($questionObj);
                     if ($question->type == 1) {
+                        //Answers for question without id
                         if (isset($questionObj['answer'])) {
                             foreach ($questionObj['answer'] as $answerObj){
-                                $question->answer()->create($answerObj);
+                                $answer = $question->answer()->create($answerObj);
+                                //childQuestions
+                                if (!empty($answerObj['childQuestion'])){
+                                    foreach ($answerObj['childQuestion'] as $childQuestionObj){
+                                        //childQuestion with id
+                                        if (isset($childQuestionObj['id'])){
+                                            $childQuestion = Question::find($childQuestionObj['id']);
+                                            $childQuestion->update($childQuestionObj);
+                                            $childQuestion->parent_answer_id = $answer->id;
+                                            $childQuestion->save();
+                                        //childQuestion without id
+                                        } else {
+                                            $childQuestion = $block->question()->create($childQuestionObj);
+                                            $childQuestion->parent_answer_id = $answer->id;
+                                            $childQuestion->save();
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
