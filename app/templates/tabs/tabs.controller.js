@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('TabsController', TabsController);
 
-    TabsController.$inject = ['userService', 'tabs', 'tabsService', '$state'];
+    TabsController.$inject = ['userService', 'tabs', 'tabsService', '$state', '$mdSidenav'];
 
-    function TabsController(userService, tabs, tabsService, $state) {
+    function TabsController(userService, tabs, tabsService, $state, $mdSidenav) {
         let vm = this;
 
         vm.user = userService.getUser();
@@ -26,6 +26,18 @@
                 }
             });
         };
+
+        vm.closeNavButton = closeNav;
+        function closeNav() {
+            $mdSidenav('nav').close();
+        }
+
+        vm.toggleOpenNav = buildToggler('nav');
+        function buildToggler(nav) {
+            return function () {
+                $mdSidenav(nav).toggle();
+            };
+        }
     }
 
 })();

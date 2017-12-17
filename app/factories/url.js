@@ -3,11 +3,13 @@
         .module('factory.url', [])
         .factory('url', url);
 
+    url.$inject = ['$stateParams'];
 
-    url.$inject = [];
-
-    function url() {
+    function url($stateParams) {
         let baseUrl = 'http://api.knightshayes.grassbusinesslabs.tk/';
+
+        let token = $stateParams.token;
+
         return {
             user: {
                 login: baseUrl + 'api/auth/login',
@@ -15,7 +17,7 @@
                 getItems: baseUrl + 'api/survey',
                 register: baseUrl + 'api/auth/register',
                 forgot: baseUrl + 'api/user/request-reset',
-                reset:  baseUrl + 'api/user/reset-password?token='
+                reset: baseUrl + 'api/user/reset-password?token=' + token,
             },
             survey_management: {
                 createSurvey: baseUrl + 'api/survey',
@@ -27,12 +29,12 @@
                     deleteSurvey: baseUrl + 'api/survey/' + id,
                     changeStatusSurvey: baseUrl + 'api/survey/' + id + '/change-status',
                     archiveStatusSurvey: baseUrl + 'api/survey/' + id + '/archive-status',
-                    block : baseUrl + 'api/survey/' + id + '/add-block',
-                    createBlock : baseUrl + 'api/survey/' + id + '/add-block',
-                    updateBlock : baseUrl + 'api/block/' + id,
+                    block: baseUrl + 'api/survey/' + id + '/add-block',
+                    createBlock: baseUrl + 'api/survey/' + id + '/add-block',
+                    updateBlock: baseUrl + 'api/block/' + id,
                     //
-                    createQuestion : baseUrl + 'api/block/' + id + '/add-question',
-                    updateQuestion : baseUrl + 'api/question/' + id,
+                    createQuestion: baseUrl + 'api/block/' + id + '/add-question',
+                    updateQuestion: baseUrl + 'api/question/' + id,
                     createAnswer: baseUrl + 'api/question/' + id + '/add-answer',
                     updateAnswer: baseUrl + 'api/answer/' + id,
                     //
@@ -44,8 +46,8 @@
             },
             customers_func(id) {
                 return {
-                    updateCustomers: baseUrl + 'api/customer/'+ id,
-                    sendCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer',
+                    updateCustomers: baseUrl + 'api/customer/' + id,
+                    sendCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/question/' + id.question + '/make-answer',
 
                     getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'
                 }

@@ -29,9 +29,8 @@
             $mdDialog.cancel()
         }
 
-
         function save() {
-            if (vm.customersForm.name.$invalid || vm.customersForm.secondName.$invalid || vm.customersForm.select.$invalid) {
+            if (vm.customersForm.$invalid) {
                console.log('error');
                 toastr.error('Please try again', 'All fields is required');
             }

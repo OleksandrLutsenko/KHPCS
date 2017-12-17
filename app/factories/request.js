@@ -4,13 +4,13 @@
         .module('factory.request', [])
         .factory('http', http);
 
-    http.$inject = ['$http', '$q', '$localStorage'];
+    http.$inject = ['$http', '$q', '$localStorage' , 'toastr'];
 
     /**
      * Wrapper over the standard http function
      */
 
-    function http($http, $q, $localStorage) {
+    function http($http, $q, $localStorage , toastr) {
         console.log('create request service');
 
         return {
@@ -132,11 +132,15 @@
                 }
                 else {
                     console.log('Server error: ' + err.status + ' ' + err.statusText);
+                    for (let key in err.data){
+                        toastr.error(err.data[key].toString(), 'Please try again');
+                    }
+
                 }
-                // console.log('XHR Failed: ' + err.status);
             }
             else {
-                console.log(err.data.error);
+                console.log(err.data.error , 'serg');
+
             }
             let res = {status: false};
             return (res);

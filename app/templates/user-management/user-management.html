@@ -1,4 +1,4 @@
-<div class="umMain">
+<div class="um-main">
     <md-content class="md-padding" flex="100" layout="column" layout-align="center center">
         <div class="search" layout="row" layout-align="center center">
             <md-input-container flex="100">
@@ -8,7 +8,7 @@
                 <input type="text" ng-model="vm.search">
             </md-input-container>
 
-            <div class="addIcon" layout="" layout-align="center center" ng-click="vm.createOrUpdate()">
+            <div class="add-icon" layout="" layout-align="center center" ng-click="vm.createOrUpdate()">
                 <i class="material-icons">person_add</i>
             </div>
         </div>
@@ -21,9 +21,9 @@
                             <th md-column>Client Name</th>
                             <th md-column>Client Classification</th>
                             <th md-column ng-if="vm.user.role_id > 1">Financial Adviser</th>
-                            <th md-column><p class="tHeadText">Questionnaire Responses</p></th>
+                            <th md-column>Questionnaire Responses</th>
                             <th md-column>Contract</th>
-                            <th md-column>Date Completed</th>
+                            <th md-column >Date Completed</th>
                             <th md-column></th>
                         </tr>
                         </thead>

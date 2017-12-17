@@ -1,12 +1,19 @@
 .tabs {
-  .logoTabs {
+
+  overflow: hidden;
+
+  .logo-tabs {
     padding: 20px 0 5px 0;
   }
-  .logoTabs img {
+  .logo-tabs img {
     height: 100px;
   }
-  .nav {
+  .nav-menu{
     background-color: #001041;
+    height: 48px;
+  }
+  .nav {
+
     p {
       text-transform: none;
       margin: 0;
@@ -24,4 +31,27 @@
   .md-button._md-nav-button {
     padding: 12px 30px;
   }
+
+  .burg {
+    display: none;
+    color: #fff;
+    padding: 14px;
+  }
+
+  .md-sidenav-right{
+    height: fit-content;
+  }
+
+  @media  (max-width: 780px) {
+    .nav {
+      display: none;
+    }
+    .burg {
+      display: flex;
+    }
+  }
+  .md-button{
+    text-transform: capitalize;
+  }
+
 }

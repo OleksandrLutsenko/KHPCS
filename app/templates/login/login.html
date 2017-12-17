@@ -12,10 +12,11 @@
                     <form name="loginForm">
                         <md-input-container>
                             <label>Email</label>
-                            <input ng-model="vm.data.email" type="email" name="email" required maxlength="32">
+                            <input ng-model="vm.data.email" type="email" name="email" required maxlength="32"
+                                   ng-pattern="/^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9_\.-]+)\.([a-zA-Z\.]{2,6})$/">
                             <div ng-messages="loginForm.email.$error">
                                 <div ng-message="required">This is required.</div>
-                                <div ng-message="maxlength">Password max length 32.</div>
+                                <div ng-message="pattern">Must look like an e-mail address.</div>
                             </div>
                         </md-input-container>
 
@@ -43,7 +44,7 @@
                     <p ui-sref="registration">Sign Up</p>
                 </div>
                 <div layout="" layout-align="center" class="bot-text">
-                    <p ui-sref="forgot">Forgotten a password?</p>
+                    <p ui-sref="forgot">Forgotten password?</p>
                 </div>
 
             </div>

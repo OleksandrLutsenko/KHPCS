@@ -12,9 +12,6 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.time = new Date();
-        vm.all = vm.time.getDate() + "." + (vm.time.getMonth() +1)  + "." + vm.time.getFullYear();
-
         vm.customers = customerService.getCustomers();
 
         vm.pass = pass;
