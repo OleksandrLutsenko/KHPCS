@@ -6,9 +6,8 @@
         </md-button>
     </div>
 
-    <span style="display: none;">{{selectedValue = vm.activeBlockIndex}}</span>
+    <!--<span style="display: none;">{{selectedValue = vm.activeBlockIndex}}</span>-->
     <md-tabs flex md-dynamic-height md-border-bottom md-selected='selectedValue'>
-        <!--<md-tabs flex md-dynamic-height md-border-bottom md-selected='vm.activeBlockIndex'>-->
         <md-tab ng-repeat="cell in vm.items" ng-click="vm.setActiveBlock(cell.id, $index, cell.name)"
                 ui-sref="tab.survey-block.survey-question">
             <md-tab-label>

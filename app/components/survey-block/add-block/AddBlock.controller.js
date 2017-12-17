@@ -55,6 +55,8 @@
             }
             else {
 
+                vm.data.order_number = vm.items.length;
+
                 userService.createBlock(idSurvey.id, vm.data).then(function (res) {
                     console.log('create');
                     userService.loadItems().then(function () {
