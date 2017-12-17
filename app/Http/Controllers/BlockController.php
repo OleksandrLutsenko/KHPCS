@@ -119,7 +119,7 @@ class BlockController extends Controller
                         }
                     }
                 }
-                $questions[] = [$question];
+                $questions[] = $question;
             }
             return compact('questions');
         } else {
