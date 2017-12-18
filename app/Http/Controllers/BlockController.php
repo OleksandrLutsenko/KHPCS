@@ -77,8 +77,8 @@ class BlockController extends Controller
                     } else {
                         $question->update($questionObj);
                         if ($question->type == 1) {
-                            if (isset($questionObj['answer'])) {
-                                foreach ($questionObj['answer'] as $answerObj) {
+                            if (isset($questionObj['answers'])) {
+                                foreach ($questionObj['answers'] as $answerObj) {
 
                                     if (isset($answerObj['id'])) {
                                         $answer = Answer::find($answerObj['id']);
@@ -87,9 +87,9 @@ class BlockController extends Controller
                                         } else {
                                             $answer->update($answerObj);
 
-                                            if (!empty($answerObj['childQuestion'])) {
+                                            if (!empty($answerObj['child_questions'])) {
 
-                                                foreach ($answerObj['childQuestion'] as $childQuestionObj) {
+                                                foreach ($answerObj['child_questions'] as $childQuestionObj) {
                                                     if (isset($childQuestionObj['id'])) {
                                                         $childQuestion = Question::find($childQuestionObj['id']);
                                                         if (isset($childQuestionObj['delete']) && $childQuestionObj['delete'] == true){
@@ -110,8 +110,8 @@ class BlockController extends Controller
                                         }
                                     } else {
                                         $answer = $question->answer()->create($answerObj);
-                                        if (!empty($answerObj['childQuestion'])){
-                                            foreach ($answerObj['childQuestion'] as $childQuestionObj){
+                                        if (!empty($answerObj['child_questions'])){
+                                            foreach ($answerObj['child_questions'] as $childQuestionObj){
                                                 if (isset($childQuestionObj['id'])){
                                                     $childQuestion = Question::find($childQuestionObj['id']);
                                                     $childQuestion->parent_answer_id = $answer->id;
@@ -133,12 +133,12 @@ class BlockController extends Controller
                     $question = $block->question()->create($questionObj);
                     if ($question->type == 1) {
                         //Answers for question without id
-                        if (isset($questionObj['answer'])) {
-                            foreach ($questionObj['answer'] as $answerObj){
+                        if (isset($questionObj['answers'])) {
+                            foreach ($questionObj['answers'] as $answerObj){
                                 $answer = $question->answer()->create($answerObj);
                                 //childQuestions
-                                if (!empty($answerObj['childQuestion'])){
-                                    foreach ($answerObj['childQuestion'] as $childQuestionObj){
+                                if (!empty($answerObj['child_questions'])){
+                                    foreach ($answerObj['child_questions'] as $childQuestionObj){
                                         //childQuestion with id
                                         if (isset($childQuestionObj['id'])){
                                             $childQuestion = Question::find($childQuestionObj['id']);

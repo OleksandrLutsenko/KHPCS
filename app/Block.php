@@ -9,9 +9,9 @@ class Block extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'order_number'];
 
-    protected $visible = ['id', 'name', 'questions'];
+    protected $visible = ['id', 'name', 'questions', 'order_number'];
 
     protected $appends = ['questions'];
 

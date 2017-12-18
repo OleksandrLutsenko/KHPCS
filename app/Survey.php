@@ -56,7 +56,10 @@ class Survey extends Model
      */
     public function getBlocksAttribute()
     {
-        return $this->block;
+        $block = $this->block()
+            ->whereNotNull('order_number')
+            ->orderBy('order_number')->get();
+        return $block;
     }
 
     /**
