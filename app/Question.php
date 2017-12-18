@@ -109,14 +109,24 @@ class Question extends Model
         static::deleting(function ($question) {
             $answers = $question->answer;
             $customerAnswers = $question->customerAnswer;
-                foreach ($customerAnswers as $customerAnswer) {
-                    $customerAnswer->delete();
+            foreach ($customerAnswers as $customerAnswer) {
+                $customerAnswer->delete();
+            }
+            foreach ($answers as $answer) {
+                $childQuestions = Question::where('parent_answer_id', $answer->id)->get();
+                foreach($childQuestions as $childQuestion){
+                    $customerAnswers = $childQuestion->customerAnswer;
+                    $childQuestionAnswers = $childQuestion->answer;
+                    foreach ($customerAnswers as $customerAnswer) {
+                        $customerAnswer->delete();
+                    }
+                    foreach ($childQuestionAnswers as $childQuestionAnswer) {
+                        $childQuestionAnswer->delete();
+                    }
+                    $childQuestion->delete();
                 }
-
-                foreach ($answers as $answer) {
-                    $answer->delete();
-                }
-
+                $answer->delete();
+            }
         });
     }
 }

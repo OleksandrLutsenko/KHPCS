@@ -56,7 +56,10 @@ class Survey extends Model
      */
     public function getBlocksAttribute()
     {
-        return $this->block;
+        $block = $this->block()
+            ->whereNotNull('order_number')
+            ->orderBy('order_number')->get();
+        return $block;
     }
 
     /**
@@ -99,6 +102,26 @@ class Survey extends Model
 
         static::creating(function ($table) {
             $table->user_id = Auth::user()->id;
+        });
+
+        static::deleting(function ($survey) {
+
+            $blocks = $survey->block;
+            foreach ($blocks as $block) {
+                $questions = $block->question;
+                foreach ($questions as $question) {
+                    $answers = $question->answer;
+                    $customerAnswers = $question->customerAnswer;
+                    foreach ($customerAnswers as $customerAnswer) {
+                        $customerAnswer->delete();
+                    }
+                    foreach ($answers as $answer) {
+                        $answer->delete();
+                    }
+                    $question->delete();
+                }
+                $block->delete();
+            }
         });
     }
 

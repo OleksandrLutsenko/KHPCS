@@ -92,9 +92,7 @@ class ContractController extends Controller
         $variables = Auth::user()->variables;
         foreach ($variables as $variable){
             $userVariables[] = $variable->text;
-
         }
-
         $body = stripcslashes($contract->body);
         File::put('../resources/views/contract.blade.php', $body);
 
@@ -113,7 +111,6 @@ class ContractController extends Controller
                 //
                 $contractAnswers[$question->id] = $finalAnswer[0]->value;
             }
-
         }
 
         $view = Response::json(
@@ -121,7 +118,6 @@ class ContractController extends Controller
             compact('contractAnswers', 'userVariables', 'report'))->render())
         );
         $viewContent = $view->getOriginalContent();
-
 //        $filename = 'contract_'.time().'.html';
         $filename = $userFilename.'.html';
 //        $filenamePdf = 'contract_'.time().'.pdf';
@@ -138,17 +134,22 @@ class ContractController extends Controller
 
         File::delete($path);
         return compact('filenamePdf','filePathUrlPdf');
-//        return view('contract', compact('contractAnswers', 'variables', 'report'));
     }
 
+    /**
+     * @param $filenamePdf
+     * @return string
+     */
     public function deletePDF($filenamePdf)
     {
         File::delete(storage_path().'/contracts/'.$filenamePdf);
         return 'PDF file was deleted';
     }
 
-
-
+    /**
+     * @param $filename
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
     public function showPDF($filename)
     {
         $path = storage_path().'/contracts/'.$filename;
@@ -198,7 +199,6 @@ class ContractController extends Controller
     {
         $user = Auth::user();
         if ($user->can('delete', $contract)) {
-
 
             $images = Image::where('contract_research_id', $contract->contractResearch->id)->get();
 //                dd($images);
