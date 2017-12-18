@@ -4,7 +4,7 @@
     </md-content>
 
 
-    <div ng-repeat="questions in vm.questions">
+    <div ng-repeat="(mainKey, questions) in vm.questions">
         <div layout="row" layout-align="center center">
             <div ng-if="questions.type === 1" flex="80" flex-xs="100">
                 <div>
@@ -12,43 +12,36 @@
                         <h3>{{questions.title}}</h3>
                     </md-content>
                     <md-content layout="colums">
-                        <md-radio-group ng-model="vm.data[$index]">
+                        <md-radio-group ng-model="vm.data[mainKey].mainData">
                             <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}" class="md-primary">
                                 {{answers.answer_text}}
                             </md-radio-button>
                         </md-radio-group>
                     </md-content>
                 </div>
-                <div ng-repeat="answers in questions.answers">
-                    <div ng-repeat="child_questions in answers.child_questions">
-                        <div layout="row" layout-align="center center">
-                            <div ng-if="child_questions.type === 1" flex="80" flex-xs="100">
+                <div ng-repeat="(answerKey, answers) in questions.answers">
+                    <div ng-repeat="(childKey, child_questions) in answers.child_questions">
+                        <div layout="row" layout-align="center center" ng-if="vm.data[mainKey].mainData == child_questions.parent_answer_id">
+                            <div ng-if="child_questions.type == 1" flex="80" flex-xs="100">
                                 <div>
                                     <md-content layout="row">
                                         <h3>{{child_questions.title}}</h3>
                                     </md-content>
                                     <md-content layout="colums">
-                                        <md-radio-group ng-model="vm.data[$index]">
+                                        <md-radio-group ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]">
                                             <md-radio-button ng-repeat="answers in child_questions.answers" value="{{answers.id}}" class="md-primary">
                                                 {{answers.answer_text}}
                                             </md-radio-button>
                                         </md-radio-group>
                                     </md-content>
                                 </div>
-                                <div ng-repeat="answers in questions.answers">
-                                    <div ng-repeat="child_questions in answers.child_questions">
-
-                                    </div>
-
-                                </div>
-
                             </div>
 
-                            <div ng-if="questions.type === 2" flex="80" flex-xs="100">
+                            <div ng-if="child_questions.type === 2" flex="80" flex-xs="100">
                                 <md-content>
                                     <md-input-container class="question-text">
-                                        <label>{{questions.title}}</label>
-                                        <input ng-model="vm.data[$index]" md-maxlength="150" md-select-on-focus>
+                                        <label>{{child_questions.title}}</label>
+                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="150" md-select-on-focus>
                                     </md-input-container>
                                 </md-content>
                             </div>
@@ -63,7 +56,7 @@
                 <md-content>
                     <md-input-container class="question-text">
                         <label>{{questions.title}}</label>
-                        <input ng-model="vm.data[$index]" md-maxlength="150" md-select-on-focus>
+                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="150" md-select-on-focus>
                     </md-input-container>
                 </md-content>
             </div>

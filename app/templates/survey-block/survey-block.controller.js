@@ -41,6 +41,12 @@
             console.log('no data');
         }
 
+
+        vm.sortableOptionsBlock = {
+            connectWith: ".block-container",
+            "ui-floating": true
+        };
+
         /////////////////////////////////Fix templates///////////////////////////
         function updateTemplate(data) {
             let block = data.data.block;

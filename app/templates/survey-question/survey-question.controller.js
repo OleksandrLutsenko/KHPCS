@@ -99,6 +99,14 @@
                         itemAnswer.child_questions.forEach(function (itemQuestionInAnswer, indexQuestionInAnswer) {
                             itemQuestionInAnswer.child_order_number = indexQuestionInAnswer;
                             itemQuestionInAnswer.order_number = null;
+                            if(itemQuestionInAnswer.type == 1){
+                                itemQuestionInAnswer.answers.forEach(function (itemAnswerInChildQuestion, indexAnswerInChildQuestion) {
+                                    itemAnswerInChildQuestion.order_number = indexAnswerInChildQuestion;
+                                    if(typeof itemQuestionInAnswer.id != 'undefined'){
+                                        itemAnswerInChildQuestion.question_id = itemQuestionInAnswer.id;
+                                    }
+                                })
+                            }
                         })
                     })
                 }

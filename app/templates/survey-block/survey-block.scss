@@ -1,5 +1,10 @@
 .surveyBlock {
 
+  .block-container {
+    border: 2px solid red;
+    padding: 5px;
+  }
+
   md-tab-item {
     display: inline-flex;
     padding: 12px 15px;
@@ -23,6 +28,7 @@
   .blockName {
     margin: 0;
     text-transform: capitalize;
+    padding: 5px;
   }
   md-menu .md-button.md-icon-button {
     padding: 0;
