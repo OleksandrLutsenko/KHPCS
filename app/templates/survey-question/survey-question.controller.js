@@ -114,8 +114,12 @@
 
             console.log('dataForSand', dataForSand);
 
-
-            surveyQuestion.addBlockQuestion(idBlock, dataForSand, vm.items)
+            questionService.addBlockQuestion(idBlock, dataForSand).then(function (res) {
+                console.log(res);
+                if(res.success){
+                    vm.items = res.data.questions;
+                }
+            })
         }
 
         function deleteQuest(id, mainKey, answerKey, questionKey) {

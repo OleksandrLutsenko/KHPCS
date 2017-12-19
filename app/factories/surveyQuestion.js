@@ -17,6 +17,9 @@
         function addBlockQuestion(idBlock, dataForSand, dataForUpdate) {
             questionService.addBlockQuestion(idBlock, dataForSand).then(function (res) {
                 console.log(res);
+                if(res.success){
+                    dataForUpdate = res.data.questions;
+                }
             })
         }
 

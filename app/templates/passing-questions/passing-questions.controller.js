@@ -12,11 +12,8 @@
 
         vm.next = next;
         vm.back = back;
-        vm.nextSucces = true;
         vm.backSucces = false;
-
         let succesNext = true;
-
         vm.data = [];
 
         console.log(customerAnswer, 'customaerAnswer');
@@ -57,32 +54,54 @@
         }
 
         function fill() {
-            // customerAnswerOnActiveBlock = [];
-            //
-            // let idActiveBlock = items[indexActiveSurvey].blocks[indexActiveBlock].id;
-            //
-            // for(let i = 0; i < customerAnswer.length; i++){
-            //     if(customerAnswer[i].block_id == idActiveBlock){
-            //         customerAnswerOnActiveBlock = customerAnswer[i].customerAnswers;
-            //         break
-            //     }
-            // }
-            //
-            // customerAnswerOnActiveBlock.forEach(function (item) {
-            //     for(let i = 0; i < allQuestionBlock.length; i++){
-            //         if(item.question_id == allQuestionBlock[i].id){
-            //             if(allQuestionBlock[i].type == 1){
-            //                 vm.data[i] = item.answer_id;
-            //             }
-            //             else{
-            //                 vm.data[i] = item.value;
-            //             }
-            //             break
-            //         }
-            //     }
-            // })
-        }
+            vm.data = [];
+            customerAnswerOnActiveBlock = [];
 
+            let idActiveBlock = items[indexActiveSurvey].blocks[indexActiveBlock].id;
+
+            for(let i = 0; i < customerAnswer.length; i++){
+                if(customerAnswer[i].block_id == idActiveBlock){
+                    customerAnswerOnActiveBlock = customerAnswer[i].customerAnswers;
+                    break
+                }
+            }
+
+            function findAnswer(item) {
+                for(let i = 0; i < customerAnswerOnActiveBlock.length; i++){
+                    if(customerAnswerOnActiveBlock[i].question_id == item.id){
+                        if(item.type == 1){
+                            return customerAnswerOnActiveBlock[i].answer_id
+                        }
+                        else {
+                            return customerAnswerOnActiveBlock[i].value
+                        }
+                    }
+                }
+            }
+
+            mainQuestionInBlock.forEach(function (itemMainQuestion) {
+
+                    let mainData = {
+                        mainData: findAnswer(itemMainQuestion),
+                        answerData: []
+                    };
+
+                    if(itemMainQuestion.type == 1){
+                        itemMainQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
+                            mainData.answerData[indexAnswer] = {
+                                childData: []
+                            };
+                            itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
+                                mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswer(itemChildQuestion);
+                                if(mainData.answerData[indexAnswer].childData[indexChildQuestion] == undefined){
+                                    mainData.answerData[indexAnswer].childData.splice(indexChildQuestion, 1);
+                                }
+                            });
+                        })
+                    }
+                vm.data.push(mainData);
+            });
+        }
 
         function start() {
             if(mainQuestionInBlock.length == 0){
@@ -110,64 +129,97 @@
 
             let dataForSend = [];
 
-            vm.data.forEach(function (itemQuestion, indexQuestion) {
+            if(vm.data.length > 0){
+                vm.data.forEach(function (itemQuestion, indexQuestion) {
 
-                checkForFill(itemQuestion.mainData);
+                    checkForFill(itemQuestion.mainData);
 
-                if(mainQuestionInBlock[indexQuestion].type == 1) {
-                    let tmpObj = {
-                        id: mainQuestionInBlock[indexQuestion].id,
-                        answer_id: itemQuestion.mainData
-                    };
-                    dataForSend.push(tmpObj);
+                    if(mainQuestionInBlock[indexQuestion].type == 1) {
+                        let tmpObj = {
+                            question_id: mainQuestionInBlock[indexQuestion].id,
+                            answer_id: itemQuestion.mainData
+                        };
+                        dataForSend.push(tmpObj);
 
-                    mainQuestionInBlock[indexQuestion].answers.forEach(function (itemAnswer, indexAnswer) {
-                        if(itemAnswer.child_questions.length > 0){
-                            if(itemQuestion.mainData == itemAnswer.id){
-                                itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
-                                    let tmpObj = {
-                                        id: itemChildQuestion.id,
-                                    };
-                                    if(itemChildQuestion.type == 1){
-                                        tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]
-                                    }
-                                    else {
-                                        tmpObj.answer_text = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]
-                                    }
-                                    dataForSend.push(tmpObj);
+                        mainQuestionInBlock[indexQuestion].answers.forEach(function (itemAnswer, indexAnswer) {
+                            if(itemAnswer.child_questions.length > 0){
+                                if(itemQuestion.mainData == itemAnswer.id){
+                                    itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
+                                        if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
+                                            let tmpObj = {};
+                                            let update = false;
 
-                                    checkForFill(itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]);
+                                            for (let i = 0; i < customerAnswerOnActiveBlock.length; i++){
+                                                if(itemChildQuestion.id == customerAnswerOnActiveBlock[i].question_id){
+                                                    tmpObj.id = customerAnswerOnActiveBlock[i].id;
+                                                    update = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(!update){
+                                                tmpObj.question_id = itemChildQuestion.id
+                                            }
 
-                                });
+
+                                            if(itemChildQuestion.type == 1){
+                                                tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]
+                                            }
+                                            else {
+                                                tmpObj.value = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]
+                                            }
+                                            dataForSend.push(tmpObj);
+
+                                            checkForFill(itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]);
+                                        }
+                                        else {
+                                            succesNext = false;
+                                        }
+                                    });
+                                }
+                                else {
+                                    itemAnswer.child_questions.forEach(function (itemChildQuestion) {
+                                        for (let i = 0; i < customerAnswerOnActiveBlock.length; i++){
+                                            if(itemChildQuestion.id == customerAnswerOnActiveBlock[i].question_id){
+                                                let tmpObj = {
+                                                    id: customerAnswerOnActiveBlock[i].id,
+                                                    delete: true
+                                                };
+                                                dataForSend.push(tmpObj);
+                                                break;
+                                            }
+                                        }
+                                    })
+                                }
                             }
-                            else {
-                                itemAnswer.child_questions.forEach(function (itemChildQuestion) {
-                                    let tmpObj = {
-                                        id: itemChildQuestion.id,
-                                        delete: true
-                                    };
-                                    dataForSend.push(tmpObj);
-                                })
-                            }
-                        }
-                    })
-                }
-                else {
-                    let tmpObj = {
-                        id: mainQuestions[indexQuestion].id,
-                        answer_text: itemQuestion.mainData
-                    };
-                    dataForSend.push(tmpObj);
-                }
-
-                console.log('dataForSend', dataForSend)
-
-                if(!succesNext){
-                    console.log('not all is fill')
-                }
+                        })
+                    }
+                    else {
+                        let tmpObj = {
+                            question_id: mainQuestionInBlock[indexQuestion].id,
+                            value: itemQuestion.mainData
+                        };
+                        dataForSend.push(tmpObj);
+                    }
+                });
+            }
+            else {
+                succesNext = false;
+            }
 
 
-            })
+            console.log('dataForSend', dataForSend);
+
+            if(!succesNext){
+                toastr.error('All fields should be complited');
+            }
+            else {
+                userService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
+                    console.log(res);
+                    if(res.success){
+                        toNextBlock();
+                    }
+                })
+            }
         }
 
         function checkForFill (item){
@@ -185,16 +237,17 @@
                 userService.getCustomerAnswer(id).then(function (res) {
                     if(res.success){
                         customerAnswer = res.data.customerAnswers
+                        indexActiveBlock--;
+                        vm.data = [];
+                        generete();
+                        fill();
+                        start();
                     }
                     else{
                         console.log('error customer answer');
                     }
                 });
-                indexActiveBlock--;
-                vm.data = [];
-                generete();
-                fill();
-                start();
+
             }
         }
 
@@ -202,18 +255,7 @@
 
         function toNextBlock() {
             if(items[indexActiveSurvey].blocks.length - 1 > indexActiveBlock){
-                let id = {
-                    customer: activeCustomers,
-                    survey: idActiveSurvey
-                };
-                userService.getCustomerAnswer(id).then(function (res) {
-                    if(res.success){
-                        customerAnswer = res.data.customerAnswers
-                    }
-                    else{
-                        console.log('error customer answer');
-                    }
-                });
+
                 indexActiveBlock++;
                 vm.data = [];
                 generete();
