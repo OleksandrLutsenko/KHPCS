@@ -44,8 +44,6 @@
                     succes = true;
                 }
 
-                console.log('succes', succes);
-
                 if(succes){
                     if(typeof model.answers != 'undefined' && model.type == 1){
                         for(let i = 0; i < model.answers.length; i++){

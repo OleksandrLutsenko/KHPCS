@@ -135,10 +135,14 @@
                     checkForFill(itemQuestion.mainData);
 
                     if(mainQuestionInBlock[indexQuestion].type == 1) {
-                        let tmpObj = {
-                            question_id: mainQuestionInBlock[indexQuestion].id,
-                            answer_id: itemQuestion.mainData
-                        };
+                        let tmpObj = {};
+
+                        tmpObj.id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
+                        tmpObj.answer_id = itemQuestion.mainData;
+
+                        if(tmpObj.id == undefined){
+                            tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
+                        }
                         dataForSend.push(tmpObj);
 
                         mainQuestionInBlock[indexQuestion].answers.forEach(function (itemAnswer, indexAnswer) {
@@ -147,25 +151,18 @@
                                     itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
                                         if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
                                             let tmpObj = {};
-                                            let update = false;
 
-                                            for (let i = 0; i < customerAnswerOnActiveBlock.length; i++){
-                                                if(itemChildQuestion.id == customerAnswerOnActiveBlock[i].question_id){
-                                                    tmpObj.id = customerAnswerOnActiveBlock[i].id;
-                                                    update = true;
-                                                    break;
-                                                }
-                                            }
-                                            if(!update){
-                                                tmpObj.question_id = itemChildQuestion.id
-                                            }
-
+                                            tmpObj.id = serchAnswerId(itemChildQuestion.id);
 
                                             if(itemChildQuestion.type == 1){
-                                                tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]
+                                                tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
                                             }
                                             else {
-                                                tmpObj.value = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]
+                                                tmpObj.value = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
+                                            }
+
+                                            if(tmpObj.id == undefined){
+                                                tmpObj.question_id = itemChildQuestion.id;
                                             }
                                             dataForSend.push(tmpObj);
 
@@ -178,26 +175,30 @@
                                 }
                                 else {
                                     itemAnswer.child_questions.forEach(function (itemChildQuestion) {
-                                        for (let i = 0; i < customerAnswerOnActiveBlock.length; i++){
-                                            if(itemChildQuestion.id == customerAnswerOnActiveBlock[i].question_id){
-                                                let tmpObj = {
-                                                    id: customerAnswerOnActiveBlock[i].id,
-                                                    delete: true
-                                                };
-                                                dataForSend.push(tmpObj);
-                                                break;
-                                            }
+                                        let tmpObj = {
+                                            id: serchAnswerId(itemChildQuestion.id),
+                                            delete: true
+                                        };
+
+                                        if(tmpObj.id != undefined){
+                                            dataForSend.push(tmpObj);
                                         }
+
                                     })
                                 }
                             }
                         })
                     }
                     else {
-                        let tmpObj = {
-                            question_id: mainQuestionInBlock[indexQuestion].id,
-                            value: itemQuestion.mainData
-                        };
+                        let tmpObj = {};
+
+                        tmpObj.id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
+                        tmpObj.value = itemQuestion.mainData;
+
+                        if(tmpObj.id == undefined){
+                            tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
+                        }
+
                         dataForSend.push(tmpObj);
                     }
                 });
@@ -225,6 +226,13 @@
         function checkForFill (item){
             if(typeof item == 'undefined' || item == ''){
                 succesNext = false;
+            }
+        }
+        function serchAnswerId(idQuestion) {
+            for (let i = 0; i < customerAnswerOnActiveBlock.length; i++){
+                if(idQuestion == customerAnswerOnActiveBlock[i].question_id){
+                    return customerAnswerOnActiveBlock[i].id
+                }
             }
         }
 
