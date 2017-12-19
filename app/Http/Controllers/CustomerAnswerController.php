@@ -18,28 +18,43 @@ class CustomerAnswerController extends Controller
     /**
      * @param CustomerAnswerRequest $request
      * @param Customer $customer
-     * @param Question $question
      * @return array
+     * @internal param Question $question
      */
-    public function store(CustomerAnswerRequest $request, Customer $customer, Question $question)
+    public function store(CustomerAnswerRequest $request, Customer $customer)
     {
         $requests = $request->all();
         foreach ($requests as $request) {
-            if (!$customerAnswer = $question->findCustomersAnswer($customer)) {
-                $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
-            } else {
+            if (isset($request['id'])) {
+                $customerAnswer = CustomerAnswer::find($request['id']);
                 if (isset($request['delete']) && $request['delete'] == true) {
-                    $customerAnswer = $question->findCustomersAnswer($customer);
                     $customerAnswer->delete();
                 } else {
-                    $customerAnswer->update($request->getAnswerAttributes($customer));
+                    $customerAnswer->update($request);
                 }
+            } else {
+                $customer->customerAnswers()->create($request);
             }
         }
-        return [
-            'answer' => response()->json($customerAnswer, 201)
-        ];
+
+        return response($customerAnswer, 201);
     }
+
+//        foreach ($requests as $request) {
+//            if (!$customerAnswer = $question->findCustomersAnswer($customer)) {
+//                $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
+//            } else {
+//                if (isset($request['delete']) && $request['delete'] == true) {
+//                    $customerAnswer = $question->findCustomersAnswer($customer);
+//                    $customerAnswer->delete();
+//                } else {
+//                    $customerAnswer->update($request->getAnswerAttributes($customer));
+//                }
+//            }
+//        }
+//        return [
+//            'answer' => response()->json($customerAnswer, 201)
+//        ];
 
 
     /**
