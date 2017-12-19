@@ -40,28 +40,24 @@ class Block extends Model
         return $question;
     }
 
-//    protected static function boot()
-//    {
-//        parent::boot();
-//
-//        static::deleting(function ($question) {
-//
-//
-//            $questions = $block->question;
-//            foreach ($questions as $question){
-//                $question->delete();
-//
-//            $answers = $question->answer;
-//            $customerAnswers = $question->customerAnswer;
-//            foreach ($customerAnswers as $customerAnswer) {
-//                $customerAnswer->delete();
-//            }
-//
-//            foreach ($answers as $answer) {
-//                $answer->delete();
-//            }
-//
-//        });
-//        }
-//    }
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($block) {
+
+            $questions = $block->question;
+            foreach ($questions as $question) {
+                $answers = $question->answer;
+                $customerAnswers = $question->customerAnswer;
+                foreach ($customerAnswers as $customerAnswer) {
+                    $customerAnswer->delete();
+                }
+                foreach ($answers as $answer) {
+                    $answer->delete();
+                }
+                $question->delete();
+            }
+        });
+    }
 }

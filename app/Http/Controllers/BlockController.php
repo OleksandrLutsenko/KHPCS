@@ -25,7 +25,6 @@ class BlockController extends Controller
     public function show(Block $block, User $user)
     {
         if ($user->can('show', $block)) {
-//            return ['questions' => $block->question()->get(), 'block' => $block];
             return compact('block');
         } else {
             return response([
@@ -46,7 +45,6 @@ class BlockController extends Controller
     public function addQuestion(QuestionRequest $request, Block $block, User $user)
     {
         if ($user->can('addQuestion', $block)) {
-
             $question = $block->question()->create($request->all());
             return compact('question');
 
@@ -67,7 +65,6 @@ class BlockController extends Controller
     {
         if ($user->can('addQuestion', $block)) {
             $requests = $request->all();
-//            dd($request);
             foreach ($requests as $questionObj) {
 
                 if (isset($questionObj['id'])){
@@ -88,7 +85,6 @@ class BlockController extends Controller
                                             $answer->update($answerObj);
 
                                             if (!empty($answerObj['child_questions'])) {
-
                                                 foreach ($answerObj['child_questions'] as $childQuestionObj) {
                                                     if (isset($childQuestionObj['id'])) {
                                                         $childQuestion = Question::find($childQuestionObj['id']);
@@ -98,14 +94,45 @@ class BlockController extends Controller
                                                             $childQuestion->update($childQuestionObj);
                                                             $childQuestion->parent_answer_id = $answer->id;
                                                             $childQuestion->save();
+                                                            if ($childQuestion->type == 1) {
+                                                                if (isset($childQuestionObj['answers'])) {
+                                                                    foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
+                                                                        if (isset($childQuestionAnswerObj['id'])) {
+                                                                            $childQuestionAnswer = Answer::find($childQuestionAnswerObj['id']);
+                                                                            if (isset($childQuestionAnswerObj['delete']) && $childQuestionAnswerObj['delete'] == true) {
+                                                                                $childQuestionAnswer->delete();
+                                                                            } else {
+                                                                                $childQuestionAnswer->update($childQuestionAnswerObj);
+                                                                            }
+                                                                        } else {
+                                                                            $childQuestion->answer()->create($childQuestionAnswerObj);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
                                                         }
                                                     } else {
                                                         $childQuestion = $block->question()->create($childQuestionObj);
                                                         $childQuestion->parent_answer_id = $answer->id;
                                                         $childQuestion->save();
+                                                        if ($childQuestion->type == 1) {
+                                                            if (isset($childQuestionObj['answers'])) {
+                                                                foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
+                                                                    if (isset($childQuestionAnswerObj['id'])) {
+                                                                        $childQuestionAnswer = Answer::find($childQuestionAnswerObj['id']);
+                                                                        if (isset($childQuestionAnswerObj['delete']) && $childQuestionAnswerObj['delete'] == true) {
+                                                                            $childQuestionAnswer->delete();
+                                                                        } else {
+                                                                            $childQuestionAnswer->update($childQuestionAnswerObj);
+                                                                        }
+                                                                    } else {
+                                                                        $childQuestion->answer()->create($childQuestionAnswerObj);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                 }
-
                                             }
                                         }
                                     } else {
@@ -120,6 +147,22 @@ class BlockController extends Controller
                                                     $childQuestion = $block->question()->create($childQuestionObj);
                                                     $childQuestion->parent_answer_id = $answer->id;
                                                     $childQuestion->save();
+                                                    if ($childQuestion->type == 1) {
+                                                        if (isset($childQuestionObj['answers'])) {
+                                                            foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
+                                                                if (isset($childQuestionAnswerObj['id'])) {
+                                                                    $childQuestionAnswer = Answer::find($childQuestionAnswerObj['id']);
+                                                                    if (isset($childQuestionAnswerObj['delete']) && $childQuestionAnswerObj['delete'] == true) {
+                                                                        $childQuestionAnswer->delete();
+                                                                    } else {
+                                                                        $childQuestionAnswer->update($childQuestionAnswerObj);
+                                                                    }
+                                                                } else {
+                                                                    $childQuestion->answer()->create($childQuestionAnswerObj);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
@@ -145,11 +188,27 @@ class BlockController extends Controller
                                             $childQuestion->update($childQuestionObj);
                                             $childQuestion->parent_answer_id = $answer->id;
                                             $childQuestion->save();
-                                        //childQuestion without id
+                                            //childQuestion without id
                                         } else {
                                             $childQuestion = $block->question()->create($childQuestionObj);
                                             $childQuestion->parent_answer_id = $answer->id;
                                             $childQuestion->save();
+                                            if ($childQuestion->type == 1) {
+                                                if (isset($childQuestionObj['answers'])) {
+                                                    foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
+                                                        if (isset($childQuestionAnswerObj['id'])) {
+                                                            $childQuestionAnswer = Answer::find($childQuestionAnswerObj['id']);
+                                                            if (isset($childQuestionAnswerObj['delete']) && $childQuestionAnswerObj['delete'] == true) {
+                                                                $childQuestionAnswer->delete();
+                                                            } else {
+                                                                $childQuestionAnswer->update($childQuestionAnswerObj);
+                                                            }
+                                                        } else {
+                                                            $childQuestion->answer()->create($childQuestionAnswerObj);
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -198,11 +257,6 @@ class BlockController extends Controller
     public function destroy(Block $block, User $user)
     {
         if ($user->can('delete', $block)) {
-
-//            $questions = $block->question;
-//            foreach ($questions as $question){
-//                $question->delete();
-//            }
             $block->delete();
             return compact('block');
         } else {
@@ -219,7 +273,6 @@ class BlockController extends Controller
      */
     public function customerShow(Customer $customer, Block $block)
     {
-//        return ['questions' => $block->question()->get(), 'block' => $block];
         return compact('block');
     }
 }

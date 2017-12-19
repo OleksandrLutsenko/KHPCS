@@ -23,16 +23,19 @@ class CustomerAnswerController extends Controller
      */
     public function store(CustomerAnswerRequest $request, Customer $customer, Question $question)
     {
-        /** @var CustomerAnswer $customerAnswer */
-        if (!$customerAnswer = $question->findCustomersAnswer($customer)) {
-            $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
-
-        } else {
-            $customerAnswer->update($request->getAnswerAttributes($customer));
+        $requests = $request->all();
+        foreach ($requests as $request) {
+            if (!$customerAnswer = $question->findCustomersAnswer($customer)) {
+                $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
+            } else {
+                if (isset($request['delete']) && $request['delete'] == true) {
+                    $customerAnswer = $question->findCustomersAnswer($customer);
+                    $customerAnswer->delete();
+                } else {
+                    $customerAnswer->update($request->getAnswerAttributes($customer));
+                }
+            }
         }
-
-        $answer = Answer::find($customerAnswer->answer_id);
-
         return [
             'answer' => response()->json($customerAnswer, 201)
         ];

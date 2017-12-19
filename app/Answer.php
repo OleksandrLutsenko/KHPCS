@@ -44,4 +44,25 @@ class Answer extends Model
             return $childQuestions;
         }
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($answer) {
+
+            $childQuestions = Question::where('parent_answer_id', $answer->id)->get();
+            foreach($childQuestions as $childQuestion){
+                $customerAnswers = $childQuestion->customerAnswer;
+                $childQuestionAnswers = $childQuestion->answer;
+                foreach ($customerAnswers as $customerAnswer) {
+                    $customerAnswer->delete();
+                }
+                foreach ($childQuestionAnswers as $childQuestionAnswer) {
+                    $childQuestionAnswer->delete();
+                }
+                $childQuestion->delete();
+            }
+        });
+    }
 }
