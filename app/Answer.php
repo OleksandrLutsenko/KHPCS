@@ -75,14 +75,15 @@ class Answer extends Model
                 }else{
                     $answer->update($answerData);
 
-                    static::addNestedQuestions($answerData['child_questions'], $question->block);
+
+                    static::addNestedQuestions($answerData, $question->block);
 
                 }
             }
         }else{
             $question->answer()->create($answerData);
-            
-            static::addNestedQuestions($answerData['child_questions'], $question->block);
+
+            static::addNestedQuestions($answerData, $question->block);
         }
     }
 
