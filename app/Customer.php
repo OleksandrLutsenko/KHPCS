@@ -62,6 +62,13 @@ class Customer extends Model
         static::creating(function ($table) {
             $table->user_id = Auth::user()->id;
         });
+
+        static::deleting(function ($customer) {
+            $customerAnswers = $customer->customerAnswers;
+            foreach ($customerAnswers as $customerAnswer){
+                $customerAnswer->delete();
+            }
+        });
     }
 
     /**

@@ -106,6 +106,15 @@ class Question extends Model
     {
         parent::boot();
 
+        static::updated(function ($question) {
+            if ($question->type == 2){
+                $answers = $question->answer;
+                foreach ($answers as $answer){
+                    $answer->delete();
+                }
+            }
+        });
+
         static::deleting(function ($question) {
             $answers = $question->answer;
             $customerAnswers = $question->customerAnswer;
