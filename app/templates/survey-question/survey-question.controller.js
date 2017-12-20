@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'questionService' , 'toastr', 'surveyQuestion'];
+    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
 
-    function SurveyQuestionController(userService, survey, $scope, $mdDialog, questionService , toastr, surveyQuestion) {
+    function SurveyQuestionController(userService, survey, $scope, $mdDialog, blockService, toastr, items) {
         let vm = this;
 
         let idS = survey.getActineSurvey();
@@ -16,7 +16,7 @@
         let idSurvey = idS.id;
         let idBlock = idB.id;
 
-        vm.items = userService.getItems()[indexSurvey].blocks[indexBlock].questions;
+        vm.items = items[indexBlock].questions;
 
         console.log(vm.items);
 
@@ -78,7 +78,7 @@
 
         $scope.$on('parent', function (event, data) {
             indexBlock = data;
-            vm.items = userService.getItems()[indexSurvey].blocks[indexBlock].questions;
+            vm.items = items[indexBlock].questions;
             idB = survey.getActiveBlock();
             idBlock = idB.id;
         });
@@ -112,10 +112,11 @@
 
             console.log('dataForSand', dataForSand);
 
-            questionService.addBlockQuestion(idBlock, dataForSand).then(function (res) {
+            blockService.addBlockQuestion(idBlock, dataForSand).then(function (res) {
                 console.log(res);
                 if(res.success){
                     vm.items = res.data.questions;
+                    item[indexBlock].questions = res.data.questions;
                 }
             })
         }

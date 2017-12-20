@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddQuestionController', AddQuestionController);
 
-    AddQuestionController.$inject = ['$mdDialog', 'surveyQuestion', 'data' , 'toastr'];
+    AddQuestionController.$inject = ['$mdDialog', 'data' , 'toastr'];
 
-    function AddQuestionController($mdDialog, surveyQuestion, data , toastr) {
+    function AddQuestionController($mdDialog, data , toastr) {
         let vm = this;
 
         vm.addAnsver = addAnsver;

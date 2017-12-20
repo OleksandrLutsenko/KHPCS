@@ -8,15 +8,13 @@
 
     <div ui-sortable="vm.sortableOptionsBlock" ng-model="vm.items" class="block-container" layout="row" layout-align="center center">
 
-        <div ng-repeat="cell in vm.items" ng-click="vm.setActiveBlock(cell.id, $index, cell.name)"
-             ui-sref="tab.survey-block.survey-question">
-            <div layout="row" layout-align="center center">
-                <div class="tab-icon-dots">
-                    <dot-edit-menu></dot-edit-menu>
-                </div>
-                <div class="blockName">{{cell.name}}</div>
+        <div ng-repeat="cell in vm.items" ng-click="vm.setActiveBlock(cell.id, $index, cell.name)" layout="row" layout-align="center center">
+            <div class="blockName">
+                {{cell.name}}
             </div>
-
+            <div>
+                <dot-edit-menu></dot-edit-menu>
+            </div>
         </div>
 
     </div>

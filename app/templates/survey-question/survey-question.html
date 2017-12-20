@@ -27,13 +27,13 @@
 
                                     <div layout="row">
 
-                                        <div flex="40">
+                                        <div flex="30" flex-offset="10" layout="row" layout-align="start center" class="answeText">
                                             {{answers.answer_text}}
                                         </div>
 
                                         <div ui-sortable="vm.sortableOptionsQuestionInAnswer" ng-model="answers.child_questions" class="question-container" flex="60">
                                             <div ng-repeat="(questionKey, child_questions) in answers.child_questions" ng-if="!child_questions.delete">
-                                                <div class="question_in_answer" layout="row" layout-align="space-between center">
+                                                <div class="main_question" layout="row" layout-align="space-between center">
 
                                                     <div>
                                                         {{child_questions.title}}

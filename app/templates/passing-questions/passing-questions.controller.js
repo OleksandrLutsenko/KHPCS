@@ -80,32 +80,32 @@
             }
 
             mainQuestionInBlock.forEach(function (itemMainQuestion) {
+                let mainData = {
+                    mainData: findAnswer(itemMainQuestion),
+                    answerData: []
+                };
 
-                    let mainData = {
-                        mainData: findAnswer(itemMainQuestion),
-                        answerData: []
-                    };
-
-                    if(itemMainQuestion.type == 1){
-                        itemMainQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
-                            mainData.answerData[indexAnswer] = {
-                                childData: []
-                            };
-                            itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
-                                mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswer(itemChildQuestion);
-                                if(mainData.answerData[indexAnswer].childData[indexChildQuestion] == undefined){
-                                    mainData.answerData[indexAnswer].childData.splice(indexChildQuestion, 1);
-                                }
-                            });
-                        })
-                    }
+                if(itemMainQuestion.type == 1){
+                    itemMainQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
+                        mainData.answerData[indexAnswer] = {
+                            childData: []
+                        };
+                        itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
+                            mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswer(itemChildQuestion);
+                            if(mainData.answerData[indexAnswer].childData[indexChildQuestion] == undefined){
+                                mainData.answerData[indexAnswer].childData.splice(indexChildQuestion, 1);
+                            }
+                        });
+                    })
+                }
                 vm.data.push(mainData);
+
             });
         }
 
         function start() {
             if(mainQuestionInBlock.length == 0){
-                console.log('no question in block');
+                toastr.error('no question in block');
                 $state.go('tab.user-management');
             }
             else{
@@ -244,7 +244,7 @@
                 };
                 userService.getCustomerAnswer(id).then(function (res) {
                     if(res.success){
-                        customerAnswer = res.data.customerAnswers
+                        customerAnswer = res.data.customerAnswers;
                         indexActiveBlock--;
                         vm.data = [];
                         generete();

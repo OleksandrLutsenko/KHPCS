@@ -30,9 +30,6 @@
         model.deleteSurvey = deleteSurvey;
         model.changeStatusSurvey = changeStatusSurvey;
         model.archiveStatusSurvey = archiveStatusSurvey;
-        model.createBlock = createBlock;
-        model.updateBlock = updateBlock;
-        model.deleteBlock = deleteBlock;
 
         //Passing questions
         model.sendCustomerAnswer = sendCustomerAnswer;
@@ -144,18 +141,6 @@
 
         function archiveStatusSurvey (id) {
             return http.put(url.survey_management_func(id).archiveStatusSurvey);
-        }
-
-        function createBlock(id, credentials) {
-            return http.post(url.survey_management_func(id).createBlock, credentials);
-        }
-
-        function deleteBlock(id) {
-            return http.delete(url.survey_management_func(id).updateBlock);
-        }
-
-        function updateBlock(id, data) {
-            return http.put(url.survey_management_func(id).updateBlock, data);
         }
 
 

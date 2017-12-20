@@ -91,13 +91,36 @@
                 url: '/survey-block',
                 templateUrl: 'templates/survey-block/survey-block.html',
                 controller: 'SurveyBlockController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    items: function (blockService, survey) {
+                        let idSurvey = survey.getActineSurvey().id;
+
+                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                            if(res.success){
+                                return res.data.survey.blocks;
+                            }
+                        });
+                    }
+                }
             })
             .state('tab.survey-block.survey-question', {
                 url: '/survey-question',
                 templateUrl: 'templates/survey-question/survey-question.html',
                 controller: 'SurveyQuestionController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    items: function (blockService, survey) {
+                        let idS = survey.getActineSurvey();
+                        let idSurvey = idS.id;
+
+                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                            if(res.success){
+                                return res.data.survey.blocks;
+                            }
+                        });
+                    }
+                }
             })
             .state('tab.passing-question', {
                 url: '/passing-question',

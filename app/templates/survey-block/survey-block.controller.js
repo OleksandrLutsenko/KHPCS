@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr'];
+    SurveyBlockController.$inject = ['userService', 'blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items'];
 
-    function SurveyBlockController(userService, $state, survey, $scope, $mdDialog , toastr) {
+    function SurveyBlockController(userService, blockService, $state, survey, $scope, $mdDialog , toastr, items) {
         let vm = this;
 
 
@@ -13,13 +13,23 @@
         let idSurvey = survey.getActineSurvey();
         let idBlock = survey.getActiveBlock();
 
-        vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+
+        vm.items = items;
 
         function setActiveDot() {
             if (vm.items.length) {
                 vm.activeBlockIndex = idBlock.indexBlock;
             }
         }
+
+        function loadOneSurvey() {
+            blockService.loadOneSurvey(idSurvey.id).then(function (res) {
+                if(res.success){
+                    vm.items = res.data.survey.blocks;
+                }
+            });
+        }
+
 
         setActiveDot();
 
@@ -120,16 +130,17 @@
                     data: {
                         idBlock: id,
                         cell: cell,
+                        items: vm.items
                     }
                 }
             }).then(function (res) {
                 if (res.type == 'update') {
-                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                    loadOneSurvey();
                     toastr.success('Block was edited');
                 }
                 else {
                     toastr.success('New block was created');
-                    vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
+                    loadOneSurvey();
                     let indexBlock = vm.items.length - 1;
                     let id = vm.items[indexBlock].id;
                     let blockName = vm.items[indexBlock].name;
@@ -153,9 +164,10 @@
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             }).then(function () {
-                userService.deleteBlock(idBlock.id).then(function (res) {
+                blockService.deleteBlock(idBlock.id).then(function (res) {
                     if (res.success) {
                         console.log('delete');
+                        loadOneSurvey();
 
                         /////////////////////UpdateTemplate///////////////////
                         if (vm.items[vm.activeBlockIndex].questions.length) {
@@ -180,7 +192,7 @@
                                 }
                                 vm.setActiveBlock(id, index);
                             }
-                        })
+                        });
                         toastr.success('Block was deleted');
                     }
                     else {
