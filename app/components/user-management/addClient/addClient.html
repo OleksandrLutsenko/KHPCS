@@ -6,9 +6,8 @@
         </div>
         <div class="create-top" ng-if="vm.id !== undefined">
             <p>Editing client</p>
-            <i class="material-icons"  ng-click="vm.cancel()">close</i>
+            <i class="material-icons" ng-click="vm.cancel()">highlight_off</i>
         </div>
-
 
         <div class="content-add">
             <form name="vm.customersForm">
@@ -51,7 +50,7 @@
             <div class="bot-btn" ng-if="vm.id !== undefined" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Update
                 </md-button>
-                <md-button class="md-raised" ng-click="vm.pass(customers.id)">Questionnaire</md-button>
+                <md-button class="md-raised" ng-click="vm.continue()">Questionnaire</md-button>
             </div>
         </div>
     </div>

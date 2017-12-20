@@ -6,7 +6,6 @@
 
     function mainConfig($stateProvider, $urlRouterProvider , $stateParams) {
 
-
         $urlRouterProvider.otherwise('/login');
 
         $stateProvider
@@ -85,6 +84,12 @@
                 url: '/settings',
                 templateUrl: 'templates/settings/settings.html',
                 controller: 'SettingsController',
+                controllerAs: 'vm'
+            })
+            .state('tab.profile', {
+                url: '/profile',
+                templateUrl: 'templates/profile/profile.html',
+                controller: 'ProfileController',
                 controllerAs: 'vm'
             })
             .state('tab.survey-block', {

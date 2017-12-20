@@ -19,6 +19,10 @@
       margin: 0;
     }
   }
+  .exit-menu{
+    height: 48px;
+    display: flex;
+  }
   md-nav-ink-bar {
     background: white;
   }
@@ -30,6 +34,10 @@
   }
   .md-button._md-nav-button {
     padding: 12px 30px;
+  }
+
+  .side-menu{
+    height: fit-content;
   }
 
   .burg {

@@ -3,16 +3,18 @@
     angular.module('app')
         .controller('ResetController', ResetController);
 
-    ResetController.$inject = ['userService', '$state' , 'toastr' ];
+    ResetController.$inject = ['userService', '$state' , 'toastr' , '$stateParams'];
 
-    function ResetController(userService, $state , toastr ) {
+    function ResetController(userService, $state , toastr , $stateParams) {
         let vm = this;
 
         vm.reset = reset;
 
+        let token = $stateParams.token;
+
         function reset() {
 
-            userService.reset(vm.data).then(function (res) {
+            userService.reset(token , vm.data).then(function (res) {
                 if (res.success) {
                     toastr.success('Password was changed');
                     $state.go('login');

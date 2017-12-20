@@ -1,0 +1,41 @@
+.profile {
+
+  .menu{
+    height: 0;
+    overflow: hidden;
+    padding: 0;
+
+    -webkit-transition: height 1s ease;
+    -moz-transition: height 1s ease;
+    -o-transition: height 1s ease;
+    transition: height 1s ease;
+  }
+
+  .main-div {
+    padding: 20px 40px;
+  }
+
+  md-input-container {
+    margin: 10px 0 0 0;
+    width: 100%;
+  }
+
+  .div-input {
+    padding-top: 20px;
+  }
+
+  .div-btn button {
+    width: 100%;
+    background: #001041;
+    margin: 0;
+    margin-bottom: 5px;
+    color: #fff;
+    text-transform: capitalize;
+  }
+
+  .div-btn .md-button:hover {
+    background: #001041;
+  }
+
+
+}
