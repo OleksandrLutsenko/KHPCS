@@ -15,13 +15,37 @@
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    security: function ($state, userService) {
+                        if(!userService.getToken()){
+                            return $state.go('login');
+                        }
+                    }
+                }
             })
+            // .state('tab', {
+            //     url: '/tab/:tabName',
+            //     templateUrl: 'templates/tabs/tabs.html',
+            //     controller: 'TabsController',
+            //     controllerAs: 'vm',
+            //     resolve:{
+            //         tabName: ['$stateParams', function($stateParams){
+            //             return $stateParams.tabName;
+            //         }]
+            //     }
+            // })
             .state('login', {
                 url: '/login',
                 templateUrl: 'templates/login/login.html',
                 controller: 'LoginController',
                 controllerAs: 'vm'
+                // resolve: {
+                //     dialogClose: function ($mdDialog) {
+                //         $mdDialog.cancel();
+                //         console.log("ttttttttt")
+                //     }
+                // }
             })
             .state('registration', {
                 url: '/sign-up',

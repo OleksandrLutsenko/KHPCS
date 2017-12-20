@@ -31,19 +31,35 @@
             });
         };
 
-        vm.archiveSurvey = function (id, index) {
+
+        vm.archiveSurvey = function (id, eddOrExtract) {
             userService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
+                    toastr.success('Questionnaire was ' + eddOrExtract);
                     userService.loadItems().then(function () {
                         vm.items = userService.getItems();
+                        archiveEmpty();
                     });
-                    toastr.success('Questionnaire was archived');
                 } else {
                     console.log('Archive Status Survey error');
                 }
 
             });
         };
+
+        function archiveEmpty() {
+            vm.ArchiveIsEmpti = true;
+            for (var item in vm.items) {
+                if (vm.items[item].status === 0) {
+                    vm.ArchiveIsEmpti = false;
+                    console.log('vm.ArchiveIsEmpti = ' + vm.ArchiveIsEmpti);
+                    break;
+                }
+            }
+
+        }
+        archiveEmpty();
+
 
         vm.toggleOpenArchive = buildToggler('right');
         function buildToggler(componentId) {
@@ -108,5 +124,32 @@
             })
 
         }
+
+        // vm.ArchiveIsEmpti = ArchiveIsEmpti;
+        // function ArchiveIsEmpti() {
+        //     var status = false
+        //     console.log(vm.items );
+        //     for (var item in vm.items){
+        //         if(vm.items[item].status === 0){
+        //             status = true;
+        //             break;
+        //         }
+        // }
+        //     return status;
+        //     // console.log('false');
+        //
+        // }
+
+        // vm.ArchiveIsEmpti = function () {
+        //     let archiveLength = false;
+        //     for (var item in vm.items) {
+        //         if (vm.items[item].status === 0) {
+        //             archiveLength = true;
+        //             break;
+        //         }
+        //     }
+        //     console.log(archiveLength);
+        //
+        // };
     }
 })();

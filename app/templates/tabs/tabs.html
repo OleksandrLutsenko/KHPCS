@@ -10,10 +10,10 @@
             class="nav"
             flex="100"
             md-selected-nav-item="vm.currentNavItem">
-        <md-nav-item md-nav-sref="tab.user-management" name="page1">
+        <md-nav-item md-nav-sref="tab.user-management" name="page1" ng-click="vm.setActiveTab('page1')">
             <p>User Management</p>
         </md-nav-item>
-        <md-nav-item md-nav-sref="tab.survey-management" ng-if="vm.user.role_id > 1">
+        <md-nav-item md-nav-sref="tab.survey-management" ng-if="vm.user.role_id > 1" name="page2" ng-click="vm.setActiveTab('page2')">
             <p>Survey Management</p>
         </md-nav-item>
         <md-nav-item md-nav-sref="tab.contract-editor" ng-if="vm.user.role_id > 1">
@@ -44,5 +44,5 @@
 
     </md-nav-bar>
 
-    <div ui-view></div>
+    <div ui-view style="overflow: -webkit-paged-x;"></div>
 </md-content>

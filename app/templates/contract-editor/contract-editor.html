@@ -15,6 +15,7 @@
     <div layout="row" flex="100" ng-show="vm.contractEditor" >
 
         <div flex="15" ng-if="vm.contractEditor" class="right-tulbar h4go">
+        <!--<div flex="15" ng-if="false" class="right-tulbar h4go">-->
             <md-toolbar class="md-theme-light">
                 <h1 class="md-toolbar-tools">Templates</h1>
             </md-toolbar>
@@ -43,7 +44,8 @@
         </div>
 
 
-        <div layout="column" ng-show="vm.contractEditor" flex="60" >
+        <!--<div layout="column" ng-show="vm.contractEditor" flex="60" >-->
+        <div layout="column" ng-show="vm.contractEditor" >
 
             <div>
                 <textarea name="CKeditorArea" style="height: 600px"></textarea>
@@ -89,6 +91,7 @@
         </div>
 
         <div ng-if="vm.contractEditor" flex="25" class="right-tulbar">
+        <!--<div ng-if="false" flex="25" class="right-tulbar">-->
 
             <md-toolbar class="md-theme-light">
                 <h1 class="md-toolbar-tools">Survey variables</h1>
@@ -114,7 +117,7 @@
                         </p>
 
                         <p ng-click="vm.pasteVariability(question.title, question.id)">
-                            Answer
+                            [Answer {{question.id}}]
                         </p>
                     </div>
 

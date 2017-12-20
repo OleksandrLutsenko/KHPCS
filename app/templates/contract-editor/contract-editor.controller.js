@@ -310,7 +310,7 @@
 
 
         vm.pasteUserVariability = function (id) {
-            CKEDITOR.instances['CKeditorArea'].insertText('{!!$variables[' + id + ']->text!!}');
+            CKEDITOR.instances['CKeditorArea'].insertText('{!!$userVariables[' + id + ']!!}');
         };
 
         vm.createUserVariability = function () {

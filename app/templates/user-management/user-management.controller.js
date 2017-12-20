@@ -17,11 +17,13 @@
 
         vm.customers = customerService.getCustomers();
 
+
+
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
         vm.user = userService.getUser();
-
+        console.log(vm.customers.created_at);
         function pass(id) {
             customers.setActiveCustomers(id);
             $state.go('tab.passing-question');
