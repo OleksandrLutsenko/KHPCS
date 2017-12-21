@@ -23,10 +23,6 @@ class Customer extends Model
         return $this->hasMany(Report::class);
     }
 
-//    public function report(){
-//        return $this->belongsToMany(Report::class, 'customer_survey');
-//    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -67,6 +63,10 @@ class Customer extends Model
             $customerAnswers = $customer->customerAnswers;
             foreach ($customerAnswers as $customerAnswer){
                 $customerAnswer->delete();
+            }
+            $reports = $customer->report;
+            foreach ($reports as $report) {
+                $report->delete();
             }
         });
     }

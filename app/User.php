@@ -19,17 +19,13 @@ class User extends Authenticatable implements CanResetPassword
 
     protected $hidden = ['password', 'remember_token'];
 
-//    protected $appends = ['api_token'];
-
     /**
-     * @return mixed|string
+     * @return bool
      */
-//    public function generateToken()
-//    {
-//        $this->api_token = str_random(60);
-//        $this->save();
-//        return $this->api_token;
-//    }
+    public function isAdmin(){
+        $admin = Role::where('role', 'admin')->get()->first();
+        return $this->role_id == $admin->id;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -52,7 +48,6 @@ class User extends Authenticatable implements CanResetPassword
         return $this->belongsToMany(Customer::class);
     }
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -61,28 +56,9 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function tokens(){
-        return $this->hasMany(Token::class);
-    }
-
-//    public function getApiTokenAttribute()
-//    {
-//        $tokens = Token::where('user_id', Auth::user()->id)->get()->last();
-//        return $tokens->api_token;
-//    }
-
-    /**
-     * @return bool
-     */
-    public function isAdmin(){
-        return $this->role_id === 2;
-    }
-
-    /**
      * @param $token
      * @param $user
+     * @return string
      */
     public function sendLinkToReset($token, $user)
     {
@@ -94,6 +70,6 @@ class User extends Authenticatable implements CanResetPassword
                 ->subject($letter['subject']);
         });
 
-        return 'cooool it works';
+        return response('The email was sent', 200);
     }
 }

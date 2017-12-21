@@ -48,7 +48,6 @@ class VariableController extends Controller
     public function show(Variable $variable, User $user)
     {
         return compact('variable');
-
     }
 
     /**

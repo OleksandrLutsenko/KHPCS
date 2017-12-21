@@ -12,6 +12,7 @@ use App\Image;
 use App\Question;
 use App\Report;
 use App\User;
+use App\Variable;
 use Dompdf\Dompdf;
 use Response;
 use PDF;
@@ -89,8 +90,12 @@ class ContractController extends Controller
      */
     public function review(Report $report, Contract $contract, User $user, $userFilename)
     {
-        $variables = Auth::user()->variables;
+//        $variables = Auth::user()->variables;
+        $variables = Variable::withTrashed()->where('user_id', $user->id)->get();
         foreach ($variables as $variable){
+            if($variable->trashed()){
+                $variable->text = "<p style='color: red'>undefined value</p> ";
+            }
             $userVariables[] = $variable->text;
         }
         $body = stripcslashes($contract->body);
@@ -130,7 +135,9 @@ class ContractController extends Controller
         $pathPdf = '../'.$filePathUriPdf;
         File::put($path, $viewContent);
 
-        PDF::loadFile(storage_path().'/contracts/'.$filename)->setPaper('A4', 'landscape')->save(storage_path().'/contracts/'.$filenamePdf);
+        PDF::loadFile(storage_path().'/contracts/'.$filename)
+            ->setPaper('A4', 'portrait')
+            ->save(storage_path().'/contracts/'.$filenamePdf);
 
         File::delete($path);
         return compact('filenamePdf','filePathUrlPdf');

@@ -43,17 +43,14 @@ class ForgotPasswordController extends Controller
         if ($request->wantsJson()) {
             $user = User::where('email', $request->input('email'))->first();
             if ($user) {
+                PasswordReset::where('email', $user->email)->delete();
                 $token = JWTAuth::fromUser($user);
-
-                $oldPasswordResets = PasswordReset::where('email', $user->email)->delete();
-
                 $passwordResets = new PasswordReset;
-                $passwordResets->email = $user->email;
-                $passwordResets->token = $token;
-                $passwordResets->save();
-//                $token = $this->broker()->createToken($user);
-                $user->sendLinkToReset($token, $user);
-                return response()->json(Json::response(['token' => $token]), 200);
+                $passwordResets->save([
+                    $passwordResets->email = $user->email,
+                    $passwordResets->token = $token
+                ]);
+                return $user->sendLinkToReset($token, $user);
             }
             return response()->json(Json::response(null, trans('passwords.user')), 400);
         }

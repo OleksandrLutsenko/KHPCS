@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use JWTAuth;
 use App\User;
@@ -84,10 +84,12 @@ class UserController extends Controller
      */
     public function update(User $user, UpdateUserRequest $request) {
         if (Auth::user()->id == $user->id) {
-            $user->update($request->all());
-            return $request['password'] ? 'Password was changed' : response(['user' => $user], 201);
+            if ($request['password']){
+                return $request->changePassword($user);
+            }
+            return $request->changeNameAndEmail($user);
         } else {
-            return response('Page is not found');
+            return response('Page is not found', 404);
         }
     }
 }

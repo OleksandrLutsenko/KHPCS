@@ -28,18 +28,13 @@ Route::group(['middleware' => 'jwt.auth'], function() {
 });
 
 Route::group(['middleware' => 'api-response'], function() {
-//    Route::post('/register', 'Auth\RegisterController@register');
-//    Route::post('/login', 'Auth\LoginController@login');
 
     Route::post('/auth/register', 'UserController@register');
     Route::post('/auth/login', 'UserController@login');
-///////////////
-//    Route::post('/recover', 'UserController@recover');
-//    Route::post('password/reset', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 
     Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
     Route::post('user/reset-password', 'Auth\ResetPasswordController@customReset');
-//////////////////
+
     Route::group(['middleware' => 'jwt.auth'], function() {
 
         Route::get('/logout', 'UserController@logout');
@@ -108,8 +103,6 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/contract-research/{contractResearch}/contract', 'ContractController@store');
         /** update contract */
         Route::put('/contract/{contract}', 'ContractController@update');
-        /** save image */
-//        Route::post('/contract/{contract}/save-image', 'ContractController@saveImage');
         /** delete contract */
         Route::delete('/contract/{contract}', 'ContractController@destroy');
 
@@ -142,7 +135,6 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::post('/make-answer', 'CustomerAnswerController@store');
 
             /** List of survey customer answers and status */
-//            Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
             Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyBlockAnswers');
         });
         Route::get('/variable', 'VariableController@index');
@@ -150,7 +142,6 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('/variable', 'VariableController@store');
         Route::put('/variable/{variable}', 'VariableController@update');
         Route::delete('/variable/{variable}', 'VariableController@destroy');
-
 
         Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
     });

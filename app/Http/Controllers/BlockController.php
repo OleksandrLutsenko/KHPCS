@@ -215,7 +215,9 @@ class BlockController extends Controller
                         }
                     }
                 }
-                $questions[] = $question;
+                if (!$question->trashed()) {
+                    $questions[] = $question;
+                }
             }
             return compact('questions');
         } else {

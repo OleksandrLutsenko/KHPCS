@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class Survey extends Model
 {
@@ -91,11 +92,6 @@ class Survey extends Model
         ];
     }
 
-//    public function getAnswerAttribute()
-//    {
-//        return $this->customers->customerAnswer;
-//    }
-
     public static function boot()
     {
         parent::boot();
@@ -108,19 +104,17 @@ class Survey extends Model
 
             $blocks = $survey->block;
             foreach ($blocks as $block) {
-                $questions = $block->question;
-                foreach ($questions as $question) {
-                    $answers = $question->answer;
-                    $customerAnswers = $question->customerAnswer;
-                    foreach ($customerAnswers as $customerAnswer) {
-                        $customerAnswer->delete();
-                    }
-                    foreach ($answers as $answer) {
-                        $answer->delete();
-                    }
-                    $question->delete();
-                }
                 $block->delete();
+            }
+
+            $contracts = $survey->contracts;
+            foreach ($contracts as $contract){
+                $contract->delete();
+            }
+
+            $reports = $survey->reports;
+            foreach ($reports as $report) {
+                $report->delete();
             }
         });
     }
