@@ -28,29 +28,4 @@ class AnswerRequest extends FormRequest
             'answer_text' => 'required|min:1|max:50',
         ];
     }
-
-    /**
-     * @param $answer
-     */
-
-//    public function makeExtraQuestion($answer){
-//        $question = Question::where('identifier', $answer->next_question)->get()->first();
-//        if($answer->hasExtra == 1){
-//            $question->extra = 1;
-//            $question->update();
-//        } else {
-//            $question->extra = 0;
-//            $question->update();
-//        }
-//    }
-
-
-//    public function ifHasNotHidden($answer)
-//    {
-//        if($answer->hasHidden == false){
-//            $answer->next_question = null;
-//            $answer->update();
-//        }
-//    }
-
 }

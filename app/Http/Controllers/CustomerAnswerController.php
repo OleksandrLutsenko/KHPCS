@@ -41,23 +41,6 @@ class CustomerAnswerController extends Controller
         return response($customerAnswer, 201);
     }
 
-//        foreach ($requests as $request) {
-//            if (!$customerAnswer = $question->findCustomersAnswer($customer)) {
-//                $customerAnswer = $question->customerAnswer()->create($request->getAnswerAttributes($customer));
-//            } else {
-//                if (isset($request['delete']) && $request['delete'] == true) {
-//                    $customerAnswer = $question->findCustomersAnswer($customer);
-//                    $customerAnswer->delete();
-//                } else {
-//                    $customerAnswer->update($request->getAnswerAttributes($customer));
-//                }
-//            }
-//        }
-//        return [
-//            'answer' => response()->json($customerAnswer, 201)
-//        ];
-
-
     /**
      * @param CustomerAnswerRequest $request
      * @param Customer $customer

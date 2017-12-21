@@ -42,33 +42,33 @@ class SurveyController extends Controller
         }
     }
 
-    /**
-     * @param Survey $survey
-     * @param Customer $customer
-     * @param Request $request
-     * @param CustomerAnswer $customerAnswer
-     * @param User $user
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer, User $user){
-        if ($user->can('answerAll', $survey)) {
-            $customer = $customer->create($request->customer);
-
-            foreach ($request->answers as $questionID => $answerID) {
-                $customerAnswer->create([
-                    'value' => null,
-                    'question_id' => $questionID,
-                    'answer_id' => $answerID,
-                    'customer_id' => $customer->id
-                ]);
-            }
-            return response()->json($customer, 200);
-        } else {
-            return response([
-                "error" => "You do not have a permission"], 404
-            );
-        }
-    }
+//    /**
+//     * @param Survey $survey
+//     * @param Customer $customer
+//     * @param Request $request
+//     * @param CustomerAnswer $customerAnswer
+//     * @param User $user
+//     * @return \Illuminate\Http\JsonResponse
+//     */
+//    public function answerAll(Survey $survey, Customer $customer, Request $request, CustomerAnswer $customerAnswer, User $user){
+//        if ($user->can('answerAll', $survey)) {
+//            $customer = $customer->create($request->customer);
+//
+//            foreach ($request->answers as $questionID => $answerID) {
+//                $customerAnswer->create([
+//                    'value' => null,
+//                    'question_id' => $questionID,
+//                    'answer_id' => $answerID,
+//                    'customer_id' => $customer->id
+//                ]);
+//            }
+//            return response()->json($customer, 200);
+//        } else {
+//            return response([
+//                "error" => "You do not have a permission"], 404
+//            );
+//        }
+//    }
 
     /**
      * Store a newly created resource in storage.
@@ -163,25 +163,6 @@ class SurveyController extends Controller
     {
         if ($user->can('delete', $survey)) {
 
-
-            $blocks = $survey->block;
-            foreach ($blocks as $block){
-                $questions = $block->question;
-                foreach ($questions as $question){
-                    $question->delete();
-                }
-                $block->delete();
-            }
-
-            $contracts = $survey->contracts;
-            foreach ($contracts as $contract){
-                $contractResearch = $contract->contractResearch;
-
-                $contractResearch->delete();
-
-                $contract->delete();
-            }
-
             $survey->delete();
             return compact('survey');
         } else {
@@ -211,10 +192,7 @@ class SurveyController extends Controller
                 $survey->status = 1;
                 $survey->update();
             }
-//            else if ($survey->status == 1){
-//                $survey->status = 2;
-//                $survey->update();
-//            }
+
             return response(['survey' => $survey]);
 
         } else {

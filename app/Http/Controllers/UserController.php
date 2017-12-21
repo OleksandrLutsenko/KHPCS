@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -89,7 +88,6 @@ class UserController extends Controller
                 return $request->changePassword($user);
             }
             return $request->changeNameAndEmail($user);
-
         } else {
             return response('Page is not found', 404);
         }

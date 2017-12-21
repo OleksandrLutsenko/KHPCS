@@ -69,7 +69,6 @@ class UpdateUserRequest extends FormRequest
             'name' => $this['name'],
             'email' => $this['email']
         ]);
-
         return response(['user' => $user], 201);
     }
 }

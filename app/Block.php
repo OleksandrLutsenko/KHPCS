@@ -48,14 +48,6 @@ class Block extends Model
 
             $questions = $block->question;
             foreach ($questions as $question) {
-                $answers = $question->answer;
-                $customerAnswers = $question->customerAnswer;
-                foreach ($customerAnswers as $customerAnswer) {
-                    $customerAnswer->delete();
-                }
-                foreach ($answers as $answer) {
-                    $answer->delete();
-                }
                 $question->delete();
             }
         });

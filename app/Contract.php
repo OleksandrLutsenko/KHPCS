@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 /**
  * @property mixed body
@@ -36,6 +37,23 @@ class Contract extends Model
     public function getSurveysAttribute()
     {
         return $this->survey->name;
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($contract) {
+
+            $contractResearch = $contract->contractResearch;
+            $images = $contractResearch->images;
+            foreach ($images as $image){
+                $fileUri = $image->link;
+                File::delete('../'.$fileUri);
+                $image->delete();
+            }
+            $contractResearch->delete();
+        });
     }
 
 }

@@ -19,21 +19,6 @@ class Question extends Model
 
     protected $appends = ['answers'];
 
-    public function setVisibleAnswers()
-    {
-        $this->visible = ['title', 'answers'];
-    }
-
-    public function setVisibleCustomerAnswers()
-    {
-        $this->visible = ['title', 'customer_answers'];
-    }
-
-    public function makeVisible($attribute)
-    {
-        $this->visible = $attribute;
-    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -107,7 +92,7 @@ class Question extends Model
         parent::boot();
 
         static::updated(function ($question) {
-            if ($question->type == 2){
+            if ($question->type == static::TYPE_TXT){
                 $answers = $question->answer;
                 foreach ($answers as $answer){
                     $answer->delete();
@@ -122,18 +107,6 @@ class Question extends Model
                 $customerAnswer->delete();
             }
             foreach ($answers as $answer) {
-                $childQuestions = Question::where('parent_answer_id', $answer->id)->get();
-                foreach($childQuestions as $childQuestion){
-                    $customerAnswers = $childQuestion->customerAnswer;
-                    $childQuestionAnswers = $childQuestion->answer;
-                    foreach ($customerAnswers as $customerAnswer) {
-                        $customerAnswer->delete();
-                    }
-                    foreach ($childQuestionAnswers as $childQuestionAnswer) {
-                        $childQuestionAnswer->delete();
-                    }
-                    $childQuestion->delete();
-                }
                 $answer->delete();
             }
         });

@@ -20,13 +20,6 @@ class Answer extends Model
         return $this->belongsTo(Question::class);
     }
 
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-//     */
-//    public function nextQuestions(){
-//        return $this->hasMany(Question::class, 'next_question');
-//    }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

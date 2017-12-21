@@ -20,7 +20,6 @@ class DownloadController extends Controller
         $data['reports'] = $report;
 
         $pdf = PDF::loadView('answer-customers', $data);
-//        $pdf = PDF::loadView('contract', $data);
         return $pdf->download('report.pdf');
     }
 }
