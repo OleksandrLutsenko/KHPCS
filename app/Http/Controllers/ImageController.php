@@ -18,8 +18,9 @@ class ImageController extends Controller
      *
      * @param ImageRequest $request
      * @param Image $image
-     * @param Contract $contract
+     * @param ContractResearch $contractResearch
      * @return \Illuminate\Http\Response
+     * @internal param Contract $contract
      */
     public function upload(ImageRequest $request, Image $image, ContractResearch $contractResearch)
     {

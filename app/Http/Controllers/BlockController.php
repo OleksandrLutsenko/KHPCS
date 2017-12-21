@@ -67,7 +67,7 @@ class BlockController extends Controller
             $requests = $request->all();
             foreach ($requests as $questionObj) {
 
-                if (isset($questionObj['id'])){
+                if (isset($questionObj['id'])) {
                     $question = Question::find($questionObj['id']);
                     if (isset($questionObj['delete']) && $questionObj['delete'] == true){
                         $question->delete();
@@ -216,7 +216,9 @@ class BlockController extends Controller
                         }
                     }
                 }
-                $questions[] = $question;
+                if (!$question->trashed()) {
+                    $questions[] = $question;
+                }
             }
             return compact('questions');
         } else {

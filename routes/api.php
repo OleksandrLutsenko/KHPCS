@@ -45,6 +45,7 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::get('/logout', 'UserController@logout');
 
         Route::get('/user', 'UserController@getAuthUser');
+        Route::post('/user/{user}', 'UserController@update');
 
         /** SURVEYS */
         /** show surveys list */
@@ -138,7 +139,7 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::get('/question/{question}', 'QuestionController@customerShow');
 
             /** Make answer by customer */
-            Route::post('question/{question}/make-answer', 'CustomerAnswerController@store');
+            Route::post('/make-answer', 'CustomerAnswerController@store');
 
             /** List of survey customer answers and status */
 //            Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyAnswers');
