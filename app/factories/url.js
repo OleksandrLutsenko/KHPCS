@@ -3,12 +3,10 @@
         .module('factory.url', [])
         .factory('url', url);
 
-    url.$inject = ['$stateParams'];
+    url.$inject = [];
 
-    function url($stateParams) {
+    function url() {
         let baseUrl = 'http://api.knightshayes.grassbusinesslabs.tk/';
-
-        let token = $stateParams.token;
 
         return {
             user: {
@@ -16,11 +14,16 @@
                 loadUser: baseUrl + 'api/user',
                 getItems: baseUrl + 'api/survey',
                 register: baseUrl + 'api/auth/register',
-                forgot: baseUrl + 'api/user/request-reset',
-                reset: baseUrl + 'api/user/reset-password?token=' + token,
+                forgot: baseUrl + 'api/user/request-reset'
             },
             survey_management: {
                 createSurvey: baseUrl + 'api/survey',
+            },
+            reset_func(token){
+                return { resetPass: baseUrl + 'api/user/reset-password?token=' + token }
+            },
+            user_func(id){
+                return { updateProfile: baseUrl + 'api/user/' + id }
             },
             survey_management_func(id) {
                 return {

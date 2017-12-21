@@ -4,29 +4,42 @@
         .module('app')
         .controller('AddClientController', AddClientController);
 
-    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'toastr'];
+    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'toastr' , 'customers' , '$state'];
 
-    function AddClientController(data, $mdDialog, customerService , toastr) {
+    function AddClientController(data, $mdDialog, customerService , toastr , customers, $state) {
         let vm = this;
 
         vm.id = data.id;
         vm.save = save;
         vm.cancel = cancel;
+        vm.continue = continueQuest;
+        vm.pass = pass;
+        vm.customers = customerService.getCustomers();
 
         let id = data.id;
         vm.id = id;
-        let customers = data.customers;
+        let customersUser = data.customers;
 
         if (typeof id != 'undefined') {
             vm.data = {
-                name: customers.name,
-                surname: customers.surname,
-                classification: customers.classification
+                name: customersUser.name,
+                surname: customersUser.surname,
+                classification: customersUser.classification
             }
+        }
+
+        function pass(id) {
+            customers.setActiveCustomers(id);
+            $state.go('tab.passing-question');
         }
 
         function cancel() {
             $mdDialog.cancel()
+        }
+
+        function continueQuest() {
+            cancel();
+            pass(id);
         }
 
         function save() {

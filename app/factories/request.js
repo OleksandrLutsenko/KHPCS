@@ -139,7 +139,7 @@
                 }
             }
             else {
-                console.log(err.data.error , 'serg');
+                console.log(err.data.error);
 
             }
             let res = {status: false};

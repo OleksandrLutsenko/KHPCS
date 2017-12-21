@@ -6,29 +6,38 @@
     <div class="nav-menu">
         <div class="burg">
             <i class="material-icons" ng-click="vm.toggleOpenNav()" ng-hide="vm.isOpenRight()">menu</i>
-            <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-disable-backdrop md-component-id="nav">
+            <md-sidenav class="md-sidenav-left md-whiteframe-4dp side-menu" md-disable-backdrop md-component-id="nav">
 
-                <md-toolbar class="md-theme-light">
-                    <h1 class="md-toolbar-tools">Navigation menu</h1>
+                <md-toolbar class="md-theme-light" layout="row">
+                    <h1 class="md-toolbar-tools">Menu
+                    </h1>
+                    <md-button class="md-icon-button exit-menu" ng-click="vm.closeNavButton()">
+                        <i class="material-icons">highlight_off</i>
+                    </md-button>
                 </md-toolbar>
                 <md-content>
                     <md-list flex>
                         <md-list-item ui-sref="tab.user-management" ng-click="vm.closeNavButton()">
                             <p>User Management</p>
                         </md-list-item>
-                        <md-list-item ui-sref="tab.survey-management" ng-if="vm.user.role_id > 1" ng-click="vm.closeNavButton()">
+                        <md-list-item ui-sref="tab.survey-management" ng-if="vm.user.role_id > 1"
+                                      ng-click="vm.closeNavButton()">
                             <p>Survey Management</p>
                         </md-list-item>
-                        <md-list-item ui-sref="tab.contract-editor" ng-if="vm.user.role_id > 1" ng-click="vm.closeNavButton()">
+                        <md-list-item ui-sref="tab.contract-editor" ng-if="vm.user.role_id > 1"
+                                      ng-click="vm.closeNavButton()">
                             <p> Contract Editor</p>
                         </md-list-item>
-                        <md-list-item  ui-sref="tab.settings" ng-click="vm.closeNavButton()">
+                        <md-list-item ui-sref="tab.settings" ng-click="vm.closeNavButton()">
                             <p>Settings</p>
                         </md-list-item>
+                        <md-list-item ui-sref="tab.profile" ng-click="vm.closeNavButton()">
+                            <p>Profile</p>
+                        </md-list-item>
+                        <md-list-item ng-click="vm.logout()">
+                            <p>Logout</p>
+                        </md-list-item>
                     </md-list>
-                    <md-button ng-click="vm.closeNavButton()" class="md-raised md-primary" >
-                    Close menu
-                </md-button>
                 </md-content>
 
             </md-sidenav>
@@ -62,7 +71,7 @@
                 <md-menu-content width="4">
 
                     <md-menu-item>
-                        <md-button ng-click="vm.profile()">Profile</md-button>
+                        <md-button ui-sref="tab.profile" ng-click="vm.closeNavButton()">Profile</md-button>
                     </md-menu-item>
 
                     <md-menu-item>

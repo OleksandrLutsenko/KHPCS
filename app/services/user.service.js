@@ -19,6 +19,8 @@
         model.registration = registration;
         model.forgot = forgot;
         model.reset = reset;
+        model.updateInfo = updateInfo;
+        model.updatePass = updatePass;
         model.loadItems = loadItems;
         model.setItems = setItems;
         model.getItems = getItems;
@@ -83,7 +85,6 @@
             return $localStorage.user;
         }
 
-
         function registration(credentials) {
             return http.post(url.user.register, credentials)
         }
@@ -92,11 +93,17 @@
             return http.post(url.user.forgot, credentials);
         }
 
-        function reset(credentials){
-            return http.post(url.user.reset, credentials);
+        function reset(token , data){
+            return http.post(url.reset_func(token).resetPass , data);
         }
 
+        function updateInfo(id , dataInfo) {
+            return http.post(url.user_func(id).updateProfile , dataInfo);
+        }
 
+        function updatePass(id , data) {
+            return http.post(url.user_func(id).updateProfile , data);
+        }
 
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
