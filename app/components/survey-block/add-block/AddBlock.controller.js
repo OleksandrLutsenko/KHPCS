@@ -3,20 +3,19 @@
     angular.module('app')
         .controller('AddBlockController', AddBlockController);
 
-    AddBlockController.$inject = ['userService', 'survey', '$mdDialog', 'data'];
+    AddBlockController.$inject = ['userService', 'blockService', 'survey', '$mdDialog', 'data' , 'toastr'];
 
-    function AddBlockController(userService, survey, $mdDialog, data) {
+    function AddBlockController(userService, blockService, survey, $mdDialog, data , toastr) {
         let vm = this;
 
         let cell = data.cell;
 
         let idBlockSec = data.idBlock;
-        vm.idBlockSec = idBlockSec;
 
+        vm.idBlockSec = idBlockSec;
+        vm.items = data.items;
         let idSurvey = survey.getActineSurvey();
         let idBlock = survey.getActiveBlock();
-
-        vm.items = userService.getItems()[idSurvey.indexSurvey].blocks;
 
         vm.cancel = cancel;
 
@@ -35,9 +34,14 @@
         vm.saveBlock = saveBlock;
         function saveBlock() {
 
-            if (typeof idBlockSec != 'undefined') {
-                userService.updateBlock(idBlock.id, vm.data).then(function (res) {
-                    userService.loadItems().then(function () {
+            if (vm.blockForm.$invalid) {
+                console.log('error');
+                toastr.error('Please try again', 'Form is invalid');
+            }
+            else {
+
+                if (typeof idBlockSec != 'undefined') {
+                    blockService.updateBlock(idBlock.id, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
                                 type: 'update'
@@ -46,18 +50,15 @@
                         }
                         else {
                             console.log('errorUpd');
+                            cancel();
                         }
-
-                        $mdDialog.cancel();
-
                     });
-                });
-            }
-            else {
+                }
+                else {
 
-                userService.createBlock(idSurvey.id, vm.data).then(function (res) {
-                    console.log('create');
-                    userService.loadItems().then(function () {
+                    vm.data.order_number = vm.items.length;
+
+                    blockService.createBlock(idSurvey.id, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
                                 type: 'create'
@@ -67,11 +68,8 @@
                         else {
                             cancel();
                         }
-
-                        $mdDialog.cancel();
-
                     });
-                });
+                }
             }
         }
 

@@ -12,9 +12,8 @@
 
         vm.next = next;
         vm.back = back;
-        vm.nextSucces = false;
         vm.backSucces = false;
-
+        let succesNext = true;
         vm.data = [];
 
         console.log(customerAnswer, 'customaerAnswer');
@@ -26,9 +25,7 @@
         let idActiveSurvey = items[indexActiveSurvey].id;
         let activeCustomers = customers.getActiveCustomers();
 
-        let allQuestionBlock;
-        let allAnswersBlock;
-
+        let mainQuestionInBlock;
         let customerAnswerOnActiveBlock;
 
         for(let j = 0; j < customerAnswer.length; j++){
@@ -52,23 +49,12 @@
         start();
 
         function generete() {
-
-            allAnswersBlock = [];
-
-            let activeBlock = items[indexActiveSurvey].blocks[indexActiveBlock];
-            console.log(activeBlock, 'active block');
-
-            allQuestionBlock = activeBlock.questions;
-
-            activeBlock.questions.forEach(function(item) {
-                item.answers.forEach(function (item) {
-                    allAnswersBlock.push(item);
-                });
-            });
+            mainQuestionInBlock = items[indexActiveSurvey].blocks[indexActiveBlock].questions;
+            console.log('mainQuestionInBlock', mainQuestionInBlock);
         }
 
         function fill() {
-
+            vm.data = [];
             customerAnswerOnActiveBlock = [];
 
             let idActiveBlock = items[indexActiveSurvey].blocks[indexActiveBlock].id;
@@ -80,80 +66,50 @@
                 }
             }
 
-            customerAnswerOnActiveBlock.forEach(function (item) {
-                for(let i = 0; i < allQuestionBlock.length; i++){
-                    if(item.question_id == allQuestionBlock[i].id){
-                        if(allQuestionBlock[i].type == 1){
-                            vm.data[i] = item.answer_id;
+            function findAnswer(item) {
+                for(let i = 0; i < customerAnswerOnActiveBlock.length; i++){
+                    if(customerAnswerOnActiveBlock[i].question_id == item.id){
+                        if(item.type == 1){
+                            return customerAnswerOnActiveBlock[i].answer_id
                         }
-                        else{
-                            vm.data[i] = item.value;
+                        else {
+                            return customerAnswerOnActiveBlock[i].value
                         }
-                        break
                     }
                 }
-            })
+            }
+
+            mainQuestionInBlock.forEach(function (itemMainQuestion) {
+                let mainData = {
+                    mainData: findAnswer(itemMainQuestion),
+                    answerData: []
+                };
+
+                if(itemMainQuestion.type == 1){
+                    itemMainQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
+                        mainData.answerData[indexAnswer] = {
+                            childData: []
+                        };
+                        itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
+                            mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswer(itemChildQuestion);
+                            if(mainData.answerData[indexAnswer].childData[indexChildQuestion] == undefined){
+                                mainData.answerData[indexAnswer].childData.splice(indexChildQuestion, 1);
+                            }
+                        });
+                    })
+                }
+                vm.data.push(mainData);
+
+            });
         }
 
-        $scope.$watchCollection('vm.data', function() {
-            console.log('hey, data has changed!');
-
-            let indexQuestion;
-
-            let couterAnswer = 0;
-            let couterQuestion = 0;
-
-            allQuestionBlock.forEach(function (item, index) {
-                if(item.hidden == 1){
-                    for (let i = 0; i < allAnswersBlock.length; i++){
-                        if(item.id == allAnswersBlock[i].next_question){
-                            for(let j = 0; j < allQuestionBlock.length; j++){
-                                if(allQuestionBlock[j].id == allAnswersBlock[i].question_id){
-                                    indexQuestion = j;
-                                    break
-                                }
-                            }
-                            if(vm.data[indexQuestion] == allAnswersBlock[i].id){
-                                item.hiddenAfte = 0
-                            }
-                            else {
-                                item.hiddenAfte = 1
-                            }
-                            break
-                        }
-                    }
-                }
-                if(item.hidden == 0 || item.hiddenAfte == 0){
-                    couterQuestion++;
-                    if(typeof vm.data[index] != 'undefined' && vm.data[index] != ''){
-                        couterAnswer++;
-                    }
-                }
-            });
-
-            if(couterAnswer == couterQuestion){
-                vm.nextSucces = true
-            }
-            else{
-                vm.nextSucces = false
-            }
-
-        });
-
-        $scope.$watch('vm.couter', function () {
-            if(allQuestionBlock.length == vm.couter){
-                toNextBlock();
-            }
-        });
-
-
         function start() {
-            if(allQuestionBlock.length == 0){
-                console.log('no question in block');
+            if(mainQuestionInBlock.length == 0){
+                toastr.error('no question in block');
                 $state.go('tab.user-management');
             }
             else{
-                vm.questions = allQuestionBlock;
+                vm.questions = mainQuestionInBlock;
                 vm.header = items[indexActiveSurvey].blocks[indexActiveBlock].name;
                 if(indexActiveBlock > 0){
                     vm.backSucces = true;
@@ -166,56 +122,120 @@
 
         function next() {
 
-            vm.couter = 0;
+            succesNext = true;
 
             console.log(vm.data, 'all answers in block');
-            console.log(allQuestionBlock, 'all question in block');
+            console.log(mainQuestionInBlock, 'all question in block');
 
-            allQuestionBlock.forEach(function (item, index) {
-                if(item.hiddenAfte == 0 || item.hidden == 0){
-                    let data;
+            let dataForSend = [];
 
-                    let id = {
-                        customer: activeCustomers,
-                        question: item.id
-                    };
+            if(vm.data.length > 0){
+                vm.data.forEach(function (itemQuestion, indexQuestion) {
 
-                    if(item.type == 1){
-                        data = {
-                            answer_id: vm.data[index]
-                        };
+                    checkForFill(itemQuestion.mainData);
+
+                    if(mainQuestionInBlock[indexQuestion].type == 1) {
+                        let tmpObj = {};
+
+                        tmpObj.id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
+                        tmpObj.answer_id = itemQuestion.mainData;
+
+                        if(tmpObj.id == undefined){
+                            tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
+                        }
+                        dataForSend.push(tmpObj);
+
+                        mainQuestionInBlock[indexQuestion].answers.forEach(function (itemAnswer, indexAnswer) {
+                            if(itemAnswer.child_questions.length > 0){
+                                if(itemQuestion.mainData == itemAnswer.id){
+                                    itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
+                                        if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
+                                            let tmpObj = {};
+
+                                            tmpObj.id = serchAnswerId(itemChildQuestion.id);
+
+                                            if(itemChildQuestion.type == 1){
+                                                tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
+                                            }
+                                            else {
+                                                tmpObj.value = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
+                                            }
+
+                                            if(tmpObj.id == undefined){
+                                                tmpObj.question_id = itemChildQuestion.id;
+                                            }
+                                            dataForSend.push(tmpObj);
+
+                                            checkForFill(itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]);
+                                        }
+                                        else {
+                                            succesNext = false;
+                                        }
+                                    });
+                                }
+                                else {
+                                    itemAnswer.child_questions.forEach(function (itemChildQuestion) {
+                                        let tmpObj = {
+                                            id: serchAnswerId(itemChildQuestion.id),
+                                            delete: true
+                                        };
+
+                                        if(tmpObj.id != undefined){
+                                            dataForSend.push(tmpObj);
+                                        }
+
+                                    })
+                                }
+                            }
+                        })
                     }
                     else {
-                        data = {
-                            answer_text:  vm.data[index]
-                        };
-                    }
-                    userService.sendCustomerAnswer(id, data).then(function (res) {
-                        if(res.success){
-                            console.log(index, 'question send succes');
-                            vm.couter++
-                        }
-                    })
-                }
-                else {
-                    let data;
+                        let tmpObj = {};
 
-                    let id = {
-                        customer: activeCustomers,
-                        question: item.id
-                    };
-                    data = {
-                        answer_text:  null
-                    };
-                    userService.sendCustomerAnswer(id, data).then(function (res) {
-                        if(res.success){
-                            console.log(index, 'question send succes');
-                            vm.couter++
+                        tmpObj.id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
+                        tmpObj.value = itemQuestion.mainData;
+
+                        if(tmpObj.id == undefined){
+                            tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
                         }
-                    })
-                }
-            });
+
+                        dataForSend.push(tmpObj);
+                    }
+                });
+            }
+            else {
+                succesNext = false;
+            }
+
+
+            console.log('dataForSend', dataForSend);
+
+            if(!succesNext){
+                toastr.error('All fields should be complited');
+            }
+            else {
+                userService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
+                    console.log(res);
+                    if(res.success){
+                        toNextBlock();
+                    }
+                })
+            }
         }
+
+        function checkForFill (item){
+            if(typeof item == 'undefined' || item == ''){
+                succesNext = false;
+            }
+        }
+        function serchAnswerId(idQuestion) {
+            for (let i = 0; i < customerAnswerOnActiveBlock.length; i++){
+                if(idQuestion == customerAnswerOnActiveBlock[i].question_id){
+                    return customerAnswerOnActiveBlock[i].id
+                }
+            }
+        }
+
         function back() {
             if(indexActiveBlock > 0){
                 let id = {
@@ -224,17 +244,18 @@
                 };
                 userService.getCustomerAnswer(id).then(function (res) {
                     if(res.success){
-                        customerAnswer = res.data.customerAnswers
+                        customerAnswer = res.data.customerAnswers;
+                        indexActiveBlock--;
+                        vm.data = [];
+                        generete();
+                        fill();
+                        start();
                     }
                     else{
                         console.log('error customer answer');
                     }
                 });
-                indexActiveBlock--;
-                vm.data = [];
-                generete();
-                fill();
-                start();
+
             }
         }
 
@@ -242,18 +263,7 @@
 
         function toNextBlock() {
             if(items[indexActiveSurvey].blocks.length - 1 > indexActiveBlock){
-                let id = {
-                    customer: activeCustomers,
-                    survey: idActiveSurvey
-                };
-                userService.getCustomerAnswer(id).then(function (res) {
-                    if(res.success){
-                        customerAnswer = res.data.customerAnswers
-                    }
-                    else{
-                        console.log('error customer answer');
-                    }
-                });
+
                 indexActiveBlock++;
                 vm.data = [];
                 generete();

@@ -1,65 +1,49 @@
 .quest {
+  overflow: hidden;
 
-  .tabsdemoDynamicHeight md-content {
-    background-color: transparent !important;
+
+
+  .question-container {
+
+  }
+  .answer-container {
+
   }
 
-  .tabsdemoDynamicHeight md-content md-tabs {
-    background: #f6f6f6;
-    border: 1px solid #e1e1e1;
+
+  .question_block {
+  border: 2px solid #DDDDDD;
+}
+  .add-quest{
+    cursor: pointer;
+  }
+  .answer_block {
+    //border: 1px solid #DDDDDD;
   }
 
-  .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
-    background: white;
+  ////////////////////////
+
+  .answeText {
+    padding: 5px;
+    border: 1px solid #DDDDDD;
   }
 
-  .tabsdemoDynamicHeight md-content h1:first-child {
-    margin-top: 0;
+  .main_question {
+    padding: 5px;
+    border: 1px solid #DDDDDD;
+    i {
+      padding-right: 5px;
+      font-size: 20px;
+    }
   }
 
-  .clearfix:after,
-  .clearfix:before {
-    display: table;
-    content: '';
-  }
-
-  .clearfix:after {
-    clear: both;
-  }
-
-  .label-tab {
-    text-transform: capitalize;
-    color: red;
-  }
-
-  .question {
-    box-sizing: border-box;
-    padding: 15px 30px;
-    width: 100%;
-    border-bottom: 1px solid #DDDDDD;
-  }
-
-  .question:hover {
+  .main_question:hover {
     background: #DDDDDD;
     transition: .4s;
   }
 
-  .sm-left {
-    float: left;
-  }
-
-  .sm-right {
-    float: right;
-    display: flex;
-  }
-
-  .sm-right i {
-    margin-left: 20px;
-  }
-
-  md-edit-sm {
-    width: 50%;
-    background-color: #555555;
+  .main_content {
+    padding: 5px;
   }
 
 }

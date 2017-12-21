@@ -19,9 +19,10 @@
     <link rel="stylesheet" href="content/css/app.css">
     <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css"/>
     <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.min.css">
-    <link rel="stylesheet" type="text/css"
-          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--<link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css">-->
+
 
 </head>
 <body>
@@ -32,6 +33,11 @@
 
 </div>
 
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.js"></script>
@@ -41,6 +47,7 @@
 <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
 <script src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
 <script src="bower_components/ngstorage/ngStorage.js"></script>
+<script src="bower_components/angular-ui-sortable/sortable.min.js"></script>
 
 <script src="app.js"></script>
 <script src="core/core.module.js"></script>
@@ -52,7 +59,7 @@
 
 <!--services-->
 <script src="services/user.service.js"></script>
-<script src="services/question.service.js"></script>
+<script src="services/block.service.js"></script>
 <script src="services/customer.service.js"></script>
 <script src="services/tabs.service.js"></script>
 
@@ -80,8 +87,10 @@
 <script src="templates/settings/settings.controller.js"></script>
 <script src="templates/login/login.controller.js"></script>
 <script src="templates/forgot-password/forgot.controller.js"></script>
+<script src="templates/reset-password/reset.controller.js"></script>
 <script src="templates/registration/registration.controller.js"></script>
 <script src="templates/passing-questions/passing-questions.controller.js"></script>
+<script src="templates/profile/profile.controller.js"></script>
 <script src="components/survey-question/addQuest/addQuest.controller.js"></script>
 <script src="components/deleteView/deleteView.controller.js"></script>
 <script src="components/user-management/addClient/addClient.controller.js"></script>

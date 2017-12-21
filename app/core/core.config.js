@@ -4,8 +4,7 @@
         .config(mainConfig);
     mainConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
-    function mainConfig($stateProvider, $urlRouterProvider) {
-
+    function mainConfig($stateProvider, $urlRouterProvider , $stateParams) {
 
         $urlRouterProvider.otherwise('/login');
 
@@ -39,8 +38,19 @@
             .state('forgot', {
                 url: '/sign-up/forgot',
                 templateUrl: 'templates/forgot-password/forgot-password.html',
-                controller: 'forgotController',
+                controller: 'ForgotController',
                 controllerAs: 'vm'
+            })
+            .state('reset', {
+                url: '/sign-up/reset/:token',
+                templateUrl: 'templates/reset-password/reset-password.html',
+                controller: 'ResetController',
+                controllerAs: 'vm',
+                resolve:{
+                    token: ['$stateParams', function($stateParams){
+                        return $stateParams.token;
+                    }]
+                }
             })
             .state('tab.user-management', {
                 url: '/user-management',
@@ -83,17 +93,46 @@
                 controller: 'SettingsController',
                 controllerAs: 'vm'
             })
+            .state('tab.profile', {
+                url: '/profile',
+                templateUrl: 'templates/profile/profile.html',
+                controller: 'ProfileController',
+                controllerAs: 'vm'
+            })
             .state('tab.survey-block', {
                 url: '/survey-block',
                 templateUrl: 'templates/survey-block/survey-block.html',
                 controller: 'SurveyBlockController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    items: function (blockService, survey) {
+                        let idSurvey = survey.getActineSurvey().id;
+
+                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                            if(res.success){
+                                return res.data.survey.blocks;
+                            }
+                        });
+                    }
+                }
             })
             .state('tab.survey-block.survey-question', {
                 url: '/survey-question',
                 templateUrl: 'templates/survey-question/survey-question.html',
                 controller: 'SurveyQuestionController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    items: function (blockService, survey) {
+                        let idS = survey.getActineSurvey();
+                        let idSurvey = idS.id;
+
+                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                            if(res.success){
+                                return res.data.survey.blocks;
+                            }
+                        });
+                    }
+                }
             })
             .state('tab.passing-question', {
                 url: '/passing-question',

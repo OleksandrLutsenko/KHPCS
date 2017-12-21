@@ -1,18 +1,17 @@
-<md-dialog flex="40" flex-xs="90" flex-sm="60" class="addMd">
-    <div class="createWindow">
+<md-dialog flex="40" flex-xs="90" flex-sm="60" class="add-client">
+    <div>
 
-        <div class="createTop" ng-if="vm.id == undefined">
+        <div class="create-top" ng-if="vm.id == undefined">
             <p>Add a new client</p>
         </div>
-        <div class="createTop" ng-if="vm.id !== undefined">
+        <div class="create-top" ng-if="vm.id !== undefined">
             <p>Editing client</p>
-            <i class="material-icons"  ng-click="vm.cancel()">close</i>
+            <i class="material-icons" ng-click="vm.cancel()">highlight_off</i>
         </div>
 
-
-        <div class="contentAdd">
+        <div class="content-add">
             <form name="vm.customersForm">
-            <div class="allInput" layout="column" >
+            <div class="all-input" layout="column" >
                 <md-input-container >
                     <label>Client name</label>
                     <input type="text" name="name" ng-model="vm.data.name" required maxlength="32">
@@ -43,15 +42,15 @@
                 </md-input-container>
             </div>
             </form>
-            <div class="botBtn" ng-if="vm.id == undefined" layout="" layout-align="space-between">
+            <div class="bot-btn" ng-if="vm.id == undefined" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Create
                 </md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
             </div>
-            <div class="botBtn" ng-if="vm.id !== undefined" layout="" layout-align="space-between">
+            <div class="bot-btn" ng-if="vm.id !== undefined" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Update
                 </md-button>
-                <md-button class="md-raised" ng-click="vm.cancel()">Questionaire</md-button>
+                <md-button class="md-raised" ng-click="vm.continue()">Questionnaire</md-button>
             </div>
         </div>
     </div>

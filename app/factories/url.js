@@ -3,37 +3,41 @@
         .module('factory.url', [])
         .factory('url', url);
 
-
     url.$inject = [];
 
     function url() {
         let baseUrl = 'http://api.knightshayes.grassbusinesslabs.tk/';
+
         return {
             user: {
                 login: baseUrl + 'api/auth/login',
                 loadUser: baseUrl + 'api/user',
                 getItems: baseUrl + 'api/survey',
                 register: baseUrl + 'api/auth/register',
-                forgot: baseUrl + 'api/user/request-reset',
-                reset:  baseUrl + 'api/user/reset-password?token='
+                forgot: baseUrl + 'api/user/request-reset'
             },
             survey_management: {
                 createSurvey: baseUrl + 'api/survey',
             },
+            reset_func(token){
+                return { resetPass: baseUrl + 'api/user/reset-password?token=' + token }
+            },
+            user_func(id){
+                return { updateProfile: baseUrl + 'api/user/' + id }
+            },
             survey_management_func(id) {
                 return {
                     loadOnlySurvey: baseUrl + 'api/onlysurvey',
+                    loadOneSurvey: baseUrl + 'api/survey/' + id,
                     updateSurvey: baseUrl + 'api/survey/' + id,
                     deleteSurvey: baseUrl + 'api/survey/' + id,
                     changeStatusSurvey: baseUrl + 'api/survey/' + id + '/change-status',
                     archiveStatusSurvey: baseUrl + 'api/survey/' + id + '/archive-status',
-                    block : baseUrl + 'api/survey/' + id + '/add-block',
-                    createBlock : baseUrl + 'api/survey/' + id + '/add-block',
-                    updateBlock : baseUrl + 'api/block/' + id,
-                    createQuestion : baseUrl + 'api/block/' + id + '/add-question',
-                    updateQuestion : baseUrl + 'api/question/' + id,
-                    createAnswer: baseUrl + 'api/question/' + id + '/add-answer',
-                    updateAnswer: baseUrl + 'api/answer/' + id,
+                    block: baseUrl + 'api/survey/' + id + '/add-block',
+                    createBlock: baseUrl + 'api/survey/' + id + '/add-block',
+                    updateBlock: baseUrl + 'api/block/' + id,
+                    //
+                    addBlockQuestion: baseUrl + 'api/block/' + id + '/add-block-questions'
                 };
             },
             customers: {
@@ -41,8 +45,8 @@
             },
             customers_func(id) {
                 return {
-                    updateCustomers: baseUrl + 'api/customer/'+ id,
-                    sendCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/question/'+ id.question + '/make-answer',
+                    updateCustomers: baseUrl + 'api/customer/' + id,
+                    sendCustomerAnswer: baseUrl + 'api/customer/' + id + '/make-answer',
 
                     getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'
                 }

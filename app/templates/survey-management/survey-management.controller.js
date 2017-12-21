@@ -14,6 +14,10 @@
 
         vm.items = userService.getItems();
 
+        userService.loadSurveyOnly().then(function (res) {
+           console.log(res);
+        });
+
         function setActineSurvey(id, indexSurvey) {
             survey.setActineSurvey(id, indexSurvey);
         }

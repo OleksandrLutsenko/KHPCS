@@ -1,18 +1,23 @@
-<md-dialog flex="30" class="createQuest">
-    <div class="dltWindow">
-        <div class="viewHead" ng-if="vm.id == undefined">
+<md-dialog flex="30" class="create-quest">
+    <div class="dlt-window">
+        <div class="view-head" ng-if="vm.id == undefined">
             <p>Create survey</p>
         </div>
-        <div class="viewHead" ng-if="vm.id !== undefined">
+        <div class="view-head" ng-if="vm.id !== undefined">
             <p>Edit survey</p>
         </div>
+        <form name="vm.surveyForm">
         <div class="content">
             <md-input-container>
                 <label>Name</label>
-                <input type="text" ng-model="vm.data.name" md-autofocus>
+                <input type="text" ng-model="vm.data.name" md-autofocus required maxlength="32" name="name" minlength="3">
+                <div ng-messages="vm.surveyForm.name.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="minlength">Name min length 3.</div>
+                </div>
             </md-input-container>
 
-            <div class="botBtn" layout="" layout-align="space-between">
+            <div class="bot-btn" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.saveSurvey()">Save
                 </md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>

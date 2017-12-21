@@ -19,6 +19,8 @@
         model.registration = registration;
         model.forgot = forgot;
         model.reset = reset;
+        model.updateInfo = updateInfo;
+        model.updatePass = updatePass;
         model.loadItems = loadItems;
         model.setItems = setItems;
         model.getItems = getItems;
@@ -30,9 +32,6 @@
         model.deleteSurvey = deleteSurvey;
         model.changeStatusSurvey = changeStatusSurvey;
         model.archiveStatusSurvey = archiveStatusSurvey;
-        model.createBlock = createBlock;
-        model.updateBlock = updateBlock;
-        model.deleteBlock = deleteBlock;
 
         //Passing questions
         model.sendCustomerAnswer = sendCustomerAnswer;
@@ -86,7 +85,6 @@
             return $localStorage.user;
         }
 
-
         function registration(credentials) {
             return http.post(url.user.register, credentials)
         }
@@ -95,11 +93,17 @@
             return http.post(url.user.forgot, credentials);
         }
 
-        function reset(credentials){
-            return http.post(url.user.reset, credentials);
+        function reset(token , data){
+            return http.post(url.reset_func(token).resetPass , data);
         }
 
+        function updateInfo(id , dataInfo) {
+            return http.post(url.user_func(id).updateProfile , dataInfo);
+        }
 
+        function updatePass(id , data) {
+            return http.post(url.user_func(id).updateProfile , data);
+        }
 
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
@@ -144,18 +148,6 @@
 
         function archiveStatusSurvey (id) {
             return http.put(url.survey_management_func(id).archiveStatusSurvey);
-        }
-
-        function createBlock(id, credentials) {
-            return http.post(url.survey_management_func(id).createBlock, credentials);
-        }
-
-        function deleteBlock(id) {
-            return http.delete(url.survey_management_func(id).updateBlock);
-        }
-
-        function updateBlock(id, data) {
-            return http.put(url.survey_management_func(id).updateBlock, data);
         }
 
 

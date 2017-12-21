@@ -41,11 +41,13 @@
   .active-cell {
     //background-color: #f6f6f6;
     cursor: default;
+    text-align: center;
   }
   .inactive-cell {
     background-color: #e8e8e8;
     border-bottom: 1px solid #d8d8d8;
     cursor: pointer;
+    text-align: center;
   }
   .header-title {
     font-size: 14px;

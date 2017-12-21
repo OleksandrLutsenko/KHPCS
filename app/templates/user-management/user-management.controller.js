@@ -12,9 +12,6 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.time = new Date();
-        vm.all = vm.time.getDate() + "." + (vm.time.getMonth() +1)  + "." + vm.time.getFullYear();
-
         vm.customers = customerService.getCustomers();
 
 
@@ -23,7 +20,7 @@
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
         vm.user = userService.getUser();
-        console.log(vm.customers.created_at);
+        // console.log(vm.customers.created_at);
         function pass(id) {
             customers.setActiveCustomers(id);
             $state.go('tab.passing-question');

@@ -1,19 +1,65 @@
 <md-content class="quest">
-    <div class="question"  ng-init="height = 3" ng-mouseenter="height = 6"
-         ng-mouseleave="height = 3" ng-click="vm.showEdit()">Add new question
-    </div>
-    <div ng-repeat="question in  vm.items" class="question clearfix "
-         flex="100" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
-    >
-        <div class="sm-left">{{question.title}}</div>
-        <div class="sm-right">
 
-            <i class="material-icons" ng-click="vm.showEdit(question.id, $index)">mode_edit</i>
-            <i class="material-icons"
-               ng-click="vm.deleteQuest(question.id, $index)">highlight_off</i>
-        </div>
+    <div>
+            <div class="main_question">
+                <span class="add-quest" ng-click="vm.showEdit()">Add new question</span>
+                <md-button ng-click="vm.save()">Save</md-button>
+            </div>
+
+
+            <div ui-sortable="vm.sortableOptionsQuestion" ng-model="vm.items" class="question-container">
+                <div ng-repeat="(mainKey, question) in  vm.items" class="question_block" ng-if="!question.delete">
+                    <div class="main_question" layout="row" layout-align="space-between center">
+
+                        <div class="main_content">
+                            {{question.title}}
+                        </div>
+
+                        <div>
+                            <i class="material-icons" ng-click="vm.showEdit(mainKey)">mode_edit</i>
+                            <i class="material-icons" ng-click="vm.deleteQuest(question.id, mainKey)">highlight_off</i>
+                        </div>
+
+                    </div>
+                    <div>
+                        <div ui-sortable="vm.sortableOptionAnswer" ng-model="question.answers" class="answer-container" ng-if="question.type == 1">
+                            <div ng-repeat="(answerKey, answers) in  question.answers" class="answer_block" ng-if="!answers.delete">
+
+                                    <div layout="row">
+
+                                        <div flex="30" flex-offset="10" layout="row" layout-align="start center" class="answeText">
+                                            {{answers.answer_text}}
+                                        </div>
+
+                                        <div ui-sortable="vm.sortableOptionsQuestionInAnswer" ng-model="answers.child_questions" class="question-container" flex="60">
+                                            <div ng-repeat="(questionKey, child_questions) in answers.child_questions" ng-if="!child_questions.delete">
+                                                <div class="main_question" layout="row" layout-align="space-between center">
+
+                                                    <div>
+                                                        {{child_questions.title}}
+                                                    </div>
+
+                                                    <div class="sm-right">
+                                                        <i class="material-icons" ng-click="vm.showEdit(mainKey, answerKey, questionKey)">mode_edit</i>
+                                                        <i class="material-icons" ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)">highlight_off</i>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
     </div>
+
 </md-content>
 
 

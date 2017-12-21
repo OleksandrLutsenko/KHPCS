@@ -20,7 +20,6 @@ CKEDITOR.editorConfig = function( config ) {
         // '/',
         {name: 'Styles', items: [ 'Styles','Format','Font','FontSize', 'lineheight', 'letterspacing'] },
         {name: 'colors', items: [ 'TextColor','BGColor' ] },
-        // {name: 'theme', items: [ 'UIColor','Maximize'] }
         {name: 'theme', items: [ 'UIColor','Maximize'] }
         // {name: 'theme', items: [ 'UIColor','Maximize', 'CreatePlaceholder'] }
     ];
