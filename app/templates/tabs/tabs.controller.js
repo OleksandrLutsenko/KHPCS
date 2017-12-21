@@ -3,25 +3,33 @@
     angular.module('app')
         .controller('TabsController', TabsController);
 
-    TabsController.$inject = ['userService', 'tabs', 'tabsService', '$state' , '$stateParams'];
+    TabsController.$inject = ['userService', 'tabs', 'tabsService', '$state'];
 
-    function TabsController(userService, tabs, tabsService, $state , $stateParams) {
+    function TabsController(userService, tabs, tabsService, $state) {
         let vm = this;
-        // console.log($stateParams.tabName);
 
 
         vm.user = userService.getUser();
-        vm.currentNavItem = 'page1';
+
+
+       function initTab() {
+           if( tabsService.getActiveTab()){
+               vm.currentNavItem =  tabsService.getActiveTab();
+           }else {
+               vm.currentNavItem = 'page1';
+           }
+       }
+       initTab();
+
+
 
         vm.setActiveTab = function (tab) {
-            vm.currentNavItem = tab;
-        }
+            tabsService.setActiveTab(tab);
+        };
 
 
 
 
-        // switch: asd
-        //     case:
 
         vm.profile = function () {
             console.log('Test profile');

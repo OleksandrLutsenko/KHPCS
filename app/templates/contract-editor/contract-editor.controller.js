@@ -12,58 +12,71 @@
         let vm = this;
         console.log('contract-editor controller start');
 
-        vm.items = userService.getItems();
-        console.log(vm.items);
+        vm.surveys = userService.getItems();
+        console.log(vm.surveys);
 
         userService.getVariability().then(function (res) {
             if(res.success) {
                 vm.variability = res.data;
+                console.log(vm.variability, 'vm.variability');
             }else {
                 console.log('no variability');
             }
         });
 
-        function loadTemplates() {
-            userService.loadAllTemplates().then(function (res) {
-                if(res.success) {
-                    vm.templates = res.data;
-                    console.log(vm.templates, 'vm.templates');
+        // function loadTemplates() {
+        userService.loadAllTemplates().then(function (res) {
+            if(res.success) {
+                vm.templates = res.data;
+                console.log(vm.templates, 'vm.templates');
 
-                    vm.availabilityOfTemplates = function () {
-                        let tmpStatus = true;
+                vm.availabilityOfTemplates = function () {
+                    let tmpStatus = true;
 
-                        for (let i=0; i<vm.templates.length; i++){
-                            if (vm.templates[i].survey_id === activeSurveyID) {
-                                tmpStatus = false;
-                            }
+                    for (let i=0; i<vm.templates.length; i++){
+                        if (vm.templates[i].survey_id === activeSurveyID) {
+                            tmpStatus = false;
                         }
+                    }
 
-                        if (tmpStatus === true){
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    };
-                }else {
-                    console.log('load templates error');
-                }
-            });
-        }
-        loadTemplates();
-
+                    if (tmpStatus === true){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                };
+            }else {
+                console.log('load templates error');
+            }
+        });
+        // }
+        // loadTemplates();
+        //
         let activeSurveyID;
         let activeSurveyName;
         let activeBlockId;
         let activeTemplateTitle;
+        let tmpAnswersArr = [];
         vm.activeTemplateId = undefined;
+        vm.showTemplateTab = true;
+        vm.showSurveyVarTab = false;
+        vm.showUserVarTab = false;
 
         CKEDITOR.replace('CKeditorArea');
-        vm.surveyMenuInContractEditor = true;
-        vm.contractEditor = false;
 
-        CKEDITOR.addCss('body{width: 21cm;min-height: 29.7cm;border: 1px #D3D3D3 solid;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);padding: 2.5cm; box-sizing: border-box; margin: 0 auto; font-family: -webkit-pictograph; font-size: 15px !important;line-height: 1.2 !important}');
+        CKEDITOR.addCss('body{width: 21cm;min-height: 29.7cm;border: 1px #D3D3D3 solid;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);padding: 5px; box-sizing: border-box; margin: 0 auto; font-family: -webkit-pictograph; font-size: 15px !important;line-height: 1.2 !important}');
         CKEDITOR.addCss('body p{margin: 5px 0;}');
         CKEDITOR.addCss('span[lang]{font-style: normal !important;}');
+
+        if (vm.surveys.length) {
+            vm.activeSurvey = vm.surveys[0];
+            activeSurveyID = vm.surveys[0].id;
+            activeSurveyName = vm.surveys[0].name;
+            CKEDITOR.instances.CKeditorArea.setData('');
+            userService.createNewResearch().then(function (res) {
+                tmpResearchId = res.data.id;
+            });
+        }
 
         vm.showTemplates = function (id) {
             if (id === activeSurveyID){
@@ -72,6 +85,39 @@
                 return false;
             }
         };
+
+        vm.showSelectedSurvey = function (id) {
+            if (id === activeSurveyID) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        vm.showSelectedTemplate = function (id) {
+            if (id === vm.activeTemplateId) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+
+        vm.clickTemplateTab = function () {
+            vm.showTemplateTab = true;
+            vm.showSurveyVarTab = false;
+            vm.showUserVarTab = false;
+        };
+        vm.clickSurveyVarTab = function () {
+            vm.showTemplateTab = false;
+            vm.showSurveyVarTab = true;
+            vm.showUserVarTab = false;
+        };
+        vm.clickUserVarTab = function () {
+            vm.showTemplateTab = false;
+            vm.showSurveyVarTab = false;
+            vm.showUserVarTab = true;
+        };
+
         //////////////////////////Поблочный просмотр вопросов(+Тригер)///////////////////
         vm.showQuestionsInBlock = function (idCurrentBlock) {
             if (activeBlockId === idCurrentBlock){
@@ -94,13 +140,18 @@
         ///////////////////////////////////////////////////////////////////////////////
         let tmpResearchId;
 
-        vm.setActiveSurvey = function (id, index, name) {
-            vm.surveyMenuInContractEditor = false;
-            vm.contractEditor = true;
-            vm.activeSurvey = vm.items[index];
+        vm.setActiveSurvey = function setActiveSurvey(id, index, name) {
+            vm.activeSurvey = vm.surveys[index];
+            // console.log(vm.activeSurvey);
             activeSurveyID = id;
             activeSurveyName = name;
+
+            vm.activeTemplateId = undefined;
+            activeTemplateTitle = undefined;
+            CKEDITOR.instances.CKeditorArea.setData('');
+
             console.log(vm.activeSurvey, 'vm.activeSurvey');
+
             userService.createNewResearch().then(function (res) {
                 console.log(res);
                 tmpResearchId = res.data.id;
@@ -108,56 +159,86 @@
             });
         };
 
-        vm.reelectActiveSurvey = function () {
-            vm.surveyMenuInContractEditor = true;
-            vm.contractEditor = false;
-            CKEDITOR.instances.CKeditorArea.setData("");
-            activeSurveyID = undefined;
-            activeSurveyName = undefined;
-            activeBlockId = undefined;
-            activeTemplateTitle = undefined;
-            vm.activeTemplateId = undefined;
-            userService.removeResearch(tmpResearchId).then(function (res) {
-                console.log(res);
-            });
-        };
-
         vm.pasteTitle = function (data) {
-            CKEDITOR.instances['CKeditorArea'].insertText(data);
+            CKEDITOR.instances.CKeditorArea.insertText(data);
+            // CKEDITOR.instances.CKeditorArea.insertText('[[' + data + ']]' + 'fsdfssdfs' + '[[' + data + ']]');
+            // console.log(CKEDITOR.instances.CKeditorArea.getData());
+
         };
 
         vm.pasteVariability = function (data, id) {
-            CKEDITOR.instances['CKeditorArea'].insertText('{!!$contractAnswers[' + id + ']!!}');
+            // CKEDITOR.instances.CKeditorArea.insertText('{!!$contractAnswers[' + id + ']!!}');
+            let surveyVarInEditorSide = '[[Answer ' + id + ']]';
+            let surveyVarInServerSide = '{!!$contractAnswers[' + id + ']!!}';
+            let tmpVarObj = {
+                inServer: surveyVarInServerSide,
+                inEditor: surveyVarInEditorSide
+            };
+
+            CKEDITOR.instances.CKeditorArea.insertText('[[Answer ' + id + ']]');
+
+            let coincidence = false;
+            if (!tmpAnswersArr.length) {
+                tmpAnswersArr.push(tmpVarObj);
+            } else {
+                tmpAnswersArr.forEach(function (item) {
+                    if (item.inServer === surveyVarInServerSide) {
+                        coincidence = true;
+                    }
+                });
+
+                if (coincidence === false) {
+                    tmpAnswersArr.push(tmpVarObj);
+                }
+            }
         };
-
-
-        //////////////////////////////Замена текста////////////////////////////////////
-        vm.testReplace = function () {
-            let tmpTextData = CKEDITOR.instances.CKeditorArea.getData();
-            let id = 1;
-            let tmp = "{!!\$contractAnswers\[" + id + "\]!!}";
-            console.log(tmp);
-
-            // CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp('12345', "g" ), "Replace success"));
-            CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp(tmp, "g" ), "Replace success"));
-            console.log(tmpTextData);
-        };
-        ///////////////////////////////////////////////////////////////////////////////
 
         /////////////////////////Работа с шаблонами////////////////////////////////////
 
         vm.pasteTemplate = function (data) {
             vm.activeTemplateId = data.id;
             activeTemplateTitle = data.title;
+            tmpAnswersArr = [];
 
             let body = data.body.replace("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>", "").replace("</body></html>", "");
+
+            vm.activeSurvey.blocks.forEach(function (block) {
+                block.questions.forEach(function (question) {
+                    let surveyVarInServerSide = '{!!$contractAnswers[' + question.id + ']!!}';
+                    if (body.indexOf(surveyVarInServerSide) !== -1) {
+                        let surveyVarInEditorSide = '[[Answer ' + question.id + ']]';
+                        let tmpVarObj = {
+                            inServer: surveyVarInServerSide,
+                            inEditor: surveyVarInEditorSide
+                        };
+                        tmpAnswersArr.push(tmpVarObj);
+                        body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
+                    }
+                });
+            });
+
+            vm.variability.forEach(function (variability) {
+                let userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
+                if (body.indexOf(userVarInServerSide) !== -1) {
+                    let userVarInEditorSide = '[[User var ' + variability.id + ']]';
+                    let tmpVarObj = {
+                        inServer: userVarInServerSide,
+                        inEditor: userVarInEditorSide
+                    };
+                    body = body.split(userVarInServerSide).join(userVarInEditorSide);
+                    tmpAnswersArr.push(tmpVarObj);
+                }
+            });
+
+            // console.log(tmpAnswersArr);
             CKEDITOR.instances.CKeditorArea.setData(body);
+            // console.log(body);
         };
 
         vm.conditionForCreatingNewTemplate = function () {
             vm.activeTemplateId = undefined;
             activeTemplateTitle = undefined;
-            CKEDITOR.instances['CKeditorArea'].setData('');
+            CKEDITOR.instances.CKeditorArea.setData('');
         };
 
         vm.postTemplate = function () {
@@ -172,9 +253,14 @@
             function createTemplateTitleController() {
                 let vs = this;
 
+                let body = CKEDITOR.instances.CKeditorArea.getData();
+                tmpAnswersArr.forEach(function (item) {
+                    body = body.split(item.inEditor).join(item.inServer);
+                });
+
                 vs.data = {
                     "title": "",
-                    "body": "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>" + CKEDITOR.instances['CKeditorArea'].getData() + "</body></html>",
+                    "body": "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>" + body + "</body></html>",
                     "survey_id": activeSurveyID
                 };
 
@@ -182,7 +268,7 @@
                     if (vs.templateForm.name.$invalid) {
                         toastr.error('Error invalid data');
                     }
-                   else {
+                    else {
                         userService.createTemplate(tmpResearchId, vs.data).then(function (res) {
                             console.log(res);
                             if (res.success) {
@@ -215,9 +301,14 @@
             function updateTemplateTitleController() {
                 let vs = this;
 
+                let body = CKEDITOR.instances.CKeditorArea.getData();
+                tmpAnswersArr.forEach(function (item) {
+                    body = body.split(item.inEditor).join(item.inServer);
+                });
+
                 vs.data = {
                     title: activeTemplateTitle,
-                    body: "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>" + CKEDITOR.instances['CKeditorArea'].getData() + "</body></html>",
+                    body: "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>" + body + "</body></html>",
                     survey_id: activeSurveyID
                 };
                 // console.log(vs.data);
@@ -310,7 +401,31 @@
 
 
         vm.pasteUserVariability = function (id) {
-            CKEDITOR.instances['CKeditorArea'].insertText('{!!$userVariables[' + id + ']!!}');
+            // CKEDITOR.instances.CKeditorArea.insertText('{!!$userVariables[' + id + ']!!}');
+
+            let userVarInEditorSide = '[[User var ' + id + ']]';
+            let userVarInServerSide = '{!!$userVariables[' + id + ']!!}';
+            let tmpVarObj = {
+                inServer: userVarInServerSide,
+                inEditor: userVarInEditorSide
+            };
+
+            CKEDITOR.instances.CKeditorArea.insertText('[[User var ' + id + ']]');
+
+            let coincidence = false;
+            if (!tmpAnswersArr.length) {
+                tmpAnswersArr.push(tmpVarObj);
+            } else {
+                tmpAnswersArr.forEach(function (item) {
+                    if (item.inServer === userVarInServerSide) {
+                        coincidence = true;
+                    }
+                });
+
+                if (coincidence === false) {
+                    tmpAnswersArr.push(tmpVarObj);
+                }
+            }
         };
 
         vm.createUserVariability = function () {
@@ -338,7 +453,7 @@
                                     console.log(res.data, 'Variability list');
                                     vm.variability = res.data;
                                 });
-                            } else{
+                            } else {
                                 console.log('Create user variability error');
                             }
                         });
@@ -379,7 +494,7 @@
                                     console.log(res.data, 'Variability list');
                                     vm.variability = res.data;
                                 });
-                            } else{
+                            } else {
                                 console.log('Save user variability error');
                             }
                         });
@@ -412,7 +527,7 @@
                                 vm.variability = res.data;
                                 toastr.success('Remove success');
                             });
-                        } else{
+                        } else {
                             console.log('Remove user variability error');
                         }
                     });
@@ -427,15 +542,27 @@
         ///////////////////////////////////////////////////////////////////////////////
 
 
-
         ///////////////////////////////////Напоминание/////////////////////////////////
         function hint() {
             console.log(CKEDITOR.instances['CKeditorArea'].insertText(), 'Вставить текст в редактор');
-            console.log(CKEDITOR.instances['CKeditorArea'].getData(),    'Получить содержимое редактора');
-            console.log(CKEDITOR.instances['CKeditorArea'].setData(),    'заменить содержимое редактора');
+            console.log(CKEDITOR.instances['CKeditorArea'].getData(), 'Получить содержимое редактора');
+            console.log(CKEDITOR.instances['CKeditorArea'].setData(), 'заменить содержимое редактора');
         }
+
         ///////////////////////////////////////////////////////////////////////////////
 
 
+        //////////////////////////////Замена текста////////////////////////////////////
+        vm.testReplace = function () {
+            let tmpTextData = CKEDITOR.instances.CKeditorArea.getData();
+            let id = 1;
+            let tmp = "{!!\$contractAnswers\[" + id + "\]!!}";
+            console.log(tmp);
+
+            // CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp('12345', "g" ), "Replace success"));
+            CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp(tmp, "g" ), "Replace success"));
+            console.log(tmpTextData);
+        };
+        ///////////////////////////////////////////////////////////////////////////////
     }
 })();
