@@ -27,16 +27,15 @@
 
         //Survey
         model.loadSurveyOnly = loadSurveyOnly;
+        model.getSurveyOnly = getSurveyOnly;
         model.createSurvey = createSurvey;
         model.updateSurvey = updateSurvey;
         model.deleteSurvey = deleteSurvey;
         model.changeStatusSurvey = changeStatusSurvey;
         model.archiveStatusSurvey = archiveStatusSurvey;
 
-        //Passing questions
-        model.sendCustomerAnswer = sendCustomerAnswer;
-        model.getCustomerAnswer = getCustomerAnswer;
-        model.createReport = createReport;
+        model.loadOneSurvey = loadOneSurvey;
+
 
         // ContractResearch
         model.createNewResearch = createNewResearch;
@@ -126,8 +125,24 @@
 
 
         // Survey management
+        function loadOneSurvey(id) {
+            return http.get(url.survey_management_func(id).loadOneSurvey, {});
+        }
+
         function loadSurveyOnly() {
-            return http.get(url.survey_management_func().loadOnlySurvey);
+            return http.get(url.survey_management_func().loadOnlySurvey, {}).then(function (res) {
+                if(res.success){
+                    setSurveyOnly(res.data.result);
+                    return res;
+                }
+            });
+        }
+        function setSurveyOnly(data) {
+            delete $sessionStorage['survey_only'];
+            $sessionStorage['survey_only'] = data;
+        }
+        function getSurveyOnly() {
+            return $sessionStorage['survey_only'];
         }
 
         function createSurvey (credentials) {
@@ -151,18 +166,6 @@
         }
 
 
-        //Pasing question
-        function sendCustomerAnswer(id, data) {
-            return http.post(url.customers_func(id).sendCustomerAnswer, data);
-        }
-
-        function getCustomerAnswer(id) {
-            return http.get(url.customers_func(id).getCustomerAnswer, {});
-        }
-
-        function createReport(data) {
-            return http.post(url.report.createReport, data);
-        }
 
         // ContractResearch
         function createNewResearch() {

@@ -15,6 +15,7 @@
         model.getActiveBlock = getActiveBlock;
 
         model.getActiveQuestionair = getActiveQuestionair;
+        model.getActiveQuestionairId = getActiveQuestionairId;
 
         return model;
 
@@ -56,13 +57,20 @@
         }
 
         function getActiveQuestionair() {
-            let items = userService.getItems();
-
+            let items = userService.getSurveyOnly();
             console.log('items', items);
-
             for (let index = 0; index < items.length; index++){
-                if(items[index].status == 1){
+                if(items[index].survey_status == 1){
                     return index;
+                }
+            }
+        }
+        function getActiveQuestionairId() {
+            let items = userService.getSurveyOnly();
+            console.log('items', items);
+            for (let index = 0; index < items.length; index++){
+                if(items[index].survey_status == 1){
+                    return items[index].survey_id;
                 }
             }
         }

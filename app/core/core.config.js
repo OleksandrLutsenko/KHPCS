@@ -133,26 +133,34 @@
                 controller: 'PassingQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    customerAnswer: function (userService, customers, survey) {
-                        return userService.loadItems().then(function () {
-                            let indexActiveSurvey = survey.getActiveQuestionair();
+                    customerAnswer: function (userService, customers, survey, passingQuestionService) {
+                        let items = userService.getSurveyOnly();
+                        let indexActiveSurvey = survey.getActiveQuestionair();
 
-                            let id = {
-                                customer: customers.getActiveCustomers(),
-                                survey: userService.getItems()[indexActiveSurvey].id
-                            };
+                        let id = {
+                            customer: customers.getActiveCustomers(),
+                            survey: items[indexActiveSurvey].survey_id
+                        };
 
-                            return userService.getCustomerAnswer(id).then(function (res) {
-                                if(res.success){
-                                    return res.data.customerAnswers
-                                }
-                                else{
-                                    console.log('error customer answer');
-                                }
-                            });
+                        return passingQuestionService.getCustomerAnswer(id).then(function (res) {
+                            if(res.success){
+                                return res.data.customerAnswers
+                            }
+                            else{
+                                console.log('error customer answer');
+                            }
                         });
+                    },
+                    oneSurveyItems: function (survey, userService) {
+                        let idActiveSurvey = survey.getActiveQuestionairId();
+
+                        return userService.loadOneSurvey(idActiveSurvey).then(function (res) {
+                            if(res.success){
+                                return res.data.survey
+                            }
+                        })
                     }
-                }
+                },
             })
     }
 })();
