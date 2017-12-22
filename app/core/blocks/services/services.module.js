@@ -5,7 +5,8 @@
         'service.userService',
         'service.blockService',
         'service.customerService',
-        'service.tabsService'
+        'service.tabsService',
+        'service.contractService'
     ]);
 
 })();

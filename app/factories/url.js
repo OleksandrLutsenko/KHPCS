@@ -71,11 +71,13 @@
                 return {
                     createSurveyTemplate: baseUrl + '/api/contract-research/' + id + '/contract',
                     getTemplates: baseUrl + 'api/contract',
+                    getTemplatesForThePool: baseUrl + 'api/survey' + id + 'contracts',
                     getTemplateList: baseUrl + 'api/onlycontract',
                     deleteTemplate: baseUrl + 'api/contract/' + id,
                     updateTemplate: baseUrl + 'api/contract/' + id,
                     createVariability: baseUrl + 'api/variable',
                     getVariability: baseUrl + 'api/variable',
+                    getVariabilityWithDeleted: baseUrl + 'api/variable-all',
                     editVariability: baseUrl + 'api/variable/' + id,
                     deleteVariability: baseUrl + 'api/variable/' + id
                 };
