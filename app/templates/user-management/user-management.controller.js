@@ -21,7 +21,9 @@
 
         function pass(id) {
             customers.setActiveCustomers(id);
-            $state.go('tab.passing-question');
+            userService.loadSurveyOnly().then(function () {
+                $state.go('tab.passing-question');
+            })
         }
 
         function annonce(id) {

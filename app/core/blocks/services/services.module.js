@@ -6,6 +6,8 @@
         'service.blockService',
         'service.customerService',
         'service.tabsService',
+        'service.dataService',
+        'service.passingQuestionService',
         'service.surveyService'
     ]);
 

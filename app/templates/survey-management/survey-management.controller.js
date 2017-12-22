@@ -14,8 +14,8 @@
 
         vm.items =  surveyService.getItems();
 
-        surveyService.loadSurveyOnly().then(function (res) {
-            console.log(res);
+        userService.loadSurveyOnly().then(function (res) {
+           console.log('only survey', res);
         });
 
         function setActineSurvey(id, indexSurvey) {
@@ -74,7 +74,7 @@
                     if (res.success) {
                         surveyService.getItems().then(function () {
                             vm.items =  surveyService.getItems();
-                        })
+                        });
                         toastr.success('Questionnaire was deleted');
                     }
                     else {
@@ -83,7 +83,6 @@
                 });
             })
         }
-
 
         vm.createSurvey = createSurvey;
         function createSurvey(id, index, it) {
