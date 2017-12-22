@@ -6,16 +6,18 @@
 
 
 
-    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr'];
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService'];
 
-    function ContractEditorController(userService, $mdDialog, toastr) {
+    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService) {
         let vm = this;
+        tabsService.startTab('page3');
         console.log('contract-editor controller start');
 
         vm.surveys = userService.getItems();
         console.log(vm.surveys);
 
-        userService.getVariability().then(function (res) {
+        // userService.getVariability().then(function (res) {
+        contractService.getVariabilityWithDeleted().then(function (res) {
             if(res.success) {
                 vm.variability = res.data;
                 console.log(vm.variability, 'vm.variability');
@@ -175,7 +177,7 @@
                 inEditor: surveyVarInEditorSide
             };
 
-            CKEDITOR.instances.CKeditorArea.insertText('[[Answer ' + id + ']]');
+            CKEDITOR.instances.CKeditorArea.insertText('[[Answer ' + id + ']] ');
 
             let coincidence = false;
             if (!tmpAnswersArr.length) {
@@ -218,9 +220,19 @@
             });
 
             vm.variability.forEach(function (variability) {
-                let userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
+                let userVarInServerSide;
+                let userVarInEditorSide;
+
+                userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
+
                 if (body.indexOf(userVarInServerSide) !== -1) {
-                    let userVarInEditorSide = '[[User var ' + variability.id + ']]';
+                    if (variability.deleted_at !== null) {
+                        userVarInEditorSide = '<span style="background-color: red">Variability ' + variability.id + ' was deleted</span>';
+                        // console.log(userVarInEditorSide);
+                    } else {
+                        userVarInEditorSide = '[[User var ' + variability.id + ']]';
+
+                    }
                     let tmpVarObj = {
                         inServer: userVarInServerSide,
                         inEditor: userVarInEditorSide
@@ -400,7 +412,7 @@
         };
 
 
-        vm.pasteUserVariability = function (id) {
+        vm.pasteUserVariability = function (id, title, deleted) {
             // CKEDITOR.instances.CKeditorArea.insertText('{!!$userVariables[' + id + ']!!}');
 
             let userVarInEditorSide = '[[User var ' + id + ']]';
@@ -410,7 +422,7 @@
                 inEditor: userVarInEditorSide
             };
 
-            CKEDITOR.instances.CKeditorArea.insertText('[[User var ' + id + ']]');
+            CKEDITOR.instances.CKeditorArea.insertText('[[User var ' + id + ']] ');
 
             let coincidence = false;
             if (!tmpAnswersArr.length) {

@@ -202,7 +202,8 @@
                 <p >Create variable</p>
             </div>
 
-            <div ng-repeat="var in vm.variability  | filter: vm.searchUserVar" class="user-var" flex="100">
+            <div ng-repeat="var in vm.variability  | filter: vm.searchUserVar" class="user-var" flex="100"
+                 ng-if="var.deleted_at === null" >
                 <div layout="row" layout-align="space-between center">
                     <div>
                         <p ng-click="vm.pasteUserVariability(var.id)" title={{var.text}} class="pointer">

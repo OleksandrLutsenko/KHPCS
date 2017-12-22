@@ -3,10 +3,11 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', 'blockService', 'surveyService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items'];
+    SurveyBlockController.$inject = ['userService', 'blockService', 'surveyService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService'];
 
-    function SurveyBlockController(userService, blockService, surveyService, $state, survey, $scope, $mdDialog , toastr, items) {
+    function SurveyBlockController(userService, blockService, surveyService, $state, survey, $scope, $mdDialog , toastr, items, tabsService) {
         let vm = this;
+        tabsService.startTab();
 
         let activeSurvey = survey.getActineSurvey();
 

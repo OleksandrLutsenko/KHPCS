@@ -3,10 +3,11 @@
     angular.module('app')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ['userService',  'toastr'];
+    ProfileController.$inject = ['userService',  'toastr', 'tabsService'];
 
-    function ProfileController(userService,  toastr) {
+    function ProfileController(userService,  toastr, tabsService) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.user = userService.getUser();
 

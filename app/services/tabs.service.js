@@ -5,14 +5,15 @@
         .module('service.tabsService', [])
         .service('tabsService', tabsService);
 
-    tabsService.$inject = ['http', 'url', '$localStorage' , '$sessionStorage'];
+    tabsService.$inject = ['http', 'url', '$localStorage' , '$sessionStorage', '$mdDialog'];
 
-    function tabsService(http, url, $localStorage, $sessionStorage) {
+    function tabsService(http, url, $localStorage, $sessionStorage, $mdDialog) {
         let model = {};
 
         model.logout = logout;
-        model.setActiveTab = setActiveTab;
         model.getActiveTab = getActiveTab;
+        model.startTab = startTab;
+
 
         return model;
 
@@ -20,12 +21,15 @@
             return http.get(url.logout_func($localStorage.token).logout);
         }
 
-        function setActiveTab(tab) {
-            $sessionStorage['activeTab'] = tab;
+        function getActiveTab() {
+            return $localStorage['activeTab'];
         }
 
-        function getActiveTab() {
-            return $sessionStorage['activeTab'];
+        function startTab(activeTab) {
+            if(activeTab){
+                $localStorage['activeTab'] = activeTab;
+            }else {};
+            $mdDialog.cancel();
         }
     }
 })();

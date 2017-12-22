@@ -9,23 +9,18 @@
         let vm = this;
 
 
+
         vm.user = userService.getUser();
 
 
-       function initTab() {
-           if( tabsService.getActiveTab()){
-               vm.currentNavItem =  tabsService.getActiveTab();
-           }else {
-               vm.currentNavItem = 'page1';
-           }
-       }
-       initTab();
+        (function setPage() {
+            if(tabsService.getActiveTab()){
+                vm.currentNavItem =  tabsService.getActiveTab();
+            }else {
+                vm.currentNavItem =  'page1';
+            }
+        })()
 
-
-
-        vm.setActiveTab = function (tab) {
-            tabsService.setActiveTab(tab);
-        };
 
 
 
