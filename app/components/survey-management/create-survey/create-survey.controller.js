@@ -5,9 +5,9 @@
         .controller('CreateSurveyController', CreateSurveyController);
 
 
-    CreateSurveyController.$inject = ['userService', '$mdDialog', 'data' , 'toastr'];
+    CreateSurveyController.$inject = ['surveyService', '$mdDialog', 'data' , 'toastr'];
 
-    function CreateSurveyController(userService, $mdDialog, data, toastr) {
+    function CreateSurveyController(surveyService,  $mdDialog, data, toastr) {
 
         let vm = this;
 
@@ -15,7 +15,7 @@
 
         vm.id = id;
 
-        vm.items = userService.getItems();
+        vm.items = surveyService.getItems();
 
         vm.cancel = cancel;
 
@@ -45,8 +45,8 @@
             else {
 
                 if (typeof id != 'undefined') {
-                    userService.updateSurvey(id, vm.data).then(function (res) {
-                        userService.loadItems().then(function () {
+                    surveyService.updateSurvey(id, vm.data).then(function (res) {
+                        surveyService.loadItems().then(function () {
                             if (res.success) {
                                 let tmpObj = {
                                     type: 'update'
@@ -63,10 +63,9 @@
                     });
                 }
                 else {
-                    userService.createSurvey(vm.data).then(function (res) {
+                    surveyService.createSurvey(vm.data).then(function (res) {
                         if (res.success) {
-                            console.log('create');
-                            userService.loadItems().then(function () {
+                            surveyService.loadItems().then(function () {
 
                                 let tmpObj = {
                                     type: 'create'
@@ -76,6 +75,9 @@
                                 $mdDialog.cancel();
 
                             });
+                        }
+                        else {
+                            console.log('errorCreate');
                         }
                     });
                 }

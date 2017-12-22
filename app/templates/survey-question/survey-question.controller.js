@@ -4,20 +4,29 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService'];
 
-    function SurveyQuestionController(userService, survey, $scope, $mdDialog, blockService, toastr, items, tabsService) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService) {
         let vm = this;
         tabsService.startTab();
 
-        let idS = survey.getActineSurvey();
         let idB = survey.getActiveBlock();
-        let indexSurvey = idS.indexSurvey;
         let indexBlock = idB.indexBlock;
-        let idSurvey = idS.id;
         let idBlock = idB.id;
 
         vm.items = items[indexBlock].questions;
+
+        vm.save = save;
+        vm.showEdit = showEdit;
+        vm.deleteQuest = deleteQuest;
+
+
+        $scope.$on('parent', function (event, data) {
+            indexBlock = data;
+            vm.items = items[indexBlock].questions;
+            idB = survey.getActiveBlock();
+            idBlock = idB.id;
+        });
 
         console.log(vm.items);
 
@@ -72,18 +81,6 @@
             'ui-floating': true,
         };
 
-        vm.save = save;
-        vm.showEdit = showEdit;
-        vm.deleteQuest = deleteQuest;
-        
-
-        $scope.$on('parent', function (event, data) {
-            indexBlock = data;
-            vm.items = items[indexBlock].questions;
-            idB = survey.getActiveBlock();
-            idBlock = idB.id;
-        });
-
         function save() {
             let dataForSand = angular.copy(vm.items);
 
@@ -117,7 +114,7 @@
                 console.log(res);
                 if(res.success){
                     vm.items = res.data.questions;
-                    item[indexBlock].questions = res.data.questions;
+                    items[indexBlock].questions = res.data.questions;
                 }
             })
         }

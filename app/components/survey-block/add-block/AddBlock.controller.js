@@ -41,7 +41,7 @@
             else {
 
                 if (typeof idBlockSec != 'undefined') {
-                    blockService.updateBlock(idBlock.id, vm.data).then(function (res) {
+                    blockService.updateBlock(idBlockSec, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
                                 type: 'update'

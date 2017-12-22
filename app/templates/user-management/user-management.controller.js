@@ -3,10 +3,10 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService'];
 
 
-    function UserManagementController(userService, customerService, $state, $mdDialog, customers, toastr, tabsService) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -15,16 +15,16 @@
 
         vm.customers = customerService.getCustomers();
 
-
-
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
         vm.user = userService.getUser();
-        // console.log(vm.customers.created_at);
+
         function pass(id) {
             customers.setActiveCustomers(id);
-            $state.go('tab.passing-question');
+            surveyService.loadSurveyOnly().then(function () {
+                $state.go('tab.passing-question');
+            })
         }
 
         function annonce(id) {
@@ -87,7 +87,7 @@
         }
 
         vm.downloadPDF = function (customer) {
-            userService.loadSurveyOnly().then(function (res) {
+            surveyService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.result;
                 userService.loadAllTemplates().then(function (templateList) {
                     // userService.loadTemplateList().then(function (templateList) {

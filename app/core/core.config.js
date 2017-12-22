@@ -69,8 +69,8 @@
                 controller: 'SurveyManagementController',
                 controllerAs: 'vm',
                 resolve: {
-                    load: function (userService) {
-                        return userService.loadItems();
+                    load: function (surveyService) {
+                        return surveyService.loadItems();
                     }
                 }
             })
@@ -105,10 +105,10 @@
                 controller: 'SurveyBlockController',
                 controllerAs: 'vm',
                 resolve: {
-                    items: function (blockService, survey) {
+                    items: function (surveyService, survey) {
                         let idSurvey = survey.getActineSurvey().id;
 
-                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){
                                 return res.data.survey.blocks;
                             }
@@ -122,11 +122,10 @@
                 controller: 'SurveyQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    items: function (blockService, survey) {
-                        let idS = survey.getActineSurvey();
-                        let idSurvey = idS.id;
+                    items: function (surveyService, survey) {
+                        let idSurvey = survey.getActineSurvey().id;
 
-                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){
                                 return res.data.survey.blocks;
                             }
@@ -140,26 +139,34 @@
                 controller: 'PassingQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    customerAnswer: function (userService, customers, survey) {
-                        return userService.loadItems().then(function () {
-                            let indexActiveSurvey = survey.getActiveQuestionair();
+                    customerAnswer: function (surveyService, customers, survey, passingQuestionService) {
+                        let items = surveyService.getSurveyOnly();
+                        let indexActiveSurvey = survey.getActiveQuestionair();
 
-                            let id = {
-                                customer: customers.getActiveCustomers(),
-                                survey: userService.getItems()[indexActiveSurvey].id
-                            };
+                        let id = {
+                            customer: customers.getActiveCustomers(),
+                            survey: items[indexActiveSurvey].survey_id
+                        };
 
-                            return userService.getCustomerAnswer(id).then(function (res) {
-                                if(res.success){
-                                    return res.data.customerAnswers
-                                }
-                                else{
-                                    console.log('error customer answer');
-                                }
-                            });
+                        return passingQuestionService.getCustomerAnswer(id).then(function (res) {
+                            if(res.success){
+                                return res.data.customerAnswers
+                            }
+                            else{
+                                console.log('error customer answer');
+                            }
                         });
+                    },
+                    oneSurveyItems: function (survey, surveyService) {
+                        let idActiveSurvey = survey.getActiveQuestionairId();
+
+                        return surveyService.loadOneSurvey(idActiveSurvey).then(function (res) {
+                            if(res.success){
+                                return res.data.survey
+                            }
+                        })
                     }
-                }
+                },
             })
     }
 })();

@@ -16,8 +16,6 @@
         model.updateBlock = updateBlock;
         model.deleteBlock = deleteBlock;
 
-        model.loadOneSurvey = loadOneSurvey;
-
         return model;
 
         function addBlockQuestion(id, credentials) {
@@ -32,10 +30,6 @@
         }
         function updateBlock(id, data) {
             return http.put(url.survey_management_func(id).updateBlock, data);
-        }
-
-        function loadOneSurvey(id) {
-            return http.get(url.survey_management_func(id).loadOneSurvey, {});
         }
     }
 })();

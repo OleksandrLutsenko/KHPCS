@@ -5,9 +5,9 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customerAnswer', 'survey' , 'toastr', 'tabsService'];
+    PassingQuestionController.$inject = ['passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService'];
 
-    function PassingQuestionController($scope, userService, $state, customers, customerAnswer, survey , toastr, tabsService) {
+    function PassingQuestionController(passingQuestionService, $state, customers, customerAnswer , oneSurveyItems, toastr, tabsService) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -21,9 +21,8 @@
 
         let indexActiveBlock;
 
-        let items = userService.getItems();
-        let indexActiveSurvey = survey.getActiveQuestionair();
-        let idActiveSurvey = items[indexActiveSurvey].id;
+        let items = oneSurveyItems;
+        let idActiveSurvey = items.id;
         let activeCustomers = customers.getActiveCustomers();
 
         let mainQuestionInBlock;
@@ -31,8 +30,8 @@
 
         for(let j = 0; j < customerAnswer.length; j++){
             if(customerAnswer[j].customerAnswers.length == 0){
-                for(let i = 0; i < items[indexActiveSurvey].blocks.length; i++){
-                    if(customerAnswer[j].block_id == items[indexActiveSurvey].blocks[i].id){
+                for(let i = 0; i < items.blocks.length; i++){
+                    if(customerAnswer[j].block_id == items.blocks[i].id){
                         indexActiveBlock = i;
                         break
                     }
@@ -50,7 +49,7 @@
         start();
 
         function generete() {
-            mainQuestionInBlock = items[indexActiveSurvey].blocks[indexActiveBlock].questions;
+            mainQuestionInBlock = items.blocks[indexActiveBlock].questions;
             console.log('mainQuestionInBlock', mainQuestionInBlock);
         }
 
@@ -58,7 +57,7 @@
             vm.data = [];
             customerAnswerOnActiveBlock = [];
 
-            let idActiveBlock = items[indexActiveSurvey].blocks[indexActiveBlock].id;
+            let idActiveBlock = items.blocks[indexActiveBlock].id;
 
             for(let i = 0; i < customerAnswer.length; i++){
                 if(customerAnswer[i].block_id == idActiveBlock){
@@ -107,11 +106,11 @@
         function start() {
             if(mainQuestionInBlock.length == 0){
                 toastr.error('no question in block');
-                $state.go('tab.user-management');
+                toNextBlock();
             }
             else{
                 vm.questions = mainQuestionInBlock;
-                vm.header = items[indexActiveSurvey].blocks[indexActiveBlock].name;
+                vm.header = items.blocks[indexActiveBlock].name;
                 if(indexActiveBlock > 0){
                     vm.backSucces = true;
                 }
@@ -215,7 +214,7 @@
                 toastr.error('All fields should be complited');
             }
             else {
-                userService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
+                passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
                     console.log(res);
                     if(res.success){
                         toNextBlock();
@@ -243,7 +242,7 @@
                     customer: activeCustomers,
                     survey: idActiveSurvey
                 };
-                userService.getCustomerAnswer(id).then(function (res) {
+                passingQuestionService.getCustomerAnswer(id).then(function (res) {
                     if(res.success){
                         customerAnswer = res.data.customerAnswers;
                         indexActiveBlock--;
@@ -263,7 +262,7 @@
 
 
         function toNextBlock() {
-            if(items[indexActiveSurvey].blocks.length - 1 > indexActiveBlock){
+            if(items.blocks.length - 1 > indexActiveBlock){
 
                 indexActiveBlock++;
                 vm.data = [];
@@ -276,7 +275,7 @@
                     customer_id: activeCustomers,
                     survey_id: idActiveSurvey
                 };
-                userService.createReport(data).then(function (res) {
+                passingQuestionService.createReport(data).then(function (res) {
                     if(res.success){
                         $state.go('tab.user-management');
                         toastr.success('Completed');
