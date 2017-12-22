@@ -7,7 +7,8 @@
         'service.customerService',
         'service.tabsService',
         'service.dataService',
-        'service.passingQuestionService'
+        'service.passingQuestionService',
+        'service.surveyService'
     ]);
 
 })();

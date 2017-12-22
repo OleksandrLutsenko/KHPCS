@@ -5,14 +5,14 @@
         .controller('SurveyManagementController', SurveyManagementController);
 
 
-    SurveyManagementController.$inject = ['userService', '$mdDialog', 'survey', '$mdSidenav' , 'toastr'];
+    SurveyManagementController.$inject = [ 'surveyService' , '$mdDialog', 'survey', '$mdSidenav' , 'toastr' ];
 
-    function SurveyManagementController(userService, $mdDialog, survey, $mdSidenav , toastr) {
+    function SurveyManagementController( surveyService, $mdDialog, survey, $mdSidenav , toastr) {
         let vm = this;
 
         vm.setActineSurvey = setActineSurvey;
 
-        vm.items = userService.getItems();
+        vm.items =  surveyService.getItems();
 
         userService.loadSurveyOnly().then(function (res) {
            console.log('only survey', res);
@@ -23,10 +23,10 @@
         }
 
         vm.activeSurvey = function (id, index) {
-            userService.changeStatusSurvey(id).then(function (res) {
+            surveyService.changeStatusSurvey(id).then(function (res) {
                 if (res.success) {
-                    userService.loadItems().then(function () {
-                        vm.items = userService.getItems();
+                    surveyService.loadItems().then(function () {
+                        vm.items =  surveyService.getItems();
                     });
                 } else {
                     console.log('Change Status Survey error');
@@ -36,10 +36,10 @@
         };
 
         vm.archiveSurvey = function (id, index) {
-            userService.archiveStatusSurvey(id).then(function (res) {
+            surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
-                    userService.loadItems().then(function () {
-                        vm.items = userService.getItems();
+                    surveyService.loadItems().then(function () {
+                        vm.items =  surveyService.getItems();
                     });
                     toastr.success('Questionnaire was archived');
                 } else {
@@ -70,11 +70,11 @@
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             }).then(function () {
-                userService.deleteSurvey(surveyId).then(function (res) {
+                surveyService.deleteSurvey(surveyId).then(function (res) {
                     if (res.success) {
-                        userService.loadItems().then(function () {
-                            vm.items = userService.getItems();
-                        })
+                        surveyService.getItems().then(function () {
+                            vm.items =  surveyService.getItems();
+                        });
                         toastr.success('Questionnaire was deleted');
                     }
                     else {
@@ -101,11 +101,12 @@
                 }
             }).then(function (res) {
                 if (res.type == 'update') {
-                    vm.items = userService.getItems();
+                    vm.items =  surveyService.getItems();
                     toastr.success('Questionnaire was updated');
                 }
                 else {
-                    vm.items = userService.getItems();
+                    vm.items =  surveyService.getItems();
+                    console.log('createQuest');
                     toastr.success('Questionnaire was created');
                 }
 

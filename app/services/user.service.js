@@ -28,11 +28,6 @@
         //Survey
         model.loadSurveyOnly = loadSurveyOnly;
         model.getSurveyOnly = getSurveyOnly;
-        model.createSurvey = createSurvey;
-        model.updateSurvey = updateSurvey;
-        model.deleteSurvey = deleteSurvey;
-        model.changeStatusSurvey = changeStatusSurvey;
-        model.archiveStatusSurvey = archiveStatusSurvey;
 
         model.loadOneSurvey = loadOneSurvey;
 
@@ -88,8 +83,8 @@
             return http.post(url.user.register, credentials)
         }
 
-        function forgot(credentials) {
-            return http.post(url.user.forgot, credentials);
+        function forgot(data) {
+            return http.post(url.user.forgot, data);
         }
 
         function reset(token , data){

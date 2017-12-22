@@ -62,8 +62,8 @@
                 controller: 'SurveyManagementController',
                 controllerAs: 'vm',
                 resolve: {
-                    load: function (userService) {
-                        return userService.loadItems();
+                    load: function (surveyService) {
+                        return surveyService.loadSurveyOnly();
                     }
                 }
             })
