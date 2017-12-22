@@ -8,11 +8,11 @@
     <md-menu-content width="4">
 
         <md-menu-item>
-            <md-button ng-click="vm.addBlock(cell.id , cell.name)">Edit</md-button>
+            <md-button ng-click="vm.addBlock(item)">Edit</md-button>
         </md-menu-item>
 
         <md-menu-item>
-            <md-button ng-click="vm.deleteBlock()">Delete</md-button>
+            <md-button ng-click="vm.deleteBlock(item.id, $index)">Delete</md-button>
         </md-menu-item>
 
     </md-menu-content>

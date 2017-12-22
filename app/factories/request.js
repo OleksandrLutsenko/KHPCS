@@ -132,18 +132,14 @@
                 }
                 else {
                     console.log('Server error: ' + err.status + ' ' + err.statusText);
-                    for (let key in err.data){
-                        toastr.error(err.data[key].toString(), 'Please try again');
-                    }
-
                 }
             }
             else {
                 console.log(err.data.error);
 
             }
-            let res = {status: false};
-            return (res);
+
+            return {status: false};
         }
 
         /**

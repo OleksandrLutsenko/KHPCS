@@ -9,9 +9,9 @@
     function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items) {
         let vm = this;
 
-        let idB = survey.getActiveBlock();
-        let indexBlock = idB.indexBlock;
-        let idBlock = idB.id;
+        let activeBlock = survey.getActiveBlock();
+        let indexBlock = activeBlock.indexBlock;
+        let idBlock = activeBlock.id;
 
         vm.items = items[indexBlock].questions;
 
@@ -23,8 +23,8 @@
         $scope.$on('parent', function (event, data) {
             indexBlock = data;
             vm.items = items[indexBlock].questions;
-            idB = survey.getActiveBlock();
-            idBlock = idB.id;
+            activeBlock = survey.getActiveBlock();
+            idBlock = activeBlock.id;
         });
 
         console.log(vm.items);

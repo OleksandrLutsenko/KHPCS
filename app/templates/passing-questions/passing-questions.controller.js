@@ -104,7 +104,6 @@
 
         function start() {
             if(mainQuestionInBlock.length == 0){
-                toastr.error('no question in block');
                 toNextBlock();
             }
             else{
