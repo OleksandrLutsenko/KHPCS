@@ -7,7 +7,7 @@
                     <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
                 </div>
                 <div class="div-input">
-                    <form name="vm.regForm">
+                    <form novalidate name="vm.regForm" ng-submit="vm.register()" >
                         <md-input-container>
                             <label>Full name</label>
                             <input ng-model="vm.data.name" type="text" name="name" required maxlength="32">
@@ -58,14 +58,14 @@
                             </div>
 
                         </md-input-container>
-
+                        <div class="div-btn" >
+                            <md-button type="submit">
+                                Sign up
+                            </md-button>
+                        </div>
                     </form>
                 </div>
-                <div class="div-btn" ng-click="vm.register()">
-                    <md-button>
-                        Sign up
-                    </md-button>
-                </div>
+
                 <div class="log-bot" layout="row" layout-align="center">
                     <p>Already have an account?</p>
                 <p ui-sref="login">Log in</p></div>

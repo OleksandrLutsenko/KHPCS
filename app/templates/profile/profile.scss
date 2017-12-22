@@ -16,7 +16,7 @@
   }
 
   md-input-container {
-    margin: 10px 0 0 0;
+    margin: 15px 0 0 0;
     width: 100%;
   }
 
@@ -35,6 +35,14 @@
 
   .div-btn .md-button:hover {
     background: #001041;
+  }
+
+  .conf-pass{
+    font-size: 13px;
+  }
+
+  md-input-container:last-child{
+    padding-bottom: 15px;
   }
 
 

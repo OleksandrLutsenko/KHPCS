@@ -43,17 +43,15 @@
                                     Continue
                                 </md-button>
                                 <md-button class="md-primary"
-                                          ng-disabled="true" ng-if="customers.reports.length">
+                                           ng-disabled="true" ng-if="customers.reports.length">
                                     Completed
                                 </md-button>
                             </td>
-
-                            </md-button>
                             <td md-cell ng-if="customers.reports.length"><i class="material-icons"
                                                                             ng-click="vm.downloadPDF(customers)">file_download</i>
                             </td>
                             <td md-cell ng-if="!customers.reports.length"><i
-                                    class="material-icons">do_not_disturb_alt</i></td>
+                                    class="material-icons noneFile">do_not_disturb_alt</i></td>
                             <td md-cell>
                                 {{customers.created_at }}
                             </td>

@@ -14,20 +14,25 @@
 
         function login() {
             userService.setToken(undefined);
-            userService.login(vm.data).then(function (res) {
-                if (res.success){
-                    userService.setToken(res.data.token);
-                    userService.loadUser().then(function () {
-                        userService.loadItems().then(function () {
-                            $state.go('tab.user-management');
+            if(vm.loginForm.$invalid){
+                return;
+            }
+            else{
+                userService.login(vm.data).then(function (res) {
+                    if (res.success){
+                        userService.setToken(res.data.token);
+                        userService.loadUser().then(function () {
+                            userService.loadItems().then(function () {
+                                $state.go('tab.user-management');
+                            })
                         })
-                    })
-                }
-                else {
-                    toastr.error('Please try again', 'Login or password is invalid');
-                    console.log('error');
-                }
-            })
+                    }
+                    else {
+                        toastr.error('Please try again', 'Login or password is invalid');
+                    }
+                })
+            }
+
         }
     }
 })();

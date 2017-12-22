@@ -25,40 +25,36 @@
         vm.updateProfileInfo = updateProfileInfo;
 
         function updateProfileInfo() {
-            userService.updateInfo(id, vm.dataInfo).then(function (res) {
-                if (res.success) {
-                    userService.loadUser().then(function () {
-                        userService.loadItems().then(function () {
-                        })
-                    });
-                    console.log('success');
-                    toastr.success('Your profile has been updated.');
-                }
-                else {
-                    toastr.error('Please try again', 'Login or password is invalid');
-                    console.log('error');
-                }
-            });
 
-            if(vm.data != undefined){
-                userService.updatePass(id, vm.data).then(function (res) {
+            if(vm.profile.$invalid){
+                return;
+            } else {
+                userService.updateInfo(id, vm.dataInfo).then(function (res) {
                     if (res.success) {
                         userService.loadUser().then(function () {
                             userService.loadItems().then(function () {
                             })
                         });
-                        console.log('success');
-                    }
-                    else {
-                        toastr.error('Please try again', 'Login or password is invalid');
+
+                    } else {
                         console.log('error');
                     }
-                })
-            }
-            else {
-                console.log('empty');
-            }
+                });
 
+                if(vm.data != undefined){
+                    userService.updatePass(id, vm.data).then(function (res) {
+                        if (res.success) {
+                            userService.loadUser().then(function () {
+                                userService.loadItems().then(function () {
+                                })
+                            });
+                        } else {
+                            console.log('error');
+                        }
+                    })
+                } else {
+                }
+            }
 
         }
 

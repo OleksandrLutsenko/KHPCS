@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('RegistrationController', RegistrationController);
 
-    RegistrationController.$inject = ['userService', '$state', 'toastr' ];
+    RegistrationController.$inject = ['userService', '$state', 'toastr'];
 
-    function RegistrationController(userService, $state, toastr ) {
+    function RegistrationController(userService, $state, toastr) {
         let vm = this;
 
         vm.register = register;
@@ -13,9 +13,8 @@
         vm.user = userService.getUser();
 
         function register() {
-            if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation ) {
-                console.log('error');
-                toastr.error('Please try again', 'Sign up form is invalid');
+            if (vm.regForm.$invalid) {
+                console.log('err');
             }
             else {
                 userService.setToken(undefined);
@@ -29,6 +28,7 @@
                     }
                 })
             }
+
         }
     }
 })();

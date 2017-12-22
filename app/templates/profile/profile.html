@@ -2,7 +2,7 @@
     <div class="main-div" flex="40" flex-xs="90" flex-sm="60">
         Edit Profile
         <div class="div-input">
-            <form name="vm.profile">
+            <form novalidate name="vm.profile" ng-submit="vm.updateProfileInfo()">
                 <md-input-container>
                     <label>Full name</label>
                     <input ng-model="vm.dataInfo.name" type="text" name="name" required maxlength="32">
@@ -30,15 +30,15 @@
                     </md-button>
                 </div>
 
-                <div class="menu" flex="100" ng-style="vm.menu.isShow(1) ? {height: '200px'}: {}"
+                <div class="menu" flex="100" ng-style="vm.menu.isShow(1) ? {height: '230px'}: {}"
                      layout="column" layout-align="start stretch">
 
                     <md-input-container>
                         <label>Current Password</label>
-                        <input ng-model="vm.data.current_password" type="password" name="password" required
+                        <input ng-model="vm.data.current_password" type="password" name="current_password" required
                                minLength="6"
                                maxlength="32">
-                        <div ng-messages="vm.profile.password.$error">
+                        <div ng-messages="vm.profile.current_password.$error">
                             <div ng-message="required">This is required.</div>
                             <div ng-message="maxlength">Password max length 32.</div>
                             <div ng-message="minlength">Password min length 6.</div>
@@ -74,14 +74,14 @@
                     </md-input-container>
 
                 </div>
-
+                <div class="div-btn">
+                    <md-button type="submit">
+                        Change info
+                    </md-button>
+                </div>
             </form>
         </div>
-        <div class="div-btn">
-            <md-button ng-click="vm.updateProfileInfo()">
-                Change info
-            </md-button>
-        </div>
+
 
     </div>
 
