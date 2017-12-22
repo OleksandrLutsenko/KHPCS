@@ -17,7 +17,13 @@ class VariableController extends Controller
      */
     public function index(Variable $variable, User $user)
     {
-        $variable = Variable::where('user_id', Auth::user()->id)->get();
+        $variable = Variable::all();
+        return $variable;
+    }
+
+    public function indexWithTrashed(Variable $variable, User $user)
+    {
+        $variable = Variable::withTrashed()->get();
         return $variable;
     }
 
@@ -26,11 +32,11 @@ class VariableController extends Controller
      *
      * @param Request|Request $request
      * @param Variable $variable
-     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param User $user
      * @internal param Survey $survey
      */
-    public function store(Request $request, Variable $variable, User $user)
+    public function store(Request $request, Variable $variable)
     {
         $variable = $variable->create($request->all());
         return compact('variable');
@@ -40,12 +46,12 @@ class VariableController extends Controller
      * Display the specified resource.
      *
      * @param Variable $variable
-     * @param User $user
      * @return \Illuminate\Http\Response
+     * @internal param User $user
      * @internal param Survey $survey
      * @internal param int $id
      */
-    public function show(Variable $variable, User $user)
+    public function show(Variable $variable)
     {
         return compact('variable');
     }
@@ -55,12 +61,11 @@ class VariableController extends Controller
      *
      * @param Request $request
      * @param Variable $variable
-     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param Survey $survey
      * @internal param int $id
      */
-    public function update(Request $request, Variable $variable, User $user)
+    public function update(Request $request, Variable $variable)
     {
         $variable->update($request->all());
         return compact('variable');
@@ -70,12 +75,11 @@ class VariableController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Variable $variable
-     * @param User $user
      * @return \Illuminate\Http\Response
      * @internal param Survey $survey
      * @internal param int $id
      */
-    public function destroy(Variable $variable, User $user)
+    public function destroy(Variable $variable)
     {
         $variable->delete();
         return compact('variable');

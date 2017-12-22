@@ -11,7 +11,7 @@ use App\User;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Tymon\JWTAuth\JWTAuth;
+use JWTAuth;
 
 class ResetPasswordController extends Controller
 {
@@ -72,14 +72,17 @@ class ResetPasswordController extends Controller
 
     public function customReset(ResetPasswordRequest $request)
     {
-
         $passwordReset = PasswordReset::where('token', $request->token)->first();
+        if ($passwordReset) {
+            $user = User::where('email', $passwordReset->email);
+            $user->update([
+                'password' => bcrypt($request->get('password'))
+            ]);
 
-        $user = User::where('email', $passwordReset->email);
-        $user->update([
-            'password' => bcrypt($request->get('password'))
-        ]);
-        return response()->json(['status'=>true,'message'=>'Password was updated successfully','data'=>$user]);
-
+            PasswordReset::find($passwordReset->id)->delete();
+            JWTAuth::invalidate($request->token);
+            return response('Password was updated successfully', 200);
+        }
+        return response('The token is already used', 404);
     }
 }

@@ -25,21 +25,15 @@ class SurveyController extends Controller
 
     public function onlySurvey(Survey $survey, User $user)
     {
-        if ($user->can('answerAll', $survey)) {
-            $surveys = Survey::all();
-            foreach ($surveys as $survey){
-                $result[] = [
-                    'survey_name' => $survey->name,
-                    'survey_id' => $survey->id,
-                    'survey_status' => $survey->status
-                ];
-            }
-            return compact('result');
-        } else {
-            return response([
-                "error" => "You do not have a permission"], 404
-            );
+        $surveys = Survey::all();
+        foreach ($surveys as $survey){
+            $result[] = [
+                'survey_name' => $survey->name,
+                'survey_id' => $survey->id,
+                'survey_status' => $survey->status
+            ];
         }
+        return compact('result');
     }
 
 //    /**
@@ -121,13 +115,13 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey, User $user)
     {
-        if ($user->can('show', $survey)) {
+//        if ($user->can('show', $survey)) {
             return compact('survey');
-        } else {
-            return response([
-                "error" => "You do not have a permission"], 404
-            );
-        }
+//        } else {
+//            return response([
+//                "error" => "You do not have a permission"], 404
+//            );
+//        }
     }
 
     /**
