@@ -3,9 +3,9 @@
         .module('factory.survey', [])
         .factory('survey', survey);
 
-    survey.$inject = ['$localStorage', '$sessionStorage', 'userService'];
+    survey.$inject = ['$localStorage', '$sessionStorage', 'surveyService'];
 
-    function survey($localStorage, $sessionStorage, userService) {
+    function survey($localStorage, $sessionStorage, surveyService) {
         let model = {};
         model.setQuestion = setQuestion;
         model.getQuestion = getQuestion;
@@ -57,7 +57,7 @@
         }
 
         function getActiveQuestionair() {
-            let items = userService.getSurveyOnly();
+            let items = surveyService.getSurveyOnly();
             console.log('items', items);
             for (let index = 0; index < items.length; index++){
                 if(items[index].survey_status == 1){
@@ -66,7 +66,7 @@
             }
         }
         function getActiveQuestionairId() {
-            let items = userService.getSurveyOnly();
+            let items = surveyService.getSurveyOnly();
             console.log('items', items);
             for (let index = 0; index < items.length; index++){
                 if(items[index].survey_status == 1){

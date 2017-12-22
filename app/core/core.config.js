@@ -70,7 +70,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     load: function (surveyService) {
-                        return surveyService.loadSurveyOnly();
+                        return surveyService.loadItems();
                     }
                 }
             })
@@ -105,10 +105,10 @@
                 controller: 'SurveyBlockController',
                 controllerAs: 'vm',
                 resolve: {
-                    items: function (blockService, survey) {
+                    items: function (surveyService, survey) {
                         let idSurvey = survey.getActineSurvey().id;
 
-                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){
                                 return res.data.survey.blocks;
                             }
@@ -122,11 +122,10 @@
                 controller: 'SurveyQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    items: function (blockService, survey) {
-                        let idS = survey.getActineSurvey();
-                        let idSurvey = idS.id;
+                    items: function (surveyService, survey) {
+                        let idSurvey = survey.getActineSurvey().id;
 
-                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){
                                 return res.data.survey.blocks;
                             }
@@ -140,8 +139,8 @@
                 controller: 'PassingQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    customerAnswer: function (userService, customers, survey, passingQuestionService) {
-                        let items = userService.getSurveyOnly();
+                    customerAnswer: function (surveyService, customers, survey, passingQuestionService) {
+                        let items = surveyService.getSurveyOnly();
                         let indexActiveSurvey = survey.getActiveQuestionair();
 
                         let id = {
@@ -158,10 +157,10 @@
                             }
                         });
                     },
-                    oneSurveyItems: function (survey, userService) {
+                    oneSurveyItems: function (survey, surveyService) {
                         let idActiveSurvey = survey.getActiveQuestionairId();
 
-                        return userService.loadOneSurvey(idActiveSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idActiveSurvey).then(function (res) {
                             if(res.success){
                                 return res.data.survey
                             }
