@@ -41,7 +41,7 @@
         }
 
         function loadSurveyOnly() {
-            return http.get(url.survey_management_func().loadOnlySurvey );
+            return http.get(url.survey_management_func().loadOnlySurvey , {} );
         }
 
         function createSurvey (data) {

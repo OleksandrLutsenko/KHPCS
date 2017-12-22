@@ -62,8 +62,13 @@
                 controller: 'SurveyManagementController',
                 controllerAs: 'vm',
                 resolve: {
-                    load: function (surveyService) {
-                        return surveyService.loadSurveyOnly();
+                    items: function (surveyService, survey) {
+                        return  surveyService.loadSurveyOnly().then(function (res) {
+                            if(res.success){
+                                console.log(res.data.result);
+                                return res.data.result;
+                            }
+                        });
                     }
                 }
             })
@@ -103,6 +108,8 @@
 
                         return blockService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){
+                                console.log(res.data);
+                                console.log(res.data.survey.blocks);
                                 return res.data.survey.blocks;
                             }
                         });

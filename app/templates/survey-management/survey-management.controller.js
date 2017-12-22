@@ -13,10 +13,15 @@
         vm.setActineSurvey = setActineSurvey;
 
         vm.items =  surveyService.getItems();
-
+        console.log(vm.items);
+        vm.survey = surveyService.loadSurveyOnly();
+        console.log(vm.survey);
         surveyService.loadSurveyOnly().then(function (res) {
-           console.log('only survey', res);
+           console.log('only survey', res.data.result);
         });
+
+
+
 
         function setActineSurvey(id, indexSurvey) {
             survey.setActineSurvey(id, indexSurvey);
