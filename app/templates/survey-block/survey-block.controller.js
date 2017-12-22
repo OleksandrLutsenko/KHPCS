@@ -10,9 +10,9 @@
         tabsService.startTab();
 
         let activeSurvey = survey.getActineSurvey();
+        let activeBlock = survey.getActiveBlock();
 
         let idSurvey = activeSurvey.id;
-        let indexSurvey = activeSurvey.indexSurvey;
 
         vm.items = items;
 
@@ -20,21 +20,27 @@
         vm.setActiveBlock = setActiveBlock;
         vm.deleteBlock = deleteBlock;
 
-        function loadOneSurvey() {
-            surveyService.loadOneSurvey(idSurvey).then(function (res) {
-                if(res.success){
-                    vm.items = res.data.survey.blocks;
-                }
-            });
-        }
+        // function loadOneSurvey() {
+        //     surveyService.loadOneSurvey(idSurvey).then(function (res) {
+        //         if(res.success){
+        //             vm.items = res.data.survey.blocks;
+        //         }
+        //     });
+        // }
 
         function setActiveBlock(id, indexBlock) {
             survey.setActiveBlock(id, indexBlock);
-            $scope.$broadcast('parent', indexBlock);
+            let activeBlock = {
+                id: id,
+                indexBlock: indexBlock
+            };
+            $scope.$broadcast('parent', activeBlock);
         }
 
         if (vm.items.length > 0) {
-            setActiveBlock(vm.items[0].id, 0);
+            if(activeBlock == undefined){
+                setActiveBlock(vm.items[0].id, 0);
+            }
             $state.go('tab.survey-block.survey-question');
         }
         else {
@@ -46,20 +52,23 @@
             "ui-floating": true,
 
             stop: function (event, ui) {
-                vm.items.forEach(function (item, index) {
-                   let tmpObj = {
-                       order_number: index,
-                       name: item.name
-                   };
+                let droptargetModel = ui.item.sortable.droptargetModel;
 
-                    blockService.updateBlock(item.id, tmpObj).then(function (res) {
-                        if (!res.success) {
-                            toastr.error('error');
-                        }
+                if(droptargetModel == vm.items) {
+                    vm.items.forEach(function (item, index) {
+                        let tmpObj = {
+                            order_number: index,
+                            name: item.name
+                        };
+
+                        blockService.updateBlock(item.id, tmpObj).then(function (res) {
+                            if (!res.success) {
+                                toastr.error('error');
+                            }
+                        });
                     });
-                });
+                }
             }
-
         };
 
         /////////////////////////////////Fix templates///////////////////////////
@@ -107,7 +116,7 @@
         }
 
 
-        function addBlock(item) {
+        function addBlock(item, index) {
 
             $mdDialog.show({
                 controller: 'AddBlockController',
@@ -122,8 +131,8 @@
                     }
                 }
             }).then(function (res) {
-                loadOneSurvey();
-                if (res) {
+                if (res.type) {
+                    vm.items.splice(index, 1, res.data.block);
                     let indexBlock = vm.items.length - 1;
                     let id = vm.items[indexBlock].id;
 
@@ -131,6 +140,7 @@
                     toastr.success('Block was edited');
                 }
                 else {
+                    vm.items.push(res.data.block);
                     toastr.success('New block was created');
                 }
             })
@@ -145,14 +155,13 @@
             }).then(function () {
                 blockService.deleteBlock(id).then(function (res) {
                     if (res.success) {
-                        loadOneSurvey();
+                        vm.items.splice(index, 1);
+                        toastr.success('Block was deleted');
 
                         /////////////////////UpdateTemplate///////////////////
-                        if (vm.items[index].questions.length) {
-                            updateTemplate(res);
-                        }
-
-                        toastr.success('Block was deleted');
+                        // if (vm.items[index].questions.length) {
+                        //     updateTemplate(res);
+                        // }
                     }
                 });
             })

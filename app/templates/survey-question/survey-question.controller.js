@@ -22,10 +22,11 @@
 
 
         $scope.$on('parent', function (event, data) {
-            indexBlock = data;
-            vm.items = items[indexBlock].questions;
-            activeBlock = survey.getActiveBlock();
+            activeBlock = data;
+            indexBlock = activeBlock.indexBlock;
             idBlock = activeBlock.id;
+
+            vm.items = items[indexBlock].questions;
         });
 
         console.log(vm.items);
@@ -54,6 +55,8 @@
                     succes = true;
                 }
 
+                let stop = false;
+
                 if(succes){
                     if(typeof model.answers != 'undefined' && model.type == 1){
                         for(let i = 0; i < model.answers.length; i++){
@@ -63,10 +66,14 @@
                                         if(typeof model.answers[i].child_questions[j].delete == 'undefined'){
                                             ui.item.sortable.cancel();
                                             toastr.error('Can not contain questions');
+                                            stop = true;
                                             break
                                         }
                                     }
                                 }
+                            }
+                            if(stop){
+                                break
                             }
                         }
                     }
@@ -82,11 +89,11 @@
         };
 
         function save() {
-            let dataForSand = angular.copy(vm.items);
+            let dataForSend = angular.copy(vm.items);
 
-            console.log('dataForSand', dataForSand);
+            console.log('dataForSend', dataForSend);
 
-            dataForSand.forEach(function (itemQuestion, indexQuestion) {
+            dataForSend.forEach(function (itemQuestion, indexQuestion) {
                 itemQuestion.order_number = indexQuestion;
                 itemQuestion.child_order_number = null;
                 if(itemQuestion.type == 1){
@@ -108,9 +115,9 @@
                 }
             });
 
-            console.log('dataForSand', dataForSand);
+            console.log('dataForSend', dataForSend);
 
-            blockService.addBlockQuestion(idBlock, dataForSand).then(function (res) {
+            blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                 console.log(res);
                 if(res.success){
                     vm.items = res.data.questions;

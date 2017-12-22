@@ -40,7 +40,11 @@
                 if (typeof item != 'undefined') {
                     blockService.updateBlock(item.id, vm.data).then(function (res) {
                         if (res.success) {
-                            $mdDialog.hide(false);
+                            let tmpObj = {
+                                type: true,
+                                data: res.data
+                            };
+                            $mdDialog.hide(tmpObj);
                         }
                         else {
                             cancel();
@@ -52,7 +56,11 @@
 
                     blockService.createBlock(idSurvey, vm.data).then(function (res) {
                         if (res.success) {
-                            $mdDialog.hide(true);
+                            let tmpObj = {
+                                type: false,
+                                data: res.data
+                            };
+                            $mdDialog.hide(tmpObj);
                         }
                         else {
                             cancel();
