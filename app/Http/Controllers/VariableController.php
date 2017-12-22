@@ -21,6 +21,12 @@ class VariableController extends Controller
         return $variable;
     }
 
+    public function indexWithTrashed(Variable $variable, User $user)
+    {
+        $variable = Variable::withTrashed()->where('user_id', Auth::user()->id)->get();
+        return $variable;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

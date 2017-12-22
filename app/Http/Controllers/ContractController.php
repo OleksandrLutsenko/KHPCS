@@ -11,6 +11,7 @@ use App\Http\Requests\ContractRequest;
 use App\Image;
 use App\Question;
 use App\Report;
+use App\Survey;
 use App\User;
 use App\Variable;
 use Dompdf\Dompdf;
@@ -34,6 +35,11 @@ class ContractController extends Controller
     public function index(Contract $contract, User $user)
     {
         return Contract::all();
+    }
+
+    public function indexForSurvey(Contract $contract, User $user, Survey $survey)
+    {
+        return Contract::where('survey_id', $survey->id)->get();
     }
 
     public function indexWithoutBody(Contract $contract, User $user)

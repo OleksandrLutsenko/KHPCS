@@ -97,6 +97,7 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::get('/contract', 'ContractController@index');
 
         Route::get('/onlycontract', 'ContractController@indexWithoutBody');
+        Route::get('/survey/{survey}/contracts', 'ContractController@indexForSurvey');
         /** show contract */
         Route::get('/contract/{contract}', 'ContractController@show');
         /** save new contract */
@@ -138,6 +139,7 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyBlockAnswers');
         });
         Route::get('/variable', 'VariableController@index');
+        Route::get('/variable-all', 'VariableController@indexWithTrashed');
         Route::get('/variable/{variable}', 'VariableController@show');
         Route::post('/variable', 'VariableController@store');
         Route::put('/variable/{variable}', 'VariableController@update');
