@@ -6,11 +6,12 @@
 
 
 
-    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr'];
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr' , 'tabsService'];
 
-    function ContractEditorController(userService, $mdDialog, toastr) {
+    function ContractEditorController(userService, $mdDialog, toastr, tabsService) {
         let vm = this;
         console.log('contract-editor controller start');
+        tabsService.startTab('page3');
 
         vm.surveys = userService.getItems();
         console.log(vm.surveys);

@@ -5,10 +5,11 @@
         .controller('SurveyManagementController', SurveyManagementController);
 
 
-    SurveyManagementController.$inject = ['userService', '$mdDialog', 'survey', '$mdSidenav' , 'toastr'];
+    SurveyManagementController.$inject = ['userService', '$mdDialog', 'survey', '$mdSidenav' , 'toastr' , 'tabsService'];
 
-    function SurveyManagementController(userService, $mdDialog, survey, $mdSidenav , toastr) {
+    function SurveyManagementController(userService, $mdDialog, survey, $mdSidenav , toastr, tabsService) {
         let vm = this;
+        tabsService.startTab('page2');
 
         vm.setActineSurvey = setActineSurvey;
 

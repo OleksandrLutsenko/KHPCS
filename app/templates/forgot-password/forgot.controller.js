@@ -3,10 +3,11 @@
     angular.module('app')
         .controller('ForgotController', ForgotController);
 
-    ForgotController.$inject = ['userService', '$state' , 'toastr'];
+    ForgotController.$inject = ['userService', '$state' , 'toastr', 'tabsService'];
 
-    function ForgotController(userService, $state , toastr) {
+    function ForgotController(userService, $state , toastr, tabsService) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.forgot = forgot;
 

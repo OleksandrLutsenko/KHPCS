@@ -3,11 +3,12 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr'];
+    UserManagementController.$inject = ['userService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService'];
 
 
-    function UserManagementController(userService, customerService, $state, $mdDialog, customers, toastr) {
+    function UserManagementController(userService, customerService, $state, $mdDialog, customers, toastr, tabsService) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.myLimit = 10;
         vm.myPage = 1;

@@ -3,10 +3,11 @@
     angular.module('app')
         .controller('ResetController', ResetController);
 
-    ResetController.$inject = ['userService', '$state' , 'toastr' , '$stateParams'];
+    ResetController.$inject = ['userService', '$state' , 'toastr' , '$stateParams', 'tabsService'];
 
-    function ResetController(userService, $state , toastr , $stateParams) {
+    function ResetController(userService, $state , toastr , $stateParams, tabsService) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.reset = reset;
 

@@ -3,10 +3,11 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', 'blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items'];
+    SurveyBlockController.$inject = ['userService', 'blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService'];
 
-    function SurveyBlockController(userService, blockService, $state, survey, $scope, $mdDialog , toastr, items) {
+    function SurveyBlockController(userService, blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService) {
         let vm = this;
+        tabsService.startTab();
 
 
         vm.setActiveBlock = setActiveBlock;

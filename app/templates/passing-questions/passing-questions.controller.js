@@ -5,10 +5,11 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customerAnswer', 'survey' , 'toastr'];
+    PassingQuestionController.$inject = ['$scope', 'userService', '$state', 'customers', 'customerAnswer', 'survey' , 'toastr', 'tabsService'];
 
-    function PassingQuestionController($scope, userService, $state, customers, customerAnswer, survey , toastr) {
+    function PassingQuestionController($scope, userService, $state, customers, customerAnswer, survey , toastr, tabsService) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.next = next;
         vm.back = back;

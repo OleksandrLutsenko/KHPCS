@@ -4,10 +4,11 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
+    SurveyQuestionController.$inject = ['userService', 'survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService'];
 
-    function SurveyQuestionController(userService, survey, $scope, $mdDialog, blockService, toastr, items) {
+    function SurveyQuestionController(userService, survey, $scope, $mdDialog, blockService, toastr, items, tabsService) {
         let vm = this;
+        tabsService.startTab();
 
         let idS = survey.getActineSurvey();
         let idB = survey.getActiveBlock();

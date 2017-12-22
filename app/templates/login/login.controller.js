@@ -3,10 +3,11 @@
     angular.module('app')
         .controller('LoginController', LoginController);
 
-    LoginController.$inject = ['userService', '$localStorage', '$state' , 'toastr'];
+    LoginController.$inject = ['userService', '$localStorage', '$state' , 'toastr', 'tabsService'];
 
-    function LoginController(userService, $localStorage, $state , toastr) {
+    function LoginController(userService, $localStorage, $state , toastr, tabsService) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.login = login;
 
