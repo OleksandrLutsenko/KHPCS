@@ -26,12 +26,6 @@
         model.getItems = getItems;
 
         //Survey
-        model.loadSurveyOnly = loadSurveyOnly;
-        model.createSurvey = createSurvey;
-        model.updateSurvey = updateSurvey;
-        model.deleteSurvey = deleteSurvey;
-        model.changeStatusSurvey = changeStatusSurvey;
-        model.archiveStatusSurvey = archiveStatusSurvey;
 
         //Passing questions
         model.sendCustomerAnswer = sendCustomerAnswer;
@@ -89,8 +83,8 @@
             return http.post(url.user.register, credentials)
         }
 
-        function forgot(credentials) {
-            return http.post(url.user.forgot, credentials);
+        function forgot(data) {
+            return http.post(url.user.forgot, data);
         }
 
         function reset(token , data){
@@ -122,34 +116,7 @@
             return $sessionStorage['user_items'];
         }
 
-
-
-
         // Survey management
-        function loadSurveyOnly() {
-            return http.get(url.survey_management_func().loadOnlySurvey);
-        }
-
-        function createSurvey (credentials) {
-            return http.post(url.survey_management.createSurvey, credentials);
-        }
-
-        function updateSurvey(id, data) {
-            return http.put(url.survey_management_func(id).updateSurvey, data);
-        }
-
-        function deleteSurvey(id) {
-            return http.delete(url.survey_management_func(id).updateSurvey);
-        }
-
-        function changeStatusSurvey (id) {
-            return http.put(url.survey_management_func(id).changeStatusSurvey);
-        }
-
-        function archiveStatusSurvey (id) {
-            return http.put(url.survey_management_func(id).archiveStatusSurvey);
-        }
-
 
         //Pasing question
         function sendCustomerAnswer(id, data) {
