@@ -5,15 +5,43 @@
   justify-content: center;
 
   .md-sidenav-right {
-    height: fit-content;
+    //height: calc(100vh - 173px);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #f6f6f6;
   }
 
   .side-button {
 
     color: #aaaaaa;
 
+    .empty-block{
+      margin-left: 0 0;
+      color: #d2d2d2;
+      //border-bottom: 1px solid #d2d2d2;
+      margin: 0px 5px 0 20px;
+    }
+
     .material-icons {
       font-size: 30px;
+    }
+    .md-theme-light1 .material-icons {
+      font-size: 24px;
+    }
+
+    .md-theme-light1{
+      height: 50px;
+      padding: 0 17px;
+      background-color: #f6f6f6;
+      color: #000000;
+      border: 1px solid #d8d8d8;
+    }
+
+    md-content{
+      height: calc(100vh - 66px);
+      background-color: #f6f6f6;
     }
   }
 
@@ -105,7 +133,15 @@
   .md-button {
     text-transform: capitalize;
     line-height: 25px;
+
   }
+
+
+
+
+
+
+
 
 }
 

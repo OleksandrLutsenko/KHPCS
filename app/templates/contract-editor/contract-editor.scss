@@ -1,100 +1,99 @@
 .contract-editor {
 
-
-  .questionnaire-list:last-child {   ;
-    justify-content: normal;
+  //surveys//
+  .surveys-title {
+    width: 100%;
+    padding: 20px 0;
+    box-sizing: border-box;
+    border-bottom: 1px solid #d8d8d8;
+    background-color: #f6f6f6;
   }
-
-
-  .questionnaire-list p:last-child {
-    color: #000000;
-  }
-
-
-  .right-tulbar{
-    border: 1px solid #001041;
-    height: fit-content;
-  }
-
-  .qtext-center{
-    margin-top: 65px;
-  }
-
-  .h4go {
-    height: 300px;
-    //overflow-x: scroll;
-    overflow-y: scroll;
-  }
-
-  .h4go h4{
-    margin: 0;
-    padding: 7px 12px 10px 12px;
-    cursor: pointer;
-    //text-transform: uppercase;
-    font-weight: normal;
+  .title-size {
     font-size: 16px;
   }
-
-
-  md-toolbar{
-      min-height: 0;
-      font-size: 15px;
-      background-color: #001041;
-      margin: 0;
-      height: 40px;
-
-    }
-
-  .md-toolbar-tools {
-    font-size: 18px;
+  .search {
+    margin: 5px 10px 0 10px;
   }
 
-
-
-
-
-
-
-
-  .question-answer, .empty-block{
-    margin-left: 0 0;
-    border-bottom: 1px solid #d2d2d2;
-    margin: 0px 5px 0 20px;
+  .search md-input-container {
+    margin-bottom: 0;
   }
-
-  //.empty-block{
-  //  color: darkgrey;
-  //  margin: 3px 3px 3px 10px;
-  //}
-
-  .empty-block p{
-    color: darkgrey;
-    margin: 3px 3px 3px 10px;
+  .questionnaire-list {
+    margin: 10px;
+    border-bottom: 1px solid #d8d8d8;
   }
-
-
-  .question-answer p {
+  .pointer {
     cursor: pointer;
-    margin: 3px 3px 3px 10px;
+  }
+  .chevron {
+    font-size: 14px;
+  }
+  //CKEditor//
+
+  //Template, Survey, UserVar//
+  .edit-template {
+    box-sizing: border-box;
+  }
+  .header-cell {
+    height: 59px;
+    border-right: 1px solid #d8d8d8;
+  }
+  .active-cell {
+    //background-color: #f6f6f6;
+    cursor: default;
+    text-align: center;
+  }
+  .inactive-cell {
+    background-color: #e8e8e8;
+    border-bottom: 1px solid #d8d8d8;
+    cursor: pointer;
+    text-align: center;
+  }
+  .header-title {
+    font-size: 14px;
+  }
+  .save-menu {
+    margin: 10px;
+  }
+  .templates{
+    margin: 10px;
+    border-bottom: 1px solid #d8d8d8;
+  }
+  .survey-block {
+    margin: 10px;
+  }
+  .survey-block-border {
+    margin: 5px 20px;
+    border-bottom: 1px solid #d8d8d8;
+  }
+  .survey-question {
+    margin: 5px 0 5px 10px;
+  }
+  .answer {
+    margin-left: 20px;
+  }
+  .hidden-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .empty-block {
+    margin: 5px 20px 5px 30px;
+    color: #c3c3c3;
   }
 
-  .ce-right{
-       //float: right;
-    //margin-top: 6px;
-    display: inline-block;
-     }
-
-  .ce-left{
-    //float: left;
-    display: inline-block;
+  .user-var-block {
+    margin: 5px 10px 5px 10px;
   }
-
-
-  .ce-right i{
-    font-size: 20px;
+  .user-var-create {
+    margin: 10px;
   }
-
-
-
-
+  .user-var {
+    position: relative;
+    margin: 10px;
+    border-bottom: 1px solid #d8d8d8;
+  }
+  .user-edit {
+    float: right;
+  }
 }

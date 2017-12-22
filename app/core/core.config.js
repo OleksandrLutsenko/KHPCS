@@ -14,7 +14,14 @@
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    security: function ($state, userService) {
+                        if(!userService.getToken()){
+                            return $state.go('login');
+                        }
+                    }
+                }
             })
             .state('login', {
                 url: '/login',
