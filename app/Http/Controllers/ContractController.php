@@ -99,9 +99,9 @@ class ContractController extends Controller
 //        $variables = Auth::user()->variables;
         $variables = Variable::withTrashed()->where('user_id', $user->id)->get();
         foreach ($variables as $variable){
-            if($variable->trashed()){
-                $variable->text = "<p style='color: red'>undefined value</p> ";
-            }
+//            if($variable->trashed()){
+//                $variable->text = "<span style='color: red'>variable was deleted</span> ";
+//            }
             $userVariables[] = $variable->text;
         }
         $body = stripcslashes($contract->body);
@@ -115,11 +115,11 @@ class ContractController extends Controller
             if ($question->block->survey_id == $report->survey_id) {
 
                 $finalAnswer = CustomerAnswer::withTrashed()->where('question_id', $question->id)->get();
-                //
-                if($question->trashed()){
-                    $finalAnswer[0]->value = "<p style='color: red'>undefined value</p> ";
-                }
-                //
+//                //
+//                if($question->trashed()){
+//                    $finalAnswer[0]->value = "<span style='color: red'>N/A</span> ";
+//                }
+//                //
                 $contractAnswers[$question->id] = $finalAnswer[0]->value;
             }
         }

@@ -39,4 +39,15 @@ class CustomerAnswer extends Model
         $question = Question::find($this->question_id)->title;
         return $question;
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($customerAnswer) {
+            $customerAnswer->update([
+                $customerAnswer->value = '<span style="background-color: red">N/A</span>'
+            ]);
+        });
+    }
 }

@@ -16,13 +16,8 @@ class CreateVariablesTable extends Migration
         Schema::create('variables', function (Blueprint $table) {
             $table->increments('id');
             $table->string('text');
-            $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
-        });
-
-        Schema::table('variables', function($table) {
-            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

@@ -97,6 +97,7 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::get('/contract', 'ContractController@index');
 
         Route::get('/onlycontract', 'ContractController@indexWithoutBody');
+
         Route::get('/survey/{survey}/contracts', 'ContractController@indexForSurvey');
         /** show contract */
         Route::get('/contract/{contract}', 'ContractController@show');

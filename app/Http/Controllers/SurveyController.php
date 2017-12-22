@@ -32,8 +32,9 @@ class SurveyController extends Controller
                 'survey_id' => $survey->id,
                 'survey_status' => $survey->status
             ];
-            }
-            return compact('result');
+
+        }
+        return compact('result');
     }
 
 //    /**
