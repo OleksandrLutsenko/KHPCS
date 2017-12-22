@@ -14,7 +14,7 @@
 
         vm.items =  surveyService.getItems();
 
-        userService.loadSurveyOnly().then(function (res) {
+        surveyService.loadSurveyOnly().then(function (res) {
            console.log('only survey', res);
         });
 
