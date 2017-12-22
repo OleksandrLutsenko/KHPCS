@@ -15,13 +15,13 @@ class VariableController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Database\Eloquent\Collection|\Symfony\Component\HttpFoundation\Response|static[]
      * @internal param Survey $survey
      */
-    public function index(Variable $variable, User $user)
+    public function index(Variable $variable)
     {
         $variable = Variable::all();
         return $variable;
     }
 
-    public function indexWithTrashed(Variable $variable, User $user)
+    public function indexWithTrashed(Variable $variable)
     {
         $variable = Variable::withTrashed()->get();
         return $variable;
