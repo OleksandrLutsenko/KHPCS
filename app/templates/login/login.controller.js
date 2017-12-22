@@ -10,17 +10,13 @@
 
         vm.login = login;
 
-        let token = $localStorage.token;
-
         function login() {
             userService.setToken(undefined);
             userService.login(vm.data).then(function (res) {
                 if (res.success){
                     userService.setToken(res.data.token);
                     userService.loadUser().then(function () {
-                        userService.loadItems().then(function () {
-                            $state.go('tab.user-management');
-                        })
+                        $state.go('tab.user-management');
                     })
                 }
                 else {

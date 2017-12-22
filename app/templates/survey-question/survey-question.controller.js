@@ -113,7 +113,7 @@
                 console.log(res);
                 if(res.success){
                     vm.items = res.data.questions;
-                    item[indexBlock].questions = res.data.questions;
+                    items[indexBlock].questions = res.data.questions;
                 }
             })
         }

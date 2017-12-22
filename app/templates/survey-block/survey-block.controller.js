@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', 'blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items'];
+    SurveyBlockController.$inject = ['userService', 'blockService', 'surveyService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items'];
 
-    function SurveyBlockController(userService, blockService, $state, survey, $scope, $mdDialog , toastr, items) {
+    function SurveyBlockController(userService, blockService, surveyService, $state, survey, $scope, $mdDialog , toastr, items) {
         let vm = this;
 
 
@@ -23,7 +23,7 @@
         }
 
         function loadOneSurvey() {
-            blockService.loadOneSurvey(idSurvey.id).then(function (res) {
+            surveyService.loadOneSurvey(idSurvey.id).then(function (res) {
                 if(res.success){
                     vm.items = res.data.survey.blocks;
                 }
@@ -54,7 +54,28 @@
 
         vm.sortableOptionsBlock = {
             connectWith: ".block-container",
-            "ui-floating": true
+            "ui-floating": true,
+
+            stop: function (event, ui) {
+                let droptargetModel = ui.item.sortable.droptargetModel;
+
+                console.log('droptargetModel', droptargetModel);
+                console.log('vm.items', vm.items);
+
+                vm.items.forEach(function (item, index) {
+                   let tmpObj = {
+                       order_number: index,
+                       name: item.name
+                   };
+
+                    blockService.updateBlock(item.id, tmpObj).then(function (res) {
+                        if (!res.success) {
+                            toastr.error('error');
+                        }
+                    });
+                });
+            }
+
         };
 
         /////////////////////////////////Fix templates///////////////////////////
