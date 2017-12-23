@@ -12,6 +12,7 @@
         tabsService.startTab('page2');
 
         vm.setActineSurvey = setActineSurvey;
+        survey.setActiveBlock();
 
         vm.items =  surveyService.getItems();
 

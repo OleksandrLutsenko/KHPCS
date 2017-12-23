@@ -141,7 +141,7 @@
                 resolve: {
                     customerAnswer: function (surveyService, customers, survey, passingQuestionService) {
                         let items = surveyService.getSurveyOnly();
-                        let indexActiveSurvey = survey.getActiveQuestionair();
+                        let indexActiveSurvey = survey.getActiveQuestionair().index;
 
                         let id = {
                             customer: customers.getActiveCustomers(),
@@ -152,13 +152,10 @@
                             if(res.success){
                                 return res.data.customerAnswers
                             }
-                            else{
-                                console.log('error customer answer');
-                            }
                         });
                     },
                     oneSurveyItems: function (survey, surveyService) {
-                        let idActiveSurvey = survey.getActiveQuestionairId();
+                        let idActiveSurvey = survey.getActiveQuestionair().id;
 
                         return surveyService.loadOneSurvey(idActiveSurvey).then(function (res) {
                             if(res.success){

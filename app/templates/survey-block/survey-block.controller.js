@@ -28,17 +28,21 @@
         //     });
         // }
 
-        function setActiveBlock(id, indexBlock) {
+        function setActiveBlock(id, indexBlock, data) {
             survey.setActiveBlock(id, indexBlock);
-            let activeBlock = {
-                id: id,
-                indexBlock: indexBlock
+            let tmpObj = {
+                activeBlock: {
+                    id: id,
+                    indexBlock: indexBlock
+                },
+                data: data
             };
-            $scope.$broadcast('parent', activeBlock);
+            $scope.$broadcast('parent', tmpObj);
+            $state.go('tab.survey-block.survey-question');
         }
 
         if (vm.items.length > 0) {
-            if(activeBlock == undefined){
+            if(activeBlock.indexBlock == undefined){
                 setActiveBlock(vm.items[0].id, 0);
             }
             $state.go('tab.survey-block.survey-question');
@@ -133,14 +137,14 @@
             }).then(function (res) {
                 if (res.type) {
                     vm.items.splice(index, 1, res.data.block);
-                    let indexBlock = vm.items.length - 1;
-                    let id = vm.items[indexBlock].id;
-
-                    vm.setActiveBlock(id, indexBlock);
                     toastr.success('Block was edited');
                 }
                 else {
                     vm.items.push(res.data.block);
+                    let indexBlock = vm.items.length - 1;
+                    let id = vm.items[indexBlock].id;
+
+                    vm.setActiveBlock(id, indexBlock, res.data.block);
                     toastr.success('New block was created');
                 }
             })

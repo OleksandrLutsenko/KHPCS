@@ -22,14 +22,16 @@
 
 
         $scope.$on('parent', function (event, data) {
-            activeBlock = data;
+            activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
             idBlock = activeBlock.id;
 
+            if(data.data != undefined){
+                items.push(data.data)
+            }
+
             vm.items = items[indexBlock].questions;
         });
-
-        console.log(vm.items);
 
         vm.sortableOptionsQuestion = {
             connectWith: ".question-container",
@@ -40,8 +42,6 @@
                 let model = ui.item.sortable.model;
 
                 let succes = true;
-
-                console.log('droptargetModel', droptargetModel);
 
                 if(droptargetModel.length > 0){
                     for(let i = 0; i < droptargetModel.length; i++){
@@ -55,25 +55,20 @@
                     succes = true;
                 }
 
-                let stop = false;
-
                 if(succes){
                     if(typeof model.answers != 'undefined' && model.type == 1){
-                        for(let i = 0; i < model.answers.length; i++){
+                        answers: for(let i = 0; i < model.answers.length; i++){
                             if(typeof model.answers[i].child_questions != 'undefined'){
                                 if(model.answers[i].child_questions.length > 0){
                                     for(let j = 0; j < model.answers[i].child_questions.length; j++){
                                         if(typeof model.answers[i].child_questions[j].delete == 'undefined'){
                                             ui.item.sortable.cancel();
                                             toastr.error('Can not contain questions');
-                                            stop = true;
+                                            break answers;
                                             break
                                         }
                                     }
                                 }
-                            }
-                            if(stop){
-                                break
                             }
                         }
                     }
@@ -91,7 +86,7 @@
         function save() {
             let dataForSend = angular.copy(vm.items);
 
-            console.log('dataForSend', dataForSend);
+            // console.log('dataForSend', dataForSend);
 
             dataForSend.forEach(function (itemQuestion, indexQuestion) {
                 itemQuestion.order_number = indexQuestion;
@@ -115,10 +110,9 @@
                 }
             });
 
-            console.log('dataForSend', dataForSend);
+            // console.log('dataForSend', dataForSend);
 
             blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                console.log(res);
                 if(res.success){
                     vm.items = res.data.questions;
                     items[indexBlock].questions = res.data.questions;
@@ -185,9 +179,6 @@
         }
 
         function showEdit(mainKey, answerKey, questionKey) {
-            console.log('mainKey', mainKey);
-            console.log('answerKey', answerKey);
-            console.log('questionKey',questionKey);
             $mdDialog.show({
                 controller: 'AddQuestionController',
                 controllerAs: 'vm',
