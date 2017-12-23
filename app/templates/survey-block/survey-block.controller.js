@@ -28,17 +28,21 @@
         //     });
         // }
 
-        function setActiveBlock(id, indexBlock, data) {
+        function setActiveBlock(id, indexBlock, data, movData) {
             survey.setActiveBlock(id, indexBlock);
             let tmpObj = {
                 activeBlock: {
                     id: id,
                     indexBlock: indexBlock
                 },
-                data: data
+                data: data,
+                movData: movData
             };
-            $scope.$broadcast('parent', tmpObj);
+            $scope.$broadcast('setActiveBlock', tmpObj);
             $state.go('tab.survey-block.survey-question');
+        }
+        function mowUpdate(movData) {
+            $scope.$broadcast('mowUpdate', movData);
         }
 
         if (vm.items.length > 0) {
@@ -72,6 +76,7 @@
                         });
                     });
                 }
+                mowUpdate(vm.items);
             }
         };
 

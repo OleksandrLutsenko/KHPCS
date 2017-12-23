@@ -1,12 +1,15 @@
 .addQuest {
 
+  #answer-container {
+    height: 292px;
+  }
+
   md-card {
     margin: 0;
 
   }
 
   md-card-content{
-    overflow: auto;
   }
 
   .createTop {
@@ -38,6 +41,7 @@
   }
 
   .answer{
+    overflow: auto;
     padding-top: 20px;
   }
 

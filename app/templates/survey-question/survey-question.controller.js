@@ -21,7 +21,7 @@
         vm.deleteQuest = deleteQuest;
 
 
-        $scope.$on('parent', function (event, data) {
+        $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
             idBlock = activeBlock.id;
@@ -30,6 +30,10 @@
                 items.push(data.data)
             }
 
+            vm.items = items[indexBlock].questions;
+        });
+        $scope.$on('mowUpdate', function (event, data) {
+            items = data;
             vm.items = items[indexBlock].questions;
         });
 
@@ -65,7 +69,6 @@
                                             ui.item.sortable.cancel();
                                             toastr.error('Can not contain questions');
                                             break answers;
-                                            break
                                         }
                                     }
                                 }
@@ -86,38 +89,36 @@
         function save() {
             let dataForSend = angular.copy(vm.items);
 
-            // console.log('dataForSend', dataForSend);
-
-            dataForSend.forEach(function (itemQuestion, indexQuestion) {
-                itemQuestion.order_number = indexQuestion;
-                itemQuestion.child_order_number = null;
-                if(itemQuestion.type == 1){
-                    itemQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
-                        itemAnswer.order_number = indexAnswer;
-                        itemAnswer.child_questions.forEach(function (itemQuestionInAnswer, indexQuestionInAnswer) {
-                            itemQuestionInAnswer.child_order_number = indexQuestionInAnswer;
-                            itemQuestionInAnswer.order_number = null;
-                            if(itemQuestionInAnswer.type == 1){
-                                itemQuestionInAnswer.answers.forEach(function (itemAnswerInChildQuestion, indexAnswerInChildQuestion) {
-                                    itemAnswerInChildQuestion.order_number = indexAnswerInChildQuestion;
-                                    if(typeof itemQuestionInAnswer.id != 'undefined'){
-                                        itemAnswerInChildQuestion.question_id = itemQuestionInAnswer.id;
-                                    }
-                                })
-                            }
+            if(dataForSend.length > 0){
+                dataForSend.forEach(function (itemQuestion, indexQuestion) {
+                    itemQuestion.order_number = indexQuestion;
+                    itemQuestion.child_order_number = null;
+                    if(itemQuestion.type == 1){
+                        itemQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                            itemAnswer.child_questions.forEach(function (itemQuestionInAnswer, indexQuestionInAnswer) {
+                                itemQuestionInAnswer.child_order_number = indexQuestionInAnswer;
+                                itemQuestionInAnswer.order_number = null;
+                                if(itemQuestionInAnswer.type == 1){
+                                    itemQuestionInAnswer.answers.forEach(function (itemAnswerInChildQuestion, indexAnswerInChildQuestion) {
+                                        itemAnswerInChildQuestion.order_number = indexAnswerInChildQuestion;
+                                        if(typeof itemQuestionInAnswer.id != 'undefined'){
+                                            itemAnswerInChildQuestion.question_id = itemQuestionInAnswer.id;
+                                        }
+                                    })
+                                }
+                            })
                         })
-                    })
-                }
-            });
+                    }
+                });
 
-            // console.log('dataForSend', dataForSend);
-
-            blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                if(res.success){
-                    vm.items = res.data.questions;
-                    items[indexBlock].questions = res.data.questions;
-                }
-            })
+                blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                    if(res.success){
+                        vm.items = res.data.questions;
+                        items[indexBlock].questions = res.data.questions;
+                    }
+                })
+            }
         }
 
         function deleteQuest(id, mainKey, answerKey, questionKey) {
