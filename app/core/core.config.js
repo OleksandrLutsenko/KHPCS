@@ -14,7 +14,14 @@
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    security: function ($state, userService) {
+                        if(!userService.getToken()){
+                            return $state.go('login');
+                        }
+                    }
+                }
             })
             .state('login', {
                 url: '/login',
@@ -62,13 +69,8 @@
                 controller: 'SurveyManagementController',
                 controllerAs: 'vm',
                 resolve: {
-                    items: function (surveyService, survey) {
-                        return  surveyService.loadSurveyOnly().then(function (res) {
-                            if(res.success){
-                                console.log(res.data.result);
-                                return res.data.result;
-                            }
-                        });
+                    load: function (surveyService) {
+                        return surveyService.loadItems();
                     }
                 }
             })
@@ -103,13 +105,11 @@
                 controller: 'SurveyBlockController',
                 controllerAs: 'vm',
                 resolve: {
-                    items: function (blockService, survey) {
+                    items: function (surveyService, survey) {
                         let idSurvey = survey.getActineSurvey().id;
 
-                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){
-                                console.log(res.data);
-                                console.log(res.data.survey.blocks);
                                 return res.data.survey.blocks;
                             }
                         });
@@ -122,11 +122,10 @@
                 controller: 'SurveyQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    items: function (blockService, survey) {
-                        let idS = survey.getActineSurvey();
-                        let idSurvey = idS.id;
+                    items: function (surveyService, survey) {
+                        let idSurvey = survey.getActineSurvey().id;
 
-                        return blockService.loadOneSurvey(idSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){
                                 return res.data.survey.blocks;
                             }
@@ -140,8 +139,8 @@
                 controller: 'PassingQuestionController',
                 controllerAs: 'vm',
                 resolve: {
-                    customerAnswer: function (userService, customers, survey, passingQuestionService) {
-                        let items = userService.getSurveyOnly();
+                    customerAnswer: function (surveyService, customers, survey, passingQuestionService) {
+                        let items = surveyService.getSurveyOnly();
                         let indexActiveSurvey = survey.getActiveQuestionair();
 
                         let id = {
@@ -158,10 +157,10 @@
                             }
                         });
                     },
-                    oneSurveyItems: function (survey, userService) {
+                    oneSurveyItems: function (survey, surveyService) {
                         let idActiveSurvey = survey.getActiveQuestionairId();
 
-                        return userService.loadOneSurvey(idActiveSurvey).then(function (res) {
+                        return surveyService.loadOneSurvey(idActiveSurvey).then(function (res) {
                             if(res.success){
                                 return res.data.survey
                             }

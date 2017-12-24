@@ -8,9 +8,28 @@
     function TabsController(userService, tabs, tabsService, $state, $mdSidenav) {
         let vm = this;
 
+
         vm.user = userService.getUser();
 
-        vm.currentNavItem = 'page1';
+
+       function initTab() {
+           if( tabsService.getActiveTab()){
+               vm.currentNavItem =  tabsService.getActiveTab();
+           }else {
+               vm.currentNavItem = 'page1';
+           }
+       }
+       initTab();
+
+
+
+        vm.setActiveTab = function (tab) {
+            tabsService.setActiveTab(tab);
+        };
+
+
+
+
 
         vm.profile = function () {
             console.log('Test profile');

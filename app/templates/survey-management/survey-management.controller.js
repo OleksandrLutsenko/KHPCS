@@ -40,19 +40,34 @@
             });
         };
 
-        vm.archiveSurvey = function (id, index) {
+        vm.archiveSurvey = function (id, eddOrExtract) {
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
+                    toastr.success('Questionnaire was ' + eddOrExtract);
                     surveyService.loadItems().then(function () {
                         vm.items =  surveyService.getItems();
+                        archiveEmpty();
                     });
-                    toastr.success('Questionnaire was archived');
                 } else {
                     console.log('Archive Status Survey error');
                 }
 
             });
         };
+
+        function archiveEmpty() {
+            vm.ArchiveIsEmpti = true;
+            for (var item in vm.items) {
+                if (vm.items[item].status === 0) {
+                    vm.ArchiveIsEmpti = false;
+                    console.log('vm.ArchiveIsEmpti = ' + vm.ArchiveIsEmpti);
+                    break;
+                }
+            }
+
+        }
+        archiveEmpty();
+
 
         vm.toggleOpenArchive = buildToggler('right');
         function buildToggler(componentId) {
