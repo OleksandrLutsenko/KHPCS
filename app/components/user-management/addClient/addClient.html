@@ -11,36 +11,36 @@
 
         <div class="content-add">
             <form name="vm.customersForm">
-            <div class="all-input" layout="column" >
-                <md-input-container >
-                    <label>Client name</label>
-                    <input type="text" name="name" ng-model="vm.data.name" required maxlength="32">
-                    <div ng-messages="vm.customersForm.name.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="maxlength">Email max length 32.</div>
+                <div class="all-input" layout="column">
+                    <md-input-container>
+                        <label>Client name</label>
+                        <input type="text" name="name" ng-model="vm.data.name" required maxlength="32">
+                        <div ng-messages="vm.customersForm.name.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="maxlength">Email max length 32.</div>
 
-                    </div>
-                </md-input-container>
-                <md-input-container>
-                    <label>Client surname</label>
-                    <input type="text" name="secondName" ng-model="vm.data.surname" required maxlength="32">
-                    <div ng-messages="vm.customersForm.secondName.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="maxlength">Email max length 32.</div>
-                    </div>
-                </md-input-container>
-                <md-input-container>
-                    <label>Client Classification</label>
-                    <md-select ng-model="vm.data.classification" name="select" required="">
-                        <md-option value="retail">Retail</md-option>
-                        <md-option value="professional">Professional</md-option>
-                        <md-option value="eligible">Eligible counterparty</md-option>
-                    </md-select>
-                    <div ng-messages="vm.customersForm.select.$error">
-                        <div ng-message="required">This is required.</div>
-                    </div>
-                </md-input-container>
-            </div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Client surname</label>
+                        <input type="text" name="secondName" ng-model="vm.data.surname" required maxlength="32">
+                        <div ng-messages="vm.customersForm.secondName.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="maxlength">Email max length 32.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Client Classification</label>
+                        <md-select ng-model="vm.data.classification" name="select" required="">
+                            <md-option value="retail">Retail</md-option>
+                            <md-option value="professional">Professional</md-option>
+                            <md-option value="eligible">Eligible counterparty</md-option>
+                        </md-select>
+                        <div ng-messages="vm.customersForm.select.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                </div>
             </form>
             <div class="bot-btn" ng-if="vm.id == undefined" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.save()">Create

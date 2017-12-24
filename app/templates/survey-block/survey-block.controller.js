@@ -13,7 +13,6 @@
         let idSurvey = survey.getActineSurvey();
         let idBlock = survey.getActiveBlock();
 
-
         vm.items = items;
 
         function setActiveDot() {

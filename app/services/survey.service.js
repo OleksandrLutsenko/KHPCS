@@ -52,7 +52,7 @@
             return http.get(url.survey_management_func().loadOnlySurvey, {}).then(function (res) {
                 if(res.success){
                     setSurveyOnly(res.data.result);
-                    return res;
+                    return res.data.result;
                 }
             });
         }
@@ -62,7 +62,6 @@
         }
         function getSurveyOnly() {
             return $sessionStorage['survey_only'];
-            return http.get(url.survey_management_func().loadOnlySurvey , {} );
         }
 
 

@@ -12,7 +12,12 @@
 
         let token = $stateParams.token;
 
+        // if(response.data.data == 'The token is already used'){
+        //     toastr.error('The reset password link has expired');
+        // }
+
         function reset() {
+
             if (vm.resetForm.$invalid) {
                 return;
             } else {
