@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Block;
 use App\Contract;
 use App\ContractResearch;
 use App\Customer;
@@ -94,60 +95,118 @@ class ContractController extends Controller
      * @param User $user
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
+//    public function review1(Report $report, Contract $contract, User $user, $userFilename)
+//    {
+////        $variables = Auth::user()->variables;
+//        $variables = Variable::withTrashed()->get();
+//        foreach ($variables as $variable){
+////            if($variable->trashed()){
+////                $variable->text = "<span style='color: red'>variable was deleted</span> ";
+////            }
+//            $userVariables[] = $variable->text;
+//        }
+//        $body = stripcslashes($contract->body);
+//        File::put('../resources/views/contract.blade.php', $body);
+//
+//        $customerAnswers = CustomerAnswer::withTrashed()->where('customer_id', $report->customer_id)->get();
+//
+//        foreach ($customerAnswers as $customerAnswer) {
+//            $question = Question::withTrashed()->find($customerAnswer->question_id);
+//
+//            if ($question->block->survey_id == $report->survey_id) {
+//
+//                $finalAnswer = CustomerAnswer::withTrashed()->where('question_id', $question->id)->get();
+////                //
+////                if($question->trashed()){
+////                    $finalAnswer[0]->value = "<span style='color: red'>N/A</span> ";
+////                }
+////                //
+//                $contractAnswers[$question->id] = $finalAnswer[0]->value;
+//            }
+//        }
+//
+//        $view = Response::json(
+//            array(View::make('contract',
+//            compact('contractAnswers', 'userVariables', 'report'))->render())
+//        );
+//        $viewContent = $view->getOriginalContent();
+////        $filename = 'contract_'.time().'.html';
+//        $filename = $userFilename.'.html';
+////        $filenamePdf = 'contract_'.time().'.pdf';
+//        $filenamePdf = $userFilename.'.pdf';
+//        $filePathUri = 'storage/contracts/' . $filename;
+//        $filePathUriPdf = 'storage/contracts/' . $filenamePdf;
+//        $filePathUrl = url($filePathUri);
+//        $filePathUrlPdf = url($filePathUriPdf);
+//        $path = '../'.$filePathUri;
+//        $pathPdf = '../'.$filePathUriPdf;
+//        File::put($path, $viewContent);
+//
+//        PDF::loadFile(storage_path().'/contracts/'.$filename)
+//            ->setPaper('A4', 'portrait')
+//            ->save(storage_path().'/contracts/'.$filenamePdf);
+//
+//        File::delete($path);
+//        return compact('filenamePdf','filePathUrlPdf');
+//    }
+
     public function review(Report $report, Contract $contract, User $user, $userFilename)
     {
-//        $variables = Auth::user()->variables;
-        $variables = Variable::withTrashed()->where('user_id', $user->id)->get();
-        foreach ($variables as $variable){
-//            if($variable->trashed()){
-//                $variable->text = "<span style='color: red'>variable was deleted</span> ";
-//            }
-            $userVariables[] = $variable->text;
-        }
-        $body = stripcslashes($contract->body);
-        File::put('../resources/views/contract.blade.php', $body);
-
-        $customerAnswers = CustomerAnswer::withTrashed()->where('customer_id', $report->customer_id)->get();
-
-        foreach ($customerAnswers as $customerAnswer) {
-            $question = Question::withTrashed()->find($customerAnswer->question_id);
-
-            if ($question->block->survey_id == $report->survey_id) {
-
-                $finalAnswer = CustomerAnswer::withTrashed()->where('question_id', $question->id)->get();
-//                //
-//                if($question->trashed()){
-//                    $finalAnswer[0]->value = "<span style='color: red'>N/A</span> ";
-//                }
-//                //
-                $contractAnswers[$question->id] = $finalAnswer[0]->value;
-            }
-        }
-
-        $view = Response::json(
-            array(View::make('contract',
-            compact('contractAnswers', 'userVariables', 'report'))->render())
-        );
-        $viewContent = $view->getOriginalContent();
-//        $filename = 'contract_'.time().'.html';
-        $filename = $userFilename.'.html';
-//        $filenamePdf = 'contract_'.time().'.pdf';
-        $filenamePdf = $userFilename.'.pdf';
-        $filePathUri = 'storage/contracts/' . $filename;
-        $filePathUriPdf = 'storage/contracts/' . $filenamePdf;
-        $filePathUrl = url($filePathUri);
-        $filePathUrlPdf = url($filePathUriPdf);
-        $path = '../'.$filePathUri;
-        $pathPdf = '../'.$filePathUriPdf;
-        File::put($path, $viewContent);
-
-        PDF::loadFile(storage_path().'/contracts/'.$filename)
-            ->setPaper('A4', 'portrait')
-            ->save(storage_path().'/contracts/'.$filenamePdf);
-
-        File::delete($path);
-        return compact('filenamePdf','filePathUrlPdf');
+        $userVariables = Variable::getVariablesTextWithTrashed();
+        $contractAnswers = $contract->getContractAnswers($report);
+        return $contract->makeContractPDF(
+            $userFilename,
+            $contractAnswers,
+            $userVariables,
+            $report);
     }
+
+//    public function review2(Report $report, Contract $contract, User $user, $userFilename)
+//    {
+//        $variables = Variable::withTrashed()->get();
+//        $userVariables = array_column($variables->toArray(), 'text');
+//
+//        $blockArray = Block::withTrashed()->where('survey_id', $report->survey_id)->get();
+//        $blockArrayIDs = array_column($blockArray->toArray(), 'id');
+//
+//        $surveyQuestions = Question::withTrashed()
+//            ->whereIn('block_id', $blockArrayIDs)
+//            ->get();
+//
+//        foreach ($surveyQuestions as $surveyQuestion) {
+//            $customerAnswer = CustomerAnswer::withTrashed()
+//                ->where('question_id', $surveyQuestion)
+//                ->where('customer_id', $report->customer_id)
+//                ->first();
+//            if ($customerAnswer) {
+//                $contractAnswers[$surveyQuestion->id] = $customerAnswer->value;
+//            } else {
+//                $contractAnswers[$surveyQuestion->id] = 'N/A';
+//            }
+//        }
+//
+//        $body = stripcslashes($contract->body);
+//        File::put('../resources/views/contract.blade.php', $body);
+//        $view = Response::json(
+//            array(View::make('contract',
+//                compact('contractAnswers', 'userVariables', 'report'))->render())
+//        );
+//        $viewContent = $view->getOriginalContent();
+//        $filename = $userFilename . '.html';
+//        $filenamePdf = $userFilename . '.pdf';
+//        $filePathUri = 'storage/contracts/' . $filename;
+//        $filePathUriPdf = 'storage/contracts/' . $filenamePdf;
+//        $filePathUrlPdf = url($filePathUriPdf);
+//        $path = '../' . $filePathUri;
+//        File::put($path, $viewContent);
+//
+//        PDF::loadFile(storage_path() . '/contracts/' . $filename)
+//            ->setPaper('A4', 'portrait')
+//            ->save(storage_path() . '/contracts/' . $filenamePdf);
+//
+//        File::delete($path);
+//        return compact('filenamePdf', 'filePathUrlPdf');
+//    }
 
     /**
      * @param $filenamePdf
