@@ -39,7 +39,6 @@
                 if (res.success) {
                     toastr.success('Questionnaire was ' + eddOrExtract);
                     surveyService.loadSurveyOnly().then(function (res) {
-                        // console.log('only survey', res.data.result);
                         vm.survey = surveyService.getSurveyOnly();
                     });
                 } else {

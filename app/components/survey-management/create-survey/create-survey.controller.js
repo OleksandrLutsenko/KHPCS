@@ -44,14 +44,11 @@
                                 type: 'update'
                             };
                             $mdDialog.hide(tmpObj);
-                        }
-                        else {
+                        } else {
                             console.log('errorUpd');
                         }
 
                         $mdDialog.cancel();
-
-
                     });
                 }
                 else {
@@ -61,11 +58,8 @@
                                 type: 'create'
                             };
                             $mdDialog.hide(tmpObj);
-
                             $mdDialog.cancel();
-
-                        }
-                        else {
+                        } else {
                             console.log('errorCreate');
                         }
                     });

@@ -119,27 +119,28 @@
 
             if (err.data == null || !err.data.error) {
                 if (err.status === 200) {
-                    toastr.error('Server error: ' + err.data);
+                    console.log('Server error: ' + err.data);
                 }
                 else if (err.status === -1) {
-                    toastr.error('Server is not available');
+                    console.log('Server is not available');
                 }
                 else if (err.status === 0) {
-                    toastr.error('There is no Internet connection');
+                    console.log('There is no Internet connection');
                 }
                 else if (err.status === 500) {
-                    toastr.error('Server error: ' + err.status + ' ' + err.data.message);
+                    console.log('Server error: ' + err.status + ' ' + err.data.message);
                 }
                 else {
-                    toastr.error('Server error: ' + err.status + ' ' + err.statusText);
+                    console.log('Server error: ' + err.status + ' ' + err.statusText);
+                    toastr.error('Error', err.data.error);
                 }
             }
             else {
-                toastr.error(err.data.error);
+                console.log(err.data.error);
 
             }
-
-            return {status: false};
+            let res = {status: false};
+            return (res);
         }
 
         /**

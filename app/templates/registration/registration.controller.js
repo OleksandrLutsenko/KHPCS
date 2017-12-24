@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('RegistrationController', RegistrationController);
 
-    RegistrationController.$inject = ['userService', '$state', 'toastr', 'tabsService' ];
+    RegistrationController.$inject = ['userService', '$state', 'toastr', 'tabsService' , 'http' ];
 
-    function RegistrationController(userService, $state, toastr, tabsService ) {
+    function RegistrationController(userService, $state, toastr, tabsService , http ) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -13,7 +13,10 @@
 
         vm.user = userService.getUser();
 
+
+
         function register() {
+            console.log(vm.data);
             if (vm.regForm.$invalid) {
                 console.log('err');
             }
@@ -26,6 +29,7 @@
                     }
                     else {
                         console.log('eror');
+                        toastr.error(err.data.email.toString());
                     }
                 })
             }
