@@ -116,13 +116,13 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey, User $user)
     {
-//        if ($user->can('show', $survey)) {
-            return compact('survey');
-//        } else {
-//            return response([
-//                "error" => "You do not have a permission"], 404
-//            );
-//        }
+        return compact('survey');
+    }
+
+    public function surveyDeletedQuestions(Survey $survey, User $user)
+    {
+        $deletedQuestions = $survey->trashedQuestions($survey);
+        return compact('deletedQuestions');
     }
 
     /**

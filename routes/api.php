@@ -48,6 +48,7 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::get('/onlysurvey', 'SurveyController@onlySurvey');
         /** show blocks of survey */
         Route::get('/survey/{survey}', 'SurveyController@show');
+        Route::get('/survey/{survey}/deleted-questions', 'SurveyController@surveyDeletedQuestions');
         /** save new survey */
         Route::post('/survey', 'SurveyController@store');
         /** update survey */

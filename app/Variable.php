@@ -23,10 +23,6 @@ class Variable extends Model
     {
         parent::boot();
 
-        static::creating(function ($table) {
-            $table->user_id = Auth::user()->id;
-        });
-
         static::deleting(function ($variable) {
             $variable->update([
                 $variable->text = '<span style="background-color: red">variable was deleted</span>'
