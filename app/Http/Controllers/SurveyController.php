@@ -6,6 +6,7 @@ use App\Customer;
 use App\CustomerAnswer;
 use App\Http\Requests\BlockRequest;
 use App\Http\Requests\SurveyRequest;
+use App\Question;
 use App\Survey;
 use App\User;
 use Illuminate\Http\Request;
@@ -115,13 +116,13 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey, User $user)
     {
-//        if ($user->can('show', $survey)) {
-            return compact('survey');
-//        } else {
-//            return response([
-//                "error" => "You do not have a permission"], 404
-//            );
-//        }
+        return compact('survey');
+    }
+
+    public function surveyDeletedQuestions(Survey $survey, User $user)
+    {
+        $deletedQuestions = $survey->trashedQuestions($survey);
+        return compact('deletedQuestions');
     }
 
     /**

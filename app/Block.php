@@ -30,9 +30,6 @@ class Block extends Model
         return $this->hasMany(Question::class);
     }
 
-    /**
-     * @return mixed
-     */
     public function getQuestionsAttribute(){
         $question = $this->question()
             ->whereNotNull('order_number')
