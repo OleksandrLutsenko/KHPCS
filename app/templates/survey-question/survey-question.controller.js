@@ -4,14 +4,15 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService) {
         let vm = this;
+        tabsService.startTab();
 
-        let idB = survey.getActiveBlock();
-        let indexBlock = idB.indexBlock;
-        let idBlock = idB.id;
+        let activeBlock = survey.getActiveBlock();
+        let indexBlock = activeBlock.indexBlock;
+        let idBlock = activeBlock.id;
 
         vm.items = items[indexBlock].questions;
 
@@ -20,14 +21,21 @@
         vm.deleteQuest = deleteQuest;
 
 
-        $scope.$on('parent', function (event, data) {
-            indexBlock = data;
-            vm.items = items[indexBlock].questions;
-            idB = survey.getActiveBlock();
-            idBlock = idB.id;
-        });
+        $scope.$on('setActiveBlock', function (event, data) {
+            activeBlock = data.activeBlock;
+            indexBlock = activeBlock.indexBlock;
+            idBlock = activeBlock.id;
 
-        console.log(vm.items);
+            if(data.data != undefined){
+                items.push(data.data)
+            }
+
+            vm.items = items[indexBlock].questions;
+        });
+        $scope.$on('mowUpdate', function (event, data) {
+            items = data;
+            vm.items = items[indexBlock].questions;
+        });
 
         vm.sortableOptionsQuestion = {
             connectWith: ".question-container",
@@ -38,8 +46,6 @@
                 let model = ui.item.sortable.model;
 
                 let succes = true;
-
-                console.log('droptargetModel', droptargetModel);
 
                 if(droptargetModel.length > 0){
                     for(let i = 0; i < droptargetModel.length; i++){
@@ -55,14 +61,14 @@
 
                 if(succes){
                     if(typeof model.answers != 'undefined' && model.type == 1){
-                        for(let i = 0; i < model.answers.length; i++){
+                        answers: for(let i = 0; i < model.answers.length; i++){
                             if(typeof model.answers[i].child_questions != 'undefined'){
                                 if(model.answers[i].child_questions.length > 0){
                                     for(let j = 0; j < model.answers[i].child_questions.length; j++){
                                         if(typeof model.answers[i].child_questions[j].delete == 'undefined'){
                                             ui.item.sortable.cancel();
                                             toastr.error('Can not contain questions');
-                                            break
+                                            break answers;
                                         }
                                     }
                                 }
@@ -81,41 +87,38 @@
         };
 
         function save() {
-            let dataForSand = angular.copy(vm.items);
+            let dataForSend = angular.copy(vm.items);
 
-            console.log('dataForSand', dataForSand);
-
-            dataForSand.forEach(function (itemQuestion, indexQuestion) {
-                itemQuestion.order_number = indexQuestion;
-                itemQuestion.child_order_number = null;
-                if(itemQuestion.type == 1){
-                    itemQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
-                        itemAnswer.order_number = indexAnswer;
-                        itemAnswer.child_questions.forEach(function (itemQuestionInAnswer, indexQuestionInAnswer) {
-                            itemQuestionInAnswer.child_order_number = indexQuestionInAnswer;
-                            itemQuestionInAnswer.order_number = null;
-                            if(itemQuestionInAnswer.type == 1){
-                                itemQuestionInAnswer.answers.forEach(function (itemAnswerInChildQuestion, indexAnswerInChildQuestion) {
-                                    itemAnswerInChildQuestion.order_number = indexAnswerInChildQuestion;
-                                    if(typeof itemQuestionInAnswer.id != 'undefined'){
-                                        itemAnswerInChildQuestion.question_id = itemQuestionInAnswer.id;
-                                    }
-                                })
-                            }
+            if(dataForSend.length > 0){
+                dataForSend.forEach(function (itemQuestion, indexQuestion) {
+                    itemQuestion.order_number = indexQuestion;
+                    itemQuestion.child_order_number = null;
+                    if(itemQuestion.type == 1){
+                        itemQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                            itemAnswer.child_questions.forEach(function (itemQuestionInAnswer, indexQuestionInAnswer) {
+                                itemQuestionInAnswer.child_order_number = indexQuestionInAnswer;
+                                itemQuestionInAnswer.order_number = null;
+                                if(itemQuestionInAnswer.type == 1){
+                                    itemQuestionInAnswer.answers.forEach(function (itemAnswerInChildQuestion, indexAnswerInChildQuestion) {
+                                        itemAnswerInChildQuestion.order_number = indexAnswerInChildQuestion;
+                                        if(typeof itemQuestionInAnswer.id != 'undefined'){
+                                            itemAnswerInChildQuestion.question_id = itemQuestionInAnswer.id;
+                                        }
+                                    })
+                                }
+                            })
                         })
-                    })
-                }
-            });
+                    }
+                });
 
-            console.log('dataForSand', dataForSand);
-
-            blockService.addBlockQuestion(idBlock, dataForSand).then(function (res) {
-                console.log(res);
-                if(res.success){
-                    vm.items = res.data.questions;
-                    item[indexBlock].questions = res.data.questions;
-                }
-            })
+                blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                    if(res.success){
+                        vm.items = res.data.questions;
+                        items[indexBlock].questions = res.data.questions;
+                    }
+                })
+            }
         }
 
         function deleteQuest(id, mainKey, answerKey, questionKey) {
@@ -177,9 +180,6 @@
         }
 
         function showEdit(mainKey, answerKey, questionKey) {
-            console.log('mainKey', mainKey);
-            console.log('answerKey', answerKey);
-            console.log('questionKey',questionKey);
             $mdDialog.show({
                 controller: 'AddQuestionController',
                 controllerAs: 'vm',

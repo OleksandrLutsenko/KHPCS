@@ -6,11 +6,15 @@
 
 
 
-    SettingsController.$inject = [];
+    SettingsController.$inject = ['tabsService'];
 
-    function SettingsController() {
+    function SettingsController(tabsService) {
         let vm = this;
+        tabsService.startTab('page4');
+
 
     }
+
+
 
 })();

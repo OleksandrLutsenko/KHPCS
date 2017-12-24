@@ -1,4 +1,4 @@
-<md-content class="surveyBlock" flex="100" layout="row" layout-align="start center" layout-wrap="wrap">
+<md-content class="surveyBlock" layout="row" layout-align="start center">
 
     <div class="add-button">
         <md-button ng-click="vm.addBlock()">
@@ -7,17 +7,18 @@
     </div>
 
     <div ui-sortable="vm.sortableOptionsBlock" ng-model="vm.items" class="block-container" layout="row" layout-align="center center">
-
-        <div ng-repeat="cell in vm.items" ng-click="vm.setActiveBlock(cell.id, $index, cell.name)" layout="row" layout-align="center center">
-            <div class="blockName">
-                {{cell.name}}
-            </div>
-            <div>
-                <dot-edit-menu></dot-edit-menu>
+        <div ng-repeat="item in vm.items" ng-click="vm.setActiveBlock(item.id, $index)" >
+            <div class="block-item" layout="row" layout-align="center center">
+                <div class="blockName">
+                    {{item.name}}
+                </div>
+                <div>
+                    <dot-edit-menu></dot-edit-menu>
+                </div>
             </div>
         </div>
-
     </div>
 
-    <div flex="100" ui-view></div>
 </md-content>
+
+<div ui-view></div>

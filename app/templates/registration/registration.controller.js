@@ -3,10 +3,11 @@
     angular.module('app')
         .controller('RegistrationController', RegistrationController);
 
-    RegistrationController.$inject = ['userService', '$state', 'toastr'];
+    RegistrationController.$inject = ['userService', '$state', 'toastr', 'tabsService' ];
 
-    function RegistrationController(userService, $state, toastr) {
+    function RegistrationController(userService, $state, toastr, tabsService ) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.register = register;
 
@@ -28,7 +29,6 @@
                     }
                 })
             }
-
         }
     }
 })();

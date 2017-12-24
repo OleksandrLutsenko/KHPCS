@@ -5,10 +5,11 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr'];
+    PassingQuestionController.$inject = ['passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService'];
 
-    function PassingQuestionController(passingQuestionService, $state, customers, customerAnswer , oneSurveyItems, toastr) {
+    function PassingQuestionController(passingQuestionService, $state, customers, customerAnswer , oneSurveyItems, toastr, tabsService) {
         let vm = this;
+        tabsService.startTab('page1');
 
         vm.next = next;
         vm.back = back;
@@ -104,7 +105,6 @@
 
         function start() {
             if(mainQuestionInBlock.length == 0){
-                toastr.error('no question in block');
                 toNextBlock();
             }
             else{

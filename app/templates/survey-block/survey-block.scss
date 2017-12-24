@@ -1,8 +1,11 @@
 .surveyBlock {
 
   .block-container {
-    border: 2px solid red;
     padding: 5px;
+  }
+  .block-item:hover {
+    background: #DDDDDD;
+    transition: .4s;
   }
 
   md-tab-item {

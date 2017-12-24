@@ -8,60 +8,57 @@
     function AddBlockController(userService, blockService, survey, $mdDialog, data , toastr) {
         let vm = this;
 
-        let cell = data.cell;
+        let item = data.item;
+        let idSurvey = data.idSurvey;
+        let length = data.length;
 
-        let idBlockSec = data.idBlock;
-
-        vm.idBlockSec = idBlockSec;
-        vm.items = data.items;
-        let idSurvey = survey.getActineSurvey();
-        let idBlock = survey.getActiveBlock();
 
         vm.cancel = cancel;
+        vm.saveBlock = saveBlock;
 
         function cancel() {
             $mdDialog.cancel()
         }
 
-        //////////////////////////////AddBlock////////////////////////////////
 
-        if (typeof idBlockSec != 'undefined') {
+        if (typeof item != 'undefined') {
             vm.data = {
-                name: cell
+                name: item.name
             };
+            vm.type = false
+        }
+        else {
+            vm.type = true
         }
 
-        vm.saveBlock = saveBlock;
         function saveBlock() {
 
             if (vm.blockForm.$invalid) {
-                console.log('error');
                 toastr.error('Please try again', 'Form is invalid');
             }
             else {
-
-                if (typeof idBlockSec != 'undefined') {
-                    blockService.updateBlock(idBlock.id, vm.data).then(function (res) {
+                if (typeof item != 'undefined') {
+                    blockService.updateBlock(item.id, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
-                                type: 'update'
+                                type: true,
+                                data: res.data
                             };
                             $mdDialog.hide(tmpObj);
                         }
                         else {
-                            console.log('errorUpd');
                             cancel();
                         }
                     });
                 }
                 else {
+                    vm.data.order_number = length;
 
-                    vm.data.order_number = vm.items.length;
-
-                    blockService.createBlock(idSurvey.id, vm.data).then(function (res) {
+                    blockService.createBlock(idSurvey, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
-                                type: 'create'
+                                type: false,
+                                data: res.data
                             };
                             $mdDialog.hide(tmpObj);
                         }

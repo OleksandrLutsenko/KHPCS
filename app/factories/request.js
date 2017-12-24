@@ -119,29 +119,27 @@
 
             if (err.data == null || !err.data.error) {
                 if (err.status === 200) {
-                    console.log('Server error: ' + err.data);
+                    toastr.error('Server error: ' + err.data);
                 }
                 else if (err.status === -1) {
-                    console.log('Server is not available');
+                    toastr.error('Server is not available');
                 }
                 else if (err.status === 0) {
-                    console.log('There is no Internet connection');
+                    toastr.error('There is no Internet connection');
                 }
                 else if (err.status === 500) {
-                    console.log('Server error: ' + err.status + ' ' + err.data.message);
+                    toastr.error('Server error: ' + err.status + ' ' + err.data.message);
                 }
                 else {
-                    console.log('Server error: ' + err.status + ' ' + err.statusText);
-                    toastr.error('Error', err.data.error);
+                    toastr.error('Server error: ' + err.status + ' ' + err.statusText);
                 }
             }
             else {
-                console.log(err.data.error);
-                toastr.error('Error', err.data.error);
+                toastr.error(err.data.error);
 
             }
-            let res = {status: false};
-            return (res);
+
+            return {status: false};
         }
 
         /**
@@ -160,7 +158,6 @@
             // else {
             //     promise.reject(response.data);
             // }
-
             console.log(response, 'request response');
 
             return response.data;
