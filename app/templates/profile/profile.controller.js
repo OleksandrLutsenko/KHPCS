@@ -36,7 +36,7 @@
                             userService.loadItems().then(function () {
                             })
                         });
-
+                        toastr.success('Profile was updated');
                     } else {
                         console.log('error');
                     }
@@ -51,10 +51,11 @@
                             });
                         } else {
                             console.log('error');
+                            toastr.error('Current password is incorrect');
                         }
                     })
-                } else {
                 }
+
             }
 
         }

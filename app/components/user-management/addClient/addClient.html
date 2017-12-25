@@ -10,7 +10,7 @@
         </div>
 
         <div class="content-add">
-            <form name="vm.customersForm">
+            <form name="vm.customersForm" ng-submit="vm.save()" novalidate>
                 <div class="all-input" layout="column">
                     <md-input-container>
                         <label>Client name</label>
@@ -40,18 +40,18 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
-                </div>
-            </form>
-            <div class="bot-btn" ng-if="vm.id == undefined" layout="" layout-align="space-between">
-                <md-button class="md-raised md-primary" ng-click="vm.save()">Create
+                </div>  <div class="bot-btn" ng-if="vm.id == undefined" layout="" layout-align="space-between">
+                <md-button class="md-raised md-primary" type="submit">Create
                 </md-button>
                 <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
             </div>
-            <div class="bot-btn" ng-if="vm.id !== undefined" layout="" layout-align="space-between">
-                <md-button class="md-raised md-primary" ng-click="vm.save()">Update
-                </md-button>
-                <md-button class="md-raised" ng-click="vm.continue()">Questionnaire</md-button>
-            </div>
+                <div class="bot-btn" ng-if="vm.id !== undefined" layout="" layout-align="space-between">
+                    <md-button class="md-raised md-primary" type="submit">Update
+                    </md-button>
+                    <md-button class="md-raised" ng-click="vm.continue()">Questionnaire</md-button>
+                </div>
+            </form>
+
         </div>
     </div>
 </md-dialog>

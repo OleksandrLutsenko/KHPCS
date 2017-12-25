@@ -25,6 +25,7 @@
                     }
                     else {
                         console.log('error');
+                        toastr.error('This link is inactive' , 'Error');
                     }
                 })
             }

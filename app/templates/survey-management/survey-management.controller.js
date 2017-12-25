@@ -21,10 +21,10 @@
         }
 
 
-        vm.activeSurvey = function (survey_id, index) {
+        vm.activeSurvey = function (survey_id) {
             surveyService.changeStatusSurvey(survey_id).then(function (res) {
                 if (res.success) {
-                    surveyService.loadSurveyOnly().then(function (res) {
+                    surveyService.loadSurveyOnly().then(function () {
                         vm.survey = surveyService.getSurveyOnly();
                     });
                 } else {
@@ -38,7 +38,7 @@
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
                     toastr.success('Questionnaire was ' + eddOrExtract);
-                    surveyService.loadSurveyOnly().then(function (res) {
+                    surveyService.loadSurveyOnly().then(function () {
                         vm.survey = surveyService.getSurveyOnly();
                     });
                 } else {
@@ -112,7 +112,7 @@
                     }
                 }
             }).then(function (res) {
-                surveyService.loadSurveyOnly().then(function (res) {
+                surveyService.loadSurveyOnly().then(function () {
                 vm.survey = surveyService.getSurveyOnly();
             });
                 if (res.type == 'update') {

@@ -24,6 +24,7 @@
                     }
                     else {
                         console.log('error');
+                        toastr.error('Email is invalid' , 'Error');
                     }
                 })
             }

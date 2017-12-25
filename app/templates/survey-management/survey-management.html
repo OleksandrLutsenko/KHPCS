@@ -1,7 +1,7 @@
 <div class="menus clearfix">
 
     <div class="tab-list clearfix">
-        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 1)" class="questionnaire-list"
+        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'active')"  class="questionnaire-list"
              md-whiteframe="{{height}}"
              ng-click="vm.setActineSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
 
@@ -22,7 +22,7 @@
             </div>
 
         </div>
-        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 2)" class="questionnaire-list"
+        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'inactive')" class="questionnaire-list"
              md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
              ng-click="vm.setActineSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
 
@@ -79,7 +79,7 @@
             </div>
 
             <md-content layout-padding="" >
-                <div ng-repeat="archiveItem in vm.survey" ng-if="(archiveItem.survey_status === 0)">
+                <div ng-repeat="archiveItem in vm.survey" ng-if="(archiveItem.survey_status === 'archived')">
                     <div flex="100" layout="row" layout-align="center center">
                         <div class="sm-left" flex="70" layout-wrap="no-wrap"><p class="hidden-text deleting-margin">
                             {{archiveItem.survey_name}}</p></div>

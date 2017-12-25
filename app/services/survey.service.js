@@ -32,6 +32,7 @@
             return http.get(url.user.getItems, {}).then(function (res) {
                 if (res.success) {
                     setItems(res.data);
+
                 }
             });
         }
@@ -51,8 +52,7 @@
         function loadSurveyOnly() {
             return http.get(url.survey_management_func().loadOnlySurvey, {}).then(function (res) {
                 if(res.success){
-                    setSurveyOnly(res.data.result);
-                    return res.data.result;
+                    setSurveyOnly(res.data.onlySurvey);
                 }
             });
         }
