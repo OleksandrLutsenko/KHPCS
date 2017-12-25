@@ -7,25 +7,15 @@
 
     function survey($localStorage, $sessionStorage, surveyService) {
         let model = {};
-        model.setQuestion = setQuestion;
-        model.getQuestion = getQuestion;
         model.setActineSurvey = setActineSurvey;
         model.getActineSurvey = getActineSurvey;
         model.setActiveBlock = setActiveBlock;
         model.getActiveBlock = getActiveBlock;
 
         model.getActiveQuestionair = getActiveQuestionair;
-        model.getActiveQuestionairId = getActiveQuestionairId;
 
         return model;
 
-        function setQuestion(items) {
-            delete $sessionStorage['survey_question'];
-            $sessionStorage['survey_question'] = items;
-        }
-        function getQuestion() {
-            return $sessionStorage['survey_question'];
-        }
 
         function setActineSurvey(id, indexSurvey) {
             delete $sessionStorage['active_survey_id'];
@@ -58,24 +48,16 @@
 
         function getActiveQuestionair() {
             let items = surveyService.getSurveyOnly();
-            console.log('items', items);
             for (let index = 0; index < items.length; index++){
-                if(items[index].survey_status == 1){
-                    return index;
+                if(items[index].survey_status == 'active'){
+                    let tmpObl = {
+                        id: items[index].survey_id,
+                        index: index
+                    };
+                    return tmpObl;
                 }
             }
         }
-        function getActiveQuestionairId() {
-            let items = surveyService.getSurveyOnly();
-            console.log('items', items);
-            for (let index = 0; index < items.length; index++){
-                if(items[index].survey_status == 1){
-                    return items[index].survey_id;
-                }
-            }
-        }
-
-
     }
 
 })();

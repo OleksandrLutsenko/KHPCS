@@ -12,22 +12,20 @@
         tabsService.startTab('page2');
 
         vm.setActineSurvey = setActineSurvey;
+        survey.setActiveBlock();
 
-        vm.items =  surveyService.getItems();
+        vm.survey = surveyService.getSurveyOnly();
 
-        surveyService.loadSurveyOnly().then(function (res) {
-           console.log('only survey', res);
-        });
-
-        function setActineSurvey(id, indexSurvey) {
-            survey.setActineSurvey(id, indexSurvey);
+        function setActineSurvey(survey_id, indexSurvey) {
+            survey.setActineSurvey(survey_id, indexSurvey);
         }
 
-        vm.activeSurvey = function (id, index) {
-            surveyService.changeStatusSurvey(id).then(function (res) {
+
+        vm.activeSurvey = function (survey_id) {
+            surveyService.changeStatusSurvey(survey_id).then(function (res) {
                 if (res.success) {
-                    surveyService.loadItems().then(function () {
-                        vm.items =  surveyService.getItems();
+                    surveyService.loadSurveyOnly().then(function () {
+                        vm.survey = surveyService.getSurveyOnly();
                     });
                 } else {
                     console.log('Change Status Survey error');
@@ -40,9 +38,8 @@
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
                     toastr.success('Questionnaire was ' + eddOrExtract);
-                    surveyService.loadItems().then(function () {
-                        vm.items =  surveyService.getItems();
-                        archiveEmpty();
+                    surveyService.loadSurveyOnly().then(function () {
+                        vm.survey = surveyService.getSurveyOnly();
                     });
                 } else {
                     console.log('Archive Status Survey error');
@@ -53,8 +50,8 @@
 
         function archiveEmpty() {
             vm.ArchiveIsEmpti = true;
-            for (var item in vm.items) {
-                if (vm.items[item].status === 0) {
+            for (var item in vm.survey) {
+                if (vm.survey[item].status === 0) {
                     vm.ArchiveIsEmpti = false;
                     console.log('vm.ArchiveIsEmpti = ' + vm.ArchiveIsEmpti);
                     break;
@@ -62,8 +59,8 @@
             }
 
         }
-        archiveEmpty();
 
+        archiveEmpty();
 
         vm.toggleOpenArchive = buildToggler('right');
         function buildToggler(componentId) {
@@ -88,8 +85,8 @@
             }).then(function () {
                 surveyService.deleteSurvey(surveyId).then(function (res) {
                     if (res.success) {
-                        surveyService.getItems().then(function () {
-                            vm.items =  surveyService.getItems();
+                        surveyService.loadSurveyOnly().then(function (res) {
+                            vm.survey = res;
                         });
                         toastr.success('Questionnaire was deleted');
                     }
@@ -101,8 +98,7 @@
         }
 
         vm.createSurvey = createSurvey;
-        function createSurvey(id, index, it) {
-
+        function createSurvey(survey_id, index, it) {
             $mdDialog.show({
                 controller: 'CreateSurveyController',
                 controllerAs: 'vm',
@@ -110,24 +106,22 @@
                 clickOutsideToClose: true,
                 locals: {
                     data: {
-                        id: id,
+                        id: survey_id,
                         index: index,
                         it: it,
                     }
                 }
             }).then(function (res) {
+                surveyService.loadSurveyOnly().then(function () {
+                vm.survey = surveyService.getSurveyOnly();
+            });
                 if (res.type == 'update') {
-                    vm.items =  surveyService.getItems();
                     toastr.success('Questionnaire was updated');
                 }
                 else {
-                    vm.items =  surveyService.getItems();
-                    console.log('createQuest');
                     toastr.success('Questionnaire was created');
                 }
-
             })
-
         }
     }
 })();

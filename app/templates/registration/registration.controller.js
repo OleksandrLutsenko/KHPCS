@@ -14,6 +14,7 @@
         vm.user = userService.getUser();
 
         function register() {
+            // if (vm.regForm.$invalid) {
             if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation ) {
                 console.log('error');
                 toastr.error('Please try again', 'Sign up form is invalid');
@@ -26,9 +27,9 @@
                         toastr.success('Registration successful');
                     }
                     else {
-                        console.log('eror');
+                        toastr.error('This email is already taken', 'Error');
                     }
-                })
+                });
             }
         }
     }

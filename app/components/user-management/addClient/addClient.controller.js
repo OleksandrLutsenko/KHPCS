@@ -16,6 +16,8 @@
         vm.pass = pass;
         vm.customers = customerService.getCustomers();
 
+        // console.log(vm.customers[customers].name);
+
         let id = data.id;
         vm.id = id;
         let customersUser = data.customers;
@@ -44,8 +46,7 @@
 
         function save() {
             if (vm.customersForm.$invalid) {
-               console.log('error');
-                toastr.error('Please try again', 'All fields is required');
+               return;
             }
             else {
 

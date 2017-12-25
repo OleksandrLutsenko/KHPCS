@@ -56,11 +56,6 @@
             report: {
                 createReport: baseUrl + 'api/report'
             },
-            report_func(id) {
-                return {
-                    // update: baseUrl + 'dfsdf'
-                };
-            },
 
             contract_research_func(id) {
                 return {
