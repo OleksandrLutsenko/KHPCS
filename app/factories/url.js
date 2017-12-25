@@ -13,6 +13,7 @@
                 login: baseUrl + 'api/auth/login',
                 loadUser: baseUrl + 'api/user',
                 getItems: baseUrl + 'api/survey',
+                loadSurveysOnly: baseUrl + 'api/onlysurvey',
                 register: baseUrl + 'api/auth/register',
                 forgot: baseUrl + 'api/user/request-reset'
             },
@@ -31,6 +32,7 @@
                     loadOneSurvey: baseUrl + 'api/survey/' + id,
                     updateSurvey: baseUrl + 'api/survey/' + id,
                     deleteSurvey: baseUrl + 'api/survey/' + id,
+                    deletedQuestionsInSurvey: baseUrl + 'api/survey/' + id + '/deleted-questions',
                     changeStatusSurvey: baseUrl + 'api/survey/' + id + '/change-status',
                     archiveStatusSurvey: baseUrl + 'api/survey/' + id + '/archive-status',
                     block: baseUrl + 'api/survey/' + id + '/add-block',
@@ -49,7 +51,7 @@
                     sendCustomerAnswer: baseUrl + 'api/customer/' + id + '/make-answer',
 
                     getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'
-                }
+                };
             },
             report: {
                 createReport: baseUrl + 'api/report'
@@ -70,6 +72,7 @@
             contract_editor_func(id) {
                 return {
                     createSurveyTemplate: baseUrl + '/api/contract-research/' + id + '/contract',
+                    getOneTemplate: baseUrl + 'api/contract/' + id,
                     getTemplates: baseUrl + 'api/contract',
                     getTemplatesForThePool: baseUrl + 'api/survey' + id + 'contracts',
                     getTemplateList: baseUrl + 'api/onlycontract',

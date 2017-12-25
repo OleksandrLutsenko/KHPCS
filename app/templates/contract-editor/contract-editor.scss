@@ -72,6 +72,16 @@
   .answer {
     margin-left: 20px;
   }
+  .inserted_question {
+    margin: 5px 0 5px 40px;
+  }
+  .inserted_answer {
+    margin: 5px 0 5px 50px;
+  }
+  .inserted_block_border {
+    //margin: 5px 20px;
+    //border-right: 1px solid #d8d8d8;
+  }
   .hidden-text {
     white-space: nowrap;
     overflow: hidden;

@@ -79,12 +79,7 @@
                 url: '/contract-editor',
                 templateUrl: 'templates/contract-editor/contract-editor.html',
                 controller: 'ContractEditorController',
-                controllerAs: 'vm',
-                resolve: {
-                    load: function (userService) {
-                        return userService.loadItems();
-                    }
-                }
+                controllerAs: 'vm'
             })
 
             .state('tab.settings', {
