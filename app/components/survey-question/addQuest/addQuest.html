@@ -29,7 +29,7 @@
                         <div ng-message="required">This is required.</div>
                     </div>
                 </md-input-container>
-                <md-virtual-repeat-container id = "answer-container">
+                <md-virtual-repeat-container id = "answer-container" ng-if="vm.data.type == 1">
                     <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type == 1 && !answers.delete">
                     <div flex="30" layout="row" layout-align="none center">
                         <md-input-container>

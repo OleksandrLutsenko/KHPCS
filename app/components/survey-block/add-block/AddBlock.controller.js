@@ -10,7 +10,7 @@
 
         let item = data.item;
         let idSurvey = data.idSurvey;
-        let length = data.length;
+        let order_number = data.order_number;
 
 
         vm.cancel = cancel;
@@ -52,7 +52,7 @@
                     });
                 }
                 else {
-                    vm.data.order_number = length;
+                    vm.data.order_number = order_number;
 
                     blockService.createBlock(idSurvey, vm.data).then(function (res) {
                         if (res.success) {
