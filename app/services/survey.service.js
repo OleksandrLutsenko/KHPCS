@@ -52,8 +52,8 @@
         function loadSurveyOnly() {
             return http.get(url.survey_management_func().loadOnlySurvey, {}).then(function (res) {
                 if(res.success){
-                    return res;
                     setSurveyOnly(res.data.onlySurvey);
+                    return res;
                 }
             });
         }
