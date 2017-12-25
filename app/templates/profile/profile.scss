@@ -4,7 +4,6 @@
     height: 0;
     overflow: hidden;
     padding: 0;
-
     -webkit-transition: height 1s ease;
     -moz-transition: height 1s ease;
     -o-transition: height 1s ease;
@@ -16,7 +15,7 @@
   }
 
   md-input-container {
-    margin: 10px 0 0 0;
+    margin: 15px 0 0 0;
     width: 100%;
   }
 
@@ -35,6 +34,14 @@
 
   .div-btn .md-button:hover {
     background: #001041;
+  }
+
+  .conf-pass{
+    font-size: 13px;
+  }
+
+  md-input-container:last-child{
+    padding-bottom: 15px;
   }
 
 

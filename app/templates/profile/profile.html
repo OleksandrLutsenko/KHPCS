@@ -2,7 +2,7 @@
     <div class="main-div" flex="40" flex-xs="90" flex-sm="60">
         Edit Profile
         <div class="div-input">
-            <form name="vm.profile">
+            <form novalidate name="vm.profile" >
                 <md-input-container>
                     <label>Full name</label>
                     <input ng-model="vm.dataInfo.name" type="text" name="name" required maxlength="32">
@@ -29,58 +29,57 @@
                         Change Password?
                     </md-button>
                 </div>
-
-                <div class="menu" flex="100" ng-style="vm.menu.isShow(1) ? {height: '200px'}: {}"
-                     layout="column" layout-align="start stretch">
-
-                    <md-input-container>
-                        <label>Current Password</label>
-                        <input ng-model="vm.data.current_password" type="password" name="password" required
-                               minLength="6"
-                               maxlength="32">
-                        <div ng-messages="vm.profile.password.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="maxlength">Password max length 32.</div>
-                            <div ng-message="minlength">Password min length 6.</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Password</label>
-                        <input ng-model="vm.data.password" type="password" name="password" required
-                               minLength="6"
-                               maxlength="32">
-                        <div ng-messages="vm.profile.password.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="maxlength">Password max length 32.</div>
-                            <div ng-message="minlength">Password min length 6.</div>
-                        </div>
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Confirm password</label>
-                        <input ng-model="vm.data.password_confirmation" type="password" name="passCon"
-                               required
-                               minLength="6"
-                               maxlength="32"
-                        >
-                        <div ng-messages="vm.profile.passCon.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="maxlength">Password max length 32.</div>
-                            <div ng-message="minlength">Password min length 6.</div>
-                            <div class="conf-pass" ng-show="vm.data.password !== vm.data.password_confirmation">
-                                The password confirmation does not match.
-                            </div>
-                        </div>
-
-                    </md-input-container>
-
-                </div>
-
             </form>
-        </div>
-        <div class="div-btn">
-            <md-button ng-click="vm.updateProfileInfo()">
-                Change info
-            </md-button>
+            <div class="menu" flex="100" ng-style="vm.menu.isShow(1) ? {height: '230px'}: {}"
+                 layout="column" layout-align="start stretch">
+
+                <md-input-container>
+                    <label>Current Password</label>
+                    <input ng-model="vm.data.current_password" type="password" name="current_password" required
+                           minLength="6"
+                           maxlength="32">
+                    <div ng-messages="vm.profile.current_password.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="maxlength">Password max length 32.</div>
+                        <div ng-message="minlength">Password min length 6.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Password</label>
+                    <input ng-model="vm.data.password" type="password" name="password" required
+                           minLength="6"
+                           maxlength="32">
+                    <div ng-messages="vm.profile.password.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="maxlength">Password max length 32.</div>
+                        <div ng-message="minlength">Password min length 6.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>Confirm password</label>
+                    <input ng-model="vm.data.password_confirmation" type="password" name="passCon"
+                           required
+                           minLength="6"
+                           maxlength="32"
+                    >
+                    <div ng-messages="vm.profile.passCon.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="maxlength">Password max length 32.</div>
+                        <div ng-message="minlength">Password min length 6.</div>
+                        <div class="conf-pass" ng-show="vm.data.password !== vm.data.password_confirmation">
+                            The password confirmation does not match.
+                        </div>
+                    </div>
+
+                </md-input-container>
+
+            </div>
+            <div class="div-btn">
+                <md-button  ng-click="vm.updateProfileInfo()">
+                    Change info
+                </md-button>
+            </div>
+
         </div>
 
     </div>

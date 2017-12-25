@@ -15,15 +15,22 @@
 
         function reset() {
 
-            userService.reset(token , vm.data).then(function (res) {
-                if (res.success) {
-                    toastr.success('Password was changed');
-                    $state.go('login');
-                }
-                else {
-                    console.log('error');
-                }
-            })
+            if (vm.resetForm.$invalid) {
+                return;
+            } else {
+                userService.reset(token, vm.data).then(function (res) {
+                    if (res.success) {
+                        toastr.success('Password was changed');
+                        $state.go('login');
+                    }
+                    else {
+                        console.log('error');
+                        toastr.error('This link is inactive' , 'Error');
+                    }
+                })
+            }
+
+
         }
     }
 })();

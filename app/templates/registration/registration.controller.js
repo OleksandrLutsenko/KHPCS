@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('RegistrationController', RegistrationController);
 
-    RegistrationController.$inject = ['userService', '$state', 'toastr', 'tabsService' ];
+    RegistrationController.$inject = ['userService', '$state', 'toastr', 'tabsService'];
 
-    function RegistrationController(userService, $state, toastr, tabsService ) {
+    function RegistrationController(userService, $state, toastr, tabsService) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -13,12 +13,12 @@
 
         vm.user = userService.getUser();
 
+
         function register() {
-            if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation ) {
-                console.log('error');
-                toastr.error('Please try again', 'Sign up form is invalid');
-            }
-            else {
+            console.log(vm.data);
+            if (vm.regForm.$invalid) {
+                console.log('err');
+            } else {
                 userService.setToken(undefined);
                 userService.registration(vm.data).then(function (res) {
                     if (res.success) {
@@ -26,7 +26,7 @@
                         toastr.success('Registration successful');
                     }
                     else {
-                        console.log('eror');
+                        toastr.error('This email is already taken', 'Error');
                     }
                 })
             }

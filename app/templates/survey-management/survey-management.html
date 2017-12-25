@@ -1,9 +1,9 @@
 <div class="menus clearfix">
 
     <div class="tab-list clearfix">
-        <div ng-repeat="it in vm.items" ng-if="(it.status === 1)" class="questionnaire-list"
-             md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
-             ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
+        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'active')"  class="questionnaire-list"
+             md-whiteframe="{{height}}"
+             ng-click="vm.setActineSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
 
             <md-menu md-offset="0 -7">
                 <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdMenu.open($event)">
@@ -11,20 +11,20 @@
                 </md-button>
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="vm.createSurvey(it.id , $index , it)">Edit</md-button>
+                        <md-button ng-click="vm.createSurvey(it.survey_id , $index , it)">Edit</md-button>
                     </md-menu-item>
                 </md-menu-content>
 
             </md-menu>
             <div class="textQuest">
-                <p class="hidden-text">{{it.name}}</p>
+                <p class="hidden-text">{{it.survey_name}}</p>
                 <p>{{it.survey_status}}</p>
             </div>
 
         </div>
-        <div ng-repeat="it in vm.items" ng-if="(it.status === 2)" class="questionnaire-list"
+        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'inactive')" class="questionnaire-list"
              md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
-             ng-click="vm.setActineSurvey(it.id, $index)" ui-sref="tab.survey-block">
+             ng-click="vm.setActineSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
 
             <md-menu md-offset="0 -7">
 
@@ -34,24 +34,24 @@
 
                 <md-menu-content width="4">
                     <md-menu-item>
-                        <md-button ng-click="vm.activeSurvey(it.id, $index)">Active</md-button>
+                        <md-button ng-click="vm.activeSurvey(it.survey_id, $index)">Active</md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="vm.archiveSurvey(it.id, 'added to the archive')">Archive</md-button>
+                        <md-button ng-click="vm.archiveSurvey(it.survey_id, 'added to the archive')">Archive</md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="vm.createSurvey(it.id , $index , it)">Edit</md-button>
+                        <md-button ng-click="vm.createSurvey(it.survey_id , $index , it)">Edit</md-button>
                     </md-menu-item>
                 </md-menu-content>
 
             </md-menu>
             <div class="textQuest">
-                <p class="hidden-text">{{it.name}}</p>
+                <p class="hidden-text">{{it.survey_name}}</p>
                 <p>{{it.survey_status}}</p>
             </div>
         </div>
 
-        <div ng-click="vm.createSurvey(it.id , $index , it)" class="questionnaire-list"
+        <div ng-click="vm.createSurvey(it.survey_id , $index , it)" class="questionnaire-list"
              md-whiteframe="{{height}}" ng-init="height = 3" ng-mouseenter="height = 6" ng-mouseleave="height = 3"
         >
             <p class="plus-ico"><i class="fa fa-plus-circle" aria-hidden="true"></i></p>
@@ -79,13 +79,13 @@
             </div>
 
             <md-content layout-padding="" >
-                <div ng-repeat="archiveItem in vm.items" ng-if="(archiveItem.status === 0)">
+                <div ng-repeat="archiveItem in vm.survey" ng-if="(archiveItem.survey_status === 'archived')">
                     <div flex="100" layout="row" layout-align="center center">
                         <div class="sm-left" flex="70" layout-wrap="no-wrap"><p class="hidden-text deleting-margin">
-                            {{archiveItem.name}}</p></div>
+                            {{archiveItem.survey_name}}</p></div>
                         <div class="sm-right" flex="30" layout-align="center right">
-                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.id)" title="Remove">delete_forever</i>
-                            <i class="material-icons" ng-click="vm.archiveSurvey(archiveItem.id, 'extracted from archive')"
+                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id)" title="Remove">delete_forever</i>
+                            <i class="material-icons" ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive')"
                                title="Unarchive">unarchive</i>
                         </div>
                     </div>

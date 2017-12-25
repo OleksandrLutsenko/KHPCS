@@ -100,7 +100,7 @@
                     //need to show error msg
                 }
             });
-        }
+      }
         function setItems(items) {
             delete $sessionStorage['user_items'];
             $sessionStorage['user_items'] = items;
@@ -108,7 +108,6 @@
         function getItems() {
             return $sessionStorage['user_items'];
         }
-
 
 
         // ContractResearch
