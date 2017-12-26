@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddClientController', AddClientController);
 
-    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'toastr' , 'customers' , '$state'];
+    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'toastr' , 'customers' , '$state' , 'surveyService'];
 
-    function AddClientController(data, $mdDialog, customerService , toastr , customers, $state) {
+    function AddClientController(data, $mdDialog, customerService , toastr , customers, $state , surveyService) {
         let vm = this;
 
         vm.id = data.id;
@@ -32,7 +32,9 @@
 
         function pass(id) {
             customers.setActiveCustomers(id);
-            $state.go('tab.passing-question');
+            surveyService.loadSurveyOnly().then(function () {
+                $state.go('tab.passing-question');
+            })
         }
 
         function cancel() {

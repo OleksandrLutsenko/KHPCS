@@ -15,8 +15,9 @@
 
 
         function register() {
-            console.log(vm.data);
-            if (vm.regForm.$invalid) {
+            console.log(vm.data.password);
+            console.log(vm.data.password_confirmation);
+            if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation ) {
                 console.log('err');
             } else {
                 userService.setToken(undefined);

@@ -85,8 +85,8 @@
             }).then(function () {
                 surveyService.deleteSurvey(surveyId).then(function (res) {
                     if (res.success) {
-                        surveyService.loadSurveyOnly().then(function (res) {
-                            vm.survey = res;
+                        surveyService.loadSurveyOnly().then(function () {
+                            vm.survey = surveyService.getSurveyOnly();
                         });
                         toastr.success('Questionnaire was deleted');
                     }
