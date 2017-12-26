@@ -22,10 +22,6 @@
 
 
         $scope.$on('setActiveBlock', function (event, data) {
-            if(data.data != undefined){
-                items.push(data.data)
-            }
-
             activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
             idBlock = activeBlock.id;
