@@ -82,6 +82,10 @@
             return http.get(url.survey_management_func(id).deletedQuestionsInSurvey);
         }
 
+        function loadDeletedQuestionsInSurvey(id) {
+            return http.get(url.survey_management_func(id).deletedQuestionsInSurvey);
+        }
+
         function changeStatusSurvey (id) {
             return http.put(url.survey_management_func(id).changeStatusSurvey);
         }

@@ -3,17 +3,26 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'contractService'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'contractService'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, contractService) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, contractService) {
         let vm = this;
         tabsService.startTab('page1');
 
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.customers = customerService.getCustomers();
+        vm.customers= customerService.getCustomers();
+        let idSurvey = survey.getActiveQuestionair().id;
+
+        vm.customers.forEach(function (itemCustomer) {
+            itemCustomer.reports.forEach(function(itemReport){
+                if(itemReport.survey_id == idSurvey){
+                    itemCustomer.continue = true
+                }
+            })
+        });
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -92,9 +101,9 @@
                 contractService.loadTemplateList().then(function (templateList) {
                     // console.log(templateList.data.contractsWithoutBody);
                     let templates = templateList.data.contractsWithoutBody;
-                    console.log('reports = ', customer.reports);
-                    console.log('surveys = ', surveys);
-                    console.log('templates = ', templates);
+                    // console.log('reports = ', customer.reports);
+                    // console.log('surveys = ', surveys);
+                    // console.log('templates = ', templates);
 
                     let dataFromDialog = {
                         customer: customer.name + ' ' + customer.surname,

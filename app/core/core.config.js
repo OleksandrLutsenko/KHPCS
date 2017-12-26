@@ -108,18 +108,7 @@
                 url: '/survey-question',
                 templateUrl: 'templates/survey-question/survey-question.html',
                 controller: 'SurveyQuestionController',
-                controllerAs: 'vm',
-                resolve: {
-                    items: function (surveyService, survey) {
-                        let idSurvey = survey.getActineSurvey().id;
-
-                        return surveyService.loadOneSurvey(idSurvey).then(function (res) {
-                            if(res.success){
-                                return res.data.survey.blocks;
-                            }
-                        });
-                    }
-                }
+                controllerAs: 'vm'
             })
             .state('tab.passing-question', {
                 url: '/passing-question',

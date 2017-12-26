@@ -34,16 +34,15 @@
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-if="vm.user.role_id > 1">{{customers.user_name }}</td>
                             <td md-cell>
+                                <!--<md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)">-->
+                                    <!--Get started-->
+                                <!--</md-button>-->
                                 <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)"
-                                           ng-if="!customers.reports.length">
-                                    Get started
-                                </md-button>
-                                <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)"
-                                           ng-if="">
+                                           ng-if="!customers.continue">
                                     Continue
                                 </md-button>
                                 <md-button class="md-primary"
-                                           ng-disabled="true" ng-if="customers.reports.length">
+                                           ng-disabled="true" ng-if="customers.continue">
                                     Completed
                                 </md-button>
                             </td>

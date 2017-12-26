@@ -20,14 +20,13 @@
         vm.setActiveBlock = setActiveBlock;
         vm.deleteBlock = deleteBlock;
 
-        function setActiveBlock(id, indexBlock, data) {
+        function setActiveBlock(id, indexBlock) {
             survey.setActiveBlock(id, indexBlock);
             let tmpObj = {
                 activeBlock: {
                     id: id,
                     indexBlock: indexBlock
-                },
-                data: data
+                }
             };
             $scope.$broadcast('setActiveBlock', tmpObj);
             $state.go('tab.survey-block.survey-question');
@@ -100,10 +99,10 @@
                     toastr.success('Block was edited');
                 }
                 else {
-                    // vm.items.push(res.data.block);
-                    let indexBlock = vm.items.length;
+                    vm.items.push(res.data.block);
+                    let indexBlock = vm.items.length - 1;
                     let id = res.data.block.id;
-                    setActiveBlock(id, indexBlock, res.data.block);
+                    setActiveBlock(id, indexBlock);
                     toastr.success('New block was created');
                 }
                 console.log(vm.items);
