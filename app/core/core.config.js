@@ -51,8 +51,12 @@
                 controller: 'UserManagementController',
                 controllerAs: 'vm',
                 resolve: {
-                    load: function (customerService) {
+                    loadCustomers: function (customerService) {
                         return customerService.loadCustomers();
+                    }
+                    ,
+                    loadSurvey: function (surveyService) {
+                        return surveyService.loadSurveyOnly();
                     }
                 }
             })
