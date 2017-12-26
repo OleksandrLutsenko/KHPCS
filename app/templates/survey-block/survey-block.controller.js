@@ -20,23 +20,14 @@
         vm.setActiveBlock = setActiveBlock;
         vm.deleteBlock = deleteBlock;
 
-        // function loadOneSurvey() {
-        //     surveyService.loadOneSurvey(idSurvey).then(function (res) {
-        //         if(res.success){
-        //             vm.items = res.data.survey.blocks;
-        //         }
-        //     });
-        // }
-
-        function setActiveBlock(id, indexBlock, data, movData) {
+        function setActiveBlock(id, indexBlock, data) {
             survey.setActiveBlock(id, indexBlock);
             let tmpObj = {
                 activeBlock: {
                     id: id,
                     indexBlock: indexBlock
                 },
-                data: data,
-                movData: movData
+                data: data
             };
             $scope.$broadcast('setActiveBlock', tmpObj);
             $state.go('tab.survey-block.survey-question');
@@ -77,6 +68,7 @@
                     });
                 }
                 mowUpdate(vm.items);
+                console.log(vm.items);
             }
         };
 
@@ -127,6 +119,13 @@
 
         function addBlock(item, index) {
 
+            let orderNumber = 0;
+            vm.items.forEach(function (item) {
+                if(item.order_number > orderNumber) {
+                    orderNumber = item.order_number;
+                }
+            });
+
             $mdDialog.show({
                 controller: 'AddBlockController',
                 controllerAs: 'vm',
@@ -136,22 +135,23 @@
                     data: {
                         item: item,
                         idSurvey: idSurvey,
-                        length: items.length
+                        order_number: orderNumber + 1
                     }
                 }
             }).then(function (res) {
+                console.log(res);
                 if (res.type) {
                     vm.items.splice(index, 1, res.data.block);
                     toastr.success('Block was edited');
                 }
                 else {
-                    vm.items.push(res.data.block);
-                    let indexBlock = vm.items.length - 1;
-                    let id = vm.items[indexBlock].id;
-
-                    vm.setActiveBlock(id, indexBlock, res.data.block);
+                    // vm.items.push(res.data.block);
+                    let indexBlock = vm.items.length;
+                    let id = res.data.block.id;
+                    setActiveBlock(id, indexBlock, res.data.block);
                     toastr.success('New block was created');
                 }
+                console.log(vm.items);
             })
         }
 
@@ -165,6 +165,13 @@
                 blockService.deleteBlock(id).then(function (res) {
                     if (res.success) {
                         vm.items.splice(index, 1);
+
+                        let indexBlock = survey.getActiveBlock().indexBlock;
+                        if(indexBlock == index) {
+                            let id = vm.items[0].id;
+                            setActiveBlock(id, 0)
+                        }
+
                         toastr.success('Block was deleted');
 
                         /////////////////////UpdateTemplate///////////////////

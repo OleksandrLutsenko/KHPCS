@@ -22,13 +22,13 @@
 
 
         $scope.$on('setActiveBlock', function (event, data) {
-            activeBlock = data.activeBlock;
-            indexBlock = activeBlock.indexBlock;
-            idBlock = activeBlock.id;
-
             if(data.data != undefined){
                 items.push(data.data)
             }
+
+            activeBlock = data.activeBlock;
+            indexBlock = activeBlock.indexBlock;
+            idBlock = activeBlock.id;
 
             vm.items = items[indexBlock].questions;
         });
