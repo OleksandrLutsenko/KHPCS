@@ -3,10 +3,10 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'contractService'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, contractService) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -88,13 +88,13 @@
 
         vm.downloadPDF = function (customer) {
             surveyService.loadSurveyOnly().then(function (res) {
-                let surveys = res.data.result;
-                userService.loadAllTemplates().then(function (templateList) {
-                    // userService.loadTemplateList().then(function (templateList) {
-                    let templates = templateList.data;
-                    // console.log('reports = ', customer.reports);
-                    // console.log('surveys = ', surveys);
-                    // console.log('templates = ', templates);
+                let surveys = res.data.onlySurvey;
+                contractService.loadTemplateList().then(function (templateList) {
+                    // console.log(templateList.data.contractsWithoutBody);
+                    let templates = templateList.data.contractsWithoutBody;
+                    console.log('reports = ', customer.reports);
+                    console.log('surveys = ', surveys);
+                    console.log('templates = ', templates);
 
                     let dataFromDialog = {
                         customer: customer.name + ' ' + customer.surname,

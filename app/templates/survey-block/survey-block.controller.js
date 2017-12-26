@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['userService', 'blockService', 'surveyService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService'];
+    SurveyBlockController.$inject = ['blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService'];
 
-    function SurveyBlockController(userService, blockService, surveyService, $state, survey, $scope, $mdDialog , toastr, items, tabsService) {
+    function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService) {
         let vm = this;
         tabsService.startTab();
 
@@ -72,51 +72,6 @@
             }
         };
 
-        /////////////////////////////////Fix templates///////////////////////////
-        function updateTemplate(data) {
-            let block = data.data.block;
-            let surveyId = idSurvey.id;
-            let templates;
-
-
-            userService.loadAllTemplates().then(function (res) {
-                if(res.success) {
-                    templates = res.data;
-
-                    for (let i=0; i<templates.length; i++) {
-                        if (templates[i].survey_id === surveyId) {
-                            let templateId = templates[i].id;
-                            let data = templates[i];
-                            // console.log(data);
-
-                            if (block.questions.length) {
-                                for (let x=0; x<block.questions.length; x++) {
-                                    let tmpVar = "{!!$contractAnswers["+block.questions[x].id+"]!!}";
-                                    data.body = data.body.split(tmpVar).join('<span style="background-color: #ff0000">[undefined]</span>');
-                                    userService.updateTemplate(templateId, data).then(function (res) {
-                                        console.log(res);
-                                        if (res.success) {
-                                            console.log('Update template success');
-                                        } else{
-                                            console.log('Update template error');
-                                        }
-                                    });
-                                }
-                                console.log(block.questions, 'Qustions');
-                            } else {
-                                console.log('No questions');
-                            }
-                            console.log(block, 'Removed block');
-                        }
-                    }
-
-                }else {
-                    console.log('load templates error');
-                }
-            });
-        }
-
-
         function addBlock(item, index) {
 
             let orderNumber = 0;
@@ -171,18 +126,10 @@
                             let id = vm.items[0].id;
                             setActiveBlock(id, 0)
                         }
-
                         toastr.success('Block was deleted');
-
-                        /////////////////////UpdateTemplate///////////////////
-                        // if (vm.items[index].questions.length) {
-                        //     updateTemplate(res);
-                        // }
                     }
                 });
-            })
+            });
         }
-
-
     }
 })();
