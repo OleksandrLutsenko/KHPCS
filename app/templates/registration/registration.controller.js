@@ -13,12 +13,13 @@
 
         vm.user = userService.getUser();
 
-
         function register() {
-            console.log(vm.data);
-            if (vm.regForm.$invalid) {
-                console.log('err');
-            } else {
+            // if (vm.regForm.$invalid) {
+            if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation ) {
+                console.log('error');
+                toastr.error('Please try again', 'Sign up form is invalid');
+            }
+            else {
                 userService.setToken(undefined);
                 userService.registration(vm.data).then(function (res) {
                     if (res.success) {
@@ -28,7 +29,7 @@
                     else {
                         toastr.error('This email is already taken', 'Error');
                     }
-                })
+                });
             }
         }
     }

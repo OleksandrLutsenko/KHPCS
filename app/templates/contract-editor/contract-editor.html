@@ -16,12 +16,12 @@
                 </md-input-container>
             </div>
 
-            <div ng-repeat="survey in vm.surveys | filter: vm.searchSurvey" ng-if="(survey.status === 1 || survey.status === 2)"
-                 ng-click="vm.setActiveSurvey(survey.id, $index, survey.name)" class="questionnaire-list">
+            <div ng-repeat="survey in vm.surveys | filter: vm.searchSurvey" ng-if="(survey.survey_status === 'active' || survey.survey_status === 'inactive')"
+                 ng-click="vm.setActiveSurvey(survey.survey_id, survey.survey_name)" class="questionnaire-list">
 
                 <p class="hidden-text pointer" title={{survey.name}}>
-                    <i class="material-icons chevron" ng-if="vm.showSelectedSurvey(survey.id)">chevron_right</i>
-                    {{survey.name}}
+                    <i class="material-icons chevron" ng-if="vm.showSelectedSurvey(survey.survey_id)">chevron_right</i>
+                    {{survey.survey_name}}
                 </p>
 
             </div>
@@ -77,14 +77,12 @@
                 </div>
 
                 <div class="save-menu pointer" ng-if="vm.surveys.length" layout="" layout-align="space-between center">
-                    <div layout="" layout-align="start center" ng-click="vm.conditionForCreatingNewTemplate()">
+                    <div layout="" layout-align="start center" ng-click="vm.createTemplate()">
                         <i class="material-icons">add</i>
                         <span> Add new template</span>
                     </div>
 
                     <div layout="" layout-align="end center">
-                        <i class="material-icons" ng-if="vm.activeTemplateId === undefined"
-                           ng-click="vm.postTemplate()">save</i>
 
                         <i class="material-icons" ng-if="vm.activeTemplateId !== undefined"
                            ng-click="vm.updateTemplate()">save</i>
@@ -131,11 +129,11 @@
         </div>
 
         <div>
-            <p ng-if="!vm.activeSurvey.blocks.length" class="empty-block">
+            <p ng-if="!vm.activeSurvey.length" class="empty-block">
                 No data
             </p>
 
-            <div ng-repeat="block in vm.activeSurvey.blocks">
+            <div ng-repeat="block in vm.activeSurvey">
                 <p ng-click="vm.showQuestionsInBlock(block.id)" class="survey-block pointer">
                     {{block.name}}
                 </p>
@@ -147,9 +145,25 @@
                         {{question.title}}
                     </p>
 
-                    <p ng-click="vm.pasteVariability(question.title, question.id)" class="survey-question answer pointer">
+                    <p ng-click="vm.pasteVariability(question.title, question.id)" class="survey-question answer pointer hidden-text">
                         [Answer {{question.id}}]
                     </p>
+
+                    <div ng-repeat="answers in question.answers" class="inserted_block_border">
+                        <div ng-repeat="insertedQuestions in answers.child_questions">
+                            <p ng-click="vm.pasteTitle(insertedQuestions.title)" class="inserted_question pointer hidden-text"
+                               title={{insertedQuestions.title}}>
+                                {{insertedQuestions.title}}
+                            </p>
+
+                            <p ng-click="vm.pasteVariability(insertedQuestions.title, insertedQuestions.id)"
+                               class="inserted_answer pointer hidden-text">
+                                [Answer {{insertedQuestions.id}}]
+
+                            </p>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="empty-block" ng-if="vm.showQuestions(block.id)">

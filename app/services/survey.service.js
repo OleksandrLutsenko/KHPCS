@@ -19,10 +19,10 @@
 
         model.loadOneSurvey = loadOneSurvey;
 
-
         model.createSurvey = createSurvey;
         model.updateSurvey = updateSurvey;
         model.deleteSurvey = deleteSurvey;
+        model.loadDeletedQuestionsInSurvey = loadDeletedQuestionsInSurvey;
         model.changeStatusSurvey = changeStatusSurvey;
         model.archiveStatusSurvey = archiveStatusSurvey;
 
@@ -77,6 +77,10 @@
 
         function deleteSurvey(id) {
             return http.delete(url.survey_management_func(id).updateSurvey);
+        }
+
+        function loadDeletedQuestionsInSurvey(id) {
+            return http.get(url.survey_management_func(id).deletedQuestionsInSurvey);
         }
 
         function changeStatusSurvey (id) {

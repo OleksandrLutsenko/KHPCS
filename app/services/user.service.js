@@ -20,25 +20,10 @@
         model.reset = reset;
         model.updateInfo = updateInfo;
         model.updatePass = updatePass;
+        model.loadSurveysOnly = loadSurveysOnly;
         model.loadItems = loadItems;
         model.setItems = setItems;
         model.getItems = getItems;
-
-
-        // ContractResearch
-        model.createNewResearch = createNewResearch;
-        model.removeResearch = removeResearch;
-
-        // contractEditor
-        model.createTemplate = createTemplate;
-        model.loadAllTemplates = loadAllTemplates;
-        model.loadTemplateList = loadTemplateList;
-        model.removeTemplate = removeTemplate;
-        model.updateTemplate = updateTemplate;
-        model.createVariability = createVariability;
-        model.editVariability = editVariability;
-        model.removeVariability = removeVariability;
-        model.getVariability = getVariability;
 
         //DownloadContract
         model.getContract = getContract;
@@ -58,12 +43,12 @@
         function loadUser() {
             return http.get(url.user.loadUser, {}).then(function (res) {
                 if (res.success){
-                    setUser(res.data.result)
+                    setUser(res.data.result);
                 }
                 else {
                     //need to show error msg
                 }
-            })
+            });
         }
         function setUser(user) {
             $localStorage.user = user;
@@ -92,6 +77,12 @@
             return http.post(url.user_func(id).updateProfile , data);
         }
 
+
+        function loadSurveysOnly() {
+            // return http.get(url.user.getItems);
+            return http.get(url.user.loadSurveysOnly);
+        }
+
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
                 if (res.success) {
@@ -100,60 +91,13 @@
                     //need to show error msg
                 }
             });
-      }
+        }
         function setItems(items) {
             delete $sessionStorage['user_items'];
             $sessionStorage['user_items'] = items;
         }
         function getItems() {
             return $sessionStorage['user_items'];
-        }
-
-
-        // ContractResearch
-        function createNewResearch() {
-            return http.post(url.contract_research_func().createResearch);
-        }
-        function removeResearch(id) {
-            return http.delete(url.contract_research_func(id).deleteResearch);
-        }
-
-        // contractEditor
-        function createTemplate(id, data) {
-            return http.post(url.contract_editor_func(id).createSurveyTemplate, data);
-        }
-
-        function loadTemplateList() {
-            return http.get(url.contract_editor_func().getTemplateList);
-        }
-
-        function loadAllTemplates() {
-            return http.get(url.contract_editor_func().getTemplates);
-        }
-
-        function removeTemplate(id) {
-            return http.delete(url.contract_editor_func(id).deleteTemplate);
-        }
-
-        function updateTemplate(id, data) {
-            return http.put(url.contract_editor_func(id).updateTemplate, data);
-        }
-        ///////////
-
-        function createVariability(data) {
-            return http.post(url.contract_editor_func().createVariability, data);
-        }
-
-        function editVariability(id, data) {
-            return http.put(url.contract_editor_func(id).editVariability, data);
-        }
-
-        function removeVariability(id) {
-            return http.delete(url.contract_editor_func(id).deleteVariability);
-        }
-
-        function getVariability() {
-            return http.get(url.contract_editor_func().getVariability);
         }
 
         //DownloadContract

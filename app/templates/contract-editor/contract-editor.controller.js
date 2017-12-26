@@ -6,30 +6,73 @@
 
 
 
-    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService'];
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService'];
 
-    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService) {
+    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService) {
         let vm = this;
         tabsService.startTab('page3');
         console.log('contract-editor controller start');
 
-        vm.surveys = userService.getItems();
-        console.log(vm.surveys);
+        let activeSurveyID;
+        let activeSurveyName;
+        let activeBlockId;
+        let activeTemplateTitle;
+        let tmpAnswersArr = [];
+        vm.activeTemplateId = undefined;
+        vm.showTemplateTab = true;
+        vm.showSurveyVarTab = false;
+        vm.showUserVarTab = false;
 
-        // userService.getVariability().then(function (res) {
+        vm.surveys = [];
+        userService.loadSurveysOnly().then(function (res) {
+            if (res.success) {
+                console.log(res.data.onlySurvey);
+                vm.surveys = res.data.onlySurvey;
+                if (vm.surveys.length) {
+
+                    for (let i=0; i<vm.surveys.length; i++) {
+                        if (vm.surveys[i].survey_status === 'active' || vm.surveys[i].survey_status === 'inactive') {
+                            activeSurveyID = vm.surveys[i].survey_id;
+                            activeSurveyName = vm.surveys[i].survey_name;
+                            break;
+                        }
+                    }
+
+                    surveyService.loadOneSurvey(activeSurveyID).then(function (survey) {
+                        if (survey.success) {
+                            vm.activeSurvey = survey.data.survey.blocks;
+                            console.log(vm.activeSurvey, 'vm.activeSurvey');
+                        }else{
+                            console.log('load survey error');
+                        }
+                    });
+
+                    CKEDITOR.instances.CKeditorArea.setData('');
+
+                    contractService.createNewResearch().then(function (res) {
+                        tmpResearchId = res.data.id;
+                        console.log(tmpResearchId);
+                    });
+                }
+            }else {
+                console.log('load surveys error');
+            }
+        });
+
         contractService.getVariabilityWithDeleted().then(function (res) {
             if(res.success) {
                 vm.variability = res.data;
                 console.log(vm.variability, 'vm.variability');
             }else {
-                console.log('no variability');
+                console.log('load variability error');
             }
         });
 
-        // function loadTemplates() {
-        userService.loadAllTemplates().then(function (res) {
+
+        // contractService.loadAllTemplates().then(function (res) {
+        contractService.loadTemplateList().then(function (res) {
             if(res.success) {
-                vm.templates = res.data;
+                vm.templates = res.data.contractsWithoutBody;
                 console.log(vm.templates, 'vm.templates');
 
                 vm.availabilityOfTemplates = function () {
@@ -51,34 +94,13 @@
                 console.log('load templates error');
             }
         });
-        // }
-        // loadTemplates();
-        //
-        let activeSurveyID;
-        let activeSurveyName;
-        let activeBlockId;
-        let activeTemplateTitle;
-        let tmpAnswersArr = [];
-        vm.activeTemplateId = undefined;
-        vm.showTemplateTab = true;
-        vm.showSurveyVarTab = false;
-        vm.showUserVarTab = false;
+
 
         CKEDITOR.replace('CKeditorArea');
 
-        CKEDITOR.addCss('body{width: 21cm;min-height: 29.7cm;border: 1px #D3D3D3 solid;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);padding: 5px; box-sizing: border-box; margin: 0 auto; font-family: -webkit-pictograph; font-size: 15px !important;line-height: 1.2 !important}');
+        CKEDITOR.addCss('body{width: 21cm;min-height: 29.7cm;border: 1px #D3D3D3 solid;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);padding: 2cm; box-sizing: border-box; margin: 0 auto; font-family: -webkit-pictograph; font-size: 15px !important;line-height: 1.2 !important}');
         CKEDITOR.addCss('body p{margin: 5px 0;}');
         CKEDITOR.addCss('span[lang]{font-style: normal !important;}');
-
-        if (vm.surveys.length) {
-            vm.activeSurvey = vm.surveys[0];
-            activeSurveyID = vm.surveys[0].id;
-            activeSurveyName = vm.surveys[0].name;
-            CKEDITOR.instances.CKeditorArea.setData('');
-            userService.createNewResearch().then(function (res) {
-                tmpResearchId = res.data.id;
-            });
-        }
 
         vm.showTemplates = function (id) {
             if (id === activeSurveyID){
@@ -142,20 +164,24 @@
         ///////////////////////////////////////////////////////////////////////////////
         let tmpResearchId;
 
-        vm.setActiveSurvey = function setActiveSurvey(id, index, name) {
-            vm.activeSurvey = vm.surveys[index];
-            // console.log(vm.activeSurvey);
+        vm.setActiveSurvey = function setActiveSurvey(id, name) {
             activeSurveyID = id;
             activeSurveyName = name;
+
+            surveyService.loadOneSurvey(activeSurveyID).then(function (survey) {
+                if (survey.success) {
+                    vm.activeSurvey = survey.data.survey.blocks;
+                    console.log(vm.activeSurvey, 'vm.activeSurvey');
+                }else{
+                    console.log('load survey error');
+                }
+            });
 
             vm.activeTemplateId = undefined;
             activeTemplateTitle = undefined;
             CKEDITOR.instances.CKeditorArea.setData('');
 
-            console.log(vm.activeSurvey, 'vm.activeSurvey');
-
-            userService.createNewResearch().then(function (res) {
-                console.log(res);
+            contractService.createNewResearch().then(function (res) {
                 tmpResearchId = res.data.id;
                 console.log(tmpResearchId);
             });
@@ -163,13 +189,9 @@
 
         vm.pasteTitle = function (data) {
             CKEDITOR.instances.CKeditorArea.insertText(data);
-            // CKEDITOR.instances.CKeditorArea.insertText('[[' + data + ']]' + 'fsdfssdfs' + '[[' + data + ']]');
-            // console.log(CKEDITOR.instances.CKeditorArea.getData());
-
         };
 
-        vm.pasteVariability = function (data, id) {
-            // CKEDITOR.instances.CKeditorArea.insertText('{!!$contractAnswers[' + id + ']!!}');
+        vm.pasteVariability = function (title, id) {
             let surveyVarInEditorSide = '[[Answer ' + id + ']]';
             let surveyVarInServerSide = '{!!$contractAnswers[' + id + ']!!}';
             let tmpVarObj = {
@@ -198,62 +220,102 @@
         /////////////////////////Работа с шаблонами////////////////////////////////////
 
         vm.pasteTemplate = function (data) {
+            let deletedQuestionInSurvey;
             vm.activeTemplateId = data.id;
             activeTemplateTitle = data.title;
             tmpAnswersArr = [];
 
-            let body = data.body.replace("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>", "").replace("</body></html>", "");
+            contractService.loadOneTemplate(vm.activeTemplateId).then(function (template) {
+                if (template.success) {
+                    let body = template.data.contract.body.replace("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>", "").replace("</body></html>", "");
 
-            vm.activeSurvey.blocks.forEach(function (block) {
-                block.questions.forEach(function (question) {
-                    let surveyVarInServerSide = '{!!$contractAnswers[' + question.id + ']!!}';
-                    if (body.indexOf(surveyVarInServerSide) !== -1) {
-                        let surveyVarInEditorSide = '[[Answer ' + question.id + ']]';
-                        let tmpVarObj = {
-                            inServer: surveyVarInServerSide,
-                            inEditor: surveyVarInEditorSide
-                        };
-                        tmpAnswersArr.push(tmpVarObj);
-                        body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
-                    }
-                });
-            });
+                    surveyService.loadDeletedQuestionsInSurvey(activeSurveyID).then(function (questions) {
+                        if (questions.success) {
+                            deletedQuestionInSurvey = questions.data.deletedQuestions;
 
-            vm.variability.forEach(function (variability) {
-                let userVarInServerSide;
-                let userVarInEditorSide;
+                            vm.activeSurvey.forEach(function (block) {
+                                block.questions.forEach(function (question) {
+                                    let surveyVarInServerSide = '{!!$contractAnswers[' + question.id + ']!!}';
+                                    if (body.indexOf(surveyVarInServerSide) !== -1) {
+                                        let surveyVarInEditorSide = '[[Answer ' + question.id + ']]';
+                                        let tmpVarObj = {
+                                            inServer: surveyVarInServerSide,
+                                            inEditor: surveyVarInEditorSide
+                                        };
+                                        tmpAnswersArr.push(tmpVarObj);
+                                        body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
+                                    }
+                                    question.answers.forEach(function (answer) {
+                                        answer.child_questions.forEach(function (childQuestion) {
+                                            let surveyVarInServerSide = '{!!$contractAnswers[' + childQuestion.id + ']!!}';
+                                            if (body.indexOf(surveyVarInServerSide) !== -1) {
+                                                let surveyVarInEditorSide = '[[Answer ' + childQuestion.id + ']]';
+                                                let tmpVarObj = {
+                                                    inServer: surveyVarInServerSide,
+                                                    inEditor: surveyVarInEditorSide
+                                                };
+                                                tmpAnswersArr.push(tmpVarObj);
+                                                body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
+                                            }
+                                        });
+                                    });
+                                });
+                            });
 
-                userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
+                            deletedQuestionInSurvey.forEach(function (questionID) {
+                                let surveyVarInServerSide = '{!!$contractAnswers[' + questionID + ']!!}';
+                                if (body.indexOf(surveyVarInServerSide) !== -1) {
+                                    let surveyVarInEditorSide = '<span style="background-color: red">Answer ' + questionID + ' was deleted</span>';
+                                    let tmpVarObj = {
+                                        inServer: surveyVarInServerSide,
+                                        inEditor: surveyVarInEditorSide
+                                    };
+                                    tmpAnswersArr.push(tmpVarObj);
+                                    body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
+                                }
+                            });
 
-                if (body.indexOf(userVarInServerSide) !== -1) {
-                    if (variability.deleted_at !== null) {
-                        userVarInEditorSide = '<span style="background-color: red">Variability ' + variability.id + ' was deleted</span>';
-                        // console.log(userVarInEditorSide);
-                    } else {
-                        userVarInEditorSide = '[[User var ' + variability.id + ']]';
 
-                    }
-                    let tmpVarObj = {
-                        inServer: userVarInServerSide,
-                        inEditor: userVarInEditorSide
-                    };
-                    body = body.split(userVarInServerSide).join(userVarInEditorSide);
-                    tmpAnswersArr.push(tmpVarObj);
+                            vm.variability.forEach(function (variability) {
+                                let userVarInServerSide;
+                                let userVarInEditorSide;
+
+                                userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
+
+                                if (body.indexOf(userVarInServerSide) !== -1) {
+                                    if (variability.deleted_at !== null) {
+                                        userVarInEditorSide = '<span style="background-color: red">Variability ' + variability.id + ' was deleted</span>';
+                                        // console.log(userVarInEditorSide);
+                                    } else {
+                                        userVarInEditorSide = '[[User var ' + variability.id + ']]';
+
+                                    }
+                                    let tmpVarObj = {
+                                        inServer: userVarInServerSide,
+                                        inEditor: userVarInEditorSide
+                                    };
+                                    body = body.split(userVarInServerSide).join(userVarInEditorSide);
+                                    tmpAnswersArr.push(tmpVarObj);
+                                }
+                            });
+
+                            // console.log(tmpAnswersArr);
+                            CKEDITOR.instances.CKeditorArea.setData(body);
+                            // console.log(body);
+                        }else{
+                            console.log('load RemovedQuestionsList error');
+                        }
+                    });
+                }else{
+                    console.log('load Template error');
                 }
             });
-
-            // console.log(tmpAnswersArr);
-            CKEDITOR.instances.CKeditorArea.setData(body);
-            // console.log(body);
         };
 
-        vm.conditionForCreatingNewTemplate = function () {
+        vm.createTemplate = function () {
             vm.activeTemplateId = undefined;
             activeTemplateTitle = undefined;
-            CKEDITOR.instances.CKeditorArea.setData('');
-        };
-
-        vm.postTemplate = function () {
+            // CKEDITOR.instances.CKeditorArea.setData('');
 
             $mdDialog.show({
                 controller: createTemplateTitleController,
@@ -281,11 +343,13 @@
                         toastr.error('Error invalid data');
                     }
                     else {
-                        userService.createTemplate(tmpResearchId, vs.data).then(function (res) {
+                        contractService.createTemplate(tmpResearchId, vs.data).then(function (res) {
                             console.log(res);
                             if (res.success) {
-                                userService.loadAllTemplates().then(function (res) {
-                                    vm.templates = res.data;
+                                contractService.loadTemplateList().then(function (res) {
+                                    vm.templates = res.data.contractsWithoutBody;
+                                    vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
+                                    activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
                                     CKEDITOR.instances.CKeditorArea.setData("");
                                 });
                             }
@@ -330,13 +394,13 @@
                         toastr.error('Error invalid data');
                     }
                     else {
-                        userService.updateTemplate(vm.activeTemplateId, vs.data).then(function (res) {
+                        contractService.updateTemplate(vm.activeTemplateId, vs.data).then(function (res) {
                             console.log(res);
                             activeTemplateTitle = res.data.contract.title;
                             if (res.success) {
-                                userService.loadAllTemplates().then(function (res) {
-                                    vm.templates = res.data;
-                                    console.log(res.data, 'Template list');
+                                contractService.loadTemplateList().then(function (res) {
+                                    vm.templates = res.data.contractsWithoutBody;
+                                    // console.log(vm.templates, 'Template list');
                                 });
                             } else{
                                 console.log('Update template error');
@@ -365,14 +429,14 @@
                 let vs = this;
 
                 vs.confirm = function () {
-                    userService.removeTemplate(vm.activeTemplateId).then(function (res) {
+                    contractService.removeTemplate(vm.activeTemplateId).then(function (res) {
                         console.log(res);
                         if (res.success) {
-                            userService.loadAllTemplates().then(function (res) {
-                                vm.templates = res.data;
+                            contractService.loadTemplateList().then(function (res) {
+                                vm.templates = res.data.contractsWithoutBody;
                                 CKEDITOR.instances.CKeditorArea.setData("");
                                 vm.activeTemplateId = undefined;
-                                // activeTemplateTitle = undefined;
+                                activeTemplateTitle = undefined;
                             });
                         }
                     });
@@ -389,30 +453,7 @@
 
         //////////////////////Работа с пользовательскими переменными///////////////////
 
-        vm.loadVariability = function () {
-            userService.getVariability().then(function (res) {
-                console.log(res.data, 'Variability list');
-                vm.variability = res.data;
-            });
-        };
-        vm.createVariability = function () {
-            userService.getVariability().then(function (res) {
-                console.log(res, 'Create variability');
-            });
-        };
-        vm.editVariability = function () {
-            userService.getVariability().then(function (res) {
-                console.log(res, 'Edit variability');
-            });
-        };
-        vm.removeVariability = function () {
-            userService.getVariability().then(function (res) {
-                console.log(res, 'Remove variability');
-            });
-        };
-
-
-        vm.pasteUserVariability = function (id, title, deleted) {
+        vm.pasteUserVariability = function (id) {
             // CKEDITOR.instances.CKeditorArea.insertText('{!!$userVariables[' + id + ']!!}');
 
             let userVarInEditorSide = '[[User var ' + id + ']]';
@@ -458,10 +499,10 @@
                     }
                     else {
                         console.log(vs.data);
-                        userService.createVariability(vs.data).then(function (res) {
+                        contractService.createVariability(vs.data).then(function (res) {
                             console.log(res);
                             if (res.success) {
-                                userService.getVariability().then(function (res) {
+                                contractService.getVariabilityWithDeleted().then(function (res) {
                                     console.log(res.data, 'Variability list');
                                     vm.variability = res.data;
                                 });
@@ -493,16 +534,16 @@
                     'text': data
                 };
 
-                vs.reSaveVariability = function () {
+                vs.updateVariability = function () {
                     if (vs.varForm.name.$invalid) {
                         toastr.error('Error invalid data');
                     }
                     else {
                         console.log('saveVariability');
-                        userService.editVariability(id, vs.data).then(function (res) {
+                        contractService.editVariability(id, vs.data).then(function (res) {
                             console.log(res);
                             if (res.success) {
-                                userService.getVariability().then(function (res) {
+                                contractService.getVariabilityWithDeleted().then(function (res) {
                                     console.log(res.data, 'Variability list');
                                     vm.variability = res.data;
                                 });
@@ -531,10 +572,10 @@
                 let vs = this;
 
                 vs.confirm = function () {
-                    userService.removeVariability(id).then(function (res) {
+                    contractService.removeVariability(id).then(function (res) {
                         console.log(res);
                         if (res.success) {
-                            userService.getVariability().then(function (res) {
+                            contractService.getVariabilityWithDeleted().then(function (res) {
                                 console.log(res.data, 'Variability list');
                                 vm.variability = res.data;
                                 toastr.success('Remove success');
@@ -561,20 +602,6 @@
             console.log(CKEDITOR.instances['CKeditorArea'].setData(), 'заменить содержимое редактора');
         }
 
-        ///////////////////////////////////////////////////////////////////////////////
-
-
-        //////////////////////////////Замена текста////////////////////////////////////
-        vm.testReplace = function () {
-            let tmpTextData = CKEDITOR.instances.CKeditorArea.getData();
-            let id = 1;
-            let tmp = "{!!\$contractAnswers\[" + id + "\]!!}";
-            console.log(tmp);
-
-            // CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp('12345', "g" ), "Replace success"));
-            CKEDITOR.instances.CKeditorArea.setData(tmpTextData.replace(new RegExp(tmp, "g" ), "Replace success"));
-            console.log(tmpTextData);
-        };
         ///////////////////////////////////////////////////////////////////////////////
     }
 })();
