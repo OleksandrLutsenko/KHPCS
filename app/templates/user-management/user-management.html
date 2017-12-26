@@ -34,7 +34,21 @@
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-if="vm.user.role_id > 1">{{customers.user_name }}</td>
                             <td md-cell>
-                                <!--<md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)">-->
+                                <!--<md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)" ng-if="!vm.getStarted(customers.reports)">-->
+                                    <!--Get started-->
+                                <!--</md-button>-->
+                                <!--<md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)"-->
+                                           <!--ng-if="!customers.continue">-->
+                                    <!--Continue-->
+                                <!--</md-button>-->
+                                <!--<md-button class="md-primary"-->
+                                           <!--ng-disabled="true" ng-if="vm.getStarted(customers.reports)">-->
+                                    <!--Completed-->
+                                <!--</md-button>-->
+
+
+                                <!--<md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)"-->
+                                           <!--ng-if="vm.getStarted(customers.reports)">-->
                                     <!--Get started-->
                                 <!--</md-button>-->
                                 <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)"
@@ -45,6 +59,9 @@
                                            ng-disabled="true" ng-if="customers.continue">
                                     Completed
                                 </md-button>
+
+
+
                             </td>
                             <td md-cell ng-if="customers.reports.length"><i class="material-icons"
                                                                             ng-click="vm.downloadPDF(customers)">file_download</i>

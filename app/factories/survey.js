@@ -49,7 +49,7 @@
         function getActiveQuestionair() {
             let items = surveyService.getSurveyOnly();
             for (let index = 0; index < items.length; index++){
-                if(items[index].survey_status == 'active'){
+                if(items[index].survey_status === 'active'){
                     let tmpObl = {
                         id: items[index].survey_id,
                         index: index

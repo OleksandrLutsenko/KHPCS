@@ -299,9 +299,35 @@
                                 }
                             });
 
+                            (function () {
+                                let staticVarArr = [{serverSide: '{!! $user["name"] !!}', editorSide: '[[user name]]'},
+                                    {serverSide: '{!! $user["email"] !!}', editorSide: '[[user email]]'},
+                                    {serverSide: '{!! $customer["name"] !!}', editorSide: '[[customer name]]'},
+                                    {serverSide: '{!! $customer["surname"] !!}', editorSide: '[[customer surname]]'},
+                                    {serverSide: '{!! $customer["classification"] !!}', editorSide: '[[customer classification]]'},
+                                ];
+
+                                let userVarInEditorSide;
+                                let userVarInServerSide;
+
+                                staticVarArr.forEach(function (staticVar) {
+                                    if (body.indexOf(staticVar.serverSide) !== -1) {
+                                        userVarInEditorSide = staticVar.editorSide;
+                                        userVarInServerSide = staticVar.serverSide;
+                                    }
+                                    let tmpVarObj = {
+                                        inServer: userVarInServerSide,
+                                        inEditor: userVarInEditorSide
+                                    };
+                                    body = body.split(userVarInServerSide).join(userVarInEditorSide);
+                                    tmpAnswersArr.push(tmpVarObj);
+                                });
+                            }());
+
                             // console.log(tmpAnswersArr);
                             CKEDITOR.instances.CKeditorArea.setData(body);
                             // console.log(body);
+
                         }else{
                             console.log('load RemovedQuestionsList error');
                         }
@@ -452,6 +478,50 @@
 
 
         //////////////////////Работа с пользовательскими переменными///////////////////
+
+        vm.pasteStaticVariability = function (data) {
+            let userVarInEditorSide;
+            let userVarInServerSide;
+
+            if (data === 'User name') {
+                userVarInEditorSide = '[[user name]]';
+                userVarInServerSide = '{!! $user["name"] !!}';
+            } else if (data === 'User email') {
+                userVarInEditorSide = '[[user email]]';
+                userVarInServerSide = '{!! $user["email"] !!}';
+            } else if (data === 'Customer name') {
+                userVarInEditorSide = '[[customer name]]';
+                userVarInServerSide = '{!! $customer["name"] !!}';
+            } else if (data === 'Customer surname') {
+                userVarInEditorSide = '[[customer surname]]';
+                userVarInServerSide = '{!! $customer["surname"] !!}';
+            } else if (data === 'Customer classification') {
+                userVarInEditorSide = '[[customer classification]]';
+                userVarInServerSide = '{!! $customer["classification"] !!}';
+            }
+
+            let tmpVarObj = {
+                inServer: userVarInServerSide,
+                inEditor: userVarInEditorSide
+            };
+
+            CKEDITOR.instances.CKeditorArea.insertText(userVarInEditorSide + ' ');
+
+            let coincidence = false;
+            if (!tmpAnswersArr.length) {
+                tmpAnswersArr.push(tmpVarObj);
+            } else {
+                tmpAnswersArr.forEach(function (item) {
+                    if (item.inServer === userVarInServerSide) {
+                        coincidence = true;
+                    }
+                });
+
+                if (coincidence === false) {
+                    tmpAnswersArr.push(tmpVarObj);
+                }
+            }
+        };
 
         vm.pasteUserVariability = function (id) {
             // CKEDITOR.instances.CKeditorArea.insertText('{!!$userVariables[' + id + ']!!}');

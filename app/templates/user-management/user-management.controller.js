@@ -13,16 +13,59 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.customers= customerService.getCustomers();
-        let idSurvey = survey.getActiveQuestionair().id;
 
-        vm.customers.forEach(function (itemCustomer) {
-            itemCustomer.reports.forEach(function(itemReport){
-                if(itemReport.survey_id == idSurvey){
-                    itemCustomer.continue = true
-                }
-            })
+        vm.customers= customerService.getCustomers();
+
+        // let idSurvey;
+        surveyService.loadSurveyOnly().then(function () {
+            let idSurvey = survey.getActiveQuestionair().id;
+            vm.customers.forEach(function (itemCustomer) {
+                itemCustomer.reports.forEach(function(itemReport){
+                    if(itemReport.survey_id === idSurvey){
+                        itemCustomer.continue = true;
+                    }
+                });
+            });
         });
+
+        // let surveyList;
+        // let activeSurvey;
+        //
+        // userService.loadSurveysOnly().then(function (surveys) {
+        //     if (surveys.success) {
+        //         let surveyList = surveys.data.onlySurvey;
+        //         console.log(surveyList);
+        //
+        //         for(let cell in surveyList) {
+        //             console.log(surveyList[cell]);
+        //             if (surveyList[cell].survey_status === 'active') {
+        //                 idSurvey = surveyList[cell].survey_id;
+        //                 break;
+        //             }
+        //         }
+        //     }else{
+        //         console.log('load surveyList error');
+        //     }
+        //
+        // });
+        //
+        // vm.getStarted = function (reports) {
+        //     let status = true;
+        //     for(let cell in reports) {
+        //         if (reports[cell].survey_id === activeSurvey){
+        //             status = false;
+        //         }
+        //     }
+        //     return status;
+        // };
+
+        // vm.customers.forEach(function (itemCustomer) {
+        //     itemCustomer.reports.forEach(function(itemReport){
+        //         if(itemReport.survey_id === idSurvey){
+        //             itemCustomer.continue = true;
+        //         }
+        //     });
+        // });
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -33,7 +76,7 @@
             customers.setActiveCustomers(id);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
-            })
+            });
         }
 
         function annonce(id) {

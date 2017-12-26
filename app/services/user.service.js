@@ -79,8 +79,7 @@
 
 
         function loadSurveysOnly() {
-            // return http.get(url.user.getItems);
-            return http.get(url.user.loadSurveysOnly);
+            return http.get(url.survey_management_func().loadOnlySurvey);
         }
 
         function loadItems() {
