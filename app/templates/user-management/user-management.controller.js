@@ -3,17 +3,26 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey) {
         let vm = this;
         tabsService.startTab('page1');
 
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.customers = customerService.getCustomers();
+        vm.customers= customerService.getCustomers();
+        let idSurvey = survey.getActiveQuestionair().id;
+
+        vm.customers.forEach(function (itemCustomer) {
+            itemCustomer.reports.forEach(function(itemReport){
+                if(itemReport.survey_id == idSurvey){
+                    itemCustomer.continue = true
+                }
+            })
+        });
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
