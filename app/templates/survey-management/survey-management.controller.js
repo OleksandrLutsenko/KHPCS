@@ -5,9 +5,9 @@
         .controller('SurveyManagementController', SurveyManagementController);
 
 
-    SurveyManagementController.$inject = [ 'surveyService' , '$mdDialog', 'survey', '$mdSidenav' , 'toastr', 'tabsService' ];
+    SurveyManagementController.$inject = ['surveyService', '$mdDialog', 'survey', '$mdSidenav', 'toastr', 'tabsService'];
 
-    function SurveyManagementController( surveyService, $mdDialog, survey, $mdSidenav , toastr, tabsService) {
+    function SurveyManagementController(surveyService, $mdDialog, survey, $mdSidenav, toastr, tabsService) {
         let vm = this;
         tabsService.startTab('page2');
 
@@ -51,13 +51,12 @@
         function archiveEmpty() {
             vm.ArchiveIsEmpti = true;
             for (var item in vm.survey) {
-                if (vm.survey[item].status === 0) {
+                if (vm.survey[item].survey_status === 'archived') {
                     vm.ArchiveIsEmpti = false;
                     console.log('vm.ArchiveIsEmpti = ' + vm.ArchiveIsEmpti);
                     break;
                 }
             }
-
         }
 
         archiveEmpty();
@@ -85,8 +84,8 @@
             }).then(function () {
                 surveyService.deleteSurvey(surveyId).then(function (res) {
                     if (res.success) {
-                        surveyService.loadSurveyOnly().then(function (res) {
-                            vm.survey = res;
+                        surveyService.loadSurveyOnly().then(function () {
+                            vm.survey = surveyService.getSurveyOnly();
                         });
                         toastr.success('Questionnaire was deleted');
                     }
@@ -113,8 +112,8 @@
                 }
             }).then(function (res) {
                 surveyService.loadSurveyOnly().then(function () {
-                vm.survey = surveyService.getSurveyOnly();
-            });
+                    vm.survey = surveyService.getSurveyOnly();
+                });
                 if (res.type == 'update') {
                     toastr.success('Questionnaire was updated');
                 }

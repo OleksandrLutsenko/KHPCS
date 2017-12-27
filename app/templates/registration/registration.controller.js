@@ -14,10 +14,8 @@
         vm.user = userService.getUser();
 
         function register() {
-            // if (vm.regForm.$invalid) {
-            if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation ) {
-                console.log('error');
-                toastr.error('Please try again', 'Sign up form is invalid');
+            if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation) {
+                console.log('err');
             }
             else {
                 userService.setToken(undefined);
