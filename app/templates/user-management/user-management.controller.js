@@ -13,16 +13,21 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
+        let idSurvey;
         vm.customers= customerService.getCustomers();
-        let idSurvey = survey.getActiveQuestionair().id;
+        idSurvey = survey.getActiveQuestionair().id;
 
-        vm.customers.forEach(function (itemCustomer) {
-            itemCustomer.reports.forEach(function(itemReport){
-                if(itemReport.survey_id == idSurvey){
-                    itemCustomer.continue = true
-                }
-            })
-        });
+        function activeStatus() {
+            vm.customers.forEach(function (itemCustomer) {
+                itemCustomer.reports.forEach(function(itemReport){
+                    if(itemReport.survey_id === idSurvey){
+                        itemCustomer.continue = true
+                    }
+                })
+            });
+        }
+
+        activeStatus();
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -58,7 +63,8 @@
                 customerService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
                         customerService.loadCustomers().then(function () {
-                            vm.customers = customerService.getCustomers()
+                            vm.customers = customerService.getCustomers();
+                            activeStatus();
                         });
                         toastr.success('Delete success');
                     }
