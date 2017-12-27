@@ -91,12 +91,14 @@
                 if(res.type == 'update'){
                     customerService.loadCustomers().then(function () {
                         vm.customers = customerService.getCustomers();
+                        activeStatus();
                     });
                     toastr.success('Edit success');
                 }
                 else {
                     vm.customers.push(res.data);
                     annonce(res.data.id);
+                    activeStatus();
                 }
             });
         }
