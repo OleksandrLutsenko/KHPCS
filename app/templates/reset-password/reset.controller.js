@@ -15,7 +15,7 @@
 
         function reset() {
 
-            if (vm.resetForm.$invalid) {
+            if (vm.resetForm.$invalid || vm.data.password !== vm.data.password_confirmation) {
                 return;
             } else {
                 userService.reset(token, vm.data).then(function (res) {

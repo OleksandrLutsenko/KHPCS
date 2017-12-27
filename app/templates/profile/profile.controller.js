@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ['userService',  'toastr', 'tabsService'];
+    ProfileController.$inject = ['userService', 'toastr', 'tabsService'];
 
-    function ProfileController(userService,  toastr, tabsService) {
+    function ProfileController(userService, toastr, tabsService) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -27,7 +27,7 @@
 
         function updateProfileInfo() {
 
-            if(vm.profile.$invalid){
+            if (vm.profile.$invalid) {
                 return;
             } else {
                 userService.updateInfo(id, vm.dataInfo).then(function (res) {
@@ -36,24 +36,33 @@
                             userService.loadItems().then(function () {
                             })
                         });
-                        toastr.success('Profile was updated');
+
                     } else {
                         console.log('error');
                     }
                 });
 
-                if(vm.data != undefined){
-                    userService.updatePass(id, vm.data).then(function (res) {
-                        if (res.success) {
-                            userService.loadUser().then(function () {
-                                userService.loadItems().then(function () {
-                                })
-                            });
-                        } else {
-                            console.log('error');
-                            toastr.error('Current password is incorrect');
-                        }
-                    })
+                if (vm.data != undefined) {
+                    if (vm.profilePass.$invalid || vm.data.password != vm.data.password_confirmation) {
+                        return;
+                    } else {
+                        userService.updatePass(id, vm.data).then(function (res) {
+                            if (res.success) {
+                                userService.loadUser().then(function () {
+                                    userService.loadItems().then(function () {
+                                    })
+                                });
+                                toastr.success('Profile was updated');
+                            } else {
+                                console.log('error');
+                                toastr.error('Current password is incorrect');
+                            }
+                        })
+                    }
+                }
+
+                if (vm.data == undefined) {
+                    toastr.success('Profile was updated');
                 }
 
             }
