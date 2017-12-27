@@ -8,6 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	config.uiColor = '#e8e8e8';
     config.extraPlugins = 'placeholder';
+
     config.toolbar = [
         {name: 'Print', items: ['Preview', 'Print']},
         {name: 'Editing', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
@@ -26,5 +27,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.width = '100%';
     config.height = '500px';
     config.removePlugins = 'elementspath';
+
+
 
 };

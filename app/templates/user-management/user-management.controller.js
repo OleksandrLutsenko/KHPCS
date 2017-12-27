@@ -13,15 +13,18 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.customers= customerService.getCustomers();
-        let idSurvey = survey.getActiveQuestionair().id;
 
-        vm.customers.forEach(function (itemCustomer) {
-            itemCustomer.reports.forEach(function(itemReport){
-                if(itemReport.survey_id == idSurvey){
-                    itemCustomer.continue = true
-                }
-            })
+        vm.customers= customerService.getCustomers();
+
+        surveyService.loadSurveyOnly().then(function () {
+            let idSurvey = survey.getActiveQuestionair().id;
+            vm.customers.forEach(function (itemCustomer) {
+                itemCustomer.reports.forEach(function(itemReport){
+                    if(itemReport.survey_id == idSurvey){
+                        itemCustomer.continue = true;
+                    }
+                });
+            });
         });
 
         vm.pass = pass;
@@ -33,7 +36,7 @@
             customers.setActiveCustomers(id);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
-            })
+            });
         }
 
         function annonce(id) {
