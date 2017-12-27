@@ -10,7 +10,7 @@
         tabsService.startTab();
 
         let activeSurvey = survey.getActiveSurvey();
-        let activeBlock = survey.getActiveBlock();
+        vm.activeBlock = survey.getActiveBlock().indexBlock;
 
         let idSurvey = activeSurvey.id;
 
@@ -21,6 +21,7 @@
         vm.deleteBlock = deleteBlock;
 
         function setActiveBlock(id, indexBlock) {
+            vm.activeBlock = indexBlock;
             survey.setActiveBlock(id, indexBlock);
             let tmpObj = {
                 activeBlock: {
@@ -36,7 +37,7 @@
         }
 
         if (vm.items.length > 0) {
-            if(activeBlock.indexBlock == undefined){
+            if(vm.activeBlock == undefined){
                 setActiveBlock(vm.items[0].id, 0);
             }
             $state.go('tab.survey-block.survey-question');

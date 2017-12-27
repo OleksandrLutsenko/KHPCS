@@ -8,8 +8,8 @@
 
     <md-virtual-repeat-container id="block-container" md-orient-horizontal="" flex>
         <div ui-sortable="vm.sortableOptionsBlock" ng-model="vm.items" class="block-container" layout="row" layout-align="center center">
-            <div ng-repeat="item in vm.items" ng-click="vm.setActiveBlock(item.id, $index)">
-                <div class="block-item" layout="row" layout-align="center center">
+            <div ng-repeat="(key, item) in vm.items" ng-click="vm.setActiveBlock(item.id, key)">
+                <div class="block-item" layout="row" layout-align="center center" ng-class="{'active-item': vm.activeBlock == key}">
                     {{item.name}}
                     <dot-edit-menu></dot-edit-menu>
                 </div>
