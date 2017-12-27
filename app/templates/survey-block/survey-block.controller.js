@@ -9,7 +9,7 @@
         let vm = this;
         tabsService.startTab();
 
-        let activeSurvey = survey.getActineSurvey();
+        let activeSurvey = survey.getActiveSurvey();
         let activeBlock = survey.getActiveBlock();
 
         let idSurvey = activeSurvey.id;

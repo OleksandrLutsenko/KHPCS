@@ -3,7 +3,7 @@
     <div class="tab-list">
         <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'active')" class="questionnaire-list"
              md-whiteframe="{{height}}"
-             ng-click="vm.setActineSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
+             ng-click="vm.setActiveSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
 
             <md-menu>
                 <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
@@ -24,7 +24,7 @@
         </div>
         <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'inactive')" class="questionnaire-list"
              md-whiteframe="{{height}}"
-             ng-click="vm.setActineSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
+             ng-click="vm.setActiveSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
 
             <md-menu>
 
