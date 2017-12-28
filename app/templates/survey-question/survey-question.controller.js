@@ -28,10 +28,6 @@
 
             vm.items = items[indexBlock].questions;
         });
-        $scope.$on('mowUpdate', function (event, data) {
-            items = data;
-            vm.items = items[indexBlock].questions;
-        });
 
         vm.sortableOptionsQuestion = {
             connectWith: ".question-container",

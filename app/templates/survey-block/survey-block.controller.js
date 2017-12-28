@@ -32,9 +32,6 @@
             $scope.$broadcast('setActiveBlock', tmpObj);
             $state.go('tab.survey-block.survey-question');
         }
-        function mowUpdate(movData) {
-            $scope.$broadcast('mowUpdate', movData);
-        }
 
         if (vm.items.length > 0) {
             if(vm.activeBlock == undefined){
@@ -52,6 +49,7 @@
 
             stop: function (event, ui) {
                 let droptargetModel = ui.item.sortable.droptargetModel;
+                let model = ui.item.sortable.model;
 
                 if(droptargetModel == vm.items) {
                     vm.items.forEach(function (item, index) {
@@ -66,9 +64,13 @@
                             }
                         });
                     });
+                    for(let i = 0; i < droptargetModel.length; i++){
+                        if(model.id == droptargetModel[i].id){
+                            setActiveBlock(model.id, i);
+                            break;
+                        }
+                    }
                 }
-                mowUpdate(vm.items);
-                console.log(vm.items);
             }
         };
 

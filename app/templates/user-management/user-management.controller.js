@@ -13,19 +13,18 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
+        let firstCustomers = customerService.getCustomers();
 
-        vm.customers= customerService.getCustomers();
-
-        surveyService.loadSurveyOnly().then(function () {
-            let idSurvey = survey.getActiveQuestionair().id;
-            vm.customers.forEach(function (itemCustomer) {
-                itemCustomer.reports.forEach(function(itemReport){
-                    if(itemReport.survey_id == idSurvey){
-                        itemCustomer.continue = true;
-                    }
-                });
+        let idSurvey = survey.getActiveQuestionair().id;
+        firstCustomers.forEach(function (itemCustomer) {
+            itemCustomer.reports.forEach(function(itemReport){
+                if(itemReport.survey_id == idSurvey){
+                    itemCustomer.continue = true;
+                }
             });
         });
+
+        vm.customers = firstCustomers;
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
