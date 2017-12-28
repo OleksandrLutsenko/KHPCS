@@ -76,6 +76,7 @@ class Contract extends Model
         return $view = Response::json(
             array(View::make('contract',
                 compact('contractAnswers', 'userVariables', 'report', 'customer', 'user'))->render())
+
         );
     }
 

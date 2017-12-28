@@ -102,6 +102,7 @@ class Question extends Model
 
         static::deleting(function ($question) {
             $answers = $question->answer;
+            $question->deleteAnswers();
             $customerAnswers = $question->customerAnswer;
             foreach ($customerAnswers as $customerAnswer) {
                 $customerAnswer->delete();
@@ -109,6 +110,80 @@ class Question extends Model
             foreach ($answers as $answer) {
                 $answer->delete();
             }
+
         });
     }
+
+    //////
+    public function deleteAnswers(){
+        $answers = $this->answer;
+        $customerAnswers = $this->customerAnswer;
+        foreach ($customerAnswers as $customerAnswer) {
+            $customerAnswer->delete();
+        }
+        foreach ($answers as $answer) {
+            $childQuestions = Question::where('parent_answer_id', $answer->id)->get();
+            foreach($childQuestions as $childQuestion){
+                $customerAnswers = $childQuestion->customerAnswer;
+                $childQuestionAnswers = $childQuestion->answer;
+                foreach ($customerAnswers as $customerAnswer) {
+                    $customerAnswer->delete();
+                }
+                foreach ($childQuestionAnswers as $childQuestionAnswer) {
+                    $childQuestionAnswer->delete();
+                }
+                $childQuestion->delete();
+            }
+            $answer->delete();
+        }
+    }
+
+    public static function massSave(array $questionsData, Block $block){
+        $questions = [];
+
+        foreach ($questionsData as $questionData) {
+
+            if($question = static::add($questionData, $block)){
+                $questions[] = $question;
+            }
+
+        }
+
+        return $questions;
+    }
+
+    public static function add($questionData, Block $block){
+        //is id is set - work with existing record
+        if(isset($questionData['id'])){
+
+            //if question exists
+            if($question = static::find($questionData['id'])){
+
+                //if delete == true
+                if(isset($questionData['delete']) && $questionData['delete'] == true){
+                    //make delete
+                    $question->delete();
+                }else{
+                    //update data
+                    $question->update($questionData);
+                }
+            }
+
+        }else{
+            //if record is new
+            /** @var Question $question */
+            $question = $block->question()->create($questionData);
+
+            if($question->hasRadioAnswer()){
+                if (isset($questionData['answers'])) {
+                    foreach ($questionData['answers'] as $answerData){
+                        Answer::add($answerData, $question);
+                    }
+                }
+            }
+        }
+
+        return $question ?? null;
+    }
+    ///////
 }
