@@ -31,9 +31,12 @@ class CustomerAnswerController extends Controller
                     $customerAnswer->delete();
                 } else {
                     $customerAnswer->update($request);
+                    $customerAnswer->setAnswerValue($customerAnswer);
                 }
             } else {
-                $customerAnswer = $customer->customerAnswers()->create($request);
+                $newCustomerAnswer = $customer->customerAnswers()->create($request);
+                $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
+                $customerAnswer->setAnswerValue($customerAnswer);
             }
         }
 
