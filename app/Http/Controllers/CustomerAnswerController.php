@@ -25,16 +25,18 @@ class CustomerAnswerController extends Controller
     {
         $requests = $request->all();
         foreach ($requests as $request) {
-
             if (isset($request['id'])) {
                 $customerAnswer = CustomerAnswer::find($request['id']);
                 if (isset($request['delete']) && $request['delete'] == true) {
                     $customerAnswer->delete();
                 } else {
                     $customerAnswer->update($request);
+                    $customerAnswer->setAnswerValue($customerAnswer);
                 }
             } else {
-                $customerAnswer = $customer->customerAnswers()->create($request);
+                $newCustomerAnswer = $customer->customerAnswers()->create($request);
+                $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
+                $customerAnswer->setAnswerValue($customerAnswer);
             }
         }
 

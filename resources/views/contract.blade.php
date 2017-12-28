@@ -1,14 +1,12 @@
 <!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport"content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"><meta http-equiv="X-UA-Compatible" content="ie=edge"><title>Document</title></head><body><p>first question</p>
 
-<p>&nbsp;</p>
+<p> </p>
 
-<p>{!!$contractAnswers[1]!!}</p>
+<p>{!!$contractAnswers[396]!!}&nbsp;{!!$contractAnswers[394]!!}&nbsp;</p>
 
-<p>{!!$contractAnswers[3]!!}</p>
+<p> </p>
 
-<p>&nbsp;</p>
+<p><span style="background-color:red">Variability 4 was deleted</span></p>
 
-<p>{!!$userVariables[4]!!}</p>
-
-<p>&nbsp;</p>
+<p> </p>
 </body></html>

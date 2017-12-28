@@ -12,11 +12,19 @@ class Variable extends Model
 
     protected $fillable = ['text', 'user_id'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user(){
-        return $this->belongsTo(User::class);
+    public static function getVariablesTextWithTrashed()
+    {
+        $variables = Variable::withTrashed()->get();
+//        $userVariablesArr = array_column($variables->toArray(), 'text');
+        foreach ($variables as $variable) {
+            if ($variable->trashed()) {
+                $deletedVariableMessage = "<span style='background-color: red'>variable was deleted</span>";
+                $userVariables[$variable->id] = $deletedVariableMessage;
+            } else {
+                $userVariables[$variable->id] = $variable->text;
+            }
+        }
+        return $userVariables;
     }
 
     public static function boot()

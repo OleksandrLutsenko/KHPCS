@@ -95,19 +95,30 @@ class Survey extends Model
     public function trashedQuestions($survey)
     {
         $blockArray = Block::withTrashed()
-            ->where('survey_id', $survey->id)->get();
+
+                            ->where('survey_id', $survey->id)->get();
         $blockArrayIDs = array_column($blockArray->toArray(), 'id');
 
         $deletedQuestionArray = Question::withTrashed()
-            ->whereIn('block_id', $blockArrayIDs)
-            ->where('deleted_at', '!=', null)
-            ->get();
+                                        ->whereIn('block_id', $blockArrayIDs)
+                                        ->where('deleted_at', '!=', null)
+                                        ->get();
 
         $deletedQuestionArrayIDs = array_column($deletedQuestionArray->toArray(), 'id');
 
         return $deletedQuestionArrayIDs;
     }
 
+    public static function getSurveyQuestionsWithTrashed($survey)
+    {
+        $blockArray = Block::withTrashed()->where('survey_id', $survey->id)->get();
+        $blockArrayIDs = array_column($blockArray->toArray(), 'id');
+        $surveyQuestions = Question::withTrashed()
+            ->whereIn('block_id', $blockArrayIDs)
+            ->get();
+        return $surveyQuestions;
+    }
+    
     public static function boot()
     {
         parent::boot();

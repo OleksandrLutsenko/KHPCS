@@ -1,2 +1,3 @@
-#!/usr/bin/env bash
-rm -rf storage/contracts/*
+#!/bin/bash
+
+find  ./storage/contracts/*.log -mtime +1 -exec rm -f {} \;
