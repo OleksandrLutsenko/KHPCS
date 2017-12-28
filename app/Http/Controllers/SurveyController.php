@@ -26,15 +26,16 @@ class SurveyController extends Controller
 
     public function onlySurvey(Survey $survey, User $user)
     {
-        $surveys = Survey::all();
+        $surveys = $survey->get();
         foreach ($surveys as $survey){
-            $result[] = [
+            $survey->setAppends(['survey_status']);
+            $onlySurvey[] = [
                 'survey_name' => $survey->name,
                 'survey_id' => $survey->id,
-                'survey_status' => $survey->status
+                'survey_status' => $survey->survey_status
             ];
         }
-        return compact('result');
+        return compact('onlySurvey');
     }
 
 //    /**

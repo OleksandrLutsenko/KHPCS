@@ -19,9 +19,9 @@ class Variable extends Model
         foreach ($variables as $variable) {
             if ($variable->trashed()) {
                 $deletedVariableMessage = "<span style='background-color: red'>variable was deleted</span>";
-                $userVariables[] = $deletedVariableMessage;
+                $userVariables[$variable->id] = $deletedVariableMessage;
             } else {
-                $userVariables[] = $variable->text;
+                $userVariables[$variable->id] = $variable->text;
             }
         }
         return $userVariables;

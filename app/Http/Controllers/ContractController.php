@@ -150,15 +150,19 @@ class ContractController extends Controller
 //        return compact('filenamePdf','filePathUrlPdf');
 //    }
 
-    public function review(Report $report, Contract $contract, User $user, $userFilename)
+    public function review(Report $report, Contract $contract, $userFilename)
     {
+        $user = Auth::user();
+        $customer = $report->customer;
         $userVariables = Variable::getVariablesTextWithTrashed();
         $contractAnswers = $contract->getContractAnswers($report);
         return $contract->makeContractPDF(
             $userFilename,
             $contractAnswers,
             $userVariables,
-            $report);
+            $report,
+            $customer,
+            $user);
     }
 
 //    public function review2(Report $report, Contract $contract, User $user, $userFilename)

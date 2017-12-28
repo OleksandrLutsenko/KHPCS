@@ -50,9 +50,10 @@ class CustomerAnswerRequest extends FormRequest
             'customer_id' => $customer->id,
         ]);
 
-
+        dd($attributes);
         /** It means that value can't be filled by user if it is the radio type question **/
         if(isset($this->answer_text)){
+
             if(!$this->question->hasRadioAnswer()){
                 $attributes['answer_id'] = null;
                 $attributes['value'] = $this->answer_text;

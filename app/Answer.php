@@ -37,6 +37,32 @@ class Answer extends Model
             return $childQuestions;
         }
     }
+    /////////////
+    public static function add($answerData, Question $question){
+
+        if(isset($answerData['id'])){
+            if($answer = Answer::find($answerData['id'])){
+                if(isset($answerData['delete']) && $answerData['delete'] == true){
+                    $answer->delete();
+                }else{
+                    $answer->update($answerData);
+                    static::addNestedQuestions($answerData, $question->block);
+                }
+            }
+        }else{
+            $question->answer()->create($answerData);
+            static::addNestedQuestions($answerData, $question->block);
+        }
+    }
+
+    protected static function addNestedQuestions($answerData, Block $block){
+        if (!empty($answerData['child_questions'])) {
+            Question::massSave($answerData['child_questions'], $block);
+        }
+    }
+
+    /////////////
+
 
     protected static function boot()
     {

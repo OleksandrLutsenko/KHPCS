@@ -40,6 +40,16 @@ class CustomerAnswer extends Model
         return $question;
     }
 
+    public function setAnswerValue($customerAnswer)
+    {
+        if ($customerAnswer->answer_id) {
+            $answer = Answer::find($customerAnswer->answer_id);
+            $customerAnswer->save([
+                $customerAnswer->value = $answer->answer_text
+            ]);
+        }
+    }
+
     protected static function boot()
     {
         parent::boot();
