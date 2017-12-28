@@ -10,27 +10,17 @@
     function CreateSurveyController(surveyService,  $mdDialog, data) {
 
         let vm = this;
-
         let id = data.id;
 
         vm.id = id;
 
-        vm.cancel = cancel;
-
-        function cancel() {
-            $mdDialog.cancel()
-        }
-
         vm.data = {
-            name: '',
             status: '2'
         };
 
-
         if (typeof id != 'undefined') {
-            let it = data.it.survey_name;
             vm.data = {
-                name: it
+                name: data.survey.survey_name
             };
         }
 
@@ -47,8 +37,6 @@
                         } else {
                             console.log('errorUpd');
                         }
-
-                        $mdDialog.cancel();
                     });
                 }
                 else {
@@ -58,7 +46,6 @@
                                 type: 'create'
                             };
                             $mdDialog.hide(tmpObj);
-                            $mdDialog.cancel();
                         } else {
                             console.log('errorCreate');
                         }

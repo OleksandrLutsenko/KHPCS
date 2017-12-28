@@ -20,7 +20,6 @@
             survey.setActineSurvey(survey_id, indexSurvey);
         }
 
-
         vm.activeSurvey = function (survey_id) {
             surveyService.changeStatusSurvey(survey_id).then(function (res) {
                 if (res.success) {
@@ -49,11 +48,11 @@
         };
 
         function archiveEmpty() {
-            vm.ArchiveIsEmpti = true;
-            for (var item in vm.survey) {
+            vm.ArchiveIsEmpty = true;
+            for (let item in vm.survey) {
                 if (vm.survey[item].survey_status === 'archived') {
-                    vm.ArchiveIsEmpti = false;
-                    console.log('vm.ArchiveIsEmpti = ' + vm.ArchiveIsEmpti);
+                    vm.ArchiveIsEmpty = false;
+                    console.log('vm.ArchiveIsEmpty = ' + vm.ArchiveIsEmpty);
                     break;
                 }
             }
@@ -71,7 +70,6 @@
         vm.closeArchiveButton = function () {
             $mdSidenav('right').close();
         };
-
 
         vm.deleteSurvey = deleteSurvey;
 
@@ -97,7 +95,7 @@
         }
 
         vm.createSurvey = createSurvey;
-        function createSurvey(survey_id, index, it) {
+        function createSurvey(survey_id, index, survey) {
             $mdDialog.show({
                 controller: 'CreateSurveyController',
                 controllerAs: 'vm',
@@ -107,7 +105,7 @@
                     data: {
                         id: survey_id,
                         index: index,
-                        it: it,
+                        survey: survey,
                     }
                 }
             }).then(function (res) {
