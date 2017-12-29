@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService'];
+    SurveyBlockController.$inject = ['blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService', '$timeout', '$mdSidenav', '$mdUtil', '$log'];
 
-    function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService) {
+    function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService, $timeout, $mdSidenav, $mdUtil, $log) {
         let vm = this;
         tabsService.startTab();
 
@@ -31,6 +31,14 @@
             };
             $scope.$broadcast('setActiveBlock', tmpObj);
             $state.go('tab.survey-block.survey-question');
+        }
+
+        $scope.$on('showBlock', function (event, data) {
+            buildToggler();
+        });
+
+        function buildToggler() {
+            $mdSidenav('left').toggle();
         }
 
         if (vm.items.length > 0) {
