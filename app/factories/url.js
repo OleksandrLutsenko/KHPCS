@@ -77,7 +77,8 @@
                     getVariability: baseUrl + 'api/variable',
                     getVariabilityWithDeleted: baseUrl + 'api/variable-all',
                     editVariability: baseUrl + 'api/variable/' + id,
-                    deleteVariability: baseUrl + 'api/variable/' + id
+                    deleteVariability: baseUrl + 'api/variable/' + id,
+                    uploadImage: baseUrl + 'api/contract-research/' + id + '/save-image'
                 };
             },
 

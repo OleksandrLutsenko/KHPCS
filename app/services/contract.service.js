@@ -31,6 +31,9 @@
         model.getVariability = getVariability;
         model.getVariabilityWithDeleted = getVariabilityWithDeleted;
 
+        //Upload image
+        model.uploadImage = uploadImage;
+
         return model;
 
         // ContractResearch
@@ -90,5 +93,11 @@
         function getVariabilityWithDeleted() {
             return http.get(url.contract_editor_func().getVariabilityWithDeleted);
         }
+
+        //Upload image
+        function uploadImage(id) {
+            return url.contract_editor_func(id).uploadImage;
+        }
+
     }
 })();

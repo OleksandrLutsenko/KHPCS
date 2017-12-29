@@ -51,7 +51,7 @@
 
                     contractService.createNewResearch().then(function (res) {
                         tmpResearchId = res.data.id;
-                        console.log(tmpResearchId);
+                        // console.log(tmpResearchId);
                     });
                 }
             }else {
@@ -672,6 +672,55 @@
             console.log(CKEDITOR.instances['CKeditorArea'].setData(), 'заменить содержимое редактора');
         }
 
-        ///////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////\
+
+        // CKEDITOR.instances.IDofEditor.insertHtml('<img src="https://i.ytimg.com/vi/iLbyjaF8Cyc/maxresdefault.jpg" alt="Картинка">');
+        // CKEDITOR.instances.IDofEditor.insertHtml('<p>Hello</p>');
+        // CKEDITOR.instances.CKeditorArea.insertAdjacentHTML();
+        // CKEDITOR.instances.CKeditorArea.insertHTML("<p>Hello</p>");
+
+
+        vm.PasteImage = function () {
+            // CKEDITOR.instances['CKeditorArea'].insertText('<p>Hello</p>');
+            CKEDITOR.instances['CKeditorArea'].insertHtml('<img src="https://i.ytimg.com/vi/iLbyjaF8Cyc/maxresdefault.jpg" alt="Image">');
+            // console.log('workPasteImage')
+        }
+
+        vm.sendImage = function () {
+            // contractService.uploadImage(tmpResearchId, formData).then(function (res) {
+            //     console.log(res)
+            // });
+
+            let image = document.getElementById('file');
+            let fd = new FormData();
+            fd.append('image_file', image.files[0]);
+            let xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log('done');
+                    let data = JSON.parse(this.response);
+                    // console.log(data);
+                    CKEDITOR.instances.CKeditorArea.insertHtml('<img style="width:300px" src="' + data.filePathUrl + '" alt="Image">');
+                    // console.log(CKEDITOR.instances.CKeditorArea.getData());
+                }
+            };
+            // xhttp.open("POST", 'http://api.knightshayes.grassbusinesslabs.tk/api/contract-research/1/save-image', fd, true);
+            // xhttp.setRequestHeader("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjEsImlzcyI6Imh0dHA6Ly9hcGkua25pZ2h0c2hheWVzLmdyYXNzYnVzaW5lc3NsYWJzLnRrL2FwaS9hdXRoL2xvZ2luIiwiaWF0IjoxNTE0MzkyMDIyLCJleHAiOjE4NDc3MjUzMjIsIm5iZiI6MTUxNDM5MjAyMiwianRpIjoiNk1EWmt3NUxDdkpPSWZ3MiJ9.oZm0wpSdBYM_hKNN7ZaT7MLPe_NF_CyHl_NRCYLRBiY")
+            xhttp.open("POST", contractService.uploadImage(tmpResearchId), fd, true);
+            xhttp.setRequestHeader("token", userService.getToken());
+
+            xhttp.send(fd);
+
+
+        };
+
+
+
+
+
+
+
+
     }
 })();
