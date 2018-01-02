@@ -98,7 +98,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     items: function (surveyService, survey) {
-                        let idSurvey = survey.getActineSurvey().id;
+                        let idSurvey = survey.getActiveSurvey().id;
 
                         return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){

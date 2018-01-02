@@ -19,6 +19,7 @@
         vm.save = save;
         vm.showEdit = showEdit;
         vm.deleteQuest = deleteQuest;
+        vm.toggleLeft = toggleLeft;
 
 
         $scope.$on('setActiveBlock', function (event, data) {
@@ -28,10 +29,10 @@
 
             vm.items = items[indexBlock].questions;
         });
-        $scope.$on('mowUpdate', function (event, data) {
-            items = data;
-            vm.items = items[indexBlock].questions;
-        });
+
+        function toggleLeft() {
+            $scope.$emit('showBlock', true);
+        }
 
         vm.sortableOptionsQuestion = {
             connectWith: ".question-container",
