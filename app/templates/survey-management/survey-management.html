@@ -13,10 +13,10 @@
 
                 <md-menu-content>
                     <md-menu-item ng-if="survey.survey_status !== 'active'">
-                        <md-button ng-click="vm.activeSurvey(survey.survey_id, $index)">Active</md-button>
+                        <md-button ng-click="vm.activeSurvey(survey.survey_id)">Active</md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="survey.survey_status !== 'active'">
-                        <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive')">Archive</md-button>
+                        <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive' , $index)">Archive</md-button>
                     </md-menu-item>
                     <md-menu-item >
                         <md-button ng-click="vm.createSurvey(survey.survey_id , $index , survey)">Edit</md-button>
@@ -60,9 +60,9 @@
                         </div>
                         <div class="sm-right" flex="30" layout="row" layout-align="center">
                             <i class="material-icons"
-                               ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive')"
+                               ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive' , $index)"
                                title="Unarchive">unarchive</i>
-                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id)"
+                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id , $index)"
                                title="Remove">delete_forever</i>
                         </div>
                     </div>

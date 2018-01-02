@@ -14,6 +14,12 @@
 
         vm.id = id;
 
+        vm.cancel = cancel;
+
+        function cancel() {
+            $mdDialog.cancel()
+        }
+
         vm.data = {
             status: '2'
         };
@@ -31,7 +37,8 @@
                     surveyService.updateSurvey(id, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
-                                type: 'update'
+                                type: 'update',
+                                data: vm.data
                             };
                             $mdDialog.hide(tmpObj);
                         } else {
@@ -43,7 +50,8 @@
                     surveyService.createSurvey(vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
-                                type: 'create'
+                                type: 'create',
+                                data: res.data
                             };
                             $mdDialog.hide(tmpObj);
                         } else {

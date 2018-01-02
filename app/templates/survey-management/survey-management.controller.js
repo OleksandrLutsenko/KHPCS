@@ -33,13 +33,11 @@
             });
         };
 
-        vm.archiveSurvey = function (id, eddOrExtract) {
+        vm.archiveSurvey = function (id, eddOrExtract , index) {
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
+                    vm.survey.splice(index, 1);
                     toastr.success('Questionnaire was ' + eddOrExtract);
-                    surveyService.loadSurveyOnly().then(function () {
-                        vm.survey = surveyService.getSurveyOnly();
-                    });
                 } else {
                     console.log('Archive Status Survey error');
                 }
@@ -73,7 +71,7 @@
 
         vm.deleteSurvey = deleteSurvey;
 
-        function deleteSurvey(surveyId) {
+        function deleteSurvey(surveyId, index) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -82,9 +80,7 @@
             }).then(function () {
                 surveyService.deleteSurvey(surveyId).then(function (res) {
                     if (res.success) {
-                        surveyService.loadSurveyOnly().then(function () {
-                            vm.survey = surveyService.getSurveyOnly();
-                        });
+                        vm.survey.splice(index, 1);
                         toastr.success('Questionnaire was deleted');
                     }
                     else {
@@ -109,13 +105,16 @@
                     }
                 }
             }).then(function (res) {
-                surveyService.loadSurveyOnly().then(function () {
-                    vm.survey = surveyService.getSurveyOnly();
-                });
                 if (res.type == 'update') {
+                    surveyService.loadSurveyOnly().then(function () {
+                        vm.survey = surveyService.getSurveyOnly();
+                    });
                     toastr.success('Questionnaire was updated');
                 }
                 else {
+                    surveyService.loadSurveyOnly().then(function () {
+                        vm.survey = surveyService.getSurveyOnly();
+                    });
                     toastr.success('Questionnaire was created');
                 }
             })
