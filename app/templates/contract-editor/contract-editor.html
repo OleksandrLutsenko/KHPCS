@@ -36,7 +36,19 @@
     </div>
 
     <div flex="60">
-        <textarea name="CKeditorArea"></textarea>
+        <div class="upload-img" layout="row" flex="100">
+            <form name="imgForm" enctype="multipart/form-data">
+                <input type="file" id="file" name="imgFile" value="Select">
+                <input type="submit" value="Upload" ng-click="vm.sendImage()" >
+
+                <!--<label for="file" class="md-button md-raised md-primary">Select image-->
+                    <!--list</label>-->
+            </form>
+
+        </div>
+        <div>
+            <textarea name="CKeditorArea"></textarea>
+        </div>
     </div>
 
     <!--TemplateTab-->
