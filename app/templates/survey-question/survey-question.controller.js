@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService', 'surveyService'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService, surveyService) {
         let vm = this;
         tabsService.startTab();
 
@@ -18,6 +18,7 @@
         vm.nameBlock = items[indexBlock].name;
         vm.edit = true;
 
+        vm.cancel = cancel;
         vm.save = save;
         vm.showEdit = showEdit;
         vm.deleteQuest = deleteQuest;
@@ -40,15 +41,11 @@
         function editButton() {
             vm.edit = !vm.edit;
 
-            vm.sortableOptionsQuestion = {
-                disabled: vm.edit
-            };
-            vm.sortableOptionAnswer = {
-                disabled: vm.edit
-            };
-            vm.sortableOptionsQuestionInAnswer = {
-                disabled: vm.edit
-            };
+            vm.sortableOptionsQuestion.disabled = vm.edit;
+
+            vm.sortableOptionAnswer.disabled = vm.edit;
+
+            vm.sortableOptionsQuestionInAnswer.disabled = vm.edit;
 
         }
 
@@ -141,6 +138,19 @@
         //    console.log('childDraging', vm.childDraging);
         // });
 
+        function cancel() {
+            let idSurvey = survey.getActiveSurvey().id;
+
+            surveyService.loadOneSurvey(idSurvey).then(function (res) {
+                if(res.success){
+                    items = res.data.survey.blocks;
+                    vm.items = items[indexBlock].questions;
+                    editButton();
+                }
+            });
+        }
+
+
         function save() {
             let dataForSend = angular.copy(vm.items);
 
@@ -171,6 +181,7 @@
                     if(res.success){
                         vm.items = res.data.questions;
                         items[indexBlock].questions = res.data.questions;
+                        editButton();
                     }
                 })
             }

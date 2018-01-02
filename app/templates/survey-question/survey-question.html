@@ -23,12 +23,12 @@
                         Text question
                     </div>
                     <div>
-                        <md-button class="cancel-button">
+                        <md-button class="cancel-button" ng-click="vm.cancel()">
                             Cancel
                         </md-button>
                     </div>
                     <div>
-                        <md-button class="save-button md-primary">
+                        <md-button class="save-button md-primary" ng-click="vm.save()">
                             Save
                         </md-button>
                     </div>
@@ -66,7 +66,7 @@
                                 {{question.title}}
                             </div>
 
-                            <div class="icons">
+                            <div class="icons" ng-show="!vm.edit">
                                 <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
                                 <md-icon ng-click="vm.deleteQuest(question.id, mainKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
                             </div>
@@ -97,13 +97,27 @@
                                                     </div>
 
 
-                                                    <div class="icons">
+                                                    <div class="icons" ng-show="!vm.edit">
                                                         <md-icon ng-click="vm.showEdit(mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
                                                         <md-icon ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
                                                     </div>
 
 
                                                 </div>
+                                                    <div>
+                                                        <div ui-sortable="vm.sortableOptionAnswer" ng-model="question.answers" class="answer-container" ng-if="question.type == 1">
+                                                            <div ng-repeat="(answerKey, answers) in  question.answers" class="answer-block" ng-if="!answers.delete">
+
+                                                                <div layout="row" flex="" class="answeText">
+
+                                                                    <i class="material-icons md-36">radio_button_unchecked</i>
+                                                                    {{answers.answer_text}}
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                             </div>
                                         </div>
                                     </div>
