@@ -66,7 +66,7 @@
 
             contract_editor_func(id) {
                 return {
-                    createSurveyTemplate: baseUrl + '/api/contract-research/' + id + '/contract',
+                    createSurveyTemplate: baseUrl + 'api/contract-research/' + id + '/contract',
                     getOneTemplate: baseUrl + 'api/contract/' + id,
                     getTemplates: baseUrl + 'api/contract',
                     getTemplatesForThePool: baseUrl + 'api/survey' + id + 'contracts',
@@ -77,8 +77,15 @@
                     getVariability: baseUrl + 'api/variable',
                     getVariabilityWithDeleted: baseUrl + 'api/variable-all',
                     editVariability: baseUrl + 'api/variable/' + id,
-                    deleteVariability: baseUrl + 'api/variable/' + id,
-                    uploadImage: baseUrl + 'api/contract-research/' + id + '/save-image'
+                    deleteVariability: baseUrl + 'api/variable/' + id
+                };
+            },
+
+            contract_image_func (id) {
+                return {
+                    uploadImage: baseUrl + 'api/contract-research/' + id + '/save-image',
+                    imageListInResearch: baseUrl + 'api/contract/' + id + '/image-list',
+                    deleteImage: baseUrl + 'api/contract/image/' + id
                 };
             },
 

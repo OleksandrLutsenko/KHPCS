@@ -17,12 +17,12 @@
 
         // ContractTemplates
         model.createTemplate = createTemplate;
+        model.updateTemplate = updateTemplate;
+        model.removeTemplate = removeTemplate;
         model.loadOneTemplate = loadOneTemplate;
         model.loadTemplateList = loadTemplateList;
         model.loadingTemplatesForThePoll = loadingTemplatesForThePoll;
         model.loadAllTemplates = loadAllTemplates;
-        model.removeTemplate = removeTemplate;
-        model.updateTemplate = updateTemplate;
 
         // UserVariability
         model.createVariability = createVariability;
@@ -31,8 +31,10 @@
         model.getVariability = getVariability;
         model.getVariabilityWithDeleted = getVariabilityWithDeleted;
 
-        //Upload image
+        //Image
         model.uploadImage = uploadImage;
+        model.imageListInResearch = imageListInResearch;
+        model.deleteImage = deleteImage;
 
         return model;
 
@@ -49,6 +51,14 @@
             return http.post(url.contract_editor_func(id).createSurveyTemplate, data);
         }
 
+        function updateTemplate(id, data) {
+            return http.put(url.contract_editor_func(id).updateTemplate, data);
+        }
+
+        function removeTemplate(id) {
+            return http.delete(url.contract_editor_func(id).deleteTemplate);
+        }
+
         function loadOneTemplate(id) {
             return http.get(url.contract_editor_func(id).getOneTemplate);
         }
@@ -63,14 +73,6 @@
 
         function loadAllTemplates() {
             return http.get(url.contract_editor_func().getTemplates);
-        }
-
-        function removeTemplate(id) {
-            return http.delete(url.contract_editor_func(id).deleteTemplate);
-        }
-
-        function updateTemplate(id, data) {
-            return http.put(url.contract_editor_func(id).updateTemplate, data);
         }
 
         // UserVariability
@@ -94,10 +96,15 @@
             return http.get(url.contract_editor_func().getVariabilityWithDeleted);
         }
 
-        //Upload image
+        //Image
         function uploadImage(id) {
-            return url.contract_editor_func(id).uploadImage;
+            return url.contract_image_func(id).uploadImage;
         }
-
+        function imageListInResearch(id) {
+            return http.get(url.contract_image_func(id).imageListInResearch);
+        }
+        function deleteImage(id) {
+            return http.delete(url.contract_image_func(id).deleteImage);
+        }
     }
 })();

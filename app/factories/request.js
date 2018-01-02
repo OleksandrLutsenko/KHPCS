@@ -81,32 +81,32 @@
          * @returns {promise}
          */
 
-        function requestFile(url, data) {
-
-            // if ($sessionStorage.auth_key) {
-            //     url = url + '?auth_key=' + $sessionStorage.auth_key;
-            // }
-
-            var ft = new FileTransfer();
-
-            var promise = $q.defer();
-            ft.upload(data.file.fullPath, encodeURI(url), function (response) {
-                console.info('response complete', JSON.parse(response.response));
-                promise.resolve(JSON.parse(response.response));
-            }, function (error) {
-                console.log('error', error);
-                promise.reject(error.body);
-            }, {
-                fileName: data.file.name,
-                fileKey: 'file',
-                mimeType: 'video/mp4',
-                httpMethod: 'POST',
-                chunkedMode: false,
-                params: data
-            });
-
-            return promise.promise;
-        }
+        // function requestFile(url, data) {
+        //
+        //     // if ($sessionStorage.auth_key) {
+        //     //     url = url + '?auth_key=' + $sessionStorage.auth_key;
+        //     // }
+        //
+        //     var ft = new FileTransfer();
+        //
+        //     var promise = $q.defer();
+        //     ft.upload(data.file.fullPath, encodeURI(url), function (response) {
+        //         console.info('response complete', JSON.parse(response.response));
+        //         promise.resolve(JSON.parse(response.response));
+        //     }, function (error) {
+        //         console.log('error', error);
+        //         promise.reject(error.body);
+        //     }, {
+        //         fileName: data.file.name,
+        //         fileKey: 'file',
+        //         mimeType: 'video/mp4',
+        //         httpMethod: 'POST',
+        //         chunkedMode: false,
+        //         params: data
+        //     });
+        //
+        //     return promise.promise;
+        // }
 
 
         /**
