@@ -14,20 +14,17 @@
         vm.myPage = 1;
 
         let idSurvey;
-        vm.customers= customerService.getCustomers();
+        vm.customers = customerService.getCustomers();
         idSurvey = survey.getActiveQuestionair().id;
 
-        function activeStatus() {
-            vm.customers.forEach(function (itemCustomer) {
-                itemCustomer.reports.forEach(function(itemReport){
-                    if(itemReport.survey_id === idSurvey){
-                        itemCustomer.continue = true
-                    }
-                })
-            });
-        }
+        vm.customers.forEach(function (itemCustomer) {
+            itemCustomer.reports.forEach(function (itemReport) {
+                if (itemReport.survey_id === idSurvey) {
+                    itemCustomer.continue = true
+                }
+            })
+        });
 
-        activeStatus();
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -53,7 +50,7 @@
         }
 
 
-        function deleteCustomer(id) {
+        function deleteCustomer(id, index) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -62,10 +59,7 @@
             }).then(function () {
                 customerService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
-                        customerService.loadCustomers().then(function () {
-                            vm.customers = customerService.getCustomers();
-                            activeStatus();
-                        });
+                        vm.customers.splice(index, 1);
                         toastr.success('Delete success');
                     }
                     else {
@@ -75,7 +69,7 @@
             });
         }
 
-        function createOrUpdate(id, customers) {
+        function createOrUpdate(id, customers, index) {
             $mdDialog.show({
                 controller: 'AddClientController',
                 controllerAs: 'vm',
@@ -88,17 +82,12 @@
                 templateUrl: 'components/user-management/addClient/addClient.html',
                 clickOutsideToClose: true
             }).then(function (res) {
-                if(res.type == 'update'){
-                    customerService.loadCustomers().then(function () {
-                        vm.customers = customerService.getCustomers();
-                        activeStatus();
-                    });
+                if (res.type === 'update') {
+                    vm.customers.splice(index, 1, res.data);
                     toastr.success('Edit success');
-                }
-                else {
+                } else {
                     vm.customers.push(res.data);
                     annonce(res.data.id);
-                    activeStatus();
                 }
             });
         }

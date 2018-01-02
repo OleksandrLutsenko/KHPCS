@@ -1,7 +1,7 @@
 <div class="menus" layout="row" layout-align="center">
 
     <div class="tab-list">
-        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status' " ng-if="(survey.survey_status !== 'archived')"
+        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status'" ng-if="(survey.survey_status !== 'archived')"
              class="questionnaire-list"
              md-whiteframe="{{height}}"
              ng-click="vm.setActineSurvey(survey.survey_id, $index)" ui-sref="tab.survey-block">
@@ -16,9 +16,10 @@
                         <md-button ng-click="vm.activeSurvey(survey.survey_id)">Active</md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="survey.survey_status !== 'active'">
-                        <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive' , $index)">Archive</md-button>
+                        <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive')">Archive
+                        </md-button>
                     </md-menu-item>
-                    <md-menu-item >
+                    <md-menu-item>
                         <md-button ng-click="vm.createSurvey(survey.survey_id , $index , survey)">Edit</md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -60,7 +61,7 @@
                         </div>
                         <div class="sm-right" flex="30" layout="row" layout-align="center">
                             <i class="material-icons"
-                               ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive' , $index)"
+                               ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive')"
                                title="Unarchive">unarchive</i>
                             <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id , $index)"
                                title="Remove">delete_forever</i>

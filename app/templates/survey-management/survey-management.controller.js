@@ -12,7 +12,6 @@
         tabsService.startTab('page2');
 
         vm.setActineSurvey = setActineSurvey;
-        survey.setActiveBlock();
 
         vm.survey = surveyService.getSurveyOnly();
 
@@ -33,10 +32,12 @@
             });
         };
 
-        vm.archiveSurvey = function (id, eddOrExtract , index) {
+        vm.archiveSurvey = function (id, eddOrExtract, index) {
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
-                    vm.survey.splice(index, 1);
+                    surveyService.loadSurveyOnly().then(function () {
+                        vm.survey = surveyService.getSurveyOnly();
+                    });
                     toastr.success('Questionnaire was ' + eddOrExtract);
                 } else {
                     console.log('Archive Status Survey error');
@@ -100,21 +101,20 @@
                 locals: {
                     data: {
                         id: survey_id,
-                        index: index,
-                        survey: survey,
+                        survey: survey
                     }
                 }
             }).then(function (res) {
+
+                res.data.survey.survey_id = res.data.survey.id;
+                res.data.survey.survey_name = res.data.survey.name;
+
                 if (res.type == 'update') {
-                    surveyService.loadSurveyOnly().then(function () {
-                        vm.survey = surveyService.getSurveyOnly();
-                    });
+                    vm.survey.splice(index, 1, res.data.survey);
                     toastr.success('Questionnaire was updated');
                 }
                 else {
-                    surveyService.loadSurveyOnly().then(function () {
-                        vm.survey = surveyService.getSurveyOnly();
-                    });
+                    vm.survey.push(res.data.survey);
                     toastr.success('Questionnaire was created');
                 }
             })

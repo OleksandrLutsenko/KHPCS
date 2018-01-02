@@ -4,7 +4,6 @@
     angular.module('app')
         .controller('CreateSurveyController', CreateSurveyController);
 
-
     CreateSurveyController.$inject = ['surveyService', '$mdDialog', 'data'];
 
     function CreateSurveyController(surveyService,  $mdDialog, data) {
@@ -38,7 +37,7 @@
                         if (res.success) {
                             let tmpObj = {
                                 type: 'update',
-                                data: vm.data
+                                data: res.data
                             };
                             $mdDialog.hide(tmpObj);
                         } else {
