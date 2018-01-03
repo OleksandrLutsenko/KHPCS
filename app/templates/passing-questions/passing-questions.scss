@@ -10,6 +10,10 @@
     line-height: 0;
     min-width: 98px;
   }
+
+  md-radio-button .md-ripple-container{
+    display: none;
+  }
 }
 
 
