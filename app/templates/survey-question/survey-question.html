@@ -96,7 +96,7 @@
                                     <div layout="row" layout-align="end center">
                                         <div ui-sortable="vm.sortableOptionsQuestionInAnswer" ng-model="answers.child_questions" class="question-container" ng-class="{'question-container-drop': vm.childDraging}" flex="90">
                                                 <div ng-repeat="(questionKey, child_questions) in answers.child_questions" ng-if="!child_questions.delete">
-                                                <div class="child_question" layout="row" layout-align="space-between center">
+                                                <div class="child_question" ng-class="{'child_question_last': $last && child_questions.type == 2}" layout="row" layout-align="space-between center">
 
                                                     <div>
                                                         {{child_questions.title}}
@@ -112,7 +112,7 @@
                                                 </div>
                                                     <div>
                                                         <div ui-sortable="vm.sortableOptionChildAnswer" ng-model="child_questions.answers" class="child-answer-container" ng-if="child_questions.type == 1">
-                                                            <div ng-repeat="childAnswers in  child_questions.answers" class="answer-block" ng-if="!childAnswers.delete">
+                                                            <div ng-repeat="childAnswers in  child_questions.answers" class="answer-block child-answer" ng-if="!childAnswers.delete">
 
                                                                 <div layout="row" flex="" class="answeText">
 

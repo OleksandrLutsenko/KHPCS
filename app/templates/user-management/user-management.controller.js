@@ -12,24 +12,30 @@
 
         vm.myLimit = 10;
         vm.myPage = 1;
-
-        let firstCustomers = customerService.getCustomers();
-
-        let idSurvey = survey.getActiveQuestionair().id;
-        firstCustomers.forEach(function (itemCustomer) {
-            itemCustomer.reports.forEach(function(itemReport){
-                if(itemReport.survey_id == idSurvey){
-                    itemCustomer.continue = true;
-                }
-            });
-        });
-
-        vm.customers = firstCustomers;
+        vm.user = userService.getUser();
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
-        vm.user = userService.getUser();
+
+        start();
+
+
+
+        function start() {
+            let firstCustomers = customerService.getCustomers();
+
+            let idSurvey = survey.getActiveQuestionair().id;
+            firstCustomers.forEach(function (itemCustomer) {
+                itemCustomer.reports.forEach(function(itemReport){
+                    if(itemReport.survey_id == idSurvey){
+                        itemCustomer.continue = true;
+                    }
+                });
+            });
+
+            vm.customers = firstCustomers;
+        }
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -49,7 +55,6 @@
             });
         }
 
-
         function deleteCustomer(id) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
@@ -60,7 +65,7 @@
                 customerService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
                         customerService.loadCustomers().then(function () {
-                            vm.customers = customerService.getCustomers()
+                            start();
                         });
                         toastr.success('Delete success');
                     }
@@ -86,7 +91,7 @@
             }).then(function (res) {
                 if(res.type == 'update'){
                     customerService.loadCustomers().then(function () {
-                        vm.customers = customerService.getCustomers();
+                        start();
                     });
                     toastr.success('Edit success');
                 }
