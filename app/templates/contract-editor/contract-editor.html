@@ -36,14 +36,21 @@
     </div>
 
     <div flex="60">
-        <div class="upload-img" layout="row" flex="100">
+        <div  class="upload-img" layout="row" flex="100">
             <form name="imgForm" enctype="multipart/form-data">
-                <input type="file" id="file" name="imgFile" value="Select">
-                <input type="submit" value="Upload" ng-click="vm.sendImage()" >
+                <!--<md-input-container class="md-icon-float md-icon-right md-block">-->
+                    <input  class="ng-hide" type="file" id="file" name="imgFile" value="Select" accept="image/*" required>
+                    <!--<input type="submit" value="Upload" ng-click="vm.sendImage()" >-->
 
-                <!--<label for="file" class="md-button md-raised md-primary">Select image-->
-                    <!--list</label>-->
+                    <label  for="file" class="md-button md-raised md-primary">Select image</label>
+                <!--</md-input-container>-->
             </form>
+
+            <!--<md-button class="md-raised" ng-click="vm.sendImage()" ng-disabled="!setupForm.$valid">Start</md-button>-->
+            <md-button class="md-raised" ng-click="vm.sendImage()" ng-disabled="!vm.showUpload">Upload</md-button>
+            <div  layout="row" layout-align="center center" class="hidden-text">{{vm.fileName}}</div>
+
+
 
         </div>
         <div>

@@ -6,9 +6,9 @@
 
 
 
-    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService'];
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService', '$scope'];
 
-    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService) {
+    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $scope) {
         let vm = this;
         tabsService.startTab('page3');
         console.log('contract-editor controller start');
@@ -758,7 +758,35 @@
                 xhttp.open("POST", contractService.uploadImage(tmpResearchId), fd, true);
                 xhttp.setRequestHeader("token", userService.getToken());
                 xhttp.send(fd);
+            };
+        }
+
+        let image = document.getElementById('file');
+
+        vm.fileName = 'Choose File';
+        image.addEventListener("change" , function() {
+            if (image.files.length) {
+                $scope.$apply(
+                    function () {
+                        vm.fileName = image.files[0].name;
+                        console.log(image.files[0].type);
+                        if (image.files[0].type.indexOf('image') !== -1) {
+                            vm.showUpload = true;
+                            console.log('Картинка!!!');
+                        } else {
+                            vm.showUpload = false;
+                            vm.fileName = 'Choose File';
+                            toastr.error('Select an image file');
+                        }
+                    });
+            } else {
+                $scope.$apply(
+                    function () {
+                    vm.fileName = 'Choose File';
+                    vm.showUpload = false;
+                });
             }
-        };
+        });
+
     }
 })();
