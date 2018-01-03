@@ -93,7 +93,7 @@
         }
 
         vm.createSurvey = createSurvey;
-        function createSurvey(survey_id, index, survey) {
+        function createSurvey(survey_id, survey) {
             $mdDialog.show({
                 controller: 'CreateSurveyController',
                 controllerAs: 'vm',
@@ -110,8 +110,8 @@
                 res.data.survey.survey_id = res.data.survey.id;
                 res.data.survey.survey_name = res.data.survey.name;
 
-                if (res.type == 'update') {
-                    vm.survey.splice(index, 1, res.data.survey);
+                if (res.type === 'update') {
+                    vm.survey.splice(vm.survey.indexOf(survey), 1 , res.data.survey);
                     toastr.success('Questionnaire was updated');
                 }
                 else {

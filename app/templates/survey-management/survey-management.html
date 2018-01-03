@@ -1,7 +1,7 @@
 <div class="menus" layout="row" layout-align="center">
 
     <div class="tab-list">
-        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status'" ng-if="(survey.survey_status !== 'archived')"
+        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status' " ng-if="(survey.survey_status !== 'archived')"
              class="questionnaire-list"
              md-whiteframe="{{height}}"
              ng-click="vm.setActiveSurvey(survey.survey_id, $index)" ui-sref="tab.survey-block">
@@ -20,7 +20,7 @@
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="vm.createSurvey(survey.survey_id , $index , survey)">Edit</md-button>
+                        <md-button ng-click="vm.createSurvey(survey.survey_id ,survey)">Edit</md-button>
                     </md-menu-item>
                 </md-menu-content>
 
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div ng-click="vm.createSurvey(survey.survey_id , $index , survey)" class="questionnaire-list"
+        <div ng-click="vm.createSurvey()" class="questionnaire-list"
              md-whiteframe="{{height}}">
             <p class="plus-ico"><i class="material-icons">control_point</i></p>
             <p>New Questionnaire</p>
