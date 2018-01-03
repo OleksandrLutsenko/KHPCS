@@ -35,7 +35,7 @@
                             <td md-cell ng-if="vm.user.role_id > 1">{{customers.user_name }}</td>
                             <td md-cell>
                                 <!--<md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)">-->
-                                    <!--Get started-->
+                                <!--Get started-->
                                 <!--</md-button>-->
                                 <md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)"
                                            ng-if="!customers.continue">
@@ -46,17 +46,17 @@
                                     Completed
                                 </md-button>
                             </td>
-                            <td md-cell ng-if="customers.reports.length"><i class="material-icons"
-                                                                            ng-click="vm.downloadPDF(customers)">file_download</i>
+                            <td md-cell ng-if="customers.reports.length">
+                                <i class="material-icons" ng-click="vm.downloadPDF(customers)">file_download</i>
                             </td>
                             <td md-cell ng-if="!customers.reports.length"><i
-                                    class="material-icons noneFile">do_not_disturb_alt</i></td>
+                                    class="material-icons none-icon">do_not_disturb_alt</i></td>
                             <td md-cell>
                                 {{customers.created_at }}
                             </td>
                             <td md-cell>
                                 <i class="material-icons"
-                                   ng-click="vm.createOrUpdate(customers.id, customers)">mode_edit</i>
+                                   ng-click="vm.createOrUpdate(customers.id, customers , $index)">mode_edit</i>
                                 <i class="material-icons"
                                    ng-click="vm.deleteCustomer(customers.id, $index)">highlight_off</i>
                             </td>

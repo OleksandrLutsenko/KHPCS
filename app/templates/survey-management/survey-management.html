@@ -1,31 +1,10 @@
-<div class="menus" layout="" layout-align="center">
+<div class="menus" layout="row" layout-align="center">
 
     <div class="tab-list">
-        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'active')" class="questionnaire-list"
+        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status'" ng-if="(survey.survey_status !== 'archived')"
+             class="questionnaire-list"
              md-whiteframe="{{height}}"
-             ng-click="vm.setActiveSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
-
-            <md-menu>
-                <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
-                    <i class="material-icons">more_vert</i>
-                </md-button>
-                <md-menu-content>
-                    <md-menu-item>
-                        <md-button ng-click="vm.createSurvey(it.survey_id , $index , it)">Edit</md-button>
-                    </md-menu-item>
-                </md-menu-content>
-
-            </md-menu>
-            <div class="text-quest">
-                <p class="hidden-text">{{it.survey_name}}</p>
-                <p>{{it.survey_status}}</p>
-            </div>
-
-        </div>
-        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'inactive')" class="questionnaire-list"
-             md-whiteframe="{{height}}"
-             ng-click="vm.setActiveSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
-
+             ng-click="vm.setActiveSurvey(survey.survey_id, $index)" ui-sref="tab.survey-block">
             <md-menu>
 
                 <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
@@ -33,65 +12,65 @@
                 </md-button>
 
                 <md-menu-content>
-                    <md-menu-item>
-                        <md-button ng-click="vm.activeSurvey(it.survey_id, $index)">Active</md-button>
+                    <md-menu-item ng-if="survey.survey_status !== 'active'">
+                        <md-button ng-click="vm.activeSurvey(survey.survey_id)">Active</md-button>
+                    </md-menu-item>
+                    <md-menu-item ng-if="survey.survey_status !== 'active'">
+                        <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive')">Archive
+                        </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="vm.archiveSurvey(it.survey_id, 'added to the archive')">Archive</md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="vm.createSurvey(it.survey_id , $index , it)">Edit</md-button>
+                        <md-button ng-click="vm.createSurvey(survey.survey_id , $index , survey)">Edit</md-button>
                     </md-menu-item>
                 </md-menu-content>
 
             </md-menu>
             <div class="text-quest">
-                <p class="hidden-text">{{it.survey_name}}</p>
-                <p>{{it.survey_status}}</p>
+                <p class="hidden-text">{{survey.survey_name}}</p>
+                <p>{{survey.survey_status}}</p>
             </div>
         </div>
 
-        <div ng-click="vm.createSurvey(it.survey_id , $index , it)" class="questionnaire-list"
+        <div ng-click="vm.createSurvey(survey.survey_id , $index , survey)" class="questionnaire-list"
              md-whiteframe="{{height}}">
-            <p class="plus-ico"><i class="fa fa-plus-circle"></i></p>
+            <p class="plus-ico"><i class="material-icons">control_point</i></p>
             <p>New Questionnaire</p>
         </div>
 
     </div>
 
-    <div layout="column" class="sidenavdemoBasicUsage sideNavHeight side-button">
-        <md-button ng-click="vm.toggleOpenArchive()" ng-hide="vm.isOpenRight()">
+    <div layout="column" class="side-button">
+        <md-button ng-click="vm.toggleOpenArchive()" ng-hide="vm.isOpenRight()" class="arch-btn">
             <i class="material-icons">library_books</i>
             <p>Archive</p>
         </md-button>
 
-        <md-sidenav class="md-sidenav-right md-whiteframe-4dp" md-disable-backdrop md-component-id="right">
+        <md-sidenav class="md-sidenav-right" md-component-id="right">
 
-            <div layout="row" layout-align="center center" class="md-theme-light1">
+            <div layout="row" layout-align="space-between center" class="md-theme-light">
                 <p class="md-toolbar-tools1">Archive list</p>
-                <span flex></span>
-                <md-button class="md-icon-button" ng-click="vm.closeArchiveButton()">
-                    <i class="material-icons">highlight_off</i>
-                </md-button>
+                <i class="material-icons" ng-click="vm.closeArchiveButton()">highlight_off</i>
             </div>
 
             <md-content layout-padding="">
                 <div ng-repeat="archiveItem in vm.survey" ng-if="(archiveItem.survey_status === 'archived')">
                     <div flex="100" layout="row" layout-align="center center">
-                        <div class="sm-left" flex="70" layout-wrap="no-wrap"><p class="hidden-text deleting-margin">
-                            {{archiveItem.survey_name}}</p></div>
-                        <div class="sm-right" flex="30" layout-align="center right">
-                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id)"
-                               title="Remove">delete_forever</i>
+                        <div class="sm-left" flex="70" layout-wrap="no-wrap">
+                            <p class="hidden-text">
+                                {{archiveItem.survey_name}}</p>
+                        </div>
+                        <div class="sm-right" flex="30" layout="row" layout-align="center">
                             <i class="material-icons"
                                ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive')"
                                title="Unarchive">unarchive</i>
+                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id , $index)"
+                               title="Remove">delete_forever</i>
                         </div>
                     </div>
 
                 </div>
 
-                <div ng-if="vm.ArchiveIsEmpti">
+                <div ng-if="vm.ArchiveIsEmpty">
                     <p class="empty-block">Empty archive</p>
                 </div>
 

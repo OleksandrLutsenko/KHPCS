@@ -12,20 +12,12 @@
 
         vm.myLimit = 10;
         vm.myPage = 1;
-        vm.user = userService.getUser();
 
-        vm.pass = pass;
-        vm.deleteCustomer = deleteCustomer;
-        vm.createOrUpdate = createOrUpdate;
+        let firstCustomers = customerService.getCustomers();
 
-        start();
+        let idSurvey = survey.getActiveQuestionair().id;
 
-
-
-        function start() {
-            let firstCustomers = customerService.getCustomers();
-
-            let idSurvey = survey.getActiveQuestionair().id;
+        function activeStatus() {
             firstCustomers.forEach(function (itemCustomer) {
                 itemCustomer.reports.forEach(function(itemReport){
                     if(itemReport.survey_id == idSurvey){
@@ -33,9 +25,16 @@
                     }
                 });
             });
-
-            vm.customers = firstCustomers;
         }
+
+        activeStatus();
+
+        vm.customers = firstCustomers;
+
+        vm.pass = pass;
+        vm.deleteCustomer = deleteCustomer;
+        vm.createOrUpdate = createOrUpdate;
+        vm.user = userService.getUser();
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -55,7 +54,8 @@
             });
         }
 
-        function deleteCustomer(id) {
+
+        function deleteCustomer(id, index) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -64,9 +64,7 @@
             }).then(function () {
                 customerService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
-                        customerService.loadCustomers().then(function () {
-                            start();
-                        });
+                        vm.customers.splice(index, 1);
                         toastr.success('Delete success');
                     }
                     else {
@@ -76,7 +74,7 @@
             });
         }
 
-        function createOrUpdate(id, customers) {
+        function createOrUpdate(id, customers, index) {
             $mdDialog.show({
                 controller: 'AddClientController',
                 controllerAs: 'vm',
@@ -89,13 +87,11 @@
                 templateUrl: 'components/user-management/addClient/addClient.html',
                 clickOutsideToClose: true
             }).then(function (res) {
-                if(res.type == 'update'){
-                    customerService.loadCustomers().then(function () {
-                        start();
-                    });
+                if (res.type === 'update') {
+                    vm.customers.splice(index, 1, res.data);
+                    activeStatus();
                     toastr.success('Edit success');
-                }
-                else {
+                } else {
                     vm.customers.push(res.data);
                     annonce(res.data.id);
                 }
