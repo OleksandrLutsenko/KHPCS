@@ -358,6 +358,12 @@
             // vm.activeTemplateId = undefined;
             // activeTemplateTitle = undefined;
             // CKEDITOR.instances.CKeditorArea.setData('');
+            // console.log(vm.templates);
+            // console.log(activeSurveyID);
+
+
+
+
 
             $mdDialog.show({
                 controller: createTemplateTitleController,
@@ -744,7 +750,7 @@
                         // console.log('done');
                         let data = JSON.parse(this.response);
                         // console.log(data);
-                        CKEDITOR.instances.CKeditorArea.insertHtml('<img src="' + data.image.link + '" alt="Image">&nbsp');
+                        CKEDITOR.instances.CKeditorArea.insertHtml('<img src="' + data.image.link + '" alt="Image" style="max-width: 300px">&nbsp');
 
                         let tmpImgObj = {
                             id: data.image.id,
@@ -787,6 +793,8 @@
                 });
             }
         });
+
+
 
     }
 })();
