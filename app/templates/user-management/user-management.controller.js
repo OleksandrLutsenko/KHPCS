@@ -16,13 +16,18 @@
         let firstCustomers = customerService.getCustomers();
 
         let idSurvey = survey.getActiveQuestionair().id;
-        firstCustomers.forEach(function (itemCustomer) {
-            itemCustomer.reports.forEach(function(itemReport){
-                if(itemReport.survey_id == idSurvey){
-                    itemCustomer.continue = true;
-                }
+
+        function activeStatus() {
+            firstCustomers.forEach(function (itemCustomer) {
+                itemCustomer.reports.forEach(function(itemReport){
+                    if(itemReport.survey_id == idSurvey){
+                        itemCustomer.continue = true;
+                    }
+                });
             });
-        });
+        }
+
+        activeStatus();
 
         vm.customers = firstCustomers;
 
@@ -84,6 +89,7 @@
             }).then(function (res) {
                 if (res.type === 'update') {
                     vm.customers.splice(index, 1, res.data);
+                    activeStatus();
                     toastr.success('Edit success');
                 } else {
                     vm.customers.push(res.data);

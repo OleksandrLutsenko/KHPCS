@@ -33,7 +33,7 @@
             });
         };
 
-        vm.archiveSurvey = function (id, eddOrExtract, index) {
+        vm.archiveSurvey = function (id, eddOrExtract) {
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
                     surveyService.loadSurveyOnly().then(function () {
