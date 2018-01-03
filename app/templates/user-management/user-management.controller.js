@@ -13,59 +13,23 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
+        let firstCustomers = customerService.getCustomers();
 
-        vm.customers= customerService.getCustomers();
+        let idSurvey = survey.getActiveQuestionair().id;
 
-        // let idSurvey;
-        surveyService.loadSurveyOnly().then(function () {
-            let idSurvey = survey.getActiveQuestionair().id;
-            vm.customers.forEach(function (itemCustomer) {
+        function activeStatus() {
+            firstCustomers.forEach(function (itemCustomer) {
                 itemCustomer.reports.forEach(function(itemReport){
-                    if(itemReport.survey_id === idSurvey){
+                    if(itemReport.survey_id == idSurvey){
                         itemCustomer.continue = true;
                     }
                 });
             });
-        });
+        }
 
-        // let surveyList;
-        // let activeSurvey;
-        //
-        // userService.loadSurveysOnly().then(function (surveys) {
-        //     if (surveys.success) {
-        //         let surveyList = surveys.data.onlySurvey;
-        //         console.log(surveyList);
-        //
-        //         for(let cell in surveyList) {
-        //             console.log(surveyList[cell]);
-        //             if (surveyList[cell].survey_status === 'active') {
-        //                 idSurvey = surveyList[cell].survey_id;
-        //                 break;
-        //             }
-        //         }
-        //     }else{
-        //         console.log('load surveyList error');
-        //     }
-        //
-        // });
-        //
-        // vm.getStarted = function (reports) {
-        //     let status = true;
-        //     for(let cell in reports) {
-        //         if (reports[cell].survey_id === activeSurvey){
-        //             status = false;
-        //         }
-        //     }
-        //     return status;
-        // };
+        activeStatus();
 
-        // vm.customers.forEach(function (itemCustomer) {
-        //     itemCustomer.reports.forEach(function(itemReport){
-        //         if(itemReport.survey_id === idSurvey){
-        //             itemCustomer.continue = true;
-        //         }
-        //     });
-        // });
+        vm.customers = firstCustomers;
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -91,7 +55,7 @@
         }
 
 
-        function deleteCustomer(id) {
+        function deleteCustomer(id, index) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -100,9 +64,7 @@
             }).then(function () {
                 customerService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
-                        customerService.loadCustomers().then(function () {
-                            vm.customers = customerService.getCustomers()
-                        });
+                        vm.customers.splice(index, 1);
                         toastr.success('Delete success');
                     }
                     else {
@@ -112,7 +74,7 @@
             });
         }
 
-        function createOrUpdate(id, customers) {
+        function createOrUpdate(id, customers, index) {
             $mdDialog.show({
                 controller: 'AddClientController',
                 controllerAs: 'vm',
@@ -125,13 +87,11 @@
                 templateUrl: 'components/user-management/addClient/addClient.html',
                 clickOutsideToClose: true
             }).then(function (res) {
-                if(res.type == 'update'){
-                    customerService.loadCustomers().then(function () {
-                        vm.customers = customerService.getCustomers();
-                    });
+                if (res.type === 'update') {
+                    vm.customers.splice(index, 1, res.data);
+                    activeStatus();
                     toastr.success('Edit success');
-                }
-                else {
+                } else {
                     vm.customers.push(res.data);
                     annonce(res.data.id);
                 }

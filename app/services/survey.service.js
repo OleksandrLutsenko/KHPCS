@@ -52,7 +52,6 @@
         function loadSurveyOnly() {
             return http.get(url.survey_management_func().loadOnlySurvey, {}).then(function (res) {
                 if(res.success){
-                    console.log(res);
                     setSurveyOnly(res.data.onlySurvey);
                     return res;
                 }
@@ -77,10 +76,7 @@
         }
 
         function deleteSurvey(id) {
-            return http.delete(url.survey_management_func(id).deleteSurvey);
-        }
-        function loadDeletedQuestionsInSurvey(id) {
-            return http.get(url.survey_management_func(id).deletedQuestionsInSurvey);
+            return http.delete(url.survey_management_func(id).updateSurvey);
         }
 
         function loadDeletedQuestionsInSurvey(id) {

@@ -20,7 +20,6 @@
             survey.setActiveSurvey(survey_id, indexSurvey);
         }
 
-
         vm.activeSurvey = function (survey_id) {
             surveyService.changeStatusSurvey(survey_id).then(function (res) {
                 if (res.success) {
@@ -37,10 +36,10 @@
         vm.archiveSurvey = function (id, eddOrExtract) {
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
-                    toastr.success('Questionnaire was ' + eddOrExtract);
                     surveyService.loadSurveyOnly().then(function () {
                         vm.survey = surveyService.getSurveyOnly();
                     });
+                    toastr.success('Questionnaire was ' + eddOrExtract);
                 } else {
                     console.log('Archive Status Survey error');
                 }
@@ -49,11 +48,11 @@
         };
 
         function archiveEmpty() {
-            vm.ArchiveIsEmpti = true;
-            for (var item in vm.survey) {
+            vm.ArchiveIsEmpty = true;
+            for (let item in vm.survey) {
                 if (vm.survey[item].survey_status === 'archived') {
-                    vm.ArchiveIsEmpti = false;
-                    console.log('vm.ArchiveIsEmpti = ' + vm.ArchiveIsEmpti);
+                    vm.ArchiveIsEmpty = false;
+                    console.log('vm.ArchiveIsEmpty = ' + vm.ArchiveIsEmpty);
                     break;
                 }
             }
@@ -72,10 +71,9 @@
             $mdSidenav('right').close();
         };
 
-
         vm.deleteSurvey = deleteSurvey;
 
-        function deleteSurvey(surveyId) {
+        function deleteSurvey(surveyId, index) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -84,9 +82,7 @@
             }).then(function () {
                 surveyService.deleteSurvey(surveyId).then(function (res) {
                     if (res.success) {
-                        surveyService.loadSurveyOnly().then(function () {
-                            vm.survey = surveyService.getSurveyOnly();
-                        });
+                        vm.survey.splice(index, 1);
                         toastr.success('Questionnaire was deleted');
                     }
                     else {
@@ -97,7 +93,7 @@
         }
 
         vm.createSurvey = createSurvey;
-        function createSurvey(survey_id, index, it) {
+        function createSurvey(survey_id, index, survey) {
             $mdDialog.show({
                 controller: 'CreateSurveyController',
                 controllerAs: 'vm',
@@ -106,18 +102,20 @@
                 locals: {
                     data: {
                         id: survey_id,
-                        index: index,
-                        it: it,
+                        survey: survey
                     }
                 }
             }).then(function (res) {
-                surveyService.loadSurveyOnly().then(function () {
-                    vm.survey = surveyService.getSurveyOnly();
-                });
+
+                res.data.survey.survey_id = res.data.survey.id;
+                res.data.survey.survey_name = res.data.survey.name;
+
                 if (res.type == 'update') {
+                    vm.survey.splice(index, 1, res.data.survey);
                     toastr.success('Questionnaire was updated');
                 }
                 else {
+                    vm.survey.push(res.data.survey);
                     toastr.success('Questionnaire was created');
                 }
             })

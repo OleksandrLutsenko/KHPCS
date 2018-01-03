@@ -73,17 +73,43 @@
             // let filename = customer + ' ' + actualSurveyName + ' ' + actualTemplateName;
             let filename = customer + ' ' + actualSurveyName + ' ' + actualTemplateName + new Date().getTime();
             filename = filename.split(' ').join('_');
-            userService.getContract(actualReportId, actualTemplateId, filename).then(function (link) {
+            userService.getContract(actualReportId, actualTemplateId, filename).then(function (links) {
+               let link = links.filePathUrlPdf;
+                if ((navigator.userAgent.search(/Chrome/) > -1) || (navigator.userAgent.search(/Safari/) > -1)) {
+                    //Creating new link node.
+                    let downloadPDF = document.createElement('a');
+                    downloadPDF.href = link;
 
-                let downloadPDF = document.createElement('a');
-                downloadPDF.setAttribute('href', link.filePathUrlPdf);
-                downloadPDF.setAttribute('download', filename);
-                downloadPDF.click();
+                    if (downloadPDF.download !== undefined){
+                        //Set HTML5 download attribute. This will prevent file from opening if supported.
+                        downloadPDF.download = filename;
+                    }
+
+                    //Dispatching click event.
+                    if (document.createEvent) {
+                        let e = document.createEvent('MouseEvents');
+                        e.initEvent('click' ,true ,true);
+                        downloadPDF.dispatchEvent(e);
+                        return true;
+                    }
+                }
+                else {
+                    let query = '?download';
+
+                    window.open(link + query, '_self');
+                }
+                //////////////////////////
+
+                // let downloadPDF = document.createElement('a');
+                // downloadPDF.setAttribute('href', link);
+                // downloadPDF.setAttribute('download', filename);
+                // downloadPDF.click();
 
                 // userService.removePdf(link.filenamePdf).then(function (res) {
                 //     console.log(res);
                 // });
             });
+
             $mdDialog.cancel();
         };
     }

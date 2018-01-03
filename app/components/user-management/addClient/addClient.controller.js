@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddClientController', AddClientController);
 
-    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'toastr' , 'customers' , '$state' , 'surveyService'];
+    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'customers' , '$state' , 'surveyService'];
 
-    function AddClientController(data, $mdDialog, customerService , toastr , customers, $state , surveyService) {
+    function AddClientController(data, $mdDialog, customerService , customers, $state , surveyService) {
         let vm = this;
 
         vm.id = data.id;
@@ -15,8 +15,6 @@
         vm.continue = continueQuest;
         vm.pass = pass;
         vm.customers = customerService.getCustomers();
-
-        // console.log(vm.customers[customers].name);
 
         let id = data.id;
         vm.id = id;
@@ -56,7 +54,8 @@
                     customerService.updateCustomers(id, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
-                                type: 'update'
+                                type: 'update',
+                                data: res.data
                             };
                             $mdDialog.hide(tmpObj);
                         }

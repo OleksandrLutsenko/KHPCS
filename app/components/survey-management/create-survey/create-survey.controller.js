@@ -4,13 +4,11 @@
     angular.module('app')
         .controller('CreateSurveyController', CreateSurveyController);
 
-
     CreateSurveyController.$inject = ['surveyService', '$mdDialog', 'data'];
 
     function CreateSurveyController(surveyService,  $mdDialog, data) {
 
         let vm = this;
-
         let id = data.id;
 
         vm.id = id;
@@ -22,15 +20,12 @@
         }
 
         vm.data = {
-            name: '',
             status: '2'
         };
 
-
         if (typeof id != 'undefined') {
-            let it = data.it.survey_name;
             vm.data = {
-                name: it
+                name: data.survey.survey_name
             };
         }
 
@@ -41,24 +36,23 @@
                     surveyService.updateSurvey(id, vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
-                                type: 'update'
+                                type: 'update',
+                                data: res.data
                             };
                             $mdDialog.hide(tmpObj);
                         } else {
                             console.log('errorUpd');
                         }
-
-                        $mdDialog.cancel();
                     });
                 }
                 else {
                     surveyService.createSurvey(vm.data).then(function (res) {
                         if (res.success) {
                             let tmpObj = {
-                                type: 'create'
+                                type: 'create',
+                                data: res.data
                             };
                             $mdDialog.hide(tmpObj);
-                            $mdDialog.cancel();
                         } else {
                             console.log('errorCreate');
                         }
