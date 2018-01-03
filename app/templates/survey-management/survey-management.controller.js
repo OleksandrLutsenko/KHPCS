@@ -11,12 +11,13 @@
         let vm = this;
         tabsService.startTab('page2');
 
-        vm.setActineSurvey = setActineSurvey;
+        vm.setActiveSurvey = setActiveSurvey;
+        survey.setActiveBlock();
 
         vm.survey = surveyService.getSurveyOnly();
 
-        function setActineSurvey(survey_id, indexSurvey) {
-            survey.setActineSurvey(survey_id, indexSurvey);
+        function setActiveSurvey(survey_id, indexSurvey) {
+            survey.setActiveSurvey(survey_id, indexSurvey);
         }
 
         vm.activeSurvey = function (survey_id) {
@@ -32,7 +33,7 @@
             });
         };
 
-        vm.archiveSurvey = function (id, eddOrExtract, index) {
+        vm.archiveSurvey = function (id, eddOrExtract) {
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
                     surveyService.loadSurveyOnly().then(function () {

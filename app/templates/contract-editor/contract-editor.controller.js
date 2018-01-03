@@ -17,7 +17,10 @@
         let activeSurveyName;
         let activeBlockId;
         let activeTemplateTitle;
+        let tmpResearchId;
         let tmpAnswersArr = [];
+        let tmpImagesArr = [];
+        let pasteImgBeforeCreateTemplate = false;
         vm.activeTemplateId = undefined;
         vm.showTemplateTab = true;
         vm.showSurveyVarTab = false;
@@ -49,10 +52,10 @@
 
                     CKEDITOR.instances.CKeditorArea.setData('');
 
-                    contractService.createNewResearch().then(function (res) {
-                        tmpResearchId = res.data.id;
-                        console.log(tmpResearchId);
-                    });
+                    // contractService.createNewResearch().then(function (res) {
+                    //     tmpResearchId = res.data.id;
+                    // console.log(tmpResearchId);
+                    // });
                 }
             }else {
                 console.log('load surveys error');
@@ -162,11 +165,11 @@
 
 
         ///////////////////////////////////////////////////////////////////////////////
-        let tmpResearchId;
-
         vm.setActiveSurvey = function setActiveSurvey(id, name) {
             activeSurveyID = id;
             activeSurveyName = name;
+            pasteImgBeforeCreateTemplate = false;
+            tmpResearchId = undefined;
 
             surveyService.loadOneSurvey(activeSurveyID).then(function (survey) {
                 if (survey.success) {
@@ -180,11 +183,6 @@
             vm.activeTemplateId = undefined;
             activeTemplateTitle = undefined;
             CKEDITOR.instances.CKeditorArea.setData('');
-
-            contractService.createNewResearch().then(function (res) {
-                tmpResearchId = res.data.id;
-                console.log(tmpResearchId);
-            });
         };
 
         vm.pasteTitle = function (data) {
@@ -224,10 +222,14 @@
             vm.activeTemplateId = data.id;
             activeTemplateTitle = data.title;
             tmpAnswersArr = [];
+            tmpImagesArr = [];
+            pasteImgBeforeCreateTemplate = false;
 
             contractService.loadOneTemplate(vm.activeTemplateId).then(function (template) {
                 if (template.success) {
                     let body = template.data.contract.body.replace("<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>", "").replace("</body></html>", "");
+                    tmpResearchId = template.data.contract.contract_research_id;
+                    console.log('Research = ' + tmpResearchId);
 
                     surveyService.loadDeletedQuestionsInSurvey(activeSurveyID).then(function (questions) {
                         if (questions.success) {
@@ -299,9 +301,49 @@
                                 }
                             });
 
+                            (function () {
+                                let staticVarArr = [{serverSide: '{!! $user["name"] !!}', editorSide: '[[user name]]'},
+                                    {serverSide: '{!! $user["email"] !!}', editorSide: '[[user email]]'},
+                                    {serverSide: '{!! $customer["name"] !!}', editorSide: '[[customer name]]'},
+                                    {serverSide: '{!! $customer["surname"] !!}', editorSide: '[[customer surname]]'},
+                                    {serverSide: '{!! $customer["classification"] !!}', editorSide: '[[customer classification]]'},
+                                ];
+
+                                let userVarInEditorSide;
+                                let userVarInServerSide;
+
+                                staticVarArr.forEach(function (staticVar) {
+                                    if (body.indexOf(staticVar.serverSide) !== -1) {
+                                        userVarInEditorSide = staticVar.editorSide;
+                                        userVarInServerSide = staticVar.serverSide;
+                                    }
+                                    let tmpVarObj = {
+                                        inServer: userVarInServerSide,
+                                        inEditor: userVarInEditorSide
+                                    };
+                                    body = body.split(userVarInServerSide).join(userVarInEditorSide);
+                                    tmpAnswersArr.push(tmpVarObj);
+                                });
+                            }());
+
+                            (function () {
+                                contractService.imageListInResearch(vm.activeTemplateId).then(function (res) {
+                                    let imageList = res.imageList;
+                                    console.log(imageList);
+                                    imageList.forEach(function (cell) {
+                                        if (body.indexOf(cell.link) === -1) {
+                                            console.log('Image ' + cell.id + ' is not used and will be deleted');
+                                            contractService.deleteImage(cell.id).then(function (res) {
+                                                console.log(res.image);
+                                            });
+                                        }
+                                    });
+                                });
+                            }());
                             // console.log(tmpAnswersArr);
                             CKEDITOR.instances.CKeditorArea.setData(body);
                             // console.log(body);
+
                         }else{
                             console.log('load RemovedQuestionsList error');
                         }
@@ -313,8 +355,8 @@
         };
 
         vm.createTemplate = function () {
-            vm.activeTemplateId = undefined;
-            activeTemplateTitle = undefined;
+            // vm.activeTemplateId = undefined;
+            // activeTemplateTitle = undefined;
             // CKEDITOR.instances.CKeditorArea.setData('');
 
             $mdDialog.show({
@@ -343,6 +385,26 @@
                         toastr.error('Error invalid data');
                     }
                     else {
+                        if (pasteImgBeforeCreateTemplate === true) {
+                            createTemplate(body, tmpImagesArr);
+                            console.log('pasteImgBeforeCreateTemplate = false');
+                            // pasteImgBeforeCreateTemplate = false;
+                            console.log("Research undefined");
+                        } else {
+                            contractService.createNewResearch().then(function (res) {
+                                tmpResearchId = res.data.id;
+                                console.log('Create research (' + tmpResearchId + ')');
+
+                                createTemplate(body, tmpImagesArr);
+                            });
+                        }
+
+                        // console.log(vs.data);
+                        $mdDialog.cancel();
+                    }
+
+                    function createTemplate() {
+                        console.log(body);
                         contractService.createTemplate(tmpResearchId, vs.data).then(function (res) {
                             console.log(res);
                             if (res.success) {
@@ -350,12 +412,23 @@
                                     vm.templates = res.data.contractsWithoutBody;
                                     vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
                                     activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
-                                    CKEDITOR.instances.CKeditorArea.setData("");
+                                    // CKEDITOR.instances.CKeditorArea.setData("");
                                 });
+                                if (pasteImgBeforeCreateTemplate === true) {
+                                    tmpImagesArr.forEach(function (cell) {
+                                        console.log(cell.link);
+                                        if (body.indexOf(cell.link) === -1) {
+                                            console.log('Image ' + cell.id + ' is not used and will be deleted');
+                                            contractService.deleteImage(cell.id);
+                                        }
+                                        pasteImgBeforeCreateTemplate = false;
+                                        tmpImagesArr = [];
+                                    });
+
+                                }
+                                // tmpImagesArr = [];
                             }
                         });
-                        console.log(vs.data);
-                        $mdDialog.cancel();
                     }
                 };
 
@@ -396,11 +469,19 @@
                     else {
                         contractService.updateTemplate(vm.activeTemplateId, vs.data).then(function (res) {
                             console.log(res);
-                            activeTemplateTitle = res.data.contract.title;
                             if (res.success) {
+                                activeTemplateTitle = res.data.contract.title;
                                 contractService.loadTemplateList().then(function (res) {
                                     vm.templates = res.data.contractsWithoutBody;
                                     // console.log(vm.templates, 'Template list');
+                                });
+                                tmpImagesArr.forEach(function (cell) {
+                                    // console.log(cell.link);
+                                    if (body.indexOf(cell.link) === -1) {
+                                        console.log('Image ' + cell.id + ' is not used and will be deleted');
+                                        contractService.deleteImage(cell.id);
+                                    }
+                                    tmpImagesArr = [];
                                 });
                             } else{
                                 console.log('Update template error');
@@ -438,6 +519,8 @@
                                 vm.activeTemplateId = undefined;
                                 activeTemplateTitle = undefined;
                             });
+                            tmpResearchId = undefined;
+                            pasteImgBeforeCreateTemplate = false;
                         }
                     });
                     $mdDialog.cancel();
@@ -453,9 +536,51 @@
 
         //////////////////////Работа с пользовательскими переменными///////////////////
 
-        vm.pasteUserVariability = function (id) {
-            // CKEDITOR.instances.CKeditorArea.insertText('{!!$userVariables[' + id + ']!!}');
+        vm.pasteStaticVariability = function (data) {
+            let userVarInEditorSide;
+            let userVarInServerSide;
 
+            if (data === 'User name') {
+                userVarInEditorSide = '[[user name]]';
+                userVarInServerSide = '{!! $user["name"] !!}';
+            } else if (data === 'User email') {
+                userVarInEditorSide = '[[user email]]';
+                userVarInServerSide = '{!! $user["email"] !!}';
+            } else if (data === 'Customer name') {
+                userVarInEditorSide = '[[customer name]]';
+                userVarInServerSide = '{!! $customer["name"] !!}';
+            } else if (data === 'Customer surname') {
+                userVarInEditorSide = '[[customer surname]]';
+                userVarInServerSide = '{!! $customer["surname"] !!}';
+            } else if (data === 'Customer classification') {
+                userVarInEditorSide = '[[customer classification]]';
+                userVarInServerSide = '{!! $customer["classification"] !!}';
+            }
+
+            let tmpVarObj = {
+                inServer: userVarInServerSide,
+                inEditor: userVarInEditorSide
+            };
+
+            CKEDITOR.instances.CKeditorArea.insertText(userVarInEditorSide + ' ');
+
+            let coincidence = false;
+            if (!tmpAnswersArr.length) {
+                tmpAnswersArr.push(tmpVarObj);
+            } else {
+                tmpAnswersArr.forEach(function (item) {
+                    if (item.inServer === userVarInServerSide) {
+                        coincidence = true;
+                    }
+                });
+
+                if (coincidence === false) {
+                    tmpAnswersArr.push(tmpVarObj);
+                }
+            }
+        };
+
+        vm.pasteUserVariability = function (id) {
             let userVarInEditorSide = '[[User var ' + id + ']]';
             let userVarInServerSide = '{!!$userVariables[' + id + ']!!}';
             let tmpVarObj = {
@@ -592,16 +717,48 @@
             }
         };
 
-        ///////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////Image//////////////////////////////////////////
 
+        vm.sendImage = function () {
+            if (tmpResearchId === undefined) {
+                contractService.createNewResearch().then(function (res) {
+                    tmpResearchId = res.data.id;
+                    pasteImgBeforeCreateTemplate = true;
+                    console.log('pasteImgBeforeCreateTemplate = true;');
+                    console.log('Research = ' + tmpResearchId);
 
-        ///////////////////////////////////Напоминание/////////////////////////////////
-        function hint() {
-            console.log(CKEDITOR.instances['CKeditorArea'].insertText(), 'Вставить текст в редактор');
-            console.log(CKEDITOR.instances['CKeditorArea'].getData(), 'Получить содержимое редактора');
-            console.log(CKEDITOR.instances['CKeditorArea'].setData(), 'заменить содержимое редактора');
-        }
+                    sendImg();
+                });
+            } else {
+                sendImg();
+            }
 
-        ///////////////////////////////////////////////////////////////////////////////
+            function sendImg() {
+                let image = document.getElementById('file');
+                let fd = new FormData();
+                fd.append('image_file', image.files[0]);
+                let xhttp = new XMLHttpRequest();
+
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        // console.log('done');
+                        let data = JSON.parse(this.response);
+                        // console.log(data);
+                        CKEDITOR.instances.CKeditorArea.insertHtml('<img src="' + data.image.link + '" alt="Image">&nbsp');
+
+                        let tmpImgObj = {
+                            id: data.image.id,
+                            link: data.image.link
+                        };
+                        tmpImagesArr.push(tmpImgObj);
+                        console.log(tmpImagesArr);
+                    }
+                };
+
+                xhttp.open("POST", contractService.uploadImage(tmpResearchId), fd, true);
+                xhttp.setRequestHeader("token", userService.getToken());
+                xhttp.send(fd);
+            }
+        };
     }
 })();

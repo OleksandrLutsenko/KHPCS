@@ -1,10 +1,10 @@
-<div class="menus" layout="row" layout-align="center">
+<div class="menus" layout="" layout-align="center">
 
     <div class="tab-list">
         <div ng-repeat="survey in vm.survey | orderBy : 'survey_status'" ng-if="(survey.survey_status !== 'archived')"
              class="questionnaire-list"
              md-whiteframe="{{height}}"
-             ng-click="vm.setActineSurvey(survey.survey_id, $index)" ui-sref="tab.survey-block">
+             ng-click="vm.setActiveSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
             <md-menu>
 
                 <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
@@ -15,6 +15,28 @@
                     <md-menu-item ng-if="survey.survey_status !== 'active'">
                         <md-button ng-click="vm.activeSurvey(survey.survey_id)">Active</md-button>
                     </md-menu-item>
+                </md-menu-content>
+
+            </md-menu>
+            <div class="text-quest">
+                <p class="hidden-text">{{it.survey_name}}</p>
+                <p>{{it.survey_status}}</p>
+            </div>
+
+        </div>
+        <div ng-repeat="it in vm.survey" ng-if="(it.survey_status === 'inactive')" class="questionnaire-list"
+             md-whiteframe="{{height}}"
+             ng-click="vm.setActiveSurvey(it.survey_id, $index)" ui-sref="tab.survey-block">
+
+            <md-menu>
+
+                <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+                    <i class="material-icons">more_vert</i>
+                </md-button>
+
+                <md-menu-content>
+                    <md-menu-item>
+                        <md-button ng-click="vm.activeSurvey(it.survey_id, $index)">Active</md-button>
                     <md-menu-item ng-if="survey.survey_status !== 'active'">
                         <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive')">Archive
                         </md-button>

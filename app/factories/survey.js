@@ -7,8 +7,8 @@
 
     function survey($localStorage, $sessionStorage, surveyService) {
         let model = {};
-        model.setActineSurvey = setActineSurvey;
-        model.getActineSurvey = getActineSurvey;
+        model.setActiveSurvey = setActiveSurvey;
+        model.getActiveSurvey = getActiveSurvey;
         model.setActiveBlock = setActiveBlock;
         model.getActiveBlock = getActiveBlock;
 
@@ -17,13 +17,13 @@
         return model;
 
 
-        function setActineSurvey(id, indexSurvey) {
+        function setActiveSurvey(id, indexSurvey) {
             delete $sessionStorage['active_survey_id'];
             delete $sessionStorage['active_survey_index'];
             $sessionStorage['active_survey_id'] = id;
             $sessionStorage['active_survey_index'] = indexSurvey;
         }
-        function getActineSurvey() {
+        function getActiveSurvey() {
             let tmpObj = {
                 id: $sessionStorage['active_survey_id'],
                 indexSurvey: $sessionStorage['active_survey_index']

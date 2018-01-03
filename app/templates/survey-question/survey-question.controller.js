@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService', 'surveyService'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService, surveyService) {
         let vm = this;
         tabsService.startTab();
 
@@ -15,10 +15,15 @@
         let idBlock = activeBlock.id;
 
         vm.items = items[indexBlock].questions;
+        vm.nameBlock = items[indexBlock].name;
+        vm.edit = true;
 
+        vm.cancel = cancel;
         vm.save = save;
         vm.showEdit = showEdit;
         vm.deleteQuest = deleteQuest;
+        vm.toggleLeft = toggleLeft;
+        vm.editButton = editButton;
 
 
         $scope.$on('setActiveBlock', function (event, data) {
@@ -27,16 +32,34 @@
             idBlock = activeBlock.id;
 
             vm.items = items[indexBlock].questions;
-        });
-        $scope.$on('mowUpdate', function (event, data) {
-            items = data;
-            vm.items = items[indexBlock].questions;
+            vm.nameBlock = items[indexBlock].name;
         });
 
+        function toggleLeft() {
+            $scope.$emit('showBlock', true);
+        }
+        function editButton() {
+            vm.edit = !vm.edit;
+
+            vm.sortableOptionsQuestion.disabled = vm.edit;
+
+            vm.sortableOptionAnswer.disabled = vm.edit;
+
+            vm.sortableOptionsQuestionInAnswer.disabled = vm.edit;
+
+        }
+
         vm.sortableOptionsQuestion = {
+            disabled: vm.edit,
             connectWith: ".question-container",
             'ui-floating': true,
 
+            start: function (e, ui) {
+                $scope.$apply(function() {
+                    vm.childDraging = true;
+                });
+                console.log('start', vm.childDraging);
+            },
             update: function (event, ui) {
                 let droptargetModel = ui.item.sortable.droptargetModel;
                 let model = ui.item.sortable.model;
@@ -72,15 +95,61 @@
                         }
                     }
                 }
+            },
+            stop: function (e, ui) {
+                vm.childDraging = false;
+                console.log('stop', vm.childDraging);
             }
         };
         vm.sortableOptionAnswer = {
+            disabled: vm.edit,
+            connectWith: ".answer-container",
             'ui-floating': true,
         };
         vm.sortableOptionsQuestionInAnswer = {
+            disabled: vm.edit,
             connectWith: ".question-container",
             'ui-floating': true,
+
+            start: function (e, ui) {
+                $scope.$apply(function() {
+                    vm.childDraging = true;
+                });
+                console.log('start', vm.childDraging);
+                // vm.sortableOptionsQuestion = {
+                //     disabled: true
+                // }
+            },
+            update: function (e, ui) {
+                console.log('update', vm.childDraging);
+                // vm.childDraging = true;
+            },
+            stop: function (e, ui) {
+                vm.childDraging = false;
+                console.log('stop', vm.childDraging);
+                // vm.sortableOptionsQuestion ={
+                //     disabled: false
+                // }
+            }
+
         };
+
+        // $scope.$watch(vm.childDraging, function () {
+        //    console.log('childDraging', vm.childDraging);
+        // });
+
+        function cancel() {
+            let idSurvey = survey.getActiveSurvey().id;
+
+            surveyService.loadOneSurvey(idSurvey).then(function (res) {
+                if(res.success){
+                    items = res.data.survey.blocks;
+                    vm.items = items[indexBlock].questions;
+                    editButton();
+                }
+            });
+        }
+
 
         function save() {
             let dataForSend = angular.copy(vm.items);
@@ -112,6 +181,7 @@
                     if(res.success){
                         vm.items = res.data.questions;
                         items[indexBlock].questions = res.data.questions;
+                        editButton();
                     }
                 })
             }

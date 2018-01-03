@@ -36,7 +36,19 @@
     </div>
 
     <div flex="60">
-        <textarea name="CKeditorArea"></textarea>
+        <div class="upload-img" layout="row" flex="100">
+            <form name="imgForm" enctype="multipart/form-data">
+                <input type="file" id="file" name="imgFile" value="Select">
+                <input type="submit" value="Upload" ng-click="vm.sendImage()" >
+
+                <!--<label for="file" class="md-button md-raised md-primary">Select image-->
+                    <!--list</label>-->
+            </form>
+
+        </div>
+        <div>
+            <textarea name="CKeditorArea"></textarea>
+        </div>
     </div>
 
     <!--TemplateTab-->
@@ -216,6 +228,34 @@
                 <p >Create variable</p>
             </div>
 
+            <div flex="100">
+                <div layout="" layout-align="start center"  class="user-var">
+                    <p title="User name" class="pointer staticVar" ng-click="vm.pasteStaticVariability('User name')">
+                        [User name]
+                    </p>
+                </div>
+                <div layout="" layout-align="start center"  class="user-var">
+                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('User email')">
+                        [User email]
+                    </p>
+                </div>
+                <div layout="" layout-align="start center"  class="user-var">
+                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('Customer name')">
+                        [Customer name]
+                    </p>
+                </div>
+                <div layout="" layout-align="start center"  class="user-var">
+                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('Customer surname')">
+                        [Customer surname]
+                    </p>
+                </div>
+                <div layout="" layout-align="start center"  class="user-var">
+                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('Customer classification')">
+                        [Customer classification]
+                    </p>
+                </div>
+            </div>
+
             <div ng-repeat="var in vm.variability  | filter: vm.searchUserVar" class="user-var" flex="100"
                  ng-if="var.deleted_at === null" >
                 <div layout="row" layout-align="space-between center">
@@ -239,4 +279,5 @@
             </div>
         </div>
     </div>
+    <!--<md-button ng-click="vm.pasteMoe()">Some</md-button>-->
 </div>

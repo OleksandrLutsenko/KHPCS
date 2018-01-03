@@ -13,18 +13,18 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        let idSurvey;
-        vm.customers = customerService.getCustomers();
-        idSurvey = survey.getActiveQuestionair().id;
+        let firstCustomers = customerService.getCustomers();
 
-        vm.customers.forEach(function (itemCustomer) {
-            itemCustomer.reports.forEach(function (itemReport) {
-                if (itemReport.survey_id === idSurvey) {
-                    itemCustomer.continue = true
+        let idSurvey = survey.getActiveQuestionair().id;
+        firstCustomers.forEach(function (itemCustomer) {
+            itemCustomer.reports.forEach(function(itemReport){
+                if(itemReport.survey_id == idSurvey){
+                    itemCustomer.continue = true;
                 }
-            })
+            });
         });
 
+        vm.customers = firstCustomers;
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -35,7 +35,7 @@
             customers.setActiveCustomers(id);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
-            })
+            });
         }
 
         function annonce(id) {

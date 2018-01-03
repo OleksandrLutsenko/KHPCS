@@ -28,25 +28,33 @@
         let mainQuestionInBlock;
         let customerAnswerOnActiveBlock;
 
-        for(let j = 0; j < customerAnswer.length; j++){
-            if(customerAnswer[j].customerAnswers.length == 0){
-                for(let i = 0; i < items.blocks.length; i++){
-                    if(customerAnswer[j].block_id == items.blocks[i].id){
-                        indexActiveBlock = i;
-                        break
+        if(customerAnswer != undefined){
+            for(let j = 0; j < customerAnswer.length; j++){
+                if(customerAnswer[j].customerAnswers.length == 0){
+                    for(let i = 0; i < items.blocks.length; i++){
+                        if(customerAnswer[j].block_id == items.blocks[i].id){
+                            indexActiveBlock = i;
+                            break
+                        }
                     }
+                    break
                 }
-                break
             }
+            if(typeof indexActiveBlock == 'undefined'){
+                indexActiveBlock = 0;
+            }
+
+            generete();
+            fill();
+            start();
+        }
+        else {
+            toastr.error('No block in active survey');
+            $state.go('tab.user-management');
         }
 
-        if(typeof indexActiveBlock == 'undefined'){
-            indexActiveBlock = 0;
-        }
 
-        generete();
-        fill();
-        start();
+
 
         function generete() {
             mainQuestionInBlock = items.blocks[indexActiveBlock].questions;

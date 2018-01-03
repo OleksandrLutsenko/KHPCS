@@ -14,7 +14,14 @@
                 url: '/tab',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    security: function ($state, userService) {
+                        if(!userService.getToken()){
+                            return $state.go('login');
+                        }
+                    }
+                }
             })
             .state('login', {
                 url: '/login',
@@ -98,7 +105,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     items: function (surveyService, survey) {
-                        let idSurvey = survey.getActineSurvey().id;
+                        let idSurvey = survey.getActiveSurvey().id;
 
                         return surveyService.loadOneSurvey(idSurvey).then(function (res) {
                             if(res.success){

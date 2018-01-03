@@ -3,14 +3,14 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService'];
+    SurveyBlockController.$inject = ['blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService', '$timeout', '$mdSidenav', '$mdUtil', '$log'];
 
-    function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService) {
+    function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService, $timeout, $mdSidenav, $mdUtil, $log) {
         let vm = this;
         tabsService.startTab();
 
-        let activeSurvey = survey.getActineSurvey();
-        let activeBlock = survey.getActiveBlock();
+        let activeSurvey = survey.getActiveSurvey();
+        vm.activeBlock = survey.getActiveBlock().indexBlock;
 
         let idSurvey = activeSurvey.id;
 
@@ -21,6 +21,7 @@
         vm.deleteBlock = deleteBlock;
 
         function setActiveBlock(id, indexBlock) {
+            vm.activeBlock = indexBlock;
             survey.setActiveBlock(id, indexBlock);
             let tmpObj = {
                 activeBlock: {
@@ -31,12 +32,17 @@
             $scope.$broadcast('setActiveBlock', tmpObj);
             $state.go('tab.survey-block.survey-question');
         }
-        function mowUpdate(movData) {
-            $scope.$broadcast('mowUpdate', movData);
+
+        $scope.$on('showBlock', function (event, data) {
+            buildToggler();
+        });
+
+        function buildToggler() {
+            $mdSidenav('left').toggle();
         }
 
         if (vm.items.length > 0) {
-            if(activeBlock.indexBlock == undefined){
+            if(vm.activeBlock == undefined){
                 setActiveBlock(vm.items[0].id, 0);
             }
             $state.go('tab.survey-block.survey-question');
@@ -51,6 +57,7 @@
 
             stop: function (event, ui) {
                 let droptargetModel = ui.item.sortable.droptargetModel;
+                let model = ui.item.sortable.model;
 
                 if(droptargetModel == vm.items) {
                     vm.items.forEach(function (item, index) {
@@ -65,9 +72,13 @@
                             }
                         });
                     });
+                    for(let i = 0; i < droptargetModel.length; i++){
+                        if(model.id == droptargetModel[i].id){
+                            setActiveBlock(model.id, i);
+                            break;
+                        }
+                    }
                 }
-                mowUpdate(vm.items);
-                console.log(vm.items);
             }
         };
 

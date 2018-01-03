@@ -19,7 +19,7 @@
             }else {
                 vm.currentNavItem =  'page1';
             }
-        })()
+        })();
 
 
 
