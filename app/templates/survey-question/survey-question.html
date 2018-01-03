@@ -17,11 +17,17 @@
                 </div>
                 <div ng-show="!vm.edit" layout="row" layout-align="center center">
                     <div>
-                       Single choise question
+                        <md-button ng-click="vm.showEdit()">
+                            Add question
+                        </md-button>
                     </div>
-                    <div>
-                        Text question
-                    </div>
+
+                    <!--<div>-->
+                       <!--Single choise question-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--Text question-->
+                    <!--</div>-->
                     <div>
                         <md-button class="cancel-button" ng-click="vm.cancel()">
                             Cancel
@@ -105,13 +111,13 @@
 
                                                 </div>
                                                     <div>
-                                                        <div ui-sortable="vm.sortableOptionAnswer" ng-model="question.answers" class="answer-container" ng-if="question.type == 1">
-                                                            <div ng-repeat="(answerKey, answers) in  question.answers" class="answer-block" ng-if="!answers.delete">
+                                                        <div ui-sortable="vm.sortableOptionChildAnswer" ng-model="child_questions.answers" class="child-answer-container" ng-if="child_questions.type == 1">
+                                                            <div ng-repeat="childAnswers in  child_questions.answers" class="answer-block" ng-if="!childAnswers.delete">
 
                                                                 <div layout="row" flex="" class="answeText">
 
                                                                     <i class="material-icons md-36">radio_button_unchecked</i>
-                                                                    {{answers.answer_text}}
+                                                                    {{childAnswers.answer_text}}
 
                                                                 </div>
 

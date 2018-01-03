@@ -33,6 +33,9 @@
 
             vm.items = items[indexBlock].questions;
             vm.nameBlock = items[indexBlock].name;
+            if(!vm.edit){
+                cancel();
+            }
         });
 
         function toggleLeft() {
@@ -46,6 +49,8 @@
             vm.sortableOptionAnswer.disabled = vm.edit;
 
             vm.sortableOptionsQuestionInAnswer.disabled = vm.edit;
+
+            vm.sortableOptionChildAnswer.disabled = vm.edit;
 
         }
 
@@ -103,7 +108,6 @@
         };
         vm.sortableOptionAnswer = {
             disabled: vm.edit,
-            connectWith: ".answer-container",
             'ui-floating': true,
         };
         vm.sortableOptionsQuestionInAnswer = {
@@ -133,10 +137,10 @@
             }
 
         };
-
-        // $scope.$watch(vm.childDraging, function () {
-        //    console.log('childDraging', vm.childDraging);
-        // });
+        vm.sortableOptionChildAnswer = {
+            disabled: vm.edit,
+            'ui-floating': true,
+        };
 
         function cancel() {
             let idSurvey = survey.getActiveSurvey().id;
