@@ -21,6 +21,9 @@ class CreateQuestionsTable extends Migration
             $table->integer('order_number', false, 10)->nullable();
             $table->integer('child_order_number', false, 10)->nullable();
             $table->integer('parent_answer_id', false, 10)->nullable();
+            $table->string('identifier')->nullable();
+            $table->integer('validation_type', false, 10)->default(0);
+            $table->integer('characters_limit', false, 10)->default(30);
             $table->softDeletes();
             $table->timestamps();
         });

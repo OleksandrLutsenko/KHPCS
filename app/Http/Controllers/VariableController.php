@@ -11,8 +11,8 @@ class VariableController extends Controller
 {
     /**
      * @param Variable $variable
-     * @param User $user
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Database\Eloquent\Collection|\Symfony\Component\HttpFoundation\Response|static[]
+     * @internal param User $user
      * @internal param Survey $survey
      */
     public function index(Variable $variable)

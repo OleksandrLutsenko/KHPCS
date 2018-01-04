@@ -47,14 +47,13 @@ class BlockController extends Controller
         if ($user->can('addQuestion', $block)) {
             $question = $block->question()->create($request->all());
             return compact('question');
-
         } else {
             return response([
                 "error" => "You do not have a permission"], 404
             );
         }
     }
-
+//
 //    public function addQuestionsBlock(Request $request, Block $block, User $user)
 //    {
 //        if ($user->can('addQuestion', $block)) {
@@ -257,6 +256,33 @@ class BlockController extends Controller
             $block->update($request->all());
 
             return compact('block');
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
+    }
+
+    public function updateBlockOrderNumbers(Survey $survey, Request $request, User $user)
+    {
+        if ($user->can('update', $survey)) {
+            $blocks = $survey->block;
+            $requests = $request->all();
+            foreach ($requests as $request) {
+                $block = Block::where('survey_id', $survey->id)
+                                ->find($request['id']);
+                $block->update([
+                    $block->order_number = $request['order_number']
+                ]);
+
+                $blockOrderNUmbers[] = [
+                    'id' => $block->id,
+                    'name' => $block->name,
+                    'order_number' => $block->order_number
+                ];
+
+            }
+            return response(['blocks' => $blockOrderNUmbers], 201);
         } else {
             return response([
                 "error" => "You do not have a permission"], 404

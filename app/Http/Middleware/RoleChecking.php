@@ -21,7 +21,7 @@ class RoleChecking
         }
         else
         {
-            return response(404);
+            return response('Permission denied',404);
         }
     }
 }
