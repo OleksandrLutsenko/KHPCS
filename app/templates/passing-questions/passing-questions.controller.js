@@ -11,6 +11,8 @@
         let vm = this;
         tabsService.startTab('page1');
 
+        vm.toggle = toggle;
+        vm.exists = exists;
         vm.next = next;
         vm.back = back;
         vm.backSucces = false;
@@ -53,8 +55,19 @@
             $state.go('tab.user-management');
         }
 
+        function toggle(item, list) {
+            let idx = list.indexOf(item);
+            if (idx > -1) {
+                list.splice(idx, 1);
+            }
+            else {
+                list.push(item);
+            }
+        }
 
-
+        function exists(item, list) {
+            return list.indexOf(item) > -1;
+        }
 
         function generete() {
             mainQuestionInBlock = items.blocks[indexActiveBlock].questions;
@@ -87,13 +100,35 @@
                 }
             }
 
+            function findAnswerCheckBox(item) {
+                let mainData = [];
+
+                customerAnswerOnActiveBlock.forEach(function (itemAnswer) {
+                    if(itemAnswer.question_id == item.id){
+                        mainData.push(itemAnswer.answer_id)
+                    }
+                });
+
+                return mainData;
+            }
+
             mainQuestionInBlock.forEach(function (itemMainQuestion) {
                 let mainData = {
-                    mainData: findAnswer(itemMainQuestion),
                     answerData: []
                 };
 
-                if(itemMainQuestion.type == 1){
+                if(itemMainQuestion.type == 0){
+                    mainData.mainData = findAnswerCheckBox(itemMainQuestion);
+                }
+                else {
+                    mainData.mainData = findAnswer(itemMainQuestion);
+                }
+
+
+                if(mainData.mainData == undefined && itemMainQuestion.type == 0){
+                    mainData.mainData = [];
+                }
+                else if(itemMainQuestion.type == 1){
                     itemMainQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
                         mainData.answerData[indexAnswer] = {
                             childData: []
@@ -106,6 +141,7 @@
                         });
                     })
                 }
+
                 vm.data.push(mainData);
 
             });
@@ -141,69 +177,63 @@
 
                     checkForFill(itemQuestion.mainData);
 
-                    if(mainQuestionInBlock[indexQuestion].type == 1) {
+                    if(mainQuestionInBlock[indexQuestion].type == 1 || mainQuestionInBlock[indexQuestion].type == 0) {
                         let tmpObj = {};
 
-                        tmpObj.id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
+                        tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
                         tmpObj.answer_id = itemQuestion.mainData;
 
-                        if(tmpObj.id == undefined){
-                            tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
-                        }
                         dataForSend.push(tmpObj);
 
-                        mainQuestionInBlock[indexQuestion].answers.forEach(function (itemAnswer, indexAnswer) {
-                            if(itemAnswer.child_questions.length > 0){
-                                if(itemQuestion.mainData == itemAnswer.id){
-                                    itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
-                                        if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
-                                            let tmpObj = {};
+                        if(mainQuestionInBlock[indexQuestion].type == 1){
+                            mainQuestionInBlock[indexQuestion].answers.forEach(function (itemAnswer, indexAnswer) {
+                                if(itemAnswer.child_questions.length > 0){
+                                    if(itemQuestion.mainData == itemAnswer.id){
+                                        itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
+                                            if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
+                                                let tmpObj = {};
 
-                                            tmpObj.id = serchAnswerId(itemChildQuestion.id);
+                                                tmpObj.question_id = itemChildQuestion.id
 
-                                            if(itemChildQuestion.type == 1){
-                                                tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
+                                                if(itemChildQuestion.type == 1){
+                                                    tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
+                                                }
+                                                else {
+                                                    tmpObj.value = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
+                                                }
+
+                                                dataForSend.push(tmpObj);
+
+                                                checkForFill(itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]);
                                             }
                                             else {
-                                                tmpObj.value = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
+                                                succesNext = false;
                                             }
+                                        });
+                                    }
+                                    else {
+                                        itemAnswer.child_questions.forEach(function (itemChildQuestion) {
+                                            if(tmpObj.id != undefined){
+                                                let tmpObj = {
+                                                    id: serchAnswerId(itemChildQuestion.id),
+                                                    delete: true
+                                                };
 
-                                            if(tmpObj.id == undefined){
-                                                tmpObj.question_id = itemChildQuestion.id;
+                                                dataForSend.push(tmpObj);
                                             }
-                                            dataForSend.push(tmpObj);
-
-                                            checkForFill(itemQuestion.answerData[indexAnswer].childData[indexChildQuestion]);
-                                        }
-                                        else {
-                                            succesNext = false;
-                                        }
-                                    });
+                                        })
+                                    }
                                 }
-                                else {
-                                    itemAnswer.child_questions.forEach(function (itemChildQuestion) {
-                                        if(tmpObj.id != undefined){
-                                            let tmpObj = {
-                                                id: serchAnswerId(itemChildQuestion.id),
-                                                delete: true
-                                            };
+                            })
+                        }
 
-                                            dataForSend.push(tmpObj);
-                                        }
-                                    })
-                                }
-                            }
-                        })
+
                     }
                     else {
                         let tmpObj = {};
 
-                        tmpObj.id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
+                        tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
                         tmpObj.value = itemQuestion.mainData;
-
-                        if(tmpObj.id == undefined){
-                            tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
-                        }
 
                         dataForSend.push(tmpObj);
                     }

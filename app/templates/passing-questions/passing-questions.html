@@ -17,8 +17,8 @@
                     <div layout="colums" ng-if="questions.type == 0">
                         <div>
                             <div ng-repeat="answers in questions.answers">
-                                <md-checkbox ng-checked="exists(answers, selected)" ng-click="toggle(answers, selected)">
-                                    {{answers.answer_text}} <span ng-if="exists(answers, selected)">selected</span>
+                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].mainData)" ng-click="vm.toggle(answers.id, vm.data[mainKey].mainData)">
+                                    {{answers.answer_text}}
                                 </md-checkbox>
                             </div>
                         </div>
@@ -80,6 +80,7 @@
         <div flex="80" flex-xs="100" layout="row" layout-align="end center">
             <div>
                 <md-button  class="md-raised backButton" ng-click="vm.back()" ng-if="vm.backSucces">Back</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.show()">Show</md-button>
                 <md-button class="md-raised md-primary" ng-click="vm.next()">Next</md-button>
             </div>
         </div>
