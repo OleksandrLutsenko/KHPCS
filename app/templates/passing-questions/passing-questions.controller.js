@@ -182,15 +182,14 @@
                                 }
                                 else {
                                     itemAnswer.child_questions.forEach(function (itemChildQuestion) {
-                                        let tmpObj = {
-                                            id: serchAnswerId(itemChildQuestion.id),
-                                            delete: true
-                                        };
-
                                         if(tmpObj.id != undefined){
+                                            let tmpObj = {
+                                                id: serchAnswerId(itemChildQuestion.id),
+                                                delete: true
+                                            };
+
                                             dataForSend.push(tmpObj);
                                         }
-
                                     })
                                 }
                             }
