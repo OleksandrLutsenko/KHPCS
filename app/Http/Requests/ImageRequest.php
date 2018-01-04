@@ -28,8 +28,8 @@ class ImageRequest extends FormRequest
         ];
     }
 
-    public function getImagePathAttribute($filePathUri){
-        $attributes['link'] = $filePathUri;
+    public function getImagePathAttribute($filePathUrl){
+        $attributes['link'] = $filePathUrl;
         return $attributes;
     }
 }
