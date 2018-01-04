@@ -10,12 +10,17 @@ class Question extends Model
 {
     use SoftDeletes;
 
+    const TYPE_CHECKBOX = 0;
     const TYPE_RADIO = 1;
     const TYPE_TXT = 2;
+    const TYPE_DATE = 3;
 
-    protected $fillable = ['title', 'type', 'order_number', 'child_order_number', 'parent_answer_id'];
+    const VALIDATION_TYPE_TEXT = 0;
+    const VALIDATION_TYPE_NUMBERS = 1;
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number', 'parent_answer_id'];
+    protected $fillable = ['title', 'type', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit'];
+
+    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit'];
 
     protected $appends = ['answers'];
 

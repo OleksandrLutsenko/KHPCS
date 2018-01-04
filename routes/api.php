@@ -25,6 +25,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('contract-research/{contractResearch}/save-image', 'ImageController@upload');
     Route::post('contract-research/{contractResearch}/image/{image}', 'ImageController@reUpload');
     Route::delete('contract/image/{image}', 'ImageController@destroy');
+    Route::get('contract/{contract}/image-list', 'ContractController@usedImages');
 });
 
 Route::group(['middleware' => 'api-response'], function() {
@@ -61,6 +62,11 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::put('/survey/{survey}/change-status', 'SurveyController@changeStatusActiveInactive');
         /** change status archive/inactive */
         Route::put('/survey/{survey}/archive-status', 'SurveyController@changeStatusArchive');
+
+
+
+
+        Route::put('/survey/{survey}/order-update', 'BlockController@updateBlockOrderNumbers');
 
         /** BLOCKS */
         /** show block's questions */
@@ -140,13 +146,16 @@ Route::group(['middleware' => 'api-response'], function() {
             /** List of survey customer answers and status */
             Route::get('/survey/{survey}/list', 'CustomerAnswerController@customerSurveyBlockAnswers');
         });
-        Route::get('/variable', 'VariableController@index');
-        Route::get('/variable-all', 'VariableController@indexWithTrashed');
-        Route::get('/variable/{variable}', 'VariableController@show');
-        Route::post('/variable', 'VariableController@store');
-        Route::put('/variable/{variable}', 'VariableController@update');
-        Route::delete('/variable/{variable}', 'VariableController@destroy');
 
+        Route::group(['middleware' => 'role-checking'], function() {
+            Route::get('/variable', 'VariableController@index');
+            Route::get('/variable-all', 'VariableController@indexWithTrashed');
+            Route::get('/variable/{variable}', 'VariableController@show');
+            Route::post('/variable', 'VariableController@store');
+            Route::put('/variable/{variable}', 'VariableController@update');
+            Route::delete('/variable/{variable}', 'VariableController@destroy');
+        });
         Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
+
     });
 });

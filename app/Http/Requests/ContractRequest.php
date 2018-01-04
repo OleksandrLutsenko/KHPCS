@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Survey;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ContractRequest extends FormRequest

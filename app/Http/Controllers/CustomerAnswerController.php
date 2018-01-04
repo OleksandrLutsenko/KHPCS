@@ -77,20 +77,25 @@ class CustomerAnswerController extends Controller
     public function customerSurveyBlockAnswers(CustomerAnswerRequest $request, Customer $customer, Question $question, Survey $survey)
     {
         $blockArray = Block::where('survey_id', '=', $survey->id)->get();
+        if ($blockArray->isEmpty()) {
+            return response([
+                'status' => False,
+                'message' => 'No blocks'], 200);
+        } else {
+            foreach ($blockArray as $block) {
+                $questionArray = Question::where('block_id', $block->id)->get();
+                $questionArrayIDs = array_column($questionArray->toArray(), 'id');
 
-        foreach ($blockArray as $block){
-            $questionArray = Question::where('block_id', $block->id)->get();
-            $questionArrayIDs = array_column($questionArray->toArray(), 'id');
+                $customerAnswerArray = CustomerAnswer::whereIn('question_id', $questionArrayIDs)
+                    ->where('customer_id', '=', $customer->id)->get();
 
-            $customerAnswerArray = CustomerAnswer::whereIn('question_id', $questionArrayIDs)
-                ->where('customer_id', '=', $customer->id)->get();
+                $result[] = ['block_id' => $block->id, 'customerAnswers' => $customerAnswerArray];
+            }
 
-            $result[] = ['block_id' => $block->id, 'customerAnswers' => $customerAnswerArray];
+            return response([
+                'status' => count($questionArray) == count($customerAnswerArray) ? 'completed' : 'in progress',
+                'customerAnswers' => $result
+            ]);
         }
-
-        return response([
-            'status' => count($questionArray) == count($customerAnswerArray) ? 'completed' : 'in progress',
-            'customerAnswers' => $result
-        ]);
     }
 }
