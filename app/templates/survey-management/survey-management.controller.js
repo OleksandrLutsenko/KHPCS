@@ -20,25 +20,34 @@
             survey.setActiveSurvey(survey_id, indexSurvey);
         }
 
-        vm.activeSurvey = function (survey_id) {
+        vm.activeSurvey = function (survey_id , survey) {
             surveyService.changeStatusSurvey(survey_id).then(function (res) {
-                if (res.success) {
-                    surveyService.loadSurveyOnly().then(function () {
-                        vm.survey = surveyService.getSurveyOnly();
-                    });
+               if(res.success){
+                   for (let i = 0; i< vm.survey.length; i++) {
+                       if(vm.survey[i].survey_status === 'active'){
+                           vm.survey[i].survey_status = 'inactive';
+                           break;
+                       }
+                   }
+
+                    vm.survey.splice(vm.survey.indexOf(survey), 1 , survey);
+                   survey.survey_status = 'active';
                 } else {
                     console.log('Change Status Survey error');
                 }
-
             });
         };
 
-        vm.archiveSurvey = function (id, eddOrExtract) {
+        vm.archiveSurvey = function (id, eddOrExtract , survey , archiveItem) {
             surveyService.archiveStatusSurvey(id).then(function (res) {
                 if (res.success) {
-                    surveyService.loadSurveyOnly().then(function () {
-                        vm.survey = surveyService.getSurveyOnly();
-                    });
+                    if(survey !== undefined  ){
+                        survey.survey_status = 'archived';
+                        vm.survey.splice(vm.survey.indexOf(survey), 1 , survey);
+                    } else {
+                        archiveItem.survey_status = 'inactive';
+                        vm.survey.splice(vm.survey.indexOf(archiveItem), 1 , archiveItem);
+                    }
                     toastr.success('Questionnaire was ' + eddOrExtract);
                 } else {
                     console.log('Archive Status Survey error');
