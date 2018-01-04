@@ -1,0 +1,4 @@
+#!/bin/bash
+exec 2>/var/www/bash.log
+
+find ./storage/contracts/*.log -type f -mmin +60 -exec rm {} \;

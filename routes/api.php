@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::post('contract-research/{contractResearch}/save-image', 'ImageController@upload');
     Route::post('contract-research/{contractResearch}/image/{image}', 'ImageController@reUpload');
     Route::delete('contract/image/{image}', 'ImageController@destroy');
+    Route::get('contract/{contract}/image-list', 'ContractController@usedImages');
 });
 
 Route::group(['middleware' => 'api-response'], function() {

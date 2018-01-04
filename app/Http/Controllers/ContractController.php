@@ -166,6 +166,11 @@ class ContractController extends Controller
             $user);
     }
 
+    public function usedImages(Contract $contract) {
+        $images = Image::where('contract_research_id', $contract->contractResearch->id)->get();
+        return response(['imageList' => $images], 200);
+    }
+
     /**
      * @param $filenamePdf
      * @return string

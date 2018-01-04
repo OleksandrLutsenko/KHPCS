@@ -6,6 +6,7 @@ use App\Contract;
 use App\ContractResearch;
 use App\Http\Requests\ImageRequest;
 use App\Image;
+use function GuzzleHttp\Psr7\uri_for;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
@@ -31,9 +32,9 @@ class ImageController extends Controller
         $filePathUri = 'storage/images/' . $filename;
         $filePathUrl = url($filePathUri);
 
-        $image = $contractResearch->images()->create($request->getImagePathAttribute($filePathUri));
+        $image = $contractResearch->images()->create($request->getImagePathAttribute($filePathUrl));
 
-        return compact('image', 'filePathUrl');
+        return compact('image');
     }
 
     /**
@@ -91,9 +92,10 @@ class ImageController extends Controller
      */
     public function destroy(Image $image)
     {
-        $fileUri = $image->link;
-        File::delete('../'.$fileUri);
-        
+        $fileUri = uri_for($image->link);
+
+        File::delete('..'.$fileUri->getPath());
+
         $image->delete();
         return compact('image');
     }
