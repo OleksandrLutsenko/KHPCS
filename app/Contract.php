@@ -46,10 +46,21 @@ class Contract extends Model
     {
         $surveyQuestions = Survey::getSurveyQuestionsWithTrashed($report->survey);
         foreach ($surveyQuestions as $surveyQuestion) {
-            $customerAnswer = CustomerAnswer::withTrashed()
-                ->where('question_id', $surveyQuestion->id)
-                ->where('customer_id', $report->customer_id)
-                ->first();
+
+            if ($surveyQuestion->type == 0) {
+                $customerAnswerArr = CustomerAnswer::withTrashed()
+                    ->where('question_id', $surveyQuestion->id)
+                    ->where('customer_id', $report->customer_id)
+                    ->get('value');
+
+                $customerAnswer = ['value' => implode(',', $customerAnswerArr)];
+
+            } else {
+                $customerAnswer = CustomerAnswer::withTrashed()
+                    ->where('question_id', $surveyQuestion->id)
+                    ->where('customer_id', $report->customer_id)
+                    ->first();
+            }
 
             if (!$customerAnswer) {
                 $contractAnswers[$surveyQuestion->id] = 'N/A';

@@ -87,7 +87,7 @@ class BlockController extends Controller
                         $question->delete();
                     } else {
                         $question->update($questionObj);
-                        if ($question->type == 1) {
+                        if ($question->type == 1 or $question->type == 0) {
                             if (isset($questionObj['answers'])) {
                                 foreach ($questionObj['answers'] as $answerObj) {
 
@@ -108,7 +108,7 @@ class BlockController extends Controller
                                                             $childQuestion->update($childQuestionObj);
                                                             $childQuestion->parent_answer_id = $answer->id;
                                                             $childQuestion->save();
-                                                            if ($childQuestion->type == 1) {
+                                                            if ($childQuestion->type == 1 or $childQuestion->type == 0) {
                                                                 if (isset($childQuestionObj['answers'])) {
                                                                     foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
                                                                         if (isset($childQuestionAnswerObj['id'])) {
@@ -129,7 +129,7 @@ class BlockController extends Controller
                                                         $childQuestion = $block->question()->create($childQuestionObj);
                                                         $childQuestion->parent_answer_id = $answer->id;
                                                         $childQuestion->save();
-                                                        if ($childQuestion->type == 1) {
+                                                        if ($childQuestion->type == 1 or $childQuestion->type == 0) {
                                                             if (isset($childQuestionObj['answers'])) {
                                                                 foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
                                                                     if (isset($childQuestionAnswerObj['id'])) {
@@ -161,7 +161,7 @@ class BlockController extends Controller
                                                     $childQuestion = $block->question()->create($childQuestionObj);
                                                     $childQuestion->parent_answer_id = $answer->id;
                                                     $childQuestion->save();
-                                                    if ($childQuestion->type == 1) {
+                                                    if ($childQuestion->type == 1 or $childQuestion->type == 0) {
                                                         if (isset($childQuestionObj['answers'])) {
                                                             foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
                                                                 if (isset($childQuestionAnswerObj['id'])) {
@@ -188,7 +188,7 @@ class BlockController extends Controller
                     //Question without id
                 } else {
                     $question = $block->question()->create($questionObj);
-                    if ($question->type == 1) {
+                    if ($question->type == 1 or $question->type == 0) {
                         //Answers for question without id
                         if (isset($questionObj['answers'])) {
                             foreach ($questionObj['answers'] as $answerObj){
@@ -207,7 +207,7 @@ class BlockController extends Controller
                                             $childQuestion = $block->question()->create($childQuestionObj);
                                             $childQuestion->parent_answer_id = $answer->id;
                                             $childQuestion->save();
-                                            if ($childQuestion->type == 1) {
+                                            if ($childQuestion->type == 1 or $childQuestion->type == 0) {
                                                 if (isset($childQuestionObj['answers'])) {
                                                     foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
                                                         if (isset($childQuestionAnswerObj['id'])) {
