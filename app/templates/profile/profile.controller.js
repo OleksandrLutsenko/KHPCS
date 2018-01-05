@@ -54,7 +54,7 @@
                                     userService.loadItems().then(function () {
                                     })
                                 });
-                                return true;
+                                toastr.success('Profile was updated');
                             } else {
                                 console.log('error');
                                 toastr.error('Current password is incorrect');
