@@ -110,7 +110,8 @@
                     toastr.success('Block was edited');
                 }
                 else {
-                    vm.items.push(res.data.block);
+                    items.push(res.data.block);
+                    vm.items = items;
                     let indexBlock = vm.items.length - 1;
                     let id = res.data.block.id;
                     setActiveBlock(id, indexBlock);
