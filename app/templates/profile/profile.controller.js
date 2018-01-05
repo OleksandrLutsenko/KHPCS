@@ -13,7 +13,7 @@
 
         let users = vm.user;
 
-        if (typeof vm.user.id != 'undefined') {
+        if (typeof vm.user.id !== 'undefined') {
             vm.dataInfo = {
                 id: users.id,
                 name: users.name,
@@ -26,7 +26,6 @@
         vm.updateProfileInfo = updateProfileInfo;
 
         function updateProfileInfo() {
-
             if (vm.profile.$invalid) {
                 return;
             } else {
@@ -36,14 +35,17 @@
                             userService.loadItems().then(function () {
                             })
                         });
-
                     } else {
                         console.log('error');
                     }
                 });
 
-                if (vm.data != undefined) {
-                    if (vm.profilePass.$invalid || vm.data.password != vm.data.password_confirmation) {
+                if (!vm.show ) {
+                    toastr.success('Profile was updated');
+                }
+
+                if (vm.data !== undefined) {
+                    if (vm.profilePass.$invalid || vm.data.password !== vm.data.password_confirmation) {
                         return;
                     } else {
                         userService.updatePass(id, vm.data).then(function (res) {
@@ -52,17 +54,13 @@
                                     userService.loadItems().then(function () {
                                     })
                                 });
-                                toastr.success('Profile was updated');
+                                return true;
                             } else {
                                 console.log('error');
                                 toastr.error('Current password is incorrect');
                             }
                         })
                     }
-                }
-
-                if (vm.data == undefined) {
-                    toastr.success('Profile was updated');
                 }
 
             }
@@ -80,6 +78,7 @@
 
             function change(data) {
                 show[data] = !show[data];
+                vm.show = show[data];
             }
 
             function isShow(data) {

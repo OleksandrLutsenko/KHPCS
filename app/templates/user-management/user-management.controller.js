@@ -55,7 +55,7 @@
         }
 
 
-        function deleteCustomer(id, index) {
+        function deleteCustomer(id, customers) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -64,7 +64,7 @@
             }).then(function () {
                 customerService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
-                        vm.customers.splice(index, 1);
+                        vm.customers.splice(vm.customers.indexOf(customers), 1);
                         toastr.success('Delete success');
                     }
                     else {
@@ -74,7 +74,7 @@
             });
         }
 
-        function createOrUpdate(id, customers, index) {
+        function createOrUpdate(id, customers) {
             $mdDialog.show({
                 controller: 'AddClientController',
                 controllerAs: 'vm',
@@ -88,7 +88,7 @@
                 clickOutsideToClose: true
             }).then(function (res) {
                 if (res.type === 'update') {
-                    vm.customers.splice(index, 1, res.data);
+                    vm.customers.splice(vm.customers.indexOf(customers), 1, res.data);
                     activeStatus();
                     toastr.success('Edit success');
                 } else {

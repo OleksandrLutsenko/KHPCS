@@ -1,6 +1,6 @@
 .profile {
 
-  .menu{
+  .menu {
     height: 0;
     overflow: hidden;
     padding: 0;
@@ -36,13 +36,18 @@
     background: #001041;
   }
 
-  .conf-pass{
+  .conf-pass {
     font-size: 13px;
   }
 
-  md-input-container:last-child{
+  md-input-container:last-child {
     padding-bottom: 15px;
   }
 
+  .change-pass {
+    width: fit-content;
+    cursor: pointer;
+    margin-bottom: 5px;
+  }
 
 }
