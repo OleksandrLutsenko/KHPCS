@@ -6,38 +6,64 @@
 
     <div ng-repeat="(mainKey, questions) in vm.questions">
         <div layout="row" layout-align="center center">
-            <div ng-if="questions.type === 1" flex="80" flex-xs="100">
+
+            <div ng-if="questions.type == 1 || questions.type == 0" flex="80" flex-xs="100">
                 <div>
+
                     <div layout="row">
                         <h3>{{questions.title}}</h3>
                     </div>
-                    <div layout="colums">
+
+                    <div layout="colums" ng-if="questions.type == 0">
+                        <div>
+                            <div ng-repeat="answers in questions.answers">
+                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].mainData)" ng-click="vm.toggle(answers.id, vm.data[mainKey].mainData)">
+                                    {{answers.answer_text}}
+                                </md-checkbox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div layout="colums" ng-if="questions.type == 1">
                         <md-radio-group ng-model="vm.data[mainKey].mainData">
                             <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}" class="md-primary">
                                 {{answers.answer_text}}
                             </md-radio-button>
                         </md-radio-group>
                     </div>
+
                 </div>
-                <div ng-repeat="(answerKey, answers) in questions.answers">
+                <div ng-repeat="(answerKey, answers) in questions.answers" ng-if="questions.type == 1">
                     <div ng-repeat="(childKey, child_questions) in answers.child_questions">
                         <div layout="row" layout-align="center center" ng-if="vm.data[mainKey].mainData == child_questions.parent_answer_id">
-                            <div ng-if="child_questions.type == 1" flex="80" flex-xs="100">
+                            <div ng-if="child_questions.type == 1 || child_questions.type == 0" flex="80" flex-xs="100">
                                 <div>
                                     <div layout="row">
                                         <h3>{{child_questions.title}}</h3>
                                     </div>
-                                    <div layout="colums">
+
+                                    <div layout="colums" ng-if="child_questions.type == 0">
+                                        <div>
+                                            <div ng-repeat="answers in child_questions.answers">
+                                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])" ng-click="vm.toggle(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])">
+                                                    {{answers.answer_text}}
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div layout="colums" ng-if="child_questions.type == 1">
                                         <md-radio-group ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]">
                                             <md-radio-button ng-repeat="answers in child_questions.answers" value="{{answers.id}}" class="md-primary">
                                                 {{answers.answer_text}}
                                             </md-radio-button>
                                         </md-radio-group>
                                     </div>
+
                                 </div>
                             </div>
 
-                            <div ng-if="child_questions.type === 2" flex="80" flex-xs="100">
+                            <div ng-if="child_questions.type == 2" flex="80" flex-xs="100">
                                 <div>
                                     <md-input-container class="question-text">
                                         <label>{{child_questions.title}}</label>
@@ -52,7 +78,7 @@
 
             </div>
 
-            <div ng-if="questions.type === 2" flex="80" flex-xs="100">
+            <div ng-if="questions.type == 2" flex="80" flex-xs="100">
                 <div>
                     <md-input-container class="question-text">
                         <label>{{questions.title}}</label>

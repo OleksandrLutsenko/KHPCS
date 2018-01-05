@@ -25,7 +25,6 @@
         vm.toggleLeft = toggleLeft;
         vm.editButton = editButton;
 
-
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
@@ -45,13 +44,10 @@
             vm.edit = !vm.edit;
 
             vm.sortableOptionsQuestion.disabled = vm.edit;
-
+            vm.sortableOptionCheckBox = vm.edit;
             vm.sortableOptionAnswer.disabled = vm.edit;
-
             vm.sortableOptionsQuestionInAnswer.disabled = vm.edit;
-
             vm.sortableOptionChildAnswer.disabled = vm.edit;
-
         }
 
         vm.sortableOptionsQuestion = {
@@ -120,20 +116,13 @@
                     vm.childDraging = true;
                 });
                 console.log('start', vm.childDraging);
-                // vm.sortableOptionsQuestion = {
-                //     disabled: true
-                // }
             },
             update: function (e, ui) {
                 console.log('update', vm.childDraging);
-                // vm.childDraging = true;
             },
             stop: function (e, ui) {
                 vm.childDraging = false;
                 console.log('stop', vm.childDraging);
-                // vm.sortableOptionsQuestion ={
-                //     disabled: false
-                // }
             }
 
         };
@@ -162,7 +151,7 @@
                 dataForSend.forEach(function (itemQuestion, indexQuestion) {
                     itemQuestion.order_number = indexQuestion;
                     itemQuestion.child_order_number = null;
-                    if(itemQuestion.type == 1){
+                    if(itemQuestion.type == 1 || itemQuestion.type == 0){
                         itemQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                             itemAnswer.child_questions.forEach(function (itemQuestionInAnswer, indexQuestionInAnswer) {

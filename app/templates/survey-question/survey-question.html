@@ -22,12 +22,6 @@
                         </md-button>
                     </div>
 
-                    <!--<div>-->
-                       <!--Single choise question-->
-                    <!--</div>-->
-                    <!--<div>-->
-                        <!--Text question-->
-                    <!--</div>-->
                     <div>
                         <md-button class="cancel-button" ng-click="vm.cancel()">
                             Cancel
@@ -45,20 +39,6 @@
     </div>
     <div layout="row" layout-align="center center">
         <div flex="80">
-            <!--<div layout="row">-->
-                <!--<div>-->
-                    <!--&lt;!&ndash;<md-button ng-click="vm.toggleLeft()" class="md-primary" hide-gt-md="">&ndash;&gt;-->
-                    <!--<md-button ng-click="vm.toggleLeft()">-->
-                        <!--<i class="material-icons">menu</i>-->
-                    <!--</md-button>-->
-                <!--</div>-->
-                <!--<div class="main_question">-->
-                    <!--<span class="add-quest" ng-click="vm.showEdit()">Add new question</span>-->
-                    <!--<md-button ng-click="vm.save()">Save</md-button>-->
-                <!--</div>-->
-            <!--</div>-->
-
-
 
             <div ui-sortable="vm.sortableOptionsQuestion" ng-model="vm.items" class="question-container">
                 <div ng-repeat="(mainKey, question) in  vm.items" class="question_block" ng-if="!question.delete" layout="row">
@@ -72,6 +52,10 @@
                                 {{question.title}}
                             </div>
 
+                            <div ng-show="vm.edit">
+                                {{question.identifier}}
+                            </div>
+
                             <div class="icons" ng-show="!vm.edit">
                                 <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
                                 <md-icon ng-click="vm.deleteQuest(question.id, mainKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
@@ -79,21 +63,20 @@
 
                         </div>
                         <div>
-                            <div ui-sortable="vm.sortableOptionAnswer" ng-model="question.answers" class="answer-container" ng-if="question.type == 1">
+
+                            <div ui-sortable="vm.sortableOptionAnswer" ng-model="question.answers" class="answer-container" ng-if="question.type == 1 || question.type == 0">
                                 <div ng-repeat="(answerKey, answers) in  question.answers" class="answer-block" ng-if="!answers.delete">
-
-
 
                                         <div layout="row" flex="" class="answeText">
 
-                                            <i class="material-icons md-36">radio_button_unchecked</i>
+                                            <i class="material-icons" ng-if="question.type == 0">check</i>
+                                            <i class="material-icons md-36" ng-if="question.type == 1">radio_button_unchecked</i>
+
                                             {{answers.answer_text}}
 
                                         </div>
 
-
-
-                                    <div layout="row" layout-align="end center">
+                                    <div layout="row" layout-align="end center" ng-if="question.type == 1">
                                         <div ui-sortable="vm.sortableOptionsQuestionInAnswer" ng-model="answers.child_questions" class="question-container" ng-class="{'question-container-drop': vm.childDraging}" flex="90">
                                                 <div ng-repeat="(questionKey, child_questions) in answers.child_questions" ng-if="!child_questions.delete">
                                                 <div class="child_question" ng-class="{'child_question_last': $last && child_questions.type == 2}" layout="row" layout-align="space-between center">
@@ -102,21 +85,25 @@
                                                         {{child_questions.title}}
                                                     </div>
 
+                                                    <div ng-show="vm.edit">
+                                                        {{question.identifier}}
+                                                    </div>
 
                                                     <div class="icons" ng-show="!vm.edit">
                                                         <md-icon ng-click="vm.showEdit(mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
                                                         <md-icon ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
                                                     </div>
 
-
                                                 </div>
                                                     <div>
-                                                        <div ui-sortable="vm.sortableOptionChildAnswer" ng-model="child_questions.answers" class="child-answer-container" ng-if="child_questions.type == 1">
+                                                        <div ui-sortable="vm.sortableOptionChildAnswer" ng-model="child_questions.answers" class="child-answer-container" ng-if="child_questions.type == 1 || child_questions.type == 0">
                                                             <div ng-repeat="childAnswers in  child_questions.answers" class="answer-block child-answer" ng-if="!childAnswers.delete">
 
                                                                 <div layout="row" flex="" class="answeText">
 
-                                                                    <i class="material-icons md-36">radio_button_unchecked</i>
+                                                                    <i class="material-icons" ng-if="child_questions.type == 0">check</i>
+                                                                    <i class="material-icons md-36" ng-if="child_questions.type == 1">radio_button_unchecked</i>
+
                                                                     {{childAnswers.answer_text}}
 
                                                                 </div>
@@ -127,8 +114,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
 
                                 </div>
                             </div>
