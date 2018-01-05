@@ -245,7 +245,7 @@
                                                 tmpObj.delete = true;
                                                 tmpObj.question_id = itemChildQuestion.id;
 
-                                                if(itemChildQuestion.type == 1){
+                                                if(itemChildQuestion.type != 0){
                                                     tmpObj.id = id;
                                                 }
                                                 dataForSend.push(tmpObj);
