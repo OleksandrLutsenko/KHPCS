@@ -21,7 +21,7 @@
         model.removeTemplate = removeTemplate;
         model.loadOneTemplate = loadOneTemplate;
         model.loadTemplateList = loadTemplateList;
-        model.loadingTemplatesForThePoll = loadingTemplatesForThePoll;
+        model.loadTemplatesForThePoll = loadTemplatesForThePoll;
         model.loadAllTemplates = loadAllTemplates;
 
         // UserVariability
@@ -67,7 +67,7 @@
             return http.get(url.contract_editor_func().getTemplateList);
         }
 
-        function loadingTemplatesForThePoll(id) {
+        function loadTemplatesForThePoll(id) {
             return http.get(url.contract_editor_func(id).getTemplatesForThePool);
         }
 

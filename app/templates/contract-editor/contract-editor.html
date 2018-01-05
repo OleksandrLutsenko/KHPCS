@@ -12,7 +12,7 @@
                         <i class="material-icons">search</i>
                         <p layout="row" layout-align="none end">Search</p>
                     </label>
-                    <input type="text" ng-model="vm.searchSurvey.name">
+                    <input type="text" ng-model="vm.searchSurvey.survey_name">
                 </md-input-container>
             </div>
 
@@ -36,25 +36,34 @@
     </div>
 
     <div flex="60">
-        <div  class="upload-img" layout="row" flex="100">
-            <form name="imgForm" enctype="multipart/form-data">
-                <!--<md-input-container class="md-icon-float md-icon-right md-block">-->
-                    <input  class="ng-hide" type="file" id="file" name="imgFile" value="Select" accept="image/*" required>
-                    <!--<input type="submit" value="Upload" ng-click="vm.sendImage()" >-->
+        <!--<div  class="upload-img" layout="row" flex="100">-->
+            <!--<form name="imgForm" enctype="multipart/form-data">-->
+                <!--<input  type="file" class="ng-hide"  id="file" name="imgFile" value="Select" accept="image/*" required>-->
+                <!--<label  for="file" class="md-button md-raised md-primary">Select image</label>-->
+            <!--</form>-->
 
-                    <label  for="file" class="md-button md-raised md-primary">Select image</label>
-                <!--</md-input-container>-->
+            <!--<md-button class="md-raised" ng-click="vm.sendImage()" ng-disabled="!vm.showUpload">Upload</md-button>-->
+            <!--<div layout="row" layout-align="center center" class="hidden-text">{{vm.fileName}}</div>-->
+        <!--</div>-->
+
+
+
+        <div  class="upload-img" layout="row" flex="100">
+            <form  name="imgForm" enctype="multipart/form-data" layout="row" layout-align="center center">
+                <input  type="file" class="ng-hide"  id="file" name="imgFile" value="Select" accept="image/*" required>
+                <label for="file"><i class="material-icons">add_a_photo</i></label>
             </form>
 
-            <!--<md-button class="md-raised" ng-click="vm.sendImage()" ng-disabled="!setupForm.$valid">Start</md-button>-->
-            <md-button class="md-raised" ng-click="vm.sendImage()" ng-disabled="!vm.showUpload">Upload</md-button>
-            <div  layout="row" layout-align="center center" class="hidden-text">{{vm.fileName}}</div>
-
-
-
+            <!--<md-button class="md-raised" ng-click="vm.sendImage()" >Upload</md-button>-->
+            <!--<div layout="row" layout-align="center center" class="hidden-text">{{vm.fileName}}</div>-->
         </div>
+
+
+
+
+
         <div>
-            <textarea name="CKeditorArea"></textarea>
+            <textarea name="CKeditorArea" class="cke"></textarea>
         </div>
     </div>
 
@@ -112,9 +121,12 @@
                 </div>
             </div>
 
+            <p ng-if="!vm.templates.length" class="empty-block">
+                No templates
+            </p>
+
             <div ng-repeat="template in vm.templates | filter: vm.searchTemplate">
-                <p ng-click="vm.pasteTemplate(template)" ng-if="vm.showTemplates(template.survey_id)"
-                   class="templates hidden-text pointer">
+                <p ng-click="vm.pasteTemplate(template)" class="templates hidden-text pointer">
                     <i class="material-icons chevron" ng-if="vm.showSelectedTemplate(template.id)">chevron_right</i>
                     {{template.title}}
                 </p>

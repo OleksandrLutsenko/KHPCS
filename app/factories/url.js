@@ -69,7 +69,7 @@
                     createSurveyTemplate: baseUrl + 'api/contract-research/' + id + '/contract',
                     getOneTemplate: baseUrl + 'api/contract/' + id,
                     getTemplates: baseUrl + 'api/contract',
-                    getTemplatesForThePool: baseUrl + 'api/survey' + id + 'contracts',
+                    getTemplatesForThePool: baseUrl + 'api/survey/' + id + '/contracts',
                     getTemplateList: baseUrl + 'api/onlycontract',
                     deleteTemplate: baseUrl + 'api/contract/' + id,
                     updateTemplate: baseUrl + 'api/contract/' + id,

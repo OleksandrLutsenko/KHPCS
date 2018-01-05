@@ -25,15 +25,18 @@
         vm.showTemplateTab = true;
         vm.showSurveyVarTab = false;
         vm.showUserVarTab = false;
+        vm.fileName = 'Choose File';
+        let image = document.getElementById('file');
 
         vm.surveys = [];
         userService.loadSurveysOnly().then(function (res) {
             if (res.success) {
                 console.log(res.data.onlySurvey);
                 vm.surveys = res.data.onlySurvey;
+
                 if (vm.surveys.length) {
 
-                    for (let i=0; i<vm.surveys.length; i++) {
+                    for (let i = 0; i < vm.surveys.length; i++) {
                         if (vm.surveys[i].survey_status === 'active' || vm.surveys[i].survey_status === 'inactive') {
                             activeSurveyID = vm.surveys[i].survey_id;
                             activeSurveyName = vm.surveys[i].survey_name;
@@ -41,63 +44,47 @@
                         }
                     }
 
-                    surveyService.loadOneSurvey(activeSurveyID).then(function (survey) {
-                        if (survey.success) {
-                            vm.activeSurvey = survey.data.survey.blocks;
-                            console.log(vm.activeSurvey, 'vm.activeSurvey');
-                        }else{
-                            console.log('load survey error');
-                        }
-                    });
-
+                    loadOneSurvey(activeSurveyID);
+                    loadTemplates(activeSurveyID);
+                    loadAllUserVariability();
                     CKEDITOR.instances.CKeditorArea.setData('');
-
-                    // contractService.createNewResearch().then(function (res) {
-                    //     tmpResearchId = res.data.id;
-                    // console.log(tmpResearchId);
-                    // });
                 }
-            }else {
+            } else {
                 console.log('load surveys error');
             }
         });
 
-        contractService.getVariabilityWithDeleted().then(function (res) {
-            if(res.success) {
-                vm.variability = res.data;
-                console.log(vm.variability, 'vm.variability');
-            }else {
-                console.log('load variability error');
-            }
-        });
+        function loadOneSurvey(id) {
+            surveyService.loadOneSurvey(id).then(function (survey) {
+                if (survey.success) {
+                    vm.activeSurvey = survey.data.survey.blocks;
+                    console.log(vm.activeSurvey, 'vm.activeSurvey');
+                } else {
+                    console.log('load survey error');
+                }
+            });
+        }
+        function loadAllUserVariability() {
+            contractService.getVariabilityWithDeleted().then(function (res) {
+                if (res.success) {
+                    vm.variability = res.data;
+                    console.log(vm.variability, 'vm.variability');
+                } else {
+                    console.log('load variability error');
+                }
+            });
+        }
 
-
-        // contractService.loadAllTemplates().then(function (res) {
-        contractService.loadTemplateList().then(function (res) {
-            if(res.success) {
-                vm.templates = res.data.contractsWithoutBody;
-                console.log(vm.templates, 'vm.templates');
-
-                vm.availabilityOfTemplates = function () {
-                    let tmpStatus = true;
-
-                    for (let i=0; i<vm.templates.length; i++){
-                        if (vm.templates[i].survey_id === activeSurveyID) {
-                            tmpStatus = false;
-                        }
-                    }
-
-                    if (tmpStatus === true){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                };
-            }else {
-                console.log('load templates error');
-            }
-        });
-
+        function loadTemplates(id) {
+            contractService.loadTemplatesForThePoll(id).then(function (res) {
+                if (res.success) {
+                    vm.templates = res.data;
+                    console.log(vm.templates, 'vm.templates');
+                } else {
+                    console.log('load templates error');
+                }
+            });
+        }
 
         CKEDITOR.replace('CKeditorArea');
 
@@ -166,23 +153,16 @@
 
         ///////////////////////////////////////////////////////////////////////////////
         vm.setActiveSurvey = function setActiveSurvey(id, name) {
+            CKEDITOR.instances.CKeditorArea.setData('');
             activeSurveyID = id;
             activeSurveyName = name;
             pasteImgBeforeCreateTemplate = false;
             tmpResearchId = undefined;
-
-            surveyService.loadOneSurvey(activeSurveyID).then(function (survey) {
-                if (survey.success) {
-                    vm.activeSurvey = survey.data.survey.blocks;
-                    console.log(vm.activeSurvey, 'vm.activeSurvey');
-                }else{
-                    console.log('load survey error');
-                }
-            });
-
             vm.activeTemplateId = undefined;
             activeTemplateTitle = undefined;
-            CKEDITOR.instances.CKeditorArea.setData('');
+
+            loadOneSurvey(activeSurveyID);
+            loadTemplates(activeSurveyID);
         };
 
         vm.pasteTitle = function (data) {
@@ -218,6 +198,7 @@
         /////////////////////////Работа с шаблонами////////////////////////////////////
 
         vm.pasteTemplate = function (data) {
+            CKEDITOR.instances.CKeditorArea.setData("");
             let deletedQuestionInSurvey;
             vm.activeTemplateId = data.id;
             activeTemplateTitle = data.title;
@@ -355,15 +336,6 @@
         };
 
         vm.createTemplate = function () {
-            // vm.activeTemplateId = undefined;
-            // activeTemplateTitle = undefined;
-            // CKEDITOR.instances.CKeditorArea.setData('');
-            // console.log(vm.templates);
-            // console.log(activeSurveyID);
-
-
-
-
 
             $mdDialog.show({
                 controller: createTemplateTitleController,
@@ -387,15 +359,27 @@
                 };
 
                 vs.createTemplate = function () {
+                    let nameValidation = true;
+
+                    if (vm.templates.length) {
+                        for (let index in vm.templates) {
+                            if (vm.templates[index].title === vs.data.title) {
+                                nameValidation = false;
+                                console.log('valid = false');
+                                break;
+                            }
+                        }
+                    }
+
                     if (vs.templateForm.name.$invalid) {
                         toastr.error('Error invalid data');
-                    }
-                    else {
+                    } else if (nameValidation === false) {
+                        toastr.error('Name already in use');
+                    } else {
                         if (pasteImgBeforeCreateTemplate === true) {
                             createTemplate(body, tmpImagesArr);
-                            console.log('pasteImgBeforeCreateTemplate = false');
-                            // pasteImgBeforeCreateTemplate = false;
-                            console.log("Research undefined");
+                            // console.log('pasteImgBeforeCreateTemplate = false');
+                            // console.log("Research undefined");
                         } else {
                             contractService.createNewResearch().then(function (res) {
                                 tmpResearchId = res.data.id;
@@ -404,7 +388,6 @@
                                 createTemplate(body, tmpImagesArr);
                             });
                         }
-
                         // console.log(vs.data);
                         $mdDialog.cancel();
                     }
@@ -414,25 +397,32 @@
                         contractService.createTemplate(tmpResearchId, vs.data).then(function (res) {
                             console.log(res);
                             if (res.success) {
-                                contractService.loadTemplateList().then(function (res) {
-                                    vm.templates = res.data.contractsWithoutBody;
-                                    vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
-                                    activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
-                                    // CKEDITOR.instances.CKeditorArea.setData("");
+                                contractService.loadTemplatesForThePoll(activeSurveyID).then(function (res) {
+                                    if (res.success) {
+                                        vm.templates = res.data;
+                                        console.log(vm.templates, 'vm.templates');
+                                        vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
+                                        activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
+                                        // CKEDITOR.instances.CKeditorArea.setData("");
+                                    } else {
+                                        console.log('load templates error');
+                                    }
                                 });
-                                if (pasteImgBeforeCreateTemplate === true) {
+                                if (tmpImagesArr.length) {
+                                    console.log('tmpImagesArr не пуст');
                                     tmpImagesArr.forEach(function (cell) {
                                         console.log(cell.link);
                                         if (body.indexOf(cell.link) === -1) {
                                             console.log('Image ' + cell.id + ' is not used and will be deleted');
                                             contractService.deleteImage(cell.id);
                                         }
-                                        pasteImgBeforeCreateTemplate = false;
-                                        tmpImagesArr = [];
                                     });
-
+                                    pasteImgBeforeCreateTemplate = false;
+                                    tmpImagesArr = [];
                                 }
-                                // tmpImagesArr = [];
+                            } else {
+                                console.log('Failed to update contract');
+                                toastr.invalid('Failed to create contract');
                             }
                         });
                     }
@@ -469,28 +459,47 @@
                 // console.log(vs.data);
 
                 vs.updateTemplate = function () {
+                    let nameValidation = true;
+
+                    if (vm.templates.length) {
+                        for (let index in vm.templates) {
+                            if (vm.templates[index].title === activeTemplateTitle) {
+                                // nameValidation = true;
+                                console.log('Old title');
+                            } else if (vm.templates[index].title === vs.data.title) {
+                                nameValidation = false;
+                                console.log('valid = false');
+                                break;
+                            }
+                        }
+                    }
+
                     if (vs.templateForm.name.$invalid) {
                         toastr.error('Error invalid data');
-                    }
-                    else {
+                    } else if (nameValidation === false) {
+                        toastr.error('Name already in use');
+                    } else {
                         contractService.updateTemplate(vm.activeTemplateId, vs.data).then(function (res) {
                             console.log(res);
                             if (res.success) {
                                 activeTemplateTitle = res.data.contract.title;
-                                contractService.loadTemplateList().then(function (res) {
-                                    vm.templates = res.data.contractsWithoutBody;
-                                    // console.log(vm.templates, 'Template list');
-                                });
-                                tmpImagesArr.forEach(function (cell) {
-                                    // console.log(cell.link);
-                                    if (body.indexOf(cell.link) === -1) {
-                                        console.log('Image ' + cell.id + ' is not used and will be deleted');
-                                        contractService.deleteImage(cell.id);
-                                    }
+
+                                loadTemplates(activeSurveyID);
+
+                                if (tmpImagesArr.length) {
+                                    tmpImagesArr.forEach(function (cell) {
+                                        // console.log(cell.link);
+                                        if (body.indexOf(cell.link) === -1) {
+                                            console.log('Image ' + cell.id + ' is not used and will be deleted');
+                                            contractService.deleteImage(cell.id);
+                                        }
+                                    });
                                     tmpImagesArr = [];
-                                });
+                                }
+
                             } else{
                                 console.log('Update template error');
+                                toastr.error('Failed to update contract');
                             }
                         });
                         $mdDialog.cancel();
@@ -519,14 +528,22 @@
                     contractService.removeTemplate(vm.activeTemplateId).then(function (res) {
                         console.log(res);
                         if (res.success) {
-                            contractService.loadTemplateList().then(function (res) {
-                                vm.templates = res.data.contractsWithoutBody;
-                                CKEDITOR.instances.CKeditorArea.setData("");
-                                vm.activeTemplateId = undefined;
-                                activeTemplateTitle = undefined;
+                            contractService.loadTemplatesForThePoll(activeSurveyID).then(function (res) {
+                                if (res.success) {
+                                    vm.templates = res.data;
+                                    console.log(vm.templates, 'vm.templates');
+                                    CKEDITOR.instances.CKeditorArea.setData("");
+                                    vm.activeTemplateId = undefined;
+                                    activeTemplateTitle = undefined;
+                                } else {
+                                    console.log('load templates error');
+                                }
                             });
                             tmpResearchId = undefined;
                             pasteImgBeforeCreateTemplate = false;
+                        } else {
+                            console.log('Failed to delete contract');
+                            toastr.invalid('Failed to delete contract');
                         }
                     });
                     $mdDialog.cancel();
@@ -740,7 +757,6 @@
             }
 
             function sendImg() {
-                let image = document.getElementById('file');
                 let fd = new FormData();
                 fd.append('image_file', image.files[0]);
                 let xhttp = new XMLHttpRequest();
@@ -764,35 +780,49 @@
                 xhttp.open("POST", contractService.uploadImage(tmpResearchId), fd, true);
                 xhttp.setRequestHeader("token", userService.getToken());
                 xhttp.send(fd);
-            };
-        }
+            }
+        };
 
-        let image = document.getElementById('file');
+        // image.addEventListener("change" , function() {
+        //     if (image.files.length) {
+        //         $scope.$apply(
+        //             function () {
+        //                 vm.fileName = image.files[0].name;
+        //                 // console.log(image.files[0].type);
+        //                 if (image.files[0].type.indexOf('image') !== -1) {
+        //                     vm.showUpload = true;
+        //                     // console.log('Картинка!!!');
+        //                 } else {
+        //                     vm.showUpload = false;
+        //                     vm.fileName = 'Choose File';
+        //                     toastr.error('Select an image file');
+        //                 }
+        //             });
+        //     } else {
+        //         $scope.$apply(
+        //             function () {
+        //                 vm.fileName = 'Choose File';
+        //                 vm.showUpload = false;
+        //             });
+        //     }
+        // });
 
-        vm.fileName = 'Choose File';
+        //Upload image without confirm
+
+
         image.addEventListener("change" , function() {
             if (image.files.length) {
-                $scope.$apply(
-                    function () {
-                        vm.fileName = image.files[0].name;
-                        console.log(image.files[0].type);
-                        if (image.files[0].type.indexOf('image') !== -1) {
-                            vm.showUpload = true;
-                            console.log('Картинка!!!');
-                        } else {
-                            vm.showUpload = false;
-                            vm.fileName = 'Choose File';
-                            toastr.error('Select an image file');
-                        }
-                    });
+                if (image.files[0].type.indexOf('image') !== -1) {
+                    vm.sendImage();
+                } else {
+                    toastr.error('The selected file should be a picture');
+                }
             } else {
-                $scope.$apply(
-                    function () {
-                    vm.fileName = 'Choose File';
-                    vm.showUpload = false;
-                });
+                toastr.error('You did not select any file');
             }
         });
+
+
 
 
 
