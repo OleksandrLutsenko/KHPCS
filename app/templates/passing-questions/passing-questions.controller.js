@@ -189,8 +189,16 @@
 
                     if(mainQuestionInBlock[indexQuestion].type == 1 || mainQuestionInBlock[indexQuestion].type == 0) {
                         let tmpObj = {};
-
                         tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
+
+                        if(mainQuestionInBlock[indexQuestion].type == 1){
+                            let id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
+
+                            if(id != undefined){
+                                tmpObj.id = id;
+                            }
+                        }
+
                         tmpObj.answer_id = itemQuestion.mainData;
 
                         dataForSend.push(tmpObj);
@@ -202,8 +210,15 @@
                                         itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
                                             if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
                                                 let tmpObj = {};
-
                                                 tmpObj.question_id = itemChildQuestion.id;
+
+                                                if(itemChildQuestion.type == 1){
+                                                    let id = serchAnswerId(itemChildQuestion.id);
+
+                                                    if(id != undefined){
+                                                        tmpObj.id = id;
+                                                    }
+                                                }
 
                                                 if(itemChildQuestion.type == 1 || itemChildQuestion.type == 0){
                                                     tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
@@ -226,11 +241,13 @@
                                             let id = serchAnswerId(itemChildQuestion.id);
 
                                             if(id != undefined){
-                                                let tmpObj = {
-                                                    question_id: itemChildQuestion.id,
-                                                    delete: true
-                                                };
+                                                let tmpObj = {};
+                                                tmpObj.delete = true;
+                                                tmpObj.question_id = itemChildQuestion.id;
 
+                                                if(itemChildQuestion.type == 1){
+                                                    tmpObj.id = id;
+                                                }
                                                 dataForSend.push(tmpObj);
                                             }
                                         })
@@ -242,10 +259,14 @@
 
                     }
                     else {
+                        let id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
                         let tmpObj = {};
-
-                        tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
                         tmpObj.value = itemQuestion.mainData;
+                        tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
+
+                        if(id != undefined){
+                            tmpObj.id = id;
+                        }
 
                         dataForSend.push(tmpObj);
                     }
