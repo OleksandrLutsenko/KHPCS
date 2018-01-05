@@ -134,10 +134,20 @@
                             childData: []
                         };
                         itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
-                            mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswer(itemChildQuestion);
-                            if(mainData.answerData[indexAnswer].childData[indexChildQuestion] == undefined){
+                            if(itemChildQuestion.type == 0){
+                                mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswerCheckBox(itemChildQuestion)
+                            }
+                            else {
+                                mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswer(itemChildQuestion);
+                            }
+
+                            if(mainData.answerData[indexAnswer].childData[indexChildQuestion] == undefined && itemChildQuestion.type == 0){
+                                mainData.answerData[indexAnswer].childData[indexChildQuestion] = [];
+                            }
+                            else if(mainData.answerData[indexAnswer].childData[indexChildQuestion] == undefined){
                                 mainData.answerData[indexAnswer].childData.splice(indexChildQuestion, 1);
                             }
+
                         });
                     })
                 }
@@ -193,9 +203,9 @@
                                             if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
                                                 let tmpObj = {};
 
-                                                tmpObj.question_id = itemChildQuestion.id
+                                                tmpObj.question_id = itemChildQuestion.id;
 
-                                                if(itemChildQuestion.type == 1){
+                                                if(itemChildQuestion.type == 1 || itemChildQuestion.type == 0){
                                                     tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
                                                 }
                                                 else {
@@ -213,9 +223,11 @@
                                     }
                                     else {
                                         itemAnswer.child_questions.forEach(function (itemChildQuestion) {
-                                            if(tmpObj.id != undefined){
+                                            let id = serchAnswerId(itemChildQuestion.id);
+
+                                            if(id != undefined){
                                                 let tmpObj = {
-                                                    id: serchAnswerId(itemChildQuestion.id),
+                                                    question_id: itemChildQuestion.id,
                                                     delete: true
                                                 };
 

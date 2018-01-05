@@ -85,6 +85,9 @@
                                                         {{child_questions.title}}
                                                     </div>
 
+                                                    <div ng-show="vm.edit">
+                                                        {{question.identifier}}
+                                                    </div>
 
                                                     <div class="icons" ng-show="!vm.edit">
                                                         <md-icon ng-click="vm.showEdit(mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
@@ -93,12 +96,14 @@
 
                                                 </div>
                                                     <div>
-                                                        <div ui-sortable="vm.sortableOptionChildAnswer" ng-model="child_questions.answers" class="child-answer-container" ng-if="child_questions.type == 1">
+                                                        <div ui-sortable="vm.sortableOptionChildAnswer" ng-model="child_questions.answers" class="child-answer-container" ng-if="child_questions.type == 1 || child_questions.type == 0">
                                                             <div ng-repeat="childAnswers in  child_questions.answers" class="answer-block child-answer" ng-if="!childAnswers.delete">
 
                                                                 <div layout="row" flex="" class="answeText">
 
-                                                                    <i class="material-icons md-36">radio_button_unchecked</i>
+                                                                    <i class="material-icons" ng-if="child_questions.type == 0">check</i>
+                                                                    <i class="material-icons md-36" ng-if="child_questions.type == 1">radio_button_unchecked</i>
+
                                                                     {{childAnswers.answer_text}}
 
                                                                 </div>
