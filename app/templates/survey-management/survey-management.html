@@ -1,7 +1,7 @@
 <div class="menus" layout="row" layout-align="center">
 
     <div class="tab-list">
-        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status'" ng-if="(survey.survey_status !== 'archived')"
+        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status' " ng-if="(survey.survey_status !== 'archived')"
              class="questionnaire-list"
              md-whiteframe="{{height}}"
              ng-click="vm.setActiveSurvey(survey.survey_id, $index)" ui-sref="tab.survey-block">
@@ -13,14 +13,14 @@
 
                 <md-menu-content>
                     <md-menu-item ng-if="survey.survey_status !== 'active'">
-                        <md-button ng-click="vm.activeSurvey(survey.survey_id)">Active</md-button>
+                        <md-button ng-click="vm.activeSurvey(survey.survey_id , survey)">Active</md-button>
                     </md-menu-item>
                     <md-menu-item ng-if="survey.survey_status !== 'active'">
-                        <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive')">Archive
+                        <md-button ng-click="vm.archiveSurvey(survey.survey_id, 'added to the archive' , survey , archiveItem)">Archive
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
-                        <md-button ng-click="vm.createSurvey(survey.survey_id , $index , survey)">Edit</md-button>
+                        <md-button ng-click="vm.createSurvey(survey.survey_id ,survey)">Edit</md-button>
                     </md-menu-item>
                 </md-menu-content>
 
@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div ng-click="vm.createSurvey(survey.survey_id , $index , survey)" class="questionnaire-list"
+        <div ng-click="vm.createSurvey()" class="questionnaire-list"
              md-whiteframe="{{height}}">
             <p class="plus-ico"><i class="material-icons">control_point</i></p>
             <p>New Questionnaire</p>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="sm-right" flex="30" layout="row" layout-align="center">
                             <i class="material-icons"
-                               ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive')"
+                               ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive' , survey , archiveItem)"
                                title="Unarchive">unarchive</i>
                             <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id , $index)"
                                title="Remove">delete_forever</i>
