@@ -32,26 +32,6 @@
                 </md-input-container>
             </div>
             <div layout="row">
-                <md-input-container flex="33">
-                    <label>Select a validation type</label>
-                    <md-select ng-model="vm.data.validation_type" name="validation_type" required>
-                        <md-option ng-value="0"><em>Text and numbers</em></md-option>
-                        <md-option ng-value="1"><em>Only text</em></md-option>
-                        <md-option ng-value="2"><em>Only numbers</em></md-option>
-                    </md-select>
-                    <div ng-messages="vm.questForm.validation_type.$error">
-                        <div ng-message="required">This is required.</div>
-                    </div>
-                </md-input-container>
-
-                <md-input-container flex="33">
-                    <label>Characters limit</label>
-                    <input ng-model="vm.data.characters_limit" name="characters_limit" required maxlength="3">
-                    <div ng-messages="vm.questForm.characters_limit.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="maxlength">Name max length 3.</div>
-                    </div>
-                </md-input-container>
 
                 <md-input-container flex="33">
                     <label>Select a type</label>
@@ -65,6 +45,28 @@
                         <div ng-message="required">This is required.</div>
                     </div>
                 </md-input-container>
+
+                <md-input-container flex="33" ng-if="vm.data.type == 2">
+                    <label>Select a validation type</label>
+                    <md-select ng-model="vm.data.validation_type" name="validation_type" required>
+                        <md-option ng-value="0"><em>Text and numbers</em></md-option>
+                        <md-option ng-value="1"><em>Only text</em></md-option>
+                        <md-option ng-value="2"><em>Only numbers</em></md-option>
+                    </md-select>
+                    <div ng-messages="vm.questForm.validation_type.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container flex="33" ng-if="vm.data.type == 2">
+                    <label>Characters limit</label>
+                    <input ng-model="vm.data.characters_limit" name="characters_limit" required maxlength="3">
+                    <div ng-messages="vm.questForm.characters_limit.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="maxlength">Name max length 3.</div>
+                    </div>
+                </md-input-container>
+
             </div>
 
 

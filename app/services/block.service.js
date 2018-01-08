@@ -15,6 +15,7 @@
         model.createBlock = createBlock;
         model.updateBlock = updateBlock;
         model.deleteBlock = deleteBlock;
+        model.orderUpdate = orderUpdate;
 
         return model;
 
@@ -30,6 +31,10 @@
         }
         function updateBlock(id, data) {
             return http.put(url.survey_management_func(id).updateBlock, data);
+        }
+
+        function orderUpdate(id, data) {
+            return http.put(url.survey_management_func(id).orderUpdate, data);
         }
     }
 })();

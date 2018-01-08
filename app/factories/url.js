@@ -38,6 +38,7 @@
                     block: baseUrl + 'api/survey/' + id + '/add-block',
                     createBlock: baseUrl + 'api/survey/' + id + '/add-block',
                     updateBlock: baseUrl + 'api/block/' + id,
+                    orderUpdate: baseUrl + 'api/survey/' + id + '/order-update',
                     //
                     addBlockQuestion: baseUrl + 'api/block/' + id + '/add-block-questions'
                 };
