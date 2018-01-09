@@ -34,7 +34,7 @@
             for(let j = 0; j < customerAnswer.length; j++){
                 if(customerAnswer[j].customerAnswers.length == 0){
                     for(let i = 0; i < items.blocks.length; i++){
-                        if(customerAnswer[j].block_id == items.blocks[i].id){
+                        if(customerAnswer[j].block_id == items.blocks[i].id && items.blocks[i].questions.length > 0){
                             indexActiveBlock = i;
                             break
                         }
@@ -307,24 +307,28 @@
 
         function back() {
             if(indexActiveBlock > 0){
-                let id = {
-                    customer: activeCustomers,
-                    survey: idActiveSurvey
-                };
-                passingQuestionService.getCustomerAnswer(id).then(function (res) {
-                    if(res.success){
-                        customerAnswer = res.data.customerAnswers;
-                        indexActiveBlock--;
-                        vm.data = [];
-                        generete();
-                        fill();
-                        start();
-                    }
-                    else{
-                        console.log('error customer answer');
-                    }
-                });
+                indexActiveBlock--;
+                generete();
+                if(mainQuestionInBlock.length == 0){
+                    back();
+                }
+                else {
 
+                    let id = {
+                        customer: activeCustomers,
+                        survey: idActiveSurvey
+                    };
+
+                    passingQuestionService.getCustomerAnswer(id).then(function (res) {
+                        if(res.success){
+                            customerAnswer = res.data.customerAnswers;
+                            vm.data = [];
+                            generete();
+                            fill();
+                            start();
+                        }
+                    });
+                }
             }
         }
 
@@ -332,12 +336,16 @@
 
         function toNextBlock() {
             if(items.blocks.length - 1 > indexActiveBlock){
-
                 indexActiveBlock++;
-                vm.data = [];
                 generete();
-                fill();
-                start();
+                if(mainQuestionInBlock.length == 0){
+                    toNextBlock();
+                }
+                else {
+                    vm.data = [];
+                    fill();
+                    start();
+                }
             }
             else{
                 let data = {
