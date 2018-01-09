@@ -81,7 +81,7 @@
             if (vm.questForm.title.$invalid || vm.questForm.type.$invalid || !succes) {
                 toastr.error('Please try again');
             }
-            else if (vm.data.type == 1 || vm.data.type == 0 && couterLenght < 2) {
+            else if ((vm.data.type == 1 || vm.data.type == 0) && couterLenght < 2) {
                 toastr.error('Answer lenght min 2');
             }
             else {
@@ -91,7 +91,6 @@
                 else if(typeof mainKey != 'undefined') {
                     itemsOrig.splice(mainKey, 1, vm.data);
                 }
-
                 else {
                     itemsOrig.push(vm.data);
                 }

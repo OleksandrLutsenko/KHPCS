@@ -354,6 +354,7 @@
                 };
                 passingQuestionService.createReport(data).then(function (res) {
                     if(res.success){
+                        customers.setfinishQuestionair(true);
                         $state.go('tab.user-management');
                         toastr.success('Completed');
                     }

@@ -57,7 +57,7 @@
                                         </md-input-container>
                                     </div>
 
-                                    <div layout="colums" ng-if="child_questions.type == 0">
+                                    <div ng-if="child_questions.type == 0">
                                         <div>
                                             <div ng-repeat="answers in child_questions.answers">
                                                 <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])" class="md-primary" ng-click="vm.toggle(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])">
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
 
-                                    <div layout="colums" ng-if="child_questions.type == 1">
+                                    <div ng-if="child_questions.type == 1">
                                         <md-radio-group ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]">
                                             <md-radio-button ng-repeat="answers in child_questions.answers" value="{{answers.id}}" class="md-primary">
                                                 {{answers.answer_text}}
@@ -83,17 +83,17 @@
                                     <md-input-container class="question-text">
                                         <label>{{child_questions.title}}</label>
                                         <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType1" type="text" pattern="[a-zA-Z, ' ']+" ng-if="child_questions.validation_type == 1">
-                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType2" pattern="[0-9]+" ng-if="child_questions.validation_type == 2">
-                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType0" ng-if="child_questions.validation_type == 0">
-                                        <div ng-messages="vm.questionForm.childInputType1.$error">
+                                        <div ng-messages="vm.questionForm.childInputType1.$error" ng-if="child_questions.validation_type == 1">
                                             <div ng-message="pattern">Only text.</div>
                                             <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
                                         </div>
-                                        <div ng-messages="vm.questionForm.childInputType2.$error">
+                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType2" pattern="[0-9]+" ng-if="child_questions.validation_type == 2">
+                                        <div ng-messages="vm.questionForm.childInputType2.$error" ng-if="child_questions.validation_type == 2">
                                             <div ng-message="pattern">Only numbers.</div>
                                             <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
                                         </div>
-                                        <div ng-messages="vm.questionForm.childInputType0.$error">
+                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType0" ng-if="child_questions.validation_type == 0">
+                                        <div ng-messages="vm.questionForm.childInputType0.$error" ng-if="child_questions.validation_type == 0">
                                             <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
                                         </div>
                                     </md-input-container>
@@ -111,19 +111,19 @@
                     <md-input-container class="question-text">
                         <label>{{questions.title}}</label>
                         <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" name="inputType1" type="text" pattern="[a-zA-Z, ' ']+" ng-if="questions.validation_type == 1">
+                        <div ng-messages="vm.questionForm.inputType1.$error" ng-if="questions.validation_type == 1">
+                            <div ng-message="pattern">Only text.</div>
+                            <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                        </div>
                         <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" name="inputType2" pattern="[0-9]+" ng-if="questions.validation_type == 2">
+                        <div ng-messages="vm.questionForm.inputType2.$error" ng-if="questions.validation_type == 2">
+                            <div ng-message="pattern">Only numbers.</div>
+                            <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                        </div>
                         <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" name="inputType0" ng-if="questions.validation_type == 0">
-                    <div ng-messages="vm.questionForm.inputType1.$error">
-                        <div ng-message="pattern">Only text.</div>
-                        <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
-                    </div>
-                    <div ng-messages="vm.questionForm.inputType2.$error">
-                        <div ng-message="pattern">Only numbers.</div>
-                        <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
-                    </div>
-                    <div ng-messages="vm.questionForm.inputType0.$error">
-                        <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
-                    </div>
+                        <div ng-messages="vm.questionForm.inputType0.$error" ng-if="questions.validation_type == 0">
+                            <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                        </div>
                     </md-input-container>
                 </div>
             </div>

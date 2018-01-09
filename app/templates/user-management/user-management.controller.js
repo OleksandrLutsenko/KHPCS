@@ -10,6 +10,8 @@
         let vm = this;
         tabsService.startTab('page1');
 
+
+
         vm.myLimit = 10;
         vm.myPage = 1;
 
@@ -34,7 +36,26 @@
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
+        vm.downloadPDF = downloadPDF;
         vm.user = userService.getUser();
+
+        // if(customers.getfinishQuestionair()){
+        //
+        //     let tmpObj;
+        //     let id = customers.setActiveCustomers();
+        //
+        //     for(let i = 0; i < vm.customers.length; i++){
+        //         if(id == vm.customers[i].id){
+        //             tmpObj = vm.customers[i];
+        //             break
+        //         }
+        //     }
+        //
+        //     console.log('id', id);
+        //     console.log('tmp', tmpObj);
+        //
+        //     vm.downloadPDF(tmpObj);
+        // }
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -98,7 +119,7 @@
             });
         }
 
-        vm.downloadPDF = function (customer) {
+        function downloadPDF(customer) {
             surveyService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.onlySurvey;
                 contractService.loadTemplateList().then(function (templateList) {
