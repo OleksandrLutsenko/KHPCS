@@ -16,10 +16,12 @@
 
         vm.items = items[indexBlock].questions;
         vm.nameBlock = items[indexBlock].name;
-        vm.edit = true;
+        vm.edit = false;
 
-        vm.cancel = cancel;
-        vm.save = save;
+        vm.drag = true;
+
+        // vm.cancel = cancel;
+        // vm.save = save;
         vm.showEdit = showEdit;
         vm.deleteQuest = deleteQuest;
         vm.toggleLeft = toggleLeft;
@@ -41,13 +43,13 @@
             $scope.$emit('showBlock', true);
         }
         function editButton() {
-            vm.edit = !vm.edit;
+            vm.drag = !vm.drag;
 
-            vm.sortableOptionsQuestion.disabled = vm.edit;
-            vm.sortableOptionCheckBox = vm.edit;
-            vm.sortableOptionAnswer.disabled = vm.edit;
-            vm.sortableOptionsQuestionInAnswer.disabled = vm.edit;
-            vm.sortableOptionChildAnswer.disabled = vm.edit;
+            vm.sortableOptionsQuestion.disabled = vm.drag;
+            vm.sortableOptionCheckBox = vm.drag;
+            vm.sortableOptionAnswer.disabled = vm.drag;
+            vm.sortableOptionsQuestionInAnswer.disabled = vm.drag;
+            vm.sortableOptionChildAnswer.disabled = vm.drag;
         }
 
         vm.sortableOptionsQuestion = {
@@ -100,11 +102,15 @@
             stop: function (e, ui) {
                 vm.childDraging = false;
                 console.log('stop', vm.childDraging);
+                save();
             }
         };
         vm.sortableOptionAnswer = {
             disabled: vm.edit,
             'ui-floating': true,
+            stop: function (e, ui) {
+                save();
+            }
         };
         vm.sortableOptionsQuestionInAnswer = {
             disabled: vm.edit,
@@ -123,25 +129,29 @@
             stop: function (e, ui) {
                 vm.childDraging = false;
                 console.log('stop', vm.childDraging);
+                save();
             }
 
         };
         vm.sortableOptionChildAnswer = {
             disabled: vm.edit,
             'ui-floating': true,
+            stop: function (e, ui) {
+                save();
+            }
         };
 
-        function cancel() {
-            let idSurvey = survey.getActiveSurvey().id;
-
-            surveyService.loadOneSurvey(idSurvey).then(function (res) {
-                if(res.success){
-                    items = res.data.survey.blocks;
-                    vm.items = items[indexBlock].questions;
-                    editButton();
-                }
-            });
-        }
+        // function cancel() {
+        //     let idSurvey = survey.getActiveSurvey().id;
+        //
+        //     surveyService.loadOneSurvey(idSurvey).then(function (res) {
+        //         if(res.success){
+        //             items = res.data.survey.blocks;
+        //             vm.items = items[indexBlock].questions;
+        //             editButton();
+        //         }
+        //     });
+        // }
 
 
         function save() {
@@ -174,7 +184,6 @@
                     if(res.success){
                         vm.items = res.data.questions;
                         items[indexBlock].questions = res.data.questions;
-                        editButton();
                     }
                 })
             }
@@ -192,7 +201,18 @@
                         vm.items[mainKey].answers[answerKey].child_questions.splice(questionKey, 1);
                     }
                     else {
-                        vm.items[mainKey].answers[answerKey].child_questions[questionKey].delete = true;
+                        // vm.items[mainKey].answers[answerKey].child_questions[questionKey].delete = true;
+
+                        let dataForSend = [{
+                            id: vm.items[mainKey].answers[answerKey].child_questions[questionKey].id,
+                            delete: true
+                        }];
+
+                        blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                            if(res.success){
+                                vm.items[mainKey].answers[answerKey].child_questions.splice(questionKey, 1);
+                            }
+                        })
                     }
 
                 }
@@ -201,7 +221,18 @@
                         vm.items.splice(mainKey, 1);
                     }
                     else {
-                        vm.items[mainKey].delete = true;
+                        // vm.items[mainKey].delete = true;
+
+                        let dataForSend = [{
+                            id: vm.items[mainKey].id,
+                            delete: true
+                        }];
+
+                        blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                            if(res.success){
+                                vm.items.splice(mainKey, 1);
+                            }
+                        })
                     }
                 }
             });
@@ -217,6 +248,7 @@
                         answerKey: answerKey,
                         questionKey: questionKey,
                         items: vm.items,
+                        idBlock: idBlock
                     }
                 },
                 templateUrl: 'components/survey-question/addQuest/addQuest.html',

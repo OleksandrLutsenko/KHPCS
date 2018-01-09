@@ -16,22 +16,29 @@
                     </md-button>
                 </div>
                 <div ng-show="!vm.edit" layout="row" layout-align="center center">
+
                     <div>
                         <md-button ng-click="vm.showEdit()">
                             Add question
                         </md-button>
                     </div>
 
-                    <div>
-                        <md-button class="cancel-button" ng-click="vm.cancel()">
-                            Cancel
-                        </md-button>
-                    </div>
-                    <div>
-                        <md-button class="save-button md-primary" ng-click="vm.save()">
-                            Save
-                        </md-button>
-                    </div>
+                    <md-button class="edit-button" ng-click="vm.editButton()">
+                        Edit section
+                    </md-button>
+
+
+
+                    <!--<div>-->
+                        <!--<md-button class="cancel-button" ng-click="vm.cancel()">-->
+                            <!--Cancel-->
+                        <!--</md-button>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<md-button class="save-button md-primary" ng-click="vm.save()">-->
+                            <!--Save-->
+                        <!--</md-button>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>

@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddQuestionController', AddQuestionController);
 
-    AddQuestionController.$inject = ['$mdDialog', 'data' , 'toastr'];
+    AddQuestionController.$inject = ['$mdDialog', 'data', 'blockService', 'toastr'];
 
-    function AddQuestionController($mdDialog, data , toastr) {
+    function AddQuestionController($mdDialog, data, blockService, toastr) {
         let vm = this;
 
         vm.addAnsver = addAnsver;
@@ -17,6 +17,7 @@
         let mainKey = data.mainKey;
         let answerKey = data.answerKey;
         let questionKey = data.questionKey;
+        let idBlock = data.idBlock;
         let itemsOrig;
 
 
@@ -86,13 +87,37 @@
             }
             else {
                 if(typeof questionKey != 'undefined'){
-                    itemsOrig.splice(questionKey, 1, vm.data);
+                    // itemsOrig.splice(questionKey, 1, vm.data);
+
+                    let dataForSend = [vm.data];
+
+                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                        if(res.success){
+                            itemsOrig.splice(questionKey, 1, vm.data);
+                        }
+                    })
                 }
                 else if(typeof mainKey != 'undefined') {
-                    itemsOrig.splice(mainKey, 1, vm.data);
+                    // itemsOrig.splice(mainKey, 1, vm.data);
+
+                    let dataForSend = [vm.data];
+
+                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                        if(res.success){
+                            itemsOrig.splice(mainKey, 1, vm.data);
+                        }
+                    })
                 }
                 else {
-                    itemsOrig.push(vm.data);
+                    // itemsOrig.push(vm.data);
+
+                    let dataForSend = [vm.data];
+
+                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                        if(res.success){
+                            itemsOrig.push(vm.data);
+                        }
+                    })
                 }
                 $mdDialog.hide();
             }
