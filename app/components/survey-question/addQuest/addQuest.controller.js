@@ -111,6 +111,8 @@
                 else {
                     // itemsOrig.push(vm.data);
 
+                    vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
+
                     let dataForSend = [vm.data];
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
