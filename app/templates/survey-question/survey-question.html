@@ -23,7 +23,7 @@
                         </md-button>
                     </div>
 
-                    <md-button class="edit-button" ng-click="vm.editButton()">
+                    <md-button class="edit-button" ng-class="{'child_question_last': $last && child_questions.type == 2}" ng-click="vm.editButton()">
                         Edit section
                     </md-button>
 

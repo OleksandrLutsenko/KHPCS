@@ -72,7 +72,7 @@
 
             <div ng-if="vm.data.type == 1 || vm.data.type == 0">
                 <md-virtual-repeat-container id = "answer-container">
-                    <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="vm.data.type == 1 || vm.data.type == 0 && !answers.delete">
+                    <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="(vm.data.type == 1 || vm.data.type == 0) && !answers.delete">
 
                         <div flex="30" layout="row" layout-align="none center">
                             <md-input-container>

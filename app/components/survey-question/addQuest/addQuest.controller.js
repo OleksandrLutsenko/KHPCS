@@ -89,6 +89,14 @@
                 if(typeof questionKey != 'undefined'){
                     // itemsOrig.splice(questionKey, 1, vm.data);
 
+                    if (vm.data.type == 1 || vm.data.type == 0){
+                        vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                        });
+                    }
+
+
+
                     let dataForSend = [vm.data];
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
@@ -99,6 +107,12 @@
                 }
                 else if(typeof mainKey != 'undefined') {
                     // itemsOrig.splice(mainKey, 1, vm.data);
+
+                    if (vm.data.type == 1 || vm.data.type == 0){
+                        vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                        });
+                    }
 
                     let dataForSend = [vm.data];
 
@@ -112,6 +126,12 @@
                     // itemsOrig.push(vm.data);
 
                     vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
+
+                    if (vm.data.type == 1 || vm.data.type == 0){
+                        vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                        });
+                    }
 
                     let dataForSend = [vm.data];
 
