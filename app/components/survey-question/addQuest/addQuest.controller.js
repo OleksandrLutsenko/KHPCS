@@ -63,7 +63,7 @@
             let succes = true;
             let couterLenght = 0;
 
-            if(vm.data.type == 1){
+            if(vm.data.type == 1 || vm.data.type == 0){
                 vm.data.answers.forEach(function (item) {
                     if(!item.delete){
                         couterLenght++
@@ -81,7 +81,7 @@
             if (vm.questForm.title.$invalid || vm.questForm.type.$invalid || !succes) {
                 toastr.error('Please try again');
             }
-            else if (vm.data.type == 1 && couterLenght < 2) {
+            else if (vm.data.type == 1 || vm.data.type == 0 && couterLenght < 2) {
                 toastr.error('Answer lenght min 2');
             }
             else {
