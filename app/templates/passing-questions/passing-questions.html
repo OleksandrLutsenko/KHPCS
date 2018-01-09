@@ -24,7 +24,7 @@
                     <div  ng-if="questions.type == 0">
                         <div>
                             <div ng-repeat="answers in questions.answers">
-                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].mainData)" ng-click="vm.toggle(answers.id, vm.data[mainKey].mainData)">
+                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].mainData)" class="md-primary" ng-click="vm.toggle(answers.id, vm.data[mainKey].mainData)">
                                     {{answers.answer_text}}
                                 </md-checkbox>
                             </div>
@@ -52,7 +52,7 @@
                                     <div layout="colums" ng-if="child_questions.type == 0">
                                         <div>
                                             <div ng-repeat="answers in child_questions.answers">
-                                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])" ng-click="vm.toggle(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])">
+                                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])" class="md-primary" ng-click="vm.toggle(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])">
                                                     {{answers.answer_text}}
                                                 </md-checkbox>
                                             </div>
@@ -74,7 +74,9 @@
                                 <div>
                                     <md-input-container class="question-text">
                                         <label>{{child_questions.title}}</label>
-                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="150" md-select-on-focus>
+                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" type="text" pattern="[a-zA-Z, ' ']+" ng-if="child_questions.validation_type == 1">
+                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" pattern="[0-9]+" ng-if="child_questions.validation_type == 2">
+                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" ng-if="child_questions.validation_type == 0">
                                     </md-input-container>
                                 </div>
                             </div>
@@ -89,9 +91,9 @@
                 <div>
                     <md-input-container class="question-text">
                         <label>{{questions.title}}</label>
-                        <!--<input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" type="text" md-select-on-focus ng-if="questions.validation_type == 1">-->
-                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" type="number" string-to-number md-select-on-focus ng-if="questions.validation_type == 2">
-                        <!--<input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" md-select-on-focus ng-if="questions.validation_type == 0">-->
+                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" type="text" pattern="[a-zA-Z, ' ']+" ng-if="questions.validation_type == 1">
+                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" pattern="[0-9]+" ng-if="questions.validation_type == 2">
+                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" ng-if="questions.validation_type == 0">
                     </md-input-container>
                 </div>
             </div>

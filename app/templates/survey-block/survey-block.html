@@ -1,40 +1,6 @@
-<!--<md-content class="surveyBlock" layout="row" layout-align="start center">-->
-
-    <!--<div class="add-button">-->
-        <!--<md-button ng-click="vm.addBlock()">-->
-            <!--Add section-->
-        <!--</md-button>-->
-    <!--</div>-->
-
-    <!--<md-virtual-repeat-container id="block-container" md-orient-horizontal="" flex>-->
-        <!--<div ui-sortable="vm.sortableOptionsBlock" ng-model="vm.items" class="block-container" layout="row" layout-align="center center">-->
-            <!--<div ng-repeat="(key, item) in vm.items" ng-click="vm.setActiveBlock(item.id, key)">-->
-                <!--<div class="block-item" layout="row" layout-align="center center" ng-class="{'active-item': vm.activeBlock == key}">-->
-                    <!--{{item.name}}-->
-                    <!--<dot-edit-menu></dot-edit-menu>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</md-virtual-repeat-container>-->
-
-
-<!--</md-content>-->
 <section class="side-nav" layout="row" flex="" style="min-height: -webkit-fill-available">
 
 <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-
-    <!--<md-toolbar class="md-theme-indigo">-->
-        <!--<h1 class="md-toolbar-tools">Sidenav Left</h1>-->
-    <!--</md-toolbar>-->
-    <!--<md-content layout-padding="">-->
-        <!--<md-button ng-click="" class="md-primary" hide-gt-md="">-->
-            <!--Close Sidenav Left-->
-        <!--</md-button>-->
-        <!--<p hide-md="" show-gt-md="">-->
-            <!--This sidenav is locked open on your device. To go back to the default behavior,-->
-            <!--narrow your display.-->
-        <!--</p>-->
-    <!--</md-content>-->
 
     <md-content class="surveyBlock">
         <div class="side-nav-heder" layout="row" layout-align="center center">
@@ -47,7 +13,7 @@
 
 
         <div ui-sortable="vm.sortableOptionsBlock" ng-model="vm.items" class="block-container">
-            <div ng-repeat="(key, item) in vm.items" ng-click="vm.setActiveBlock(item.id, key)" layout="row" layout-align="center center" ng-class="{'active-item': vm.activeBlock == key}">
+            <div ng-repeat="(key, item) in vm.items" ng-click="vm.setActiveBlock(item.id, key)" layout="row" layout-align="center center" class="not-active-item" ng-class="{'active-item': vm.activeBlock == key}">
                 <div flex="90" class="block-item" layout="row" layout-align="space-between center">
                     <div>
                         {{item.name}}
