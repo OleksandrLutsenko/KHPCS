@@ -3,10 +3,10 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'contractService'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'surveyOnly', 'contractService'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, contractService) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, surveyOnly, contractService) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -18,6 +18,11 @@
         let firstCustomers = customerService.getCustomers();
 
         let idSurvey = survey.getActiveQuestionair().id;
+        let indexSurvey = survey.getActiveQuestionair().index;
+
+        vm.activeSurveyName = surveyOnly.data.onlySurvey[indexSurvey].survey_name;
+
+        console.log('ggggggggggggggggggg', vm.activeSurveyName);
 
         function activeStatus() {
             firstCustomers.forEach(function (itemCustomer) {

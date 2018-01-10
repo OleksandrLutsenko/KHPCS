@@ -62,7 +62,7 @@
                         return customerService.loadCustomers();
                     }
                     ,
-                    loadSurvey: function (surveyService) {
+                    surveyOnly: function (surveyService) {
                         return surveyService.loadSurveyOnly();
                     }
                 }

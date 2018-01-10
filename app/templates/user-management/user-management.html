@@ -1,5 +1,10 @@
 <div class="um-main">
     <md-content class="md-padding" flex="100" layout="column" layout-align="center center">
+
+        <div layout="row" layout-align="center center">
+            <h2>Active survey: {{vm.activeSurveyName}}</h2>
+        </div>
+
         <div class="search" layout="row" layout-align="center center">
             <md-input-container flex="100">
                 <label layout="row">
@@ -29,7 +34,7 @@
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in vm.customers | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            ng-repeat="customers in vm.customers  | orderBy: reverse:true | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-if="vm.user.role_id > 1">{{customers.user_name }}</td>

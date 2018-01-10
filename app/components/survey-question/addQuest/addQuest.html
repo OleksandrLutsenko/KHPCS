@@ -60,10 +60,10 @@
 
                 <md-input-container flex="33" ng-if="vm.data.type == 2">
                     <label>Characters limit</label>
-                    <input ng-model="vm.data.characters_limit" name="characters_limit" required maxlength="3">
+                    <input ng-model="vm.data.characters_limit" name="characters_limit" required maxlength="4">
                     <div ng-messages="vm.questForm.characters_limit.$error">
                         <div ng-message="required">This is required.</div>
-                        <div ng-message="maxlength">Name max length 3.</div>
+                        <div ng-message="maxlength">Name max length 4.</div>
                     </div>
                 </md-input-container>
 
@@ -71,6 +71,11 @@
 
 
             <div ng-if="vm.data.type == 1 || vm.data.type == 0">
+
+                <md-button class="add-answer-button" ng-click="vm.addAnsver()">
+                    Add Answer
+                </md-button>
+
                 <md-virtual-repeat-container id = "answer-container">
                     <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="(vm.data.type == 1 || vm.data.type == 0) && !answers.delete">
 
@@ -91,10 +96,6 @@
 
                     </div>
                 </md-virtual-repeat-container>
-
-                <div class="addOpn">
-                    <p ng-click="vm.addAnsver()">Add answer</p>
-                </div>
 
             </div>
 
