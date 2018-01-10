@@ -125,7 +125,12 @@
                 else {
                     // itemsOrig.push(vm.data);
 
-                    vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
+                    if(itemsOrig.length == 0){
+                        vm.data.order_number = 0;
+                    }
+                    else {
+                        vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
+                    }
 
                     if (vm.data.type == 1 || vm.data.type == 0){
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
