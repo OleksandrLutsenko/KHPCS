@@ -53,7 +53,7 @@
         }
 
         vm.sortableOptionsQuestion = {
-            disabled: vm.edit,
+            disabled: vm.drag,
             connectWith: ".question-container",
             'ui-floating': true,
 
@@ -100,20 +100,20 @@
                 }
             },
             stop: function (e, ui) {
-                vm.childDraging = false;
+                vm.childDraging = vm.drag;
                 console.log('stop', vm.childDraging);
                 save();
             }
         };
         vm.sortableOptionAnswer = {
-            disabled: vm.edit,
+            disabled: vm.drag,
             'ui-floating': true,
             stop: function (e, ui) {
                 save();
             }
         };
         vm.sortableOptionsQuestionInAnswer = {
-            disabled: vm.edit,
+            disabled: vm.drag,
             connectWith: ".question-container",
             'ui-floating': true,
 
@@ -134,7 +134,7 @@
 
         };
         vm.sortableOptionChildAnswer = {
-            disabled: vm.edit,
+            disabled: vm.drag,
             'ui-floating': true,
             stop: function (e, ui) {
                 save();
