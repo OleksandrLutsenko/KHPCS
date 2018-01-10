@@ -11,7 +11,7 @@
     padding: 0;
   }
   .edit-button-active {
-    border: 2px solid #3f51b5;
+    background: #DDDDDD;
   }
   .cancel-button {
     text-transform: capitalize;
@@ -56,6 +56,7 @@
       min-width: 18px;
       height: 18px;
       width: 18px;
+      padding: 2px;
     }
   }
 

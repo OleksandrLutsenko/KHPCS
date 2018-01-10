@@ -24,7 +24,7 @@
                     </div>
 
                     <md-button class="edit-button" ng-class="{'edit-button-active': !vm.drag}" ng-click="vm.editButton()">
-                        Edit section
+                        Drag and drop mode
                     </md-button>
 
 
@@ -65,7 +65,7 @@
                                     {{question.identifier}}
                                 </div>
 
-                                <div class="icons" ng-show="!vm.edit">
+                                <div class="icons" ng-show="!vm.edit" layout="row">
                                     <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
                                     <md-icon ng-click="vm.deleteQuest(question.id, mainKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
                                 </div>
@@ -100,7 +100,7 @@
                                                             {{child_questions.identifier}}
                                                         </div>
 
-                                                        <div class="icons" ng-show="!vm.edit">
+                                                        <div class="icons" ng-show="!vm.edit" layout="row">
                                                             <md-icon ng-click="vm.showEdit(mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
                                                             <md-icon ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
                                                         </div>

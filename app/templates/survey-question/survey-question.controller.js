@@ -34,8 +34,8 @@
 
             vm.items = items[indexBlock].questions;
             vm.nameBlock = items[indexBlock].name;
-            if(!vm.edit){
-                cancel();
+            if(!vm.drag){
+                vm.drag = !vm.drag;
             }
         });
 

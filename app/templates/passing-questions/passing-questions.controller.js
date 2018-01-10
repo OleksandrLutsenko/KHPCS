@@ -310,7 +310,12 @@
                 indexActiveBlock--;
                 generete();
                 if(mainQuestionInBlock.length == 0){
-                    back();
+                    if(indexActiveBlock == 0){
+                        toNextBlock();
+                    }
+                    else {
+                        back();
+                    }
                 }
                 else {
 
