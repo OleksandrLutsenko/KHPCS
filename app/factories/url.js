@@ -20,13 +20,13 @@
             survey_management: {
                 createSurvey: baseUrl + 'api/survey',
             },
-            reset_func(token){
+            reset_func: function(token){
                 return { resetPass: baseUrl + 'api/user/reset-password?token=' + token }
             },
-            user_func(id){
+            user_func: function(id){
                 return { updateProfile: baseUrl + 'api/user/' + id }
             },
-            survey_management_func(id) {
+            survey_management_func: function(id) {
                 return {
                     loadOnlySurvey: baseUrl + 'api/onlysurvey',
                     loadOneSurvey: baseUrl + 'api/survey/' + id,
@@ -46,7 +46,7 @@
             customers: {
                 customers: baseUrl + 'api/customer'
             },
-            customers_func(id) {
+            customers_func: function(id) {
                 return {
                     updateCustomers: baseUrl + 'api/customer/' + id,
                     sendCustomerAnswer: baseUrl + 'api/customer/' + id + '/make-answer',
@@ -58,14 +58,14 @@
                 createReport: baseUrl + 'api/report'
             },
 
-            contract_research_func(id) {
+            contract_research_func: function(id) {
                 return {
                     createResearch: baseUrl + 'api/new-contract-research',
                     deleteResearch: baseUrl + 'api/contract-research/' + id
                 };
             },
 
-            contract_editor_func(id) {
+            contract_editor_func: function(id) {
                 return {
                     createSurveyTemplate: baseUrl + 'api/contract-research/' + id + '/contract',
                     getOneTemplate: baseUrl + 'api/contract/' + id,
@@ -82,7 +82,7 @@
                 };
             },
 
-            contract_image_func (id) {
+            contract_image_func: function (id) {
                 return {
                     uploadImage: baseUrl + 'api/contract-research/' + id + '/save-image',
                     imageListInResearch: baseUrl + 'api/contract/' + id + '/image-list',
@@ -90,14 +90,14 @@
                 };
             },
 
-            contract_download_func (idReport, idContract, filename) {
+            contract_download_func: function (idReport, idContract, filename) {
                 return {
                     downloadPDF: baseUrl + 'api/report/'+ idReport + '/contract/' + idContract + '/review/' + filename,
                     removePDF: baseUrl + '/api/storage/contracts/' + idReport
                 };
             },
 
-            logout_func (token) {
+            logout_func: function (token) {
                 return {
                     logout: baseUrl + '/api/logout?token=' + token
                 };

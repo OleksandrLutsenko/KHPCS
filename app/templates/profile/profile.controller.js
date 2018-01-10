@@ -35,18 +35,19 @@
                             userService.loadItems().then(function () {
                             })
                         });
+
+                        if (!vm.show) {
+                            toastr.success('Profile was updated');
+                        }
+
                     } else {
-                        console.log('error');
+                        toastr.error('This email is already taken ');
                     }
                 });
 
-                if (!vm.show ) {
-                    toastr.success('Profile was updated');
-                }
-
-                if (vm.data !== undefined) {
+                if (vm.show === true) {
                     if (vm.profilePass.$invalid || vm.data.password !== vm.data.password_confirmation) {
-                        return;
+                         return;
                     } else {
                         userService.updatePass(id, vm.data).then(function (res) {
                             if (res.success) {
@@ -54,6 +55,7 @@
                                     userService.loadItems().then(function () {
                                     })
                                 });
+
                                 toastr.success('Profile was updated');
                             } else {
                                 console.log('error');
@@ -62,9 +64,7 @@
                         })
                     }
                 }
-
             }
-
         }
 
         vm.menu = menu();
