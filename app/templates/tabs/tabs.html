@@ -20,6 +20,9 @@
                         <md-list-item ui-sref="tab.user-management" ng-click="vm.closeNavButton()">
                             <p>User Management</p>
                         </md-list-item>
+                        <md-list-item ui-sref="tab.company-management" ng-click="vm.closeNavButton()">
+                            <p>Company Management</p>
+                        </md-list-item>
                         <md-list-item ui-sref="tab.survey-management" ng-if="vm.user.role_id > 1"
                                       ng-click="vm.closeNavButton()">
                             <p>Survey Management</p>
@@ -53,13 +56,16 @@
             <md-nav-item md-nav-sref="tab.user-management" name="page1">
                 <p>User Management</p>
             </md-nav-item>
-            <md-nav-item md-nav-sref="tab.survey-management" name="page2" ng-if="vm.user.role_id > 1">
+            <md-nav-item md-nav-sref="tab.company-management" name="page2">
+                <p>Company Management</p>
+            </md-nav-item>
+            <md-nav-item md-nav-sref="tab.survey-management" name="page3" ng-if="vm.user.role_id > 1">
                 <p>Survey Management</p>
             </md-nav-item>
-            <md-nav-item md-nav-sref="tab.contract-editor" name="page3" ng-if="vm.user.role_id > 1">
+            <md-nav-item md-nav-sref="tab.contract-editor" name="page4" ng-if="vm.user.role_id > 1">
                 <p> Contract Editor</p>
             </md-nav-item>
-            <md-nav-item md-nav-sref="tab.settings" name="page4">
+            <md-nav-item md-nav-sref="tab.settings" name="page5">
                 <p>Settings</p>
             </md-nav-item>
 

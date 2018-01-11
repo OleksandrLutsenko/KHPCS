@@ -67,6 +67,21 @@
                     }
                 }
             })
+            .state('tab.company-management', {
+                url: '/company-management',
+                templateUrl: 'templates/company-management/company-management.html',
+                controller: 'CompanyManagementController',
+                controllerAs: 'vm',
+                // resolve: {
+                //     loadCustomers: function (customerService) {
+                //         return customerService.loadCustomers();
+                //     }
+                //     ,
+                //     loadSurvey: function (surveyService) {
+                //         return surveyService.loadSurveyOnly();
+                //     }
+                // }
+            })
             .state('tab.survey-management', {
                 url: '/survey-management',
                 templateUrl: 'templates/survey-management/survey-management.html',
