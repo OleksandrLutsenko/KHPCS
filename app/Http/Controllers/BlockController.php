@@ -53,21 +53,6 @@ class BlockController extends Controller
             );
         }
     }
-//
-//    public function addQuestionsBlock(Request $request, Block $block, User $user)
-//    {
-//        if ($user->can('addQuestion', $block)) {
-//            $requests = $request->all();
-//
-//            $questions = Question::massSave($requests, $block);
-//            return compact('questions');
-//
-//        } else {
-//            return response([
-//                "error" => "You do not have a permission"], 404
-//            );
-//        }
-//    }
 
     /**
      * @param Request $request
@@ -230,6 +215,25 @@ class BlockController extends Controller
                         }
                     }
                 }
+                if (!$question->trashed()) {
+                    $questions[] = $question;
+                }
+            }
+            return compact('questions');
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
+    }
+
+
+    public function addQuestionsBlock111(Request $request, Block $block, User $user)
+    {
+        if ($user->can('addQuestion', $block)) {
+            $requests = $request->all();
+            foreach ($requests as $questionObj) {
+                $question = Question::massSaveQuestions($questionObj, $block);
                 if (!$question->trashed()) {
                     $questions[] = $question;
                 }

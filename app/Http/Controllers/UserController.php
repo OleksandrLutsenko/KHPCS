@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
+use App\Invite;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -27,13 +28,22 @@ class UserController extends Controller
      * @param UserRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(UserRequest $request){
-        $user = $this->user->create([
-            'name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password'))
-        ]);
-        return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
+    public function register(UserRequest $request, $key){
+        $invite = Invite::where('key', $key)
+            ->where('is_used', 0)
+            ->first();
+        if($invite){
+            $user = $this->user->create([
+                'name' => $request->get('name'),
+                'password' => bcrypt($request->get('password')),
+                'email' => $invite->email,
+                'role_id' => $invite->role_id,
+                'company_id' => $invite->company_id
+            ]);
+            return response(['message' => 'User created successfully', 'user' => $user,], 200);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
     }
 
     /**
@@ -72,7 +82,6 @@ class UserController extends Controller
             JWTAuth::invalidate($request->input('token'));
             return response()->json(['success' => true]);
         } catch (JWTException $e) {
-            // something went wrong whilst attempting to encode the token
             return response()->json(['success' => false, 'error' => 'Failed to logout, please try again.'], 500);
         }
     }
@@ -87,9 +96,25 @@ class UserController extends Controller
             if ($request['password']){
                 return $request->changePassword($user);
             }
+//            if($request['company_id']) {
+//                return $request->changeCompany($user);
+//            }
+            $request->changeCompany($user);
             return $request->changeNameAndEmail($user);
         } else {
             return response('Page is not found', 404);
+        }
+    }
+
+    public function showFAs(User $user)
+    {
+        if (Auth::user()->isCompanyAdmin()) {
+            if(Auth::user()->company_id == $user->company_id){
+                return response($user, 200);
+            }
+        }
+        if (Auth::user()->isAdmin()) {
+            return response($user, 200);
         }
     }
 }
