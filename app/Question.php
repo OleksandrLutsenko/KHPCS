@@ -120,80 +120,161 @@ class Question extends Model
         });
     }
 
-    //////
-    ///
-    ///
-//    public function deleteAnswers(){
-//        $answers = $this->answer;
-//        $customerAnswers = $this->customerAnswer;
-//        foreach ($customerAnswers as $customerAnswer) {
-//            $customerAnswer->delete();
-//        }
-//        foreach ($answers as $answer) {
-//            $childQuestions = Question::where('parent_answer_id', $answer->id)->get();
-//            foreach($childQuestions as $childQuestion){
-//                $customerAnswers = $childQuestion->customerAnswer;
-//                $childQuestionAnswers = $childQuestion->answer;
-//                foreach ($customerAnswers as $customerAnswer) {
-//                    $customerAnswer->delete();
-//                }
-//                foreach ($childQuestionAnswers as $childQuestionAnswer) {
-//                    $childQuestionAnswer->delete();
-//                }
-//                $childQuestion->delete();
-//            }
-//            $answer->delete();
-//        }
-//    }
-//
-//    public static function massSave(array $questionsData, Block $block){
-//        $questions = [];
-//
-//        foreach ($questionsData as $questionData) {
-//
-//            if($question = static::add($questionData, $block)){
-//                $questions[] = $question;
-//            }
-//
-//        }
-//
-//        return $questions;
-//    }
-//
-//    public static function add($questionData, Block $block){
-//        //is id is set - work with existing record
-//        if(isset($questionData['id'])){
-//
-//            //if question exists
-//            if($question = static::find($questionData['id'])){
-//
-//                //if delete == true
-//                if(isset($questionData['delete']) && $questionData['delete'] == true){
-//                    //make delete
-//                    $question->delete();
-//                }else{
-//                    //update data
-//                    $question->update($questionData);
-//                }
-//            }
-//
-//        }else{
-//            //if record is new
-//            /** @var Question $question */
-//            $question = $block->question()->create($questionData);
-//
-//            if($question->hasRadioAnswer()){
-//                if (isset($questionData['answers'])) {
-//                    foreach ($questionData['answers'] as $answerData){
-//                        Answer::add($answerData, $question);
-//                    }
-//                }
-//            }
-//        }
-//
-//        return $question ?? null;
-//    }
+    ////////////
 
+    static function delOrUpdate($obj, $var)
+    {
+        if (isset($obj['delete']) && $obj['delete'] == true) {
+            $var->delete();
+        } else {
+            $var->update($obj);
+        }
+    }
 
-    ///////
+    static function saveChildQuestionAnswers($childQuestion, $childQuestionObj)
+    {
+        if ($childQuestion->type == 1 or $childQuestion->type == 0) {
+            if (isset($childQuestionObj['answers'])) {
+                foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
+                    if (isset($childQuestionAnswerObj['id'])) {
+                        $childQuestionAnswer = Answer::find($childQuestionAnswerObj['id']);
+                        Question::delOrUpdate($childQuestionAnswerObj, $childQuestionAnswer);
+                    } else {
+                        $childQuestion->answer()->create($childQuestionAnswerObj);
+                    }
+                }
+            }
+        }
+    }
+
+    static function saveChildAnswer($answerObj, $answer, $block)
+    {
+        if (!empty($answerObj['child_questions'])){
+            foreach ($answerObj['child_questions'] as $childQuestionObj){
+                if (isset($childQuestionObj['id'])){
+                    $childQuestion = Question::find($childQuestionObj['id']);
+                    $childQuestion->parent_answer_id = $answer->id;
+                    $childQuestion->save();
+                } else {
+                    $childQuestion = $block->question()->create($childQuestionObj);
+                    $childQuestion->parent_answer_id = $answer->id;
+                    $childQuestion->save();
+                    Question::saveChildQuestionAnswers($childQuestion, $childQuestionObj);
+                }
+            }
+        }
+    }
+
+    static function saveAndUpdateChildAnswer($answerObj, $answer, $block)
+    {
+        if (!empty($answerObj['child_questions'])){
+            foreach ($answerObj['child_questions'] as $childQuestionObj){
+                if (isset($childQuestionObj['id'])){
+                    $childQuestion = Question::find($childQuestionObj['id']);
+                    $childQuestion->update($childQuestionObj);
+                    $childQuestion->parent_answer_id = $answer->id;
+                    $childQuestion->save();
+                } else {
+                    $childQuestion = $block->question()->create($childQuestionObj);
+                    $childQuestion->parent_answer_id = $answer->id;
+                    $childQuestion->save();
+                    Question::saveChildQuestionAnswers($childQuestion, $childQuestionObj);
+                }
+            }
+        }
+    }
+
+    static function saveUpdateDelChildQuestions($childQuestion, $childQuestionObj)
+    {
+        if ($childQuestion->type == 1 or $childQuestion->type == 0) {
+            if (isset($childQuestionObj['answers'])) {
+                foreach ($childQuestionObj['answers'] as $childQuestionAnswerObj) {
+                    if (isset($childQuestionAnswerObj['id'])) {
+                        $childQuestionAnswer = Answer::find($childQuestionAnswerObj['id']);
+                        if (isset($childQuestionAnswerObj['delete']) && $childQuestionAnswerObj['delete'] == true) {
+                            $childQuestionAnswer->delete();
+                        } else {
+                            $childQuestionAnswer->update($childQuestionAnswerObj);
+                        }
+                    } else {
+                        $childQuestion->answer()->create($childQuestionAnswerObj);
+                    }
+                }
+            }
+        }
+    }
+
+    static function childQuestion($answerObj, $answer, $block)
+    {
+        if (!empty($answerObj['child_questions'])) {
+            foreach ($answerObj['child_questions'] as $childQuestionObj) {
+                if (isset($childQuestionObj['id'])) {
+                    $childQuestion = Question::find($childQuestionObj['id']);
+                    if (isset($childQuestionObj['delete']) && $childQuestionObj['delete'] == true){
+                        $childQuestion->delete();
+                    } else {
+                        $childQuestion->update($childQuestionObj);
+                        $childQuestion->parent_answer_id = $answer->id;
+                        $childQuestion->save();
+                        Question::saveUpdateDelChildQuestions($childQuestion, $childQuestionObj);
+                    }
+                } else {
+                    $childQuestion = $block->question()->create($childQuestionObj);
+                    $childQuestion->parent_answer_id = $answer->id;
+                    $childQuestion->save();
+                    Question::saveUpdateDelChildQuestions($childQuestion, $childQuestionObj);
+                }
+            }
+        }
+    }
+
+    static function saveAnswers($questionObj, $question, $block)
+    {
+        if ($question->type == 1 or $question->type == 0) {
+            if (isset($questionObj['answers'])) {
+                foreach ($questionObj['answers'] as $answerObj) {
+
+                    if (isset($answerObj['id'])) {
+                        $answer = Answer::find($answerObj['id']);
+                        if (isset($answerObj['delete']) && $answerObj['delete'] == true) {
+                            $answer->delete();
+                        } else {
+                            $answer->update($answerObj);
+
+                            Question::childQuestion($answerObj, $answer, $block);
+                        }
+                    } else {
+                        $answer = $question->answer()->create($answerObj);
+                        Question::saveChildAnswer($answerObj, $answer, $block);
+                    }
+                }
+            }
+            return $answer;
+        }
+    }
+
+    static function massSaveQuestions($questionObj, $block)
+    {
+        if (isset($questionObj['id'])) {
+            $question = Question::find($questionObj['id']);
+            if (isset($questionObj['delete']) && $questionObj['delete'] == true){
+                $question->delete();
+            } else {
+                $question->update($questionObj);
+                Question::saveAnswers($questionObj, $question, $block);
+            }
+        } else {
+            $question = $block->question()->create($questionObj);
+            if ($question->type == 1 or $question->type == 0) {
+                if (isset($questionObj['answers'])) {
+                    foreach ($questionObj['answers'] as $answerObj){
+                        $answer = $question->answer()->create($answerObj);
+                        Question::saveAndUpdateChildAnswer($answerObj, $answer, $block);
+                    }
+                }
+            }
+        }
+        return $question;
+    }
 }
+

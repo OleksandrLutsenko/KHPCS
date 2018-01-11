@@ -24,7 +24,10 @@ class Variable extends Model
                 $userVariables[$variable->id] = $variable->text;
             }
         }
-        return $userVariables;
+        if (isset($userVariables)) {
+            return $userVariables;
+        }
+//        return $userVariables;
     }
 
     public static function boot()

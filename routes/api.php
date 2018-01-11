@@ -31,7 +31,10 @@ Route::group(['middleware' => 'jwt.auth'], function() {
 
 Route::group(['middleware' => 'api-response'], function() {
 
-    Route::post('/auth/register', 'UserController@register');
+//    Route::post('/auth/register', 'UserController@register');
+    Route::post('/auth/register/{key}', 'UserController@register');
+
+
     Route::post('/auth/login', 'UserController@login');
 
     Route::post('user/request-reset', 'Auth\ForgotPasswordController@getResetToken');
@@ -79,6 +82,10 @@ Route::group(['middleware' => 'api-response'], function() {
 
 
         Route::post('/block/{block}/add-block-questions', 'BlockController@addQuestionsBlock');
+
+        //
+        Route::post('/block/{block}/add-block-questions111', 'BlockController@addQuestionsBlock111');
+        //
         /** delete block */
         Route::delete('/block/{block}', 'BlockController@destroy');
 
@@ -155,8 +162,23 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::post('/variable', 'VariableController@store');
             Route::put('/variable/{variable}', 'VariableController@update');
             Route::delete('/variable/{variable}', 'VariableController@destroy');
+
+            Route::get('/companies', 'CompanyController@index');
+            Route::get('/company/{company}', 'CompanyController@show');
+            Route::post('/company', 'CompanyController@store');
+            Route::put('/company/{company}', 'CompanyController@update');
+            Route::delete('/company/{company}', 'CompanyController@destroy');
         });
         Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
+
+
+        Route::post('/send-invite', 'InviteController@createAndSendInvite');
+        Route::get('/company-customers', 'CustomerController@indexCompany');
+        Route::get('/company-customers/{company}', 'CustomerController@indexCompanySA');
+        Route::get('/user/{user}', 'UserController@showFAs');
+
+
+
 
     });
 });

@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class ContractResearch extends Model
 {
-    use SoftDeletes;
+//    use SoftDeletes;
 
     public function images(){
         return $this->hasMany(Image::class);

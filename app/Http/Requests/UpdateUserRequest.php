@@ -71,4 +71,12 @@ class UpdateUserRequest extends FormRequest
         ]);
         return response(['user' => $user], 201);
     }
+
+    public function changeCompany($user)
+    {
+        $user->update([
+            'company_id' => $this['company_id']
+        ]);
+        return response(['user' => $user], 201);
+    }
 }
