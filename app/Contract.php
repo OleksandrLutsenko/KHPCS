@@ -46,19 +46,49 @@ class Contract extends Model
     {
         $surveyQuestions = Survey::getSurveyQuestionsWithTrashed($report->survey);
         foreach ($surveyQuestions as $surveyQuestion) {
-            $customerAnswer = CustomerAnswer::withTrashed()
-                ->where('question_id', $surveyQuestion->id)
-                ->where('customer_id', $report->customer_id)
-                ->first();
-
-            if (!$customerAnswer) {
-                $contractAnswers[$surveyQuestion->id] = 'N/A';
-            } else {
+//////////
+            if ($surveyQuestion->type == 0) {
                 if ($surveyQuestion->trashed()) {
                     $deletedQuestionMessage = "<span style='background-color: red'>question was deleted</span>";
                     $contractAnswers[$surveyQuestion->id] = $deletedQuestionMessage;
                 } else {
-                    $contractAnswers[$surveyQuestion->id] = $customerAnswer->value;
+                    $customerAnswerArr = CustomerAnswer::where('customer_id', $report->customer_id)
+                        ->where('question_id', $surveyQuestion->id)
+                        ->get();
+
+                    if ($customerAnswerArr->isEmpty()) {
+                        $contractAnswers[$surveyQuestion->id] = 'N/A';
+                    } else {
+                        $customerAnswerArrOfValues = [];
+                        foreach ($customerAnswerArr as $customerAnswerArr1) {
+                            $customerAnswerArrOfValues[] = $customerAnswerArr1->value;
+                        }
+                        $customerAnswerStr = implode(", ", $customerAnswerArrOfValues);
+                        $contractAnswers[$surveyQuestion->id] = $customerAnswerStr;
+                    }
+                }
+            } else {
+
+//////////
+                $customerAnswer = CustomerAnswer::withTrashed()
+                    ->where('question_id', $surveyQuestion->id)
+                    ->where('customer_id', $report->customer_id)
+                    ->first();
+
+                if (!$customerAnswer) {
+                    $contractAnswers[$surveyQuestion->id] = 'N/A';
+                } else {
+                    if ($surveyQuestion->trashed()) {
+                        $deletedQuestionMessage = "<span style='background-color: red'>question was deleted</span>";
+                        $contractAnswers[$surveyQuestion->id] = $deletedQuestionMessage;
+                    } else {
+                        if ($surveyQuestion->type == 3) {
+//                            $customerAnswer->value = date('d-m-Y', strtotime($customerAnswer->value));
+                            $contractAnswers[$surveyQuestion->id] = date('d-m-Y', strtotime($customerAnswer->value));
+                        } else {
+                            $contractAnswers[$surveyQuestion->id] = $customerAnswer->value;
+                        }
+                    }
                 }
             }
         }
