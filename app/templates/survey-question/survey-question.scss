@@ -10,6 +10,9 @@
     margin: 0;
     padding: 0;
   }
+  .edit-button-active {
+    background: #DDDDDD;
+  }
   .cancel-button {
     text-transform: capitalize;
     border: 2px solid #3f51b5;
@@ -28,6 +31,7 @@
 
   .question-container {
     //min-height: 10px;
+    //border: 2px solid #3f51b5;
   }
   .question-container-drop {
     min-height: 50px;
@@ -52,6 +56,7 @@
       min-width: 18px;
       height: 18px;
       width: 18px;
+      padding: 2px;
     }
   }
 

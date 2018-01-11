@@ -3,12 +3,14 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'contractService'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'surveyOnly', 'contractService'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, contractService) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, surveyOnly, contractService) {
         let vm = this;
         tabsService.startTab('page1');
+
+
 
         vm.myLimit = 10;
         vm.myPage = 1;
@@ -16,6 +18,11 @@
         let firstCustomers = customerService.getCustomers();
 
         let idSurvey = survey.getActiveQuestionair().id;
+        let indexSurvey = survey.getActiveQuestionair().index;
+
+        vm.activeSurveyName = surveyOnly.data.onlySurvey[indexSurvey].survey_name;
+
+        console.log('ggggggggggggggggggg', vm.activeSurveyName);
 
         function activeStatus() {
             firstCustomers.forEach(function (itemCustomer) {
@@ -34,7 +41,26 @@
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
+        vm.downloadPDF = downloadPDF;
         vm.user = userService.getUser();
+
+        // if(customers.getfinishQuestionair()){
+        //
+        //     let tmpObj;
+        //     let id = customers.setActiveCustomers();
+        //
+        //     for(let i = 0; i < vm.customers.length; i++){
+        //         if(id == vm.customers[i].id){
+        //             tmpObj = vm.customers[i];
+        //             break
+        //         }
+        //     }
+        //
+        //     console.log('id', id);
+        //     console.log('tmp', tmpObj);
+        //
+        //     vm.downloadPDF(tmpObj);
+        // }
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -98,7 +124,7 @@
             });
         }
 
-        vm.downloadPDF = function (customer) {
+        function downloadPDF(customer) {
             surveyService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.onlySurvey;
                 contractService.loadTemplateList().then(function (templateList) {
