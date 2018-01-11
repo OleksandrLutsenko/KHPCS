@@ -2,8 +2,10 @@
 
 namespace App;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\File;
 
 class ContractResearch extends Model
 {
@@ -24,6 +26,14 @@ class ContractResearch extends Model
         static::creating(function ($table) {
 
             $table->user_id = Auth::user()->id;
+
+            $contractResearches = ContractResearch::where('user_id', $table->user_id)->get();
+
+            foreach ($contractResearches as $contractResearch) {
+                if (is_null($contractResearch->contract)) {
+                    $contractResearch->delete();
+                }
+            }
         });
 
         static::deleting(function ($contractResearch) {

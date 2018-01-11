@@ -40,7 +40,10 @@ class ContractController extends Controller
 
     public function indexForSurvey(Contract $contract, User $user, Survey $survey)
     {
-        return Contract::where('survey_id', $survey->id)->get();
+        return Contract::where('survey_id', $survey->id)
+            ->select('id', 'title', 'survey_id', 'contract_research_id')
+            ->get();
+//        return Contract::where('survey_id', $survey->id)->get();
     }
 
     public function indexWithoutBody(Contract $contract, User $user)
