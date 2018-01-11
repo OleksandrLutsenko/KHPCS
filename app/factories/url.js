@@ -14,8 +14,20 @@
                 loadUser: baseUrl + 'api/user',
                 getItems: baseUrl + 'api/survey',
                 loadSurveysOnly: baseUrl + 'api/onlysurvey',
-                register: baseUrl + 'api/auth/register',
                 forgot: baseUrl + 'api/user/request-reset'
+            },
+            create_adm: function (token) {
+             return{   register: baseUrl + 'api/auth/register/' + token }
+            },
+            company_management: {
+                inviteAdm: baseUrl + 'api/send-invite'
+            },
+            company: {
+                createCompany: baseUrl + 'api/company',
+                company: baseUrl + 'api/companies'
+            },
+            company_func: function (id) {
+               return { company: baseUrl + 'api/company/' + id }
             },
             survey_management: {
                 createSurvey: baseUrl + 'api/survey',

@@ -1,0 +1,30 @@
+<md-dialog flex="40" flex-xs="90" flex-sm="60" class="add-client">
+    <div>
+        <md-toolbar layout="row" layout-align="center center">
+            <p>Create a new company</p>
+        </md-toolbar>
+
+        <div class="content-add">
+            <form name="vm.companyForm" ng-submit="vm.save()" novalidate>
+                <div class="all-input" layout="column">
+                    <md-input-container>
+                        <label>Client name</label>
+                        <input type="text" name="name" ng-model="vm.data.name" required maxlength="32" minlength="2">
+                        <div ng-messages="vm.companyForm.name.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="maxlength">Email max length 32.</div>
+                            <div ng-message="minlength">Min name length 2.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div class="bot-btn" layout="row" layout-align="space-between">
+                    <md-button class="md-raised md-primary" type="submit">Save
+                    </md-button>
+                    <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</md-dialog>

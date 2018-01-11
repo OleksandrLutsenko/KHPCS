@@ -30,10 +30,15 @@
                 controllerAs: 'vm'
             })
             .state('registration', {
-                url: '/sign-up',
+                url: '/register/:token',
                 templateUrl: 'templates/registration/registration.html',
                 controller: 'RegistrationController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve:{
+                    token: ['$stateParams', function($stateParams){
+                        return $stateParams.token;
+                    }]
+                }
             })
             .state('forgot', {
                 url: '/sign-up/forgot',
@@ -72,15 +77,32 @@
                 templateUrl: 'templates/company-management/company-management.html',
                 controller: 'CompanyManagementController',
                 controllerAs: 'vm',
-                // resolve: {
-                //     loadCustomers: function (customerService) {
-                //         return customerService.loadCustomers();
-                //     }
-                //     ,
-                //     loadSurvey: function (surveyService) {
-                //         return surveyService.loadSurveyOnly();
-                //     }
-                // }
+                resolve: {
+                    loadCompany: function (companyService) {
+                        return companyService.loadCompany();
+                    }
+                }
+
+            })
+
+            .state('tab.company', {
+                url: '/company',
+                templateUrl: 'templates/company/company.html',
+                controller: 'CompanyController',
+                controllerAs: 'vm',
+                resolve: {
+                    load: function (companyService, company) {
+                        let id = company.getActiveCompany().id;
+
+                        return companyService.loadOneCompany(id).then(function (res) {
+                            if(res.success){
+                                console.log('success' , res.data.company);
+
+                                return res.data.company;
+                            }
+                        });
+                    }
+                }
             })
             .state('tab.survey-management', {
                 url: '/survey-management',

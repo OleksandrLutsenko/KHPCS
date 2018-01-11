@@ -57,8 +57,8 @@
             return $localStorage.user;
         }
 
-        function registration(credentials) {
-            return http.post(url.user.register, credentials)
+        function registration(token , data) {
+            return http.post(url.create_adm(token).register, data)
         }
 
         function forgot(data) {

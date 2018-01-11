@@ -1,1 +1,19 @@
-<div class="company-main"></div>
+<div class="company-main">
+    <div class="create-admins" layout="column" flex="20">
+        <md-button class="md-raised" ng-click="vm.createCompany()">Create Company</md-button>
+    </div>
+    <md-list ng-repeat="company in vm.company | orderBy: reverse:true">
+        <md-list-item class="secondary-button-padding"  ng-click="vm.setActiveCompany(company.id, $index , company.name)"
+        ui-sref="tab.company">
+            <p> {{company.name}}</p>
+            <md-button ng-click=" vm.deleteCompany(company.id , company)">Delete company</md-button>
+        </md-list-item>
+        <!--<md-list-item class="secondary-button-padding" ui-sref="tab.company">-->
+            <!--<p> Company name's 2</p>-->
+        <!--</md-list-item>-->
+        <!--<md-list-item class="secondary-button-padding" ng-click="enterCompany()">-->
+            <!--<p> Company name's 3</p>-->
+        <!--</md-list-item>-->
+    </md-list>
+</div>
+<!--ui-sref="tab.company"-->
