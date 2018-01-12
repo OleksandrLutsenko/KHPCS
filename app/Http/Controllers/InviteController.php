@@ -35,4 +35,16 @@ class InviteController extends Controller
         }
     }
 
+    public function indexInvite(Invite $invite)
+    {
+        if(Auth::user()->isAdmin()) {
+            return $invite->orderByDesc('updated_at')->get();
+        } else {
+            return response([
+                "error" => "You do not have a permission"], 404
+            );
+        }
+
+    }
+
 }

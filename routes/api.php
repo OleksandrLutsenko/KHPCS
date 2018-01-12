@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,14 +170,13 @@ Route::group(['middleware' => 'api-response'], function() {
         });
         Route::delete('/storage/contracts/{filenamePdf}', 'ContractController@deletePDF');
 
+        Route::get('/company-own', 'CompanyController@showOwn');
 
         Route::post('/send-invite', 'InviteController@createAndSendInvite');
-        Route::get('/company-customers', 'CustomerController@indexCompany');
-        Route::get('/company-customers/{company}', 'CustomerController@indexCompanySA');
+        Route::get('/index-invite', 'InviteController@indexInvite');
         Route::get('/user/{user}', 'UserController@showFAs');
 
 
-
-
+        
     });
 });

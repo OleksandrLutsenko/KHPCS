@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -14,8 +15,12 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::all();
-        return response(['companies' => $companies], 200);
+        if (Auth::user()->isAdmin()) {
+            $companies = Company::all();
+            return response(['companies' => $companies], 200);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
     }
 
     /**
@@ -27,8 +32,12 @@ class CompanyController extends Controller
      */
     public function store(Request $request, Company $company)
     {
-        $company = $company->create($request->all());
-        return response(['company' => $company], 200);
+        if (Auth::user()->isAdmin()) {
+            $company = $company->create($request->all());
+            return response(['company' => $company], 200);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
     }
 
     /**
@@ -40,7 +49,27 @@ class CompanyController extends Controller
      */
     public function show(Company $company)
     {
-        return response(['company' => $company], 200);
+        if (Auth::user()->isAdmin()) {
+            $company->setAppends([
+                'company_admin_invites', 'financial_advisors_invites',
+                'company_admin', 'financial_advisors'
+            ]);
+            return response(['company' => $company], 200);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
+    }
+
+
+    public function showOwn(Company $company)
+    {
+        if (Auth::user()->isCompanyAdmin()) {
+            $company = Company::find(Auth::user()->company_id);
+            $company->setAppends(['company_admin', 'financial_advisors']);
+            return response(['company' => $company], 200);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
     }
 
     /**
@@ -53,8 +82,12 @@ class CompanyController extends Controller
      */
     public function update(Request $request, Company $company)
     {
-        $company->update($request->all());
-        return response(['company' => $company], 201);
+        if (Auth::user()->isAdmin()) {
+            $company->update($request->all());
+            return response(['company' => $company], 201);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
     }
 
     /**
@@ -66,7 +99,11 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
-        $company->delete();
-        return response(['company' => $company], 201);
+        if (Auth::user()->isAdmin()) {
+            $company->delete();
+            return response(['company' => $company], 201);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
     }
 }
