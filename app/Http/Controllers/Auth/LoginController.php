@@ -46,7 +46,6 @@ class LoginController extends Controller
             $user = $this->guard()->user();
             $token = new Token();
             $token->generateToken(true);
-//            $user->generateToken(true);
 
             return response([
                 'user'=>$user

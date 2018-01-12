@@ -99,10 +99,23 @@ class UserController extends Controller
 //            if($request['company_id']) {
 //                return $request->changeCompany($user);
 //            }
-            $request->changeCompany($user);
             return $request->changeNameAndEmail($user);
         } else {
             return response('Page is not found', 404);
+        }
+    }
+
+//    public function changeUserCompany(User $user, UpdateUserRequest $request)
+//    {
+//        $request->changeCompany($user);
+//    }
+
+    public function updateRole(User $user, UpdateUserRequest $request)
+    {
+        if (Auth::user()->isAdmin() and $request['role_id'] == 1 or $request['role_id'] == 3) {
+            return $request->changeRole($user);
+        } else {
+            return response(['message' => 'You do not have a permission'], 400);
         }
     }
 
@@ -116,5 +129,20 @@ class UserController extends Controller
         if (Auth::user()->isAdmin()) {
             return response($user, 200);
         }
+    }
+
+    public function delete(User $user)
+    {
+        if (Auth::user()->isAdmin() and $user->role_id == 1 or $user->role_id == 3) {
+            $user->delete();
+            return response(['message' => 'User was deleted'], 200);
+        }
+        elseif (Auth::user()->isCompanyAdmin() and $user->role_id == 1) {
+            $user->delete();
+            return response(['message' => 'User was deleted'], 200);
+        } else {
+            return response(['message' => 'You do not have a permission'], 400);
+        }
+
     }
 }

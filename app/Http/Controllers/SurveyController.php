@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\CompanySurvey;
 use App\Customer;
 use App\CustomerAnswer;
 use App\Http\Requests\BlockRequest;
@@ -21,21 +23,45 @@ class SurveyController extends Controller
      */
     public function index(Survey $survey, User $user)
     {
-        return Survey::all();
+        if (Auth::user()->isAdmin()) {
+            return Survey::all();
+        } else {
+            $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
+                ->select('survey_id')
+                ->get();
+            return Survey::whereIn('id', $assigned)->get();
+        }
     }
 
     public function onlySurvey(Survey $survey, User $user)
     {
-        $surveys = $survey->get();
-        foreach ($surveys as $survey){
-            $survey->setAppends(['survey_status']);
-            $onlySurvey[] = [
-                'survey_name' => $survey->name,
-                'survey_id' => $survey->id,
-                'survey_status' => $survey->survey_status
-            ];
+        if (Auth::user()->isAdmin()) {
+
+            $surveys = $survey->get();
+            foreach ($surveys as $survey) {
+                $survey->setAppends(['survey_status']);
+                $onlySurvey[] = [
+                    'survey_name' => $survey->name,
+                    'survey_id' => $survey->id,
+                    'survey_status' => $survey->survey_status
+                ];
+            }
+            return compact('onlySurvey');
+        } else {
+            $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
+                ->select('survey_id')
+                ->get();
+            $surveys = Survey::whereIn('id', $assigned)->get();
+            foreach ($surveys as $survey) {
+                $survey->setAppends(['survey_status']);
+                $onlySurvey[] = [
+                    'survey_name' => $survey->name,
+                    'survey_id' => $survey->id,
+                    'survey_status' => $survey->survey_status
+                ];
+            }
+            return compact('onlySurvey');
         }
-        return compact('onlySurvey');
     }
 
 //    /**
@@ -117,7 +143,18 @@ class SurveyController extends Controller
      */
     public function show(Survey $survey, User $user)
     {
-        return compact('survey');
+        if (Auth::user()->isAdmin()) {
+            return compact('survey');
+        } else {
+            $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
+                ->where('survey_id', $survey->id)
+                ->first();
+            if ($assigned) {
+                return compact('survey');
+            } else {
+                return response(['message' => 'Page not found'], 404);
+            }
+        }
     }
 
     public function surveyDeletedQuestions(Survey $survey, User $user)

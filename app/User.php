@@ -104,6 +104,9 @@ class User extends Authenticatable implements CanResetPassword
                 $invite->save();
             }
         });
-    }
 
+        static::deleting(function ($table) {
+            Customer::where('user_id', $table->id)->delete();
+        });
+    }
 }
