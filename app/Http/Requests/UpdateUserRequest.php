@@ -79,4 +79,12 @@ class UpdateUserRequest extends FormRequest
         ]);
         return response(['user' => $user], 201);
     }
+
+    public function changeRole($user)
+    {
+        $user->update([
+            'role_id' => $this['role_id']
+        ]);
+        return response(['user' => $user], 201);
+    }
 }

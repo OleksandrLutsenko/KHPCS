@@ -29,42 +29,34 @@ class CustomerController extends Controller
         }
     }
 
-    public function indexFA(Customer $customer, User $user)
-    {
-        $customers = Customer::latest()->owned()->get();
-        return $customers;
-    }
-
-//    public function indexForEachFA(Customer $customer, User $user)
+//    public function indexFA(Customer $customer, User $user)
 //    {
-//        if(Auth::user()->isCompanyAdmin()) {
-//            if
-//        }
-//            $customers = Customer::latest()->owned()->get();
+//        $customers = Customer::latest()->owned()->get();
 //        return $customers;
 //    }
-
-    public function indexCompanyCA(Customer $customer, User $user)
-    {
-        if(Auth::user()->isCompanyAdmin()) {
-            $FAsIDs = User::where('company_id', Auth::user()->company_id)
-                ->select('id')
-                ->get();
-            $customers = Customer::whereIn('user_id', $FAsIDs)->get();
-            return $customers;
-        }
-    }
-
-    public function indexCompanySA(Customer $customer, User $user, Company $company)
-    {
-        if(Auth::user()->isAdmin()) {
-            $FAsIDs = User::where('company_id', $company->id)
-                ->select('id')
-                ->get();
-            $customers = Customer::whereIn('user_id', $FAsIDs)->get();
-            return $customers;
-        }
-    }
+//
+//
+//    public function indexCompanyCA(Customer $customer, User $user)
+//    {
+//        if(Auth::user()->isCompanyAdmin()) {
+//            $FAsIDs = User::where('company_id', Auth::user()->company_id)
+//                ->select('id')
+//                ->get();
+//            $customers = Customer::whereIn('user_id', $FAsIDs)->get();
+//            return $customers;
+//        }
+//    }
+//
+//    public function indexCompanySA(Customer $customer, User $user, Company $company)
+//    {
+//        if(Auth::user()->isAdmin()) {
+//            $FAsIDs = User::where('company_id', $company->id)
+//                ->select('id')
+//                ->get();
+//            $customers = Customer::whereIn('user_id', $FAsIDs)->get();
+//            return $customers;
+//        }
+//    }
 
     /**
      * Store a newly created resource in storage.

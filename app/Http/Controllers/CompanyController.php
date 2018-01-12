@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\CompanySurvey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -60,7 +61,10 @@ class CompanyController extends Controller
         }
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 39de64b3ee8f7a40292f845fbf42aa18c4e5d54e
     public function showOwn(Company $company)
     {
         if (Auth::user()->isCompanyAdmin()) {
@@ -105,5 +109,30 @@ class CompanyController extends Controller
         } else {
             return response(['message' => 'Page not found'], 404);
         }
+<<<<<<< HEAD
+=======
+    }
+
+    public function assignSurveyAndContracts(Request $request, Company $company)
+    {
+        if (Auth::user()->isAdmin()) {
+            foreach ($request->all() as $assign) {
+                $oldAssign = CompanySurvey::where('company_id', $company->id)
+                    ->where('survey_id', $assign['survey_id'])
+                    ->where('contract_id', $assign['contract_id'])
+                    ->first();
+                if (!$oldAssign) {
+                    $company->companySurveys()->create($assign);
+                }
+                if ($oldAssign and $assign['delete'] and $assign['delete'] == true) {
+                    $oldAssign->delete();
+                }
+            }
+            $assigned = CompanySurvey::where('company_id', $company->id)->get();
+           return response(['assigned' => $assigned], 201);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
+>>>>>>> 39de64b3ee8f7a40292f845fbf42aa18c4e5d54e
     }
 }

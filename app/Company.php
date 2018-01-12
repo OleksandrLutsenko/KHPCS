@@ -52,6 +52,14 @@ class Company extends Model
         return $this->hasMany(User::class);
     }
 
+<<<<<<< HEAD
+=======
+    public function companySurveys()
+    {
+        return $this->hasMany(CompanySurvey::class);
+    }
+
+>>>>>>> 39de64b3ee8f7a40292f845fbf42aa18c4e5d54e
     public static function boot()
     {
         parent::boot();

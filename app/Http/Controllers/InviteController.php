@@ -23,7 +23,11 @@ class InviteController extends Controller
                     $invite = $oldInvite;
                 }
             } else {
-                $invite = $invite->create($request->all());
+                if ($request['role_id'] == 1 or $request['role_id'] == 3) {
+                    $invite = $invite->create($request->all());
+                } else {
+                    return response(['message' => 'SuperAdmin role can not be assigned'], 400);
+                }
             }
             $company = Company::find($invite->company_id);
             $role = Role::find($invite->role_id);
@@ -46,5 +50,4 @@ class InviteController extends Controller
         }
 
     }
-
 }

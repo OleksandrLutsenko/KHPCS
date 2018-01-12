@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use App\Block;
+use App\CompanySurvey;
 use App\Contract;
 use App\ContractResearch;
 use App\Customer;
@@ -35,29 +36,62 @@ class ContractController extends Controller
      */
     public function index(Contract $contract, User $user)
     {
-        return Contract::all();
+        if (Auth::user()->isAdmin()) {
+            return Contract::all();
+        } else {
+            $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
+                ->select('contract_id')
+                ->get();
+            return Contract::whereIn('id', $assigned)->get();
+        }
     }
 
     public function indexForSurvey(Contract $contract, User $user, Survey $survey)
     {
-        return Contract::where('survey_id', $survey->id)
-            ->select('id', 'title', 'survey_id', 'contract_research_id')
-            ->get();
+        if (Auth::user()->isAdmin()) {
+            return Contract::where('survey_id', $survey->id)
+                ->select('id', 'title', 'survey_id', 'contract_research_id')
+                ->get();
+        } else {
+            $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
+                ->where('survey_id', $survey->id)
+                ->select('contract_id')
+                ->get();
+
+                return Contract::whereIn('id', $assigned)->get();
+        }
 //        return Contract::where('survey_id', $survey->id)->get();
     }
 
     public function indexWithoutBody(Contract $contract, User $user)
     {
-        $contracts = Contract::all();
-        foreach ($contracts as $contract){
-            $contractsWithoutBody[] = [
-                'id' => $contract->id,
-                'title' => $contract->title,
-                'survey_id' => $contract->survey_id,
-                'contract_research_id' => $contract->contract_research_id
-            ];
+        if (Auth::user()->isAdmin()) {
+
+            $contracts = Contract::all();
+            foreach ($contracts as $contract){
+                $contractsWithoutBody[] = [
+                    'id' => $contract->id,
+                    'title' => $contract->title,
+                    'survey_id' => $contract->survey_id,
+                    'contract_research_id' => $contract->contract_research_id
+                ];
+            }
+            return compact('contractsWithoutBody');
+        } else {
+            $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
+                ->select('contract_id')
+                ->get();
+            $contracts = Contract::whereIn('id', $assigned)->get();
+            foreach ($contracts as $contract) {
+                $contractsWithoutBody[] = [
+                    'id' => $contract->id,
+                    'title' => $contract->title,
+                    'survey_id' => $contract->survey_id,
+                    'contract_research_id' => $contract->contract_research_id
+                ];
+            }
+            return compact('contractsWithoutBody');
         }
-        return compact('contractsWithoutBody');
     }
 
     /**
@@ -90,7 +124,18 @@ class ContractController extends Controller
      */
     public function show(Contract $contract)
     {
-        return compact('contract');
+        if (Auth::user()->isAdmin()) {
+            return compact('contract');
+        } else {
+            $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
+                ->where('contract_id', $contract->id)
+                ->first();
+            if ($assigned) {
+                return compact('contract');
+            } else {
+                return response(['message' => 'Page not found'], 404);
+            }
+        }
     }
     
 

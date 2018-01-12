@@ -172,11 +172,16 @@ Route::group(['middleware' => 'api-response'], function() {
 
         Route::get('/company-own', 'CompanyController@showOwn');
 
+        Route::post('/company/{company}/assign', 'CompanyController@assignSurveyAndContracts');
+
         Route::post('/send-invite', 'InviteController@createAndSendInvite');
         Route::get('/index-invite', 'InviteController@indexInvite');
         Route::get('/user/{user}', 'UserController@showFAs');
+        Route::delete('/user/{user}/delete', 'UserController@delete');
+        Route::post('/user/{user}/update-role', 'UserController@updateRole');
 
 
+        
         
     });
 });
