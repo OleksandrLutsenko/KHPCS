@@ -1,10 +1,7 @@
 <md-dialog flex="40" flex-xs="90" flex-sm="60" class="add-client">
     <div>
         <md-toolbar layout="row" layout-align="center center">
-            <p>Add a new company admin</p>
-        </md-toolbar>
-        <md-toolbar ng-if="" layout="row" layout-align="center center">
-            <p>Add a new financial advisor</p>
+            <p>Add a new user</p>
         </md-toolbar>
 
         <div class="content-add">
@@ -22,10 +19,11 @@
                         </div>
                     </md-input-container>
                     <md-input-container>
-                        <label>Who's invite</label>
+                        <label>Choose a role</label>
                         <md-select ng-model="vm.data.role" name="select" required="">
-                            <md-option value="1">Financial adviser</md-option>
                             <md-option value="3">Company admin</md-option>
+                            <md-option value="1">Financial adviser</md-option>
+
                         </md-select>
                         <div ng-messages="vm.customersForm.select.$error">
                             <div ng-message="required">This is required.</div>

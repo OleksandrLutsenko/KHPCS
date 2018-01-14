@@ -11,22 +11,49 @@
         let model = {};
 
         model.inviteAdm = inviteAdm;
-        model.createCompany = createCompany;
+        model.companyCreate = companyCreate;
         model.loadCompany = loadCompany;
         model.getCompany = getCompany;
         model.getCompany = getCompany;
         model.companyDel = companyDel;
+        model.companyEdit = companyEdit;
         model.loadOneCompany = loadOneCompany;
+        model.assign = assign;
+        model.companyAdmin = companyAdmin;
+        model.deleteAdmin = deleteAdmin;
+        model.cancelInv = cancelInv;
+        model.companyCustomers = companyCustomers;
+        model.changeFA = changeFA;
 
         return model;
 
         /////////////////////////////////////
         function inviteAdm (data) {
-            return http.post(url.company_management.inviteAdm, data);
+            return http.post(url.user.inviteAdm, data);
         }
 
-        function createCompany(data) {
+        function cancelInv(id) {
+            return http.delete(url.company_func(id).cancelInv);
+        }
+
+        function deleteAdmin(id) {
+            return http.delete(url.company_func(id).deleteAdm );
+        }
+
+        function changeFA(data) {
+            return http.put(url.company.changeFA , data);
+        }
+
+        function companyCreate(data) {
             return http.post(url.company.createCompany, data);
+        }
+
+        function companyDel(id) {
+            return http.delete(url.company_func(id).company );
+        }
+
+        function companyEdit(id , data) {
+            return http.put(url.company_func(id).company , data);
         }
 
         function loadCompany() {
@@ -46,12 +73,20 @@
             return $sessionStorage['company_only'];
         }
 
-        function companyDel(id) {
-            return http.delete(url.company_func(id).company);
-        }
-
         function loadOneCompany(id) {
             return http.get(url.company_func(id).company );
+        }
+
+        function assign(id , data) {
+            return http.post(url.company_func(id).assign , data);
+        }
+
+        function companyAdmin() {
+            return http.get(url.company.companyAdmin);
+        }
+
+        function companyCustomers(id) {
+            return http.get(url.company_func(id).companyCustomers);
         }
 
     }

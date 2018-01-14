@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddAdminController', AddAdminController);
 
-    AddAdminController.$inject = ['$mdDialog', '$state', 'companyService'];
+    AddAdminController.$inject = ['id', '$mdDialog', '$state', 'companyService'];
 
-    function AddAdminController($mdDialog, $state, companyService) {
+    function AddAdminController(id, $mdDialog, $state, companyService) {
         let vm = this;
 
         vm.save = save;
@@ -16,12 +16,11 @@
             $mdDialog.cancel()
         }
 
-
-        console.log(vm.data);
         vm.data = {
             email: '',
             role_id: '',
-            company_id: '28'
+            company_id: id,
+            is_used: 0
         };
 
         function save() {
@@ -33,16 +32,16 @@
             else {
                 companyService.inviteAdm(vm.data).then(function (res) {
                     if (res.success) {
-                        console.log(vm.data);
-                        let tmpObj = {
-                            type: 'create',
-                            data: res.data
-                        };
-                        $mdDialog.hide(tmpObj);
+                            let tmpObj = {
+                                type: 'createCompanyAdm',
+                                data: res.data
+                            };
+                            $mdDialog.hide(tmpObj);
                     }
                     else {
                         cancel();
                     }
+
                 });
             }
         }

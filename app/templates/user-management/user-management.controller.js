@@ -10,19 +10,12 @@
         let vm = this;
         tabsService.startTab('page1');
 
-
-
         vm.myLimit = 10;
         vm.myPage = 1;
 
         let firstCustomers = customerService.getCustomers();
 
         let idSurvey = survey.getActiveQuestionair().id;
-        let indexSurvey = survey.getActiveQuestionair().index;
-
-        vm.activeSurveyName = surveyOnly.data.onlySurvey[indexSurvey].survey_name;
-
-        console.log('ggggggggggggggggggg', vm.activeSurveyName);
 
         function activeStatus() {
             firstCustomers.forEach(function (itemCustomer) {

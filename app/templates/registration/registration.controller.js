@@ -14,8 +14,6 @@
         vm.user = userService.getUser();
 
         let token = $stateParams.token;
-        console.log(token);
-
 
         function register() {
             if (vm.regForm.$invalid || vm.data.password !== vm.data.password_confirmation) {
@@ -27,9 +25,8 @@
                     if (res.success) {
                         $state.go('login');
                         toastr.success('Registration successful');
-                    }
-                    else {
-                        // toastr.error('This email is already taken', 'Error');
+                    } else {
+
                     }
                 });
             }
