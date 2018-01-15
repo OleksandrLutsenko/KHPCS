@@ -29,7 +29,6 @@
                            break;
                        }
                    }
-
                     vm.survey.splice(vm.survey.indexOf(survey), 1 , survey);
                    survey.survey_status = 'active';
                 } else {
