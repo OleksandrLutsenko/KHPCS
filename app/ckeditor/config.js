@@ -4,17 +4,17 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	config.uiColor = '#e8e8e8';
-    config.extraPlugins = 'placeholder';
+    // Define changes to default configuration here. For example:
+    // config.language = 'fr';
+    config.uiColor = '#e8e8e8';
+    config.extraPlugins = 'placeholder,uploader,imageresizerowandcolumn';
 
     config.toolbar = [
         {name: 'Print', items: ['Preview', 'Print']},
         {name: 'Editing', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
         {name: 'Scayt', items: ['Scayt']},
         {name: 'Replace', items: ['Find', 'Replace']},
-        {name: 'Img', items: ['Image', 'Table', 'SpecialChar', 'HorizontalRule', 'PageBreak']},
+        {name: 'Img', items: ['Uploader', 'Image', 'Table', 'SpecialChar', 'HorizontalRule', 'PageBreak']},
         // '/',
         {name: 'Img', items: ['Bold', 'Italic', 'Underline', 'Strikethrough', 'Subscript', 'Superscript', 'CopyFormatting', 'RemoveFormat']},
         {name: 'ListNumberedBulleted', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl']},
@@ -24,6 +24,7 @@ CKEDITOR.editorConfig = function( config ) {
         {name: 'theme', items: [ 'UIColor','Maximize'] }
         // {name: 'theme', items: [ 'UIColor','Maximize', 'CreatePlaceholder'] }
     ];
+    // config.removeButtons = 'Image';
     config.width = '100%';
     config.height = '500px';
     config.removePlugins = 'elementspath';

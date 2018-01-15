@@ -18,7 +18,12 @@
                 </form>
             </div>
             <div class="botBtn" layout="" layout-align="space-between">
-                <md-button class="md-raised md-primary" ng-click="vm.createTemplate()">Create</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.createTemplate()"
+                ng-if="vm.showCreateButton">Create</md-button>
+
+                <md-button class="md-raised md-primary" ng-click="vm.updateTemplate()"
+                ng-if="vm.showUpdateButton">Update</md-button>
+
                 <md-button class="md-raised" ng-click="vm.close()">Cancel</md-button>
             </div>
         </div>

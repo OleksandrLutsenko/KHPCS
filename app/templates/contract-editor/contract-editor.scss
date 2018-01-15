@@ -12,7 +12,7 @@
     font-size: 16px;
   }
   .search {
-    margin: 5px 10px 0 10px;
+    //margin: 5px 10px 0 10px;
   }
 
   .search md-input-container {
@@ -24,6 +24,7 @@
   }
   .pointer {
     cursor: pointer;
+    outline:none;
   }
   .chevron {
     font-size: 14px;
@@ -32,28 +33,41 @@
 
   //Template, Survey, UserVar//
   .edit-template {
-    box-sizing: border-box;
+    //box-sizing: border-box;
+    width: 320px;
   }
   .header-cell {
-    height: 59px;
+    height: 60px;
     border-right: 1px solid #d8d8d8;
   }
-  .active-cell {
-    //background-color: #f6f6f6;
-    cursor: default;
-    text-align: center;
-  }
+
   .inactive-cell {
     background-color: #e8e8e8;
     border-bottom: 1px solid #d8d8d8;
     cursor: pointer;
     text-align: center;
+    outline: none;
   }
+
+  //.inactive-cell h4 {
+  //  font-weight: normal;
+  //}
+
+  .active-cell {
+    background-color: #f6f6f6;
+    cursor: default;
+    text-align: center;
+  }
+
+  //.active-cell h4 {
+  //  font-weight: bold;
+  //}
+
   .header-title {
     font-size: 14px;
   }
   .save-menu {
-    margin: 10px;
+    margin: -13px 10px 10px 10px;
   }
   .templates{
     margin: 10px;
@@ -64,19 +78,21 @@
   }
   .survey-block-border {
     margin: 5px 20px;
-    border-bottom: 1px solid #d8d8d8;
+    width: 90%;
   }
   .survey-question {
     margin: 5px 0 5px 10px;
   }
   .answer {
     margin-left: 20px;
+    border-bottom: 1px solid #f2f1f1;
   }
   .inserted_question {
     margin: 5px 0 5px 40px;
   }
   .inserted_answer {
     margin: 5px 0 5px 50px;
+    border-bottom: 1px solid #f2f1f1;
   }
   .inserted_block_border {
     //margin: 5px 20px;
@@ -87,9 +103,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .hidden-text:hover {
+    background: #DDDDDD;
+    transition: .4s;
+  }
+
+
   .empty-block {
     margin: 5px 20px 5px 30px;
     color: #c3c3c3;
+    width: 80%;
   }
 
   .user-var-block {
@@ -109,4 +133,33 @@
   .staticVar {
     padding: 4px 0;
   }
+
+
+  .md-input {
+    border-color: rgb(242, 241, 241);
+  }
+
+  md-sidenav {
+    //width: 320px;
+    //max-width: 320px;
+  }
+
+  .survey-list{
+    outline:none;
+  }
+
+  .block-item2{
+    width: 90%;
+  }
+
+  #cke_36 {
+    display: none;
+  }
+
+  .bold{
+    font-weight: bold;
+  }
+
+
+
 }

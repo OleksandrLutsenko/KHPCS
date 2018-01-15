@@ -1,302 +1,273 @@
-<div class="contract-editor clearfix" layout="row" flex="100">
-    <div flex="15">
+<div class="menus" layout="row" layout-align="center"  flex="100" ng-if="vm.showSurveysList">
+    <div class="tab-list">
+        <div ng-repeat="survey in vm.surveys | orderBy : 'survey_status'"
+             class="questionnaire-list"
+             md-whiteframe="{{height}}"
+             ng-click="vm.setActiveSurvey(survey.survey_id, survey.survey_name)">
 
-        <div class="surveys-title" layout="" layout-align="center center">
-            <span class="title-size">Survey</span>
-        </div>
-
-        <div>
-            <div class="search" layout="row" layout-align="center center">
-                <md-input-container flex="100">
-                    <label layout="row">
-                        <i class="material-icons">search</i>
-                        <p layout="row" layout-align="none end">Search</p>
-                    </label>
-                    <input type="text" ng-model="vm.searchSurvey.survey_name">
-                </md-input-container>
-            </div>
-
-            <div ng-repeat="survey in vm.surveys | filter: vm.searchSurvey" ng-if="(survey.survey_status === 'active' || survey.survey_status === 'inactive')"
-                 ng-click="vm.setActiveSurvey(survey.survey_id, survey.survey_name)" class="questionnaire-list">
-
-                <p class="hidden-text pointer" title={{survey.name}}>
-                    <i class="material-icons chevron" ng-if="vm.showSelectedSurvey(survey.survey_id)">chevron_right</i>
-                    {{survey.survey_name}}
-                </p>
-
+            <div class="text-quest">
+                <p class="hidden-text">{{survey.survey_name}}</p>
             </div>
         </div>
+    </div>
+</div>
 
-        <div ng-if="!vm.surveys.length">
-            <p class="empty-block">
-                No surveys
-            </p>
+
+<div class="contract-editor clearfix" layout="column" flex="100" ng-show="vm.showEditor">
+
+    <!--Heder button-->
+
+    <div class="CKeditor-heder" layout="row" flex>
+        <div flex="33"  layout="row" layout-align="start center">
+            <md-button class="md-raised" ng-click="vm.changeSurvey()">Back</md-button>
+
+            <md-button  layout="row" layout-align="center center" hide-gt-md=""
+                       ng-click="vm.toggleLeftTab()">
+                <i class="material-icons">menu</i>
+                <span>Variables</span>
+            </md-button>
         </div>
+
+        <div flex="33" layout="row" layout-align="center center"  flex="30">
+            <div layout="row" layout-align="center center" >
+                <p class="bold">Active survey:</p>
+                <p class="">&nbsp {{vm.activeSurveyName}}</p>
+            </div>
+        </div>
+
+        <div flex="" layout="row" layout-align="end center">
+            <md-button class="md-raised" ng-click="vm.saveAsTemplate()" ng-if="vm.activeTemplateId !== undefined">Save As..</md-button>
+            <md-button class="md-raised md-primary" ng-click="vm.updateTemplate()" ng-if="vm.activeTemplateId !== undefined">Save Template</md-button>
+        </div>
+
 
     </div>
 
-    <div flex="60">
-        <!--<div  class="upload-img" layout="row" flex="100">-->
-            <!--<form name="imgForm" enctype="multipart/form-data">-->
-                <!--<input  type="file" class="ng-hide"  id="file" name="imgFile" value="Select" accept="image/*" required>-->
-                <!--<label  for="file" class="md-button md-raised md-primary">Select image</label>-->
-            <!--</form>-->
+    <!--CK and Tabs-->
 
-            <!--<md-button class="md-raised" ng-click="vm.sendImage()" ng-disabled="!vm.showUpload">Upload</md-button>-->
-            <!--<div layout="row" layout-align="center center" class="hidden-text">{{vm.fileName}}</div>-->
-        <!--</div>-->
+    <div flex="" layout="row">
 
+        <!--Variables-->
 
+        <md-sidenav ng-if="vm.showEditor" class="md-sidenav-left md-whiteframe-z2" md-component-id="left-tab" md-is-locked-open="$mdMedia('gt-md')">
 
-        <div  class="upload-img" layout="row" flex="100">
-            <form  name="imgForm" enctype="multipart/form-data" layout="row" layout-align="center center">
-                <input  type="file" class="ng-hide"  id="file" name="imgFile" value="Select" accept="image/*" required>
-                <label for="file"><i class="material-icons">add_a_photo</i></label>
-            </form>
+            <md-content class="surveyBlock">
 
-            <!--<md-button class="md-raised" ng-click="vm.sendImage()" >Upload</md-button>-->
-            <!--<div layout="row" layout-align="center center" class="hidden-text">{{vm.fileName}}</div>-->
-        </div>
+                <!--Header-->
 
-
-
-
-
-        <div>
-            <textarea name="CKeditorArea" class="cke"></textarea>
-        </div>
-    </div>
-
-    <!--TemplateTab-->
-
-    <div flex="25" class="edit-template" ng-show="vm.showTemplateTab">
-        <div flex="100" layout="row" >
-            <div flex="33" layout="" layout-align="center center" class="header-cell active-cell">
-                <span class="header-title">
-                    Templates
-                </span>
-            </div>
-
-            <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell pointer"
-                 ng-click="vm.clickSurveyVarTab()">
-                <span class="header-title">
-                    Survey variables
-                </span>
-            </div>
-
-            <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell pointer"
-                 ng-click="vm.clickUserVarTab()">
-                <span class="header-title">
-                    User variables
-                </span>
-            </div>
-        </div>
-
-        <div>
-            <div>
-                <div class="search" layout="row" layout-align="center center">
-                    <md-input-container flex="100">
-                        <label layout="row">
-                            <i class="material-icons">search</i>
-                            <p layout="row" layout-align="none end">Search</p>
-                        </label>
-                        <input type="text" ng-model="vm.searchTemplate.title">
-                    </md-input-container>
-                </div>
-
-                <div class="save-menu pointer" ng-if="vm.surveys.length" layout="" layout-align="space-between center">
-                    <div layout="" layout-align="start center" ng-click="vm.createTemplate()">
-                        <i class="material-icons">add</i>
-                        <span> Add new template</span>
+                <div flex="100" layout="row">
+                    <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell side-nav-heder"
+                         ng-class="{'active-cell':  vm.isActiveTab('Templates')}" ng-click="vm.setActiveTabName('Templates')">
+                        <h4>Templates</h4>
                     </div>
 
-                    <div layout="" layout-align="end center">
+                    <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell side-nav-heder"
+                         ng-class="{'active-cell':  vm.isActiveTab('Survey var')}" ng-click="vm.setActiveTabName('Survey var')">
+                        <h4>Survey variables</h4>
+                    </div>
 
-                        <i class="material-icons" ng-if="vm.activeTemplateId !== undefined"
-                           ng-click="vm.updateTemplate()">save</i>
-
-                        <i class="material-icons" ng-if="vm.activeTemplateId !== undefined"
-                           ng-click="vm.removeTemplate()">delete_forever</i>
+                    <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell side-nav-heder"
+                         ng-class="{'active-cell':  vm.isActiveTab('User var')}" ng-click="vm.setActiveTabName('User var')">
+                        <h4>User variables</h4>
                     </div>
                 </div>
-            </div>
 
-            <p ng-if="!vm.templates.length" class="empty-block">
-                No templates
-            </p>
+                <!--TemplateTab-->
 
-            <div ng-repeat="template in vm.templates | filter: vm.searchTemplate">
-                <p ng-click="vm.pasteTemplate(template)" class="templates hidden-text pointer">
-                    <i class="material-icons chevron" ng-if="vm.showSelectedTemplate(template.id)">chevron_right</i>
-                    {{template.title}}
-                </p>
-            </div>
-        </div>
-    </div>
+                <div ng-if="vm.isActiveTab('Templates')">
+                    <div class="search" layout="row" layout-align="center center" >
+                        <md-input-container flex="90">
+                            <label layout="row">
+                                <i class="material-icons">search</i>
+                                <p layout="row" layout-align="none end">Search</p>
+                            </label>
+                            <input type="text" ng-model="vm.searchTemplate.title">
+                        </md-input-container>
+                    </div>
 
-    <!--SurveyTab-->
+                    <div class="add-section" layout="row" layout-align="center center">
+                        <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center">
+                            <div flex class="pointer" ng-click="vm.createTemplate()">
+                                + Add new template
+                            </div>
+                            <div class="icons">
+                                <!--<i class="material-icons pointer" ng-if="vm.activeTemplateId !== undefined"-->
+                                   <!--ng-click="vm.updateTemplate()">save</i>-->
 
-    <div flex="25" class="edit-template" ng-show="vm.showSurveyVarTab">
-        <div flex="100" layout="row" >
-            <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell pointer"
-                 ng-click="vm.clickTemplateTab()">
-                <span class="header-title">
-                    Templates
-                </span>
-            </div>
+                                <!--<i class="material-icons pointer" ng-if="vm.activeTemplateId !== undefined"-->
+                                   <!--ng-click="vm.removeTemplate()">delete_forever</i>-->
+                            </div>
+                        </div>
+                    </div>
 
-            <div flex="33" layout="" layout-align="center center" class="header-cell active-cell">
-                <span class="header-title">
-                    Survey variables
-                </span>
-            </div>
-
-            <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell pointer"
-                 ng-click="vm.clickUserVarTab()">
-                <span class="header-title">
-                    User variables
-                </span>
-            </div>
-        </div>
-
-        <div>
-            <p ng-if="!vm.activeSurvey.length" class="empty-block">
-                No data
-            </p>
-
-            <div ng-repeat="block in vm.activeSurvey">
-                <p ng-click="vm.showQuestionsInBlock(block.id)" class="survey-block pointer">
-                    {{block.name}}
-                </p>
-
-                <div ng-repeat="question in block.questions" ng-if="vm.showQuestions(block.id)"
-                     class="survey-block-border">
-                    <p ng-click="vm.pasteTitle(question.title)" class="survey-question pointer hidden-text"
-                       title={{question.title}}>
-                        {{question.title}}
+                    <p ng-if="!vm.templates.length" class="empty-block">
+                        No templates
                     </p>
 
-                    <p ng-click="vm.pasteVariability(question.title, question.id)" class="survey-question answer pointer hidden-text">
-                        [Answer {{question.id}}]
-                    </p>
+                    <div class="survey-list" ng-repeat="template in vm.templates | filter: vm.searchTemplate"
+                         layout="row" layout-align="center center" ng-class="{'active-item': vm.showSelectedTemplate(template.id)}">
+                        <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center">
+                            <div flex class="pointer" ng-click="vm.pasteTemplate(template)">
+                                {{template.title}}
+                            </div>
+                            <div class="icons">
+                                <!--<i class="material-icons pointer" ng-if="vm.activeTemplateId !== undefined"-->
+                                <!--ng-click="vm.updateTemplate()">save</i>-->
 
-                    <div ng-repeat="answers in question.answers" class="inserted_block_border">
-                        <div ng-repeat="insertedQuestions in answers.child_questions">
-                            <p ng-click="vm.pasteTitle(insertedQuestions.title)" class="inserted_question pointer hidden-text"
-                               title={{insertedQuestions.title}}>
-                                {{insertedQuestions.title}}
-                            </p>
+                                <i class="material-icons pointer" ng-if="vm.showSelectedTemplate(template.id)"
+                                   ng-click="vm.removeTemplate()">delete_forever</i>
+                            </div>
 
-                            <p ng-click="vm.pasteVariability(insertedQuestions.title, insertedQuestions.id)"
-                               class="inserted_answer pointer hidden-text">
-                                [Answer {{insertedQuestions.id}}]
-
-                            </p>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="empty-block" ng-if="vm.showQuestions(block.id)">
-                    <p ng-if="!block.questions.length">
-                        Empty block
+                <!--SurveyTab-->
+
+                <div ng-if="vm.isActiveTab('Survey var')">
+                    <p ng-if="!vm.activeSurvey.length" class="empty-block">
+                        No data
                     </p>
+
+                    <div class="survey-list" ng-repeat="block in vm.activeSurvey"
+                         layout="column" layout-align="center center" ng-class="{'active-item': vm.showQuestions(block.id)}">
+
+
+                        <div flex="90" class="block-item block-item2 pointer" layout="row" layout-align="space-between center"
+                             ng-click="vm.showQuestionsInBlock(block.id)" >
+                            {{block.name}}
+                        </div>
+
+                        <div ng-repeat="question in block.questions" ng-if="vm.showQuestions(block.id)"
+                             class="survey-block-border">
+                            <p ng-click="vm.pasteTitle(question.title)" class="survey-question pointer hidden-text"
+                               title={{question.title}}>
+                                {{question.title}}
+                            </p>
+
+                            <p ng-click="vm.pasteVariability(question.title, question.id, question.numberInOrder)" class="survey-question answer pointer hidden-text">
+                                [Answer {{question.numberInOrder}}]
+                            </p>
+
+                            <div ng-repeat="answers in question.answers" class="inserted_block_border">
+                                <div ng-repeat="insertedQuestions in answers.child_questions">
+                                    <p ng-click="vm.pasteTitle(insertedQuestions.title)" class="inserted_question pointer hidden-text"
+                                       title={{insertedQuestions.title}}>
+                                        {{insertedQuestions.title}}
+                                    </p>
+
+                                    <p ng-click="vm.pasteVariability(insertedQuestions.title, insertedQuestions.id, insertedQuestions.numberInOrder)"
+                                       class="inserted_answer pointer hidden-text">
+                                        [Answer {{insertedQuestions.numberInOrder}}]
+
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="empty-block" ng-if="vm.showQuestions(block.id)">
+                            <p ng-if="!block.questions.length">
+                                Empty block
+                            </p>
+                        </div>
+                    </div>
+
+
+
+                    <!--____________________________________________________________________________________________________-->
+
+
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <!--UserTab-->
+                <!--UserTab-->
 
-    <div flex="25" class="edit-template" ng-if="vm.showUserVarTab">
-        <div flex="100" layout="row" >
-            <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell pointer"
-                 ng-click="vm.clickTemplateTab()">
-                <span class="header-title">
-                    Templates
-                </span>
-            </div>
+                <div ng-if="vm.isActiveTab('User var')">
 
-            <div flex="33" layout="" layout-align="center center" class="header-cell inactive-cell pointer"
-                 ng-click="vm.clickSurveyVarTab()">
-                <span class="header-title">
-                    Survey variables
-                </span>
-            </div>
+                    <div class="search" layout="row" layout-align="center center" >
+                        <md-input-container flex="90">
+                            <label layout="row">
+                                <i class="material-icons">search</i>
+                                <p layout="row" layout-align="none end">Search</p>
+                            </label>
+                            <input type="text" ng-model="vm.searchUserVar.text">
+                        </md-input-container>
+                    </div>
 
-            <div flex="33" layout="" layout-align="center center" class="header-cell active-cell">
-                <span class="header-title">
-                    User variables
-                </span>
-            </div>
-        </div>
+                    <div class="add-section pointer" ng-click="vm.createUserVariability()" layout="row" layout-align="center center">
+                        <p class="block-item" flex="90">+ Create variable</p>
+                    </div>
 
-        <div flex="100">
-            <div class="search" layout="row" layout-align="center center">
-                <md-input-container flex="100">
-                    <label layout="row">
-                        <i class="material-icons">search</i>
-                        <p layout="row" layout-align="none end">Search</p>
-                    </label>
-                    <input type="text" ng-model="vm.searchUserVar.text">
-                </md-input-container>
-            </div>
+                    <div class="add-section pointer" layout="row" layout-align="center center" title="User name"
+                         ng-click="vm.pasteStaticVariability('User name')">
+                        <p class="block-item" flex="90">[User name]</p>
+                    </div>
 
-            <div class="user-var-create pointer" layout="" layout-align="start center" ng-click="vm.createUserVariability()">
-                <i class="material-icons">add</i>
-                <p >Create variable</p>
-            </div>
+                    <div class="add-section pointer" layout="row" layout-align="center center" title="User email"
+                         ng-click="vm.pasteStaticVariability('User email')">
+                        <p class="block-item" flex="90">[User email]</p>
+                    </div>
 
-            <div flex="100">
-                <div layout="" layout-align="start center"  class="user-var">
-                    <p title="User name" class="pointer staticVar" ng-click="vm.pasteStaticVariability('User name')">
-                        [User name]
-                    </p>
-                </div>
-                <div layout="" layout-align="start center"  class="user-var">
-                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('User email')">
-                        [User email]
-                    </p>
-                </div>
-                <div layout="" layout-align="start center"  class="user-var">
-                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('Customer name')">
-                        [Customer name]
-                    </p>
-                </div>
-                <div layout="" layout-align="start center"  class="user-var">
-                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('Customer surname')">
-                        [Customer surname]
-                    </p>
-                </div>
-                <div layout="" layout-align="start center"  class="user-var">
-                    <p title="User email" class="pointer staticVar" ng-click="vm.pasteStaticVariability('Customer classification')">
-                        [Customer classification]
-                    </p>
-                </div>
-            </div>
+                    <div class="add-section pointer" layout="row" layout-align="center center" title="Customer name"
+                         ng-click="vm.pasteStaticVariability('Customer name')">
+                        <p class="block-item" flex="90">[Customer name]</p>
+                    </div>
 
-            <div ng-repeat="var in vm.variability  | filter: vm.searchUserVar" class="user-var" flex="100"
-                 ng-if="var.deleted_at === null" >
-                <div layout="row" layout-align="space-between center">
+                    <div class="add-section pointer" layout="row" layout-align="center center" title="Customer surname"
+                         ng-click="vm.pasteStaticVariability('Customer surname')">
+                        <p class="block-item" flex="90">[Customer surname]</p>
+                    </div>
+
+                    <div class="add-section pointer" layout="row" layout-align="center center" title="Customer classification"
+                         ng-click="vm.pasteStaticVariability('Customer classification')">
+                        <p class="block-item" flex="90">[Customer classification]</p>
+                    </div>
+
+
+                    <div class="survey-list" ng-repeat="var in vm.variability  | filter: vm.searchUserVar"
+                         title={{var.text}}
+                         layout="row" layout-align="center center">
+                        <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center">
+                            <div flex class="pointer" ng-click="vm.pasteUserVariability(var.id)">
+                                {{var.text}}
+                            </div>
+                            <div class="icons">
+                                <md-icon class="pointer" ng-click="vm.editUserVariability(var.id, var.text)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
+                                <md-icon class="pointer" ng-click="vm.removeUserVariability(var.id)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
+                            </div>
+                        </div>
+                    </div>
+
                     <div>
-                        <p ng-click="vm.pasteUserVariability(var.id)" title={{var.text}} class="pointer">
-                            {{var.text}}
+                        <p ng-if="!vm.variability.length" class="empty-block">
+                            No variables
                         </p>
                     </div>
 
-                    <div class="user-edit">
-                        <i class="material-icons" ng-click="vm.editUserVariability(var.id, var.text)">mode_edit</i>
-                        <i class="material-icons" ng-click="vm.removeUserVariability(var.id)">highlight_off</i>
-                    </div>
                 </div>
-            </div>
 
-            <div>
-                <p ng-if="!vm.variability.length" class="empty-block">
-                    No variables
-                </p>
+            </md-content>
+
+        </md-sidenav>
+
+        <!--Contact editor-->
+
+        <div flex="">
+            <div style="display: none" class="upload-img" layout="row" layout-align="center center" flex="30">
+                <form  name="imgForm" enctype="multipart/form-data" layout="row" layout-align="center center">
+                    <input  type="file" class="ng-hide"  id="file" name="imgFile" value="Select" accept="image/*" required>
+                    <label for="file"><i class="material-icons">add_a_photo</i></label>
+                </form>
             </div>
+            <textarea name="CKeditorArea" class="cke"></textarea>
         </div>
     </div>
-    <!--<md-button ng-click="vm.pasteMoe()">Some</md-button>-->
+
+
+
 </div>
+
+
+
+
