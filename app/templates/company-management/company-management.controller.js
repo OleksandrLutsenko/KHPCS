@@ -7,7 +7,7 @@
 
     function CompanyManagementController(companyService, company, $mdDialog, toastr, tabsService) {
         let vm = this;
-        tabsService.startTab('page1');
+        tabsService.startTab('page2');
 
         vm.createCompany = createCompany;
         vm.deleteCompany = deleteCompany;

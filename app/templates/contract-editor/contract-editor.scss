@@ -11,9 +11,6 @@
   .title-size {
     font-size: 16px;
   }
-  .search {
-    //margin: 5px 10px 0 10px;
-  }
 
   .search md-input-container {
     margin-bottom: 0;
@@ -50,19 +47,11 @@
     outline: none;
   }
 
-  //.inactive-cell h4 {
-  //  font-weight: normal;
-  //}
-
   .active-cell {
     background-color: #f6f6f6;
     cursor: default;
     text-align: center;
   }
-
-  //.active-cell h4 {
-  //  font-weight: bold;
-  //}
 
   .header-title {
     font-size: 14px;
@@ -95,21 +84,17 @@
     margin: 5px 0 5px 50px;
     border-bottom: 1px solid #f2f1f1;
   }
-  .inserted_block_border {
-    //margin: 5px 20px;
-    //border-right: 1px solid #d8d8d8;
+
+  .survey-question:hover, .inserted_question:hover {
+    background: #DDDDDD;
+    transition: .4s;
   }
+
   .hidden-text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
-  .hidden-text:hover {
-    background: #DDDDDD;
-    transition: .4s;
-  }
-
 
   .empty-block {
     margin: 5px 20px 5px 30px;
@@ -164,6 +149,70 @@
   .name-survey{
     font-size: 1.17em;
     font-weight: bold;
+  }
+
+  //___________________TABS__________________
+
+  .menus1 {
+    padding-top: 20px;
+  }
+  .tab-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .questionnaire-list {
+    background-color: #f7f7f7;
+    width: 300px;
+    margin: 10px 10px;
+    text-align: right;
+    height: 150px;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+  }
+
+  .questionnaire-list i {
+    font-size: 25px;
+    text-align: right;
+    color: #aaa;
+  }
+
+  .questionnaire-list p {
+    text-align: center;
+  }
+
+  @media (min-width: 1470px) {
+    .tab-list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  @media (max-width: 1170px) {
+    .tab-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 820px) {
+    .tab-list {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .questionnaire-list {
+      width: 200px;
+    }
+  }
+
+  // for IE
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .tab-list {
+      display: flex;
+      padding-top: 20px;
+      flex-wrap: wrap;
+    }
   }
 
 

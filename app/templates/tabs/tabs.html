@@ -1,6 +1,7 @@
+<script src="../../components/contract-editor/add-or-update-template/add-or-update-template.controller.js"></script>
 <md-content class="tabs">
 
-    <div class="logo-tabs" layout="row" layout-align="center center">
+    <div class="logo-tabs" layout="row" layout-align="center center" ng-click="vm.ChangeTab()">
         <img src="content/img/knight_hayes_logo.fw.png" alt="Logo">
     </div>
     <div class="nav-menu">
@@ -17,23 +18,23 @@
                 </md-toolbar>
                 <md-content>
                     <md-list flex>
-                        <md-list-item ui-sref="tab.user-management" ng-click="vm.closeNavButton()"
+                        <md-list-item ui-sref="tab.user-management" ng-click="vm.closeNavButton('page1')"
                                       ng-if="vm.user.role_id !== 3">
                             <p>User Management</p>
                         </md-list-item>
-                        <md-list-item ui-sref="tab.company-management" ng-click="vm.closeNavButton()"
+                        <md-list-item ui-sref="tab.company-management" ng-click="vm.closeNavButton('page2')"
                                       ng-if="vm.user.role_id !== 1">
                             <p>Company Management</p>
                         </md-list-item>
                         <md-list-item ui-sref="tab.survey-management" ng-if="vm.user.role_id == 2"
-                                      ng-click="vm.closeNavButton()">
+                                      ng-click="vm.closeNavButton('page3')">
                             <p>Survey Management</p>
                         </md-list-item>
                         <md-list-item ui-sref="tab.contract-editor" ng-if="vm.user.role_id == 2"
-                                      ng-click="vm.closeNavButton()">
+                                      ng-click="vm.closeNavButton('page4')">
                             <p> Contract Editor</p>
                         </md-list-item>
-                        <md-list-item ui-sref="tab.settings" ng-click="vm.closeNavButton()">
+                        <md-list-item ui-sref="tab.settings" ng-click="vm.closeNavButton('page5')">
                             <p>Settings</p>
                         </md-list-item>
                         <md-list-item ui-sref="tab.profile" ng-click="vm.closeNavButton()">
