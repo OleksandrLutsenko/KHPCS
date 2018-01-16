@@ -16,22 +16,27 @@
                     </md-button>
                 </div>
                 <div ng-show="!vm.edit" layout="row" layout-align="center center">
+
                     <div>
                         <md-button ng-click="vm.showEdit()">
                             Add question
                         </md-button>
                     </div>
 
-                    <div>
-                        <md-button class="cancel-button" ng-click="vm.cancel()">
-                            Cancel
-                        </md-button>
-                    </div>
-                    <div>
-                        <md-button class="save-button md-primary" ng-click="vm.save()">
-                            Save
-                        </md-button>
-                    </div>
+                    <md-button class="edit-button" ng-class="{'edit-button-active': !vm.drag}" ng-click="vm.editButton()">
+                        Drag and drop mode
+                    </md-button>
+
+                    <!--<div>-->
+                        <!--<md-button class="cancel-button" ng-click="vm.cancel()">-->
+                            <!--Cancel-->
+                        <!--</md-button>-->
+                    <!--</div>-->
+                    <!--<div>-->
+                        <!--<md-button class="save-button md-primary" ng-click="vm.save()">-->
+                            <!--Save-->
+                        <!--</md-button>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -52,13 +57,15 @@
                                 {{question.title}}
                             </div>
 
-                            <div ng-show="vm.edit">
-                                {{question.identifier}}
-                            </div>
+                            <div layout="row">
+                                <div>
+                                    {{question.identifier}}
+                                </div>
 
-                            <div class="icons" ng-show="!vm.edit">
-                                <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
-                                <md-icon ng-click="vm.deleteQuest(question.id, mainKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
+                                <div class="icons" ng-show="!vm.edit" layout="row">
+                                    <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
+                                    <md-icon ng-click="vm.deleteQuest(question.id, mainKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
+                                </div>
                             </div>
 
                         </div>
@@ -85,13 +92,15 @@
                                                         {{child_questions.title}}
                                                     </div>
 
-                                                    <div ng-show="vm.edit">
-                                                        {{question.identifier}}
-                                                    </div>
+                                                    <div layout="row">
+                                                        <div>
+                                                            {{child_questions.identifier}}
+                                                        </div>
 
-                                                    <div class="icons" ng-show="!vm.edit">
-                                                        <md-icon ng-click="vm.showEdit(mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
-                                                        <md-icon ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
+                                                        <div class="icons" ng-show="!vm.edit" layout="row">
+                                                            <md-icon ng-click="vm.showEdit(mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
+                                                            <md-icon ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
+                                                        </div>
                                                     </div>
 
                                                 </div>

@@ -7,7 +7,8 @@
         'factory.survey',
         'factory.customers',
         'factory.surveyQuestion',
-        'factory.tabs'
+        'factory.tabs',
+        'factory.company'
     ]);
 
 })();

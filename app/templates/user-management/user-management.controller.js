@@ -3,10 +3,10 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'contractService'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'surveyOnly', 'contractService'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, contractService) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, surveyOnly, contractService) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -34,7 +34,26 @@
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
+        vm.downloadPDF = downloadPDF;
         vm.user = userService.getUser();
+
+        // if(customers.getfinishQuestionair()){
+        //
+        //     let tmpObj;
+        //     let id = customers.setActiveCustomers();
+        //
+        //     for(let i = 0; i < vm.customers.length; i++){
+        //         if(id == vm.customers[i].id){
+        //             tmpObj = vm.customers[i];
+        //             break
+        //         }
+        //     }
+        //
+        //     console.log('id', id);
+        //     console.log('tmp', tmpObj);
+        //
+        //     vm.downloadPDF(tmpObj);
+        // }
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -55,7 +74,7 @@
         }
 
 
-        function deleteCustomer(id, index) {
+        function deleteCustomer(id, customers) {
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -64,7 +83,7 @@
             }).then(function () {
                 customerService.deleteCustomers(id).then(function (res) {
                     if (res.success) {
-                        vm.customers.splice(index, 1);
+                        vm.customers.splice(vm.customers.indexOf(customers), 1);
                         toastr.success('Delete success');
                     }
                     else {
@@ -74,7 +93,7 @@
             });
         }
 
-        function createOrUpdate(id, customers, index) {
+        function createOrUpdate(id, customers) {
             $mdDialog.show({
                 controller: 'AddClientController',
                 controllerAs: 'vm',
@@ -88,7 +107,7 @@
                 clickOutsideToClose: true
             }).then(function (res) {
                 if (res.type === 'update') {
-                    vm.customers.splice(index, 1, res.data);
+                    vm.customers.splice(vm.customers.indexOf(customers), 1, res.data);
                     activeStatus();
                     toastr.success('Edit success');
                 } else {
@@ -98,7 +117,7 @@
             });
         }
 
-        vm.downloadPDF = function (customer) {
+        function downloadPDF(customer) {
             surveyService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.onlySurvey;
                 contractService.loadTemplateList().then(function (templateList) {

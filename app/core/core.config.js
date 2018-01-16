@@ -4,7 +4,7 @@
         .config(mainConfig);
     mainConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
 
-    function mainConfig($stateProvider, $urlRouterProvider , $stateParams) {
+    function mainConfig($stateProvider, $urlRouterProvider) {
 
         $urlRouterProvider.otherwise('/login');
 
@@ -17,7 +17,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     security: function ($state, userService) {
-                        if(!userService.getToken()){
+                        if (!userService.getToken()) {
                             return $state.go('login');
                         }
                     }
@@ -30,7 +30,7 @@
                 controllerAs: 'vm'
             })
             .state('registration', {
-                url: '/sign-up',
+                url: '/register/:token',
                 templateUrl: 'templates/registration/registration.html',
                 controller: 'RegistrationController',
                 controllerAs: 'vm'
@@ -45,12 +45,7 @@
                 url: '/sign-up/reset/:token',
                 templateUrl: 'templates/reset-password/reset-password.html',
                 controller: 'ResetController',
-                controllerAs: 'vm',
-                resolve:{
-                    token: ['$stateParams', function($stateParams){
-                        return $stateParams.token;
-                    }]
-                }
+                controllerAs: 'vm'
             })
             .state('tab.user-management', {
                 url: '/user-management',
@@ -62,9 +57,71 @@
                         return customerService.loadCustomers();
                     }
                     ,
+                    surveyOnly: function (surveyService) {
+                        return surveyService.loadSurveyOnly();
+                    },
+                    security: function ($state, userService) {
+                        let userRole = userService.getUser().role_id;
+                        if (userRole === 3) {
+                            return $state.go('tab.company');
+                        }
+                    }
+                }
+            })
+            .state('tab.company-management', {
+                url: '/company-management',
+                templateUrl: 'templates/company-management/company-management.html',
+                controller: 'CompanyManagementController',
+                controllerAs: 'vm',
+                resolve: {
+                    loadCompany: function (companyService) {
+                        return companyService.loadCompany();
+                    },
+                    security: function ($state, userService) {
+                        let userRole = userService.getUser().role_id;
+                        if (userRole === 3) {
+                            return $state.go('tab.company');
+                        }
+                    }
+                }
+
+            })
+
+            .state('tab.company', {
+                url: '/company',
+                templateUrl: 'templates/company/company.html',
+                controller: 'CompanyController',
+                controllerAs: 'vm',
+                resolve: {
+                    oneCompany: function (companyService, company, userService) {
+                        let id = company.getActiveCompany().id;
+                        let userRole = userService.getUser().role_id;
+
+                        if (userRole === 2) {
+                            return companyService.loadOneCompany(id).then(function (res) {
+                                if (res.success) {
+                                    return res.data.company;
+                                }
+                            });
+                        } else {
+                            return companyService.companyAdmin().then(function (res) {
+                                if (res.success) {
+                                    return res.data.company;
+                                }
+                            });
+                        }
+                    },
                     loadSurvey: function (surveyService) {
                         return surveyService.loadSurveyOnly();
+                    },
+                    loadTemp: function (contractService) {
+                        return contractService.loadTemplateList();
+                    },
+                    customersCompany: function (companyService, company) {
+                        let id = company.getActiveCompany().id;
+                        return companyService.companyCustomers(id);
                     }
+
                 }
             })
             .state('tab.survey-management', {
@@ -108,7 +165,7 @@
                         let idSurvey = survey.getActiveSurvey().id;
 
                         return surveyService.loadOneSurvey(idSurvey).then(function (res) {
-                            if(res.success){
+                            if (res.success) {
                                 return res.data.survey.blocks;
                             }
                         });
@@ -137,7 +194,7 @@
                         };
 
                         return passingQuestionService.getCustomerAnswer(id).then(function (res) {
-                            if(res.success){
+                            if (res.success) {
                                 return res.data.customerAnswers
                             }
                         });
@@ -146,7 +203,7 @@
                         let idActiveSurvey = survey.getActiveQuestionair().id;
 
                         return surveyService.loadOneSurvey(idActiveSurvey).then(function (res) {
-                            if(res.success){
+                            if (res.success) {
                                 return res.data.survey
                             }
                         })

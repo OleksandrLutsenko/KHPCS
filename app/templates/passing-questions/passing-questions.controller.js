@@ -34,7 +34,7 @@
             for(let j = 0; j < customerAnswer.length; j++){
                 if(customerAnswer[j].customerAnswers.length == 0){
                     for(let i = 0; i < items.blocks.length; i++){
-                        if(customerAnswer[j].block_id == items.blocks[i].id){
+                        if(customerAnswer[j].block_id == items.blocks[i].id && items.blocks[i].questions.length > 0){
                             indexActiveBlock = i;
                             break
                         }
@@ -245,7 +245,7 @@
                                                 tmpObj.delete = true;
                                                 tmpObj.question_id = itemChildQuestion.id;
 
-                                                if(itemChildQuestion.type != 0){
+                                                if(itemChildQuestion.type == 1){
                                                     tmpObj.id = id;
                                                 }
                                                 dataForSend.push(tmpObj);
@@ -307,24 +307,33 @@
 
         function back() {
             if(indexActiveBlock > 0){
-                let id = {
-                    customer: activeCustomers,
-                    survey: idActiveSurvey
-                };
-                passingQuestionService.getCustomerAnswer(id).then(function (res) {
-                    if(res.success){
-                        customerAnswer = res.data.customerAnswers;
-                        indexActiveBlock--;
-                        vm.data = [];
-                        generete();
-                        fill();
-                        start();
+                indexActiveBlock--;
+                generete();
+                if(mainQuestionInBlock.length == 0){
+                    if(indexActiveBlock == 0){
+                        toNextBlock();
                     }
-                    else{
-                        console.log('error customer answer');
+                    else {
+                        back();
                     }
-                });
+                }
+                else {
 
+                    let id = {
+                        customer: activeCustomers,
+                        survey: idActiveSurvey
+                    };
+
+                    passingQuestionService.getCustomerAnswer(id).then(function (res) {
+                        if(res.success){
+                            customerAnswer = res.data.customerAnswers;
+                            vm.data = [];
+                            generete();
+                            fill();
+                            start();
+                        }
+                    });
+                }
             }
         }
 
@@ -332,12 +341,16 @@
 
         function toNextBlock() {
             if(items.blocks.length - 1 > indexActiveBlock){
-
                 indexActiveBlock++;
-                vm.data = [];
                 generete();
-                fill();
-                start();
+                if(mainQuestionInBlock.length == 0){
+                    toNextBlock();
+                }
+                else {
+                    vm.data = [];
+                    fill();
+                    start();
+                }
             }
             else{
                 let data = {
@@ -346,6 +359,7 @@
                 };
                 passingQuestionService.createReport(data).then(function (res) {
                     if(res.success){
+                        customers.setfinishQuestionair(true);
                         $state.go('tab.user-management');
                         toastr.success('Completed');
                     }

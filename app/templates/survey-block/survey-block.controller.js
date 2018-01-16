@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('SurveyBlockController', SurveyBlockController);
 
-    SurveyBlockController.$inject = ['blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService', '$timeout', '$mdSidenav', '$mdUtil', '$log'];
+    SurveyBlockController.$inject = ['blockService', '$state', 'survey', '$scope', '$mdDialog' , 'toastr', 'items', 'tabsService', '$timeout', '$mdSidenav'];
 
-    function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService, $timeout, $mdSidenav, $mdUtil, $log) {
+    function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService, $timeout, $mdSidenav) {
         let vm = this;
         tabsService.startTab();
 
@@ -60,18 +60,17 @@
                 let model = ui.item.sortable.model;
 
                 if(droptargetModel == vm.items) {
+                    let mainTmpObj = [];
                     vm.items.forEach(function (item, index) {
                         let tmpObj = {
-                            order_number: index,
-                            name: item.name
+                            id: item.id,
+                            order_number: index
                         };
-
-                        blockService.updateBlock(item.id, tmpObj).then(function (res) {
-                            if (!res.success) {
-                                toastr.error('error');
-                            }
-                        });
+                        mainTmpObj.push(tmpObj);
                     });
+
+                    blockService.orderUpdate(idSurvey, mainTmpObj);
+
                     for(let i = 0; i < droptargetModel.length; i++){
                         if(model.id == droptargetModel[i].id){
                             setActiveBlock(model.id, i);
@@ -104,7 +103,6 @@
                     }
                 }
             }).then(function (res) {
-                console.log(res);
                 if (res.type) {
                     vm.items.splice(index, 1, res.data.block);
                     toastr.success('Block was edited');
@@ -117,7 +115,6 @@
                     setActiveBlock(id, indexBlock);
                     toastr.success('New block was created');
                 }
-                console.log(vm.items);
             })
         }
 

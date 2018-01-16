@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddQuestionController', AddQuestionController);
 
-    AddQuestionController.$inject = ['$mdDialog', 'data' , 'toastr'];
+    AddQuestionController.$inject = ['$mdDialog', 'data', 'blockService', 'toastr'];
 
-    function AddQuestionController($mdDialog, data , toastr) {
+    function AddQuestionController($mdDialog, data, blockService, toastr) {
         let vm = this;
 
         vm.addAnsver = addAnsver;
@@ -17,6 +17,7 @@
         let mainKey = data.mainKey;
         let answerKey = data.answerKey;
         let questionKey = data.questionKey;
+        let idBlock = data.idBlock;
         let itemsOrig;
 
 
@@ -63,7 +64,7 @@
             let succes = true;
             let couterLenght = 0;
 
-            if(vm.data.type == 1){
+            if(vm.data.type == 1 || vm.data.type == 0){
                 vm.data.answers.forEach(function (item) {
                     if(!item.delete){
                         couterLenght++
@@ -81,19 +82,69 @@
             if (vm.questForm.title.$invalid || vm.questForm.type.$invalid || !succes) {
                 toastr.error('Please try again');
             }
-            else if (vm.data.type == 1 && couterLenght < 2) {
+            else if ((vm.data.type == 1 || vm.data.type == 0) && couterLenght < 2) {
                 toastr.error('Answer lenght min 2');
             }
             else {
                 if(typeof questionKey != 'undefined'){
-                    itemsOrig.splice(questionKey, 1, vm.data);
+                    // itemsOrig.splice(questionKey, 1, vm.data);
+
+                    if (vm.data.type == 1 || vm.data.type == 0){
+                        vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                        });
+                    }
+
+
+
+                    let dataForSend = [vm.data];
+
+                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                        if(res.success){
+                            itemsOrig.splice(questionKey, 1, vm.data);
+                        }
+                    })
                 }
                 else if(typeof mainKey != 'undefined') {
-                    itemsOrig.splice(mainKey, 1, vm.data);
-                }
+                    // itemsOrig.splice(mainKey, 1, vm.data);
 
+                    if (vm.data.type == 1 || vm.data.type == 0){
+                        vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                        });
+                    }
+
+                    let dataForSend = [vm.data];
+
+                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                        if(res.success){
+                            itemsOrig.splice(mainKey, 1, vm.data);
+                        }
+                    })
+                }
                 else {
-                    itemsOrig.push(vm.data);
+                    // itemsOrig.push(vm.data);
+
+                    if(itemsOrig.length == 0){
+                        vm.data.order_number = 0;
+                    }
+                    else {
+                        vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
+                    }
+
+                    if (vm.data.type == 1 || vm.data.type == 0){
+                        vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
+                            itemAnswer.order_number = indexAnswer;
+                        });
+                    }
+
+                    let dataForSend = [vm.data];
+
+                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                        if(res.success){
+                            itemsOrig.push(vm.data);
+                        }
+                    })
                 }
                 $mdDialog.hide();
             }

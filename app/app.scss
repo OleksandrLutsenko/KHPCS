@@ -2,11 +2,15 @@
 @import "templates/login/login&sign";
 @import "templates/survey-management/survey-management";
 @import "templates/user-management/user-management";
+@import "templates/company-management/company-management";
 @import "templates/survey-question/survey-question";
 @import "templates/passing-questions/passing-questions";
 @import "templates/survey-block/survey-block";
 @import "templates/contract-editor/contract-editor";
+@import "templates/company/company";
 @import "components/user-management/addClient/addClient";
+@import "components/company-management/add-admin/add-admin";
+@import "components/company-management/add-company/add-company";
 @import "components/deleteView/deleteView";
 @import "components/survey-question/addQuest/addQuest";
 @import "components/survey-management/create-survey/create-quest";

@@ -3,6 +3,7 @@
 
     angular.module('blocks.services', [
         'service.userService',
+        'service.companyService',
         'service.blockService',
         'service.customerService',
         'service.tabsService',

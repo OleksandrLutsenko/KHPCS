@@ -1,7 +1,13 @@
 .addQuest {
 
   .dialog-content {
-    padding: 10px;
+    padding: 5px 30px 30px 30px;
+  }
+
+  .add-answer-button {
+    text-transform: none;
+    margin: 0 0 15px 0;
+    font-size: 15px;
   }
 
   #answer-container {
@@ -9,7 +15,7 @@
   }
 
   md-dialog-actions {
-    padding: 0 10px 10px 10px;
+    padding: 0 30px 30px 30px;
     button {
       margin: 0;
     }

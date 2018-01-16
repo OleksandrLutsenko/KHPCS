@@ -1,6 +1,4 @@
-.menus {
-  padding-top: 20px;
-
+.company-admin {
   .tab-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -71,12 +69,6 @@
     cursor: pointer;
   }
 
-  .questionnaire-list:last-child {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-
   .questionnaire-list i {
     font-size: 25px;
     text-align: right;
@@ -88,15 +80,11 @@
   }
 
   .text-quest {
-    padding-top: 20px;
+    padding-top: 25px;
   }
 
   .plus-ico i {
     font-size: 60px;
-  }
-
-  .questionnaire-list p:last-child {
-    color: #aaa;
   }
 
   .hidden-text {
@@ -141,4 +129,5 @@
       flex-wrap: wrap;
     }
   }
+
 }
