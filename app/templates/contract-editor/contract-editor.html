@@ -19,7 +19,10 @@
 
     <div class="CKeditor-heder" layout="row" flex>
         <div flex="33"  layout="row" layout-align="start center">
-            <md-button class="md-raised" ng-click="vm.changeSurvey()">Back</md-button>
+            <md-button  layout="row" layout-align="center center" ng-click="vm.changeSurvey()" >
+                <i class="material-icons">arrow_back</i>
+                <p>Back</p>
+            </md-button>
 
             <md-button  layout="row" layout-align="center center" hide-gt-md=""
                        ng-click="vm.toggleLeftTab()">
@@ -30,8 +33,7 @@
 
         <div flex="33" layout="row" layout-align="center center"  flex="30">
             <div layout="row" layout-align="center center" >
-                <p class="bold">Active survey:</p>
-                <p class="">&nbsp {{vm.activeSurveyName}}</p>
+                <p class="name-survey">{{vm.activeSurveyName}}</p>
             </div>
         </div>
 
@@ -86,17 +88,18 @@
                     </div>
 
                     <div class="add-section" layout="row" layout-align="center center">
-                        <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center">
-                            <div flex class="pointer" ng-click="vm.createTemplate()">
+                        <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center"
+                             ng-click="vm.createTemplate()">
+                            <div flex class="pointer" >
                                 + Add new template
                             </div>
-                            <div class="icons">
+                            <!--<div class="icons">-->
                                 <!--<i class="material-icons pointer" ng-if="vm.activeTemplateId !== undefined"-->
                                    <!--ng-click="vm.updateTemplate()">save</i>-->
 
                                 <!--<i class="material-icons pointer" ng-if="vm.activeTemplateId !== undefined"-->
                                    <!--ng-click="vm.removeTemplate()">delete_forever</i>-->
-                            </div>
+                            <!--</div>-->
                         </div>
                     </div>
 
