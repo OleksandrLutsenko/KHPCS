@@ -9,7 +9,7 @@
 
     function SurveyManagementController(surveyService, $mdDialog, survey, $mdSidenav, toastr, tabsService) {
         let vm = this;
-        tabsService.startTab('page2');
+        tabsService.startTab('page3');
 
         vm.setActiveSurvey = setActiveSurvey;
         survey.setActiveBlock();

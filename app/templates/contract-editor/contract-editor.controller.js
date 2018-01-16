@@ -9,11 +9,11 @@
 
     function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $mdSidenav) {
         let vm = this;
-        tabsService.startTab('page3');
+        tabsService.startTab('page4');
         console.log('contract-editor controller start');
 
         let activeSurveyID;
-        vm.activeSurveyName;
+        vm.activeSurveyName = undefined;
         let activeBlockId;
         let activeTemplateTitle;
         let tmpResearchId;
@@ -390,6 +390,7 @@
                 if (res.success === true) {
                     vm.templates = res.templates;
                     console.log(vm.templates, 'vm.templates');
+                    CKEDITOR.instances.CKeditorArea.setData('');
                     vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
                     activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
                     if (tmpImagesArr.length) {
@@ -409,7 +410,7 @@
             });
         };
 
-        vm.saveAsTemplate = function () {
+        vm.saveTemplate = function () {
 
             $mdDialog.show({
                 controller: 'AddUpdateTemplateController',
@@ -418,19 +419,26 @@
                 clickOutsideToClose: true,
                 locals: {
                     data: {
-                        type: 'update',
+                        type: 'save',
                         activeTemplateId: vm.activeTemplateId,
                         activeSurveyID: activeSurveyID,
                         tmpAnswersArr: tmpAnswersArr,
                         activeTemplateTitle: activeTemplateTitle,
                         templates: vm.templates,
+                        tmpResearchId: tmpResearchId,
+                        pasteImgBeforeCreateTemplate: pasteImgBeforeCreateTemplate
                     }
                 }
             }).then(function (res) {
                 console.log(res);
                 if (res.success === true) {
                     vm.templates = res.templates;
+                    pasteImgBeforeCreateTemplate = res.pasteImgBeforeCreateTemplate;
                     activeTemplateTitle = res.activeTemplateTitle;
+                    if (res.create) {
+                        vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
+                        activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
+                    }
                 }
 
                 if (tmpImagesArr.length) {
@@ -447,8 +455,40 @@
             });
         };
 
-        vm.updateTemplate = function () {
+        vm.saveAsTemplate = function () {
+            $mdDialog.show({
+                controller: 'AddUpdateTemplateController',
+                controllerAs: 'vm',
+                templateUrl: 'components/contract-editor/add-or-update-template/add-or-update-template.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        type: 'saveAs',
+                        activeTemplateId: vm.activeTemplateId,
+                        activeSurveyID: activeSurveyID,
+                        tmpAnswersArr: tmpAnswersArr,
+                        activeTemplateTitle: activeTemplateTitle,
+                        templates: vm.templates,
+                    }
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.success === true) {
+                    vm.templates = res.templates;
+                }
 
+                if (tmpImagesArr.length) {
+                    tmpImagesArr.forEach(function (cell) {
+                        // console.log(cell.link);
+                        let CKEditorBody = CKEDITOR.instances.CKeditorArea.getData();
+                        if (CKEditorBody.indexOf(cell.link) === -1) {
+                            console.log('Image ' + cell.id + ' is not used and will be deleted');
+                            contractService.deleteImage(cell.id);
+                        }
+                    });
+                    tmpImagesArr = [];
+                }
+            });
         };
 
         vm.removeTemplate = function () {
@@ -696,6 +736,6 @@
 
         function toggleLeftTab() {
             $mdSidenav('left-tab').toggle();
-        };
+        }
     }
 })();
