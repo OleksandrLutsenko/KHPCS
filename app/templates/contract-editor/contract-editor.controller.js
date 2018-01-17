@@ -10,7 +10,7 @@
 
     function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $scope) {
         let vm = this;
-        tabsService.startTab('page3');
+        tabsService.startTab('page4');
         console.log('contract-editor controller start');
 
         let activeSurveyID;

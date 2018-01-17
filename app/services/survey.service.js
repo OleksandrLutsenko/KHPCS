@@ -16,6 +16,9 @@
 
         model.loadSurveyOnly = loadSurveyOnly;
         model.getSurveyOnly = getSurveyOnly;
+        model.getCustomerSurveys = getCustomerSurveys;
+
+        model.getSelectedSurveys = getSelectedSurveys;
 
         model.loadOneSurvey = loadOneSurvey;
 
@@ -63,6 +66,14 @@
         }
         function getSurveyOnly() {
             return $sessionStorage['survey_only'];
+        }
+        function getCustomerSurveys() {
+            return $sessionStorage.chosen_survey;
+        }
+
+        ///
+        function getSelectedSurveys() {
+            return $sessionStorage['chosen_survey'];
         }
 
 

@@ -13,21 +13,24 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
+        vm.surveys = surveyOnly.data.onlySurvey;
+        console.log(vm.surveys);
+
         let firstCustomers = customerService.getCustomers();
 
-        let idSurvey = survey.getActiveQuestionair().id;
+        // let idSurvey = survey.getActiveQuestionair().id;
 
-        function activeStatus() {
-            firstCustomers.forEach(function (itemCustomer) {
-                itemCustomer.reports.forEach(function(itemReport){
-                    if(itemReport.survey_id == idSurvey){
-                        itemCustomer.continue = true;
-                    }
-                });
-            });
-        }
+        // function activeStatus() {
+        //     firstCustomers.forEach(function (itemCustomer) {
+        //         itemCustomer.reports.forEach(function(itemReport){
+        //             if(itemReport.survey_id == idSurvey){
+        //                 itemCustomer.continue = true;
+        //             }
+        //         });
+        //     });
+        // }
 
-        activeStatus();
+        // activeStatus();
 
         vm.customers = firstCustomers;
 
@@ -54,6 +57,26 @@
         //
         //     vm.downloadPDF(tmpObj);
         // }
+
+        vm.survModel = [];
+        vm.surveys.forEach(function (survey) {
+            vm.survModel[survey.survey_id] = false;
+        });
+
+        vm.chosenSurvey = [];
+        vm.chooseSurveys = function (survey_id) {
+            if (vm.survModel[survey_id] === true) {
+                vm.chosenSurvey.push(survey_id);
+            } else {
+                for (let survey in vm.chosenSurvey) {
+                    if (vm.chosenSurvey[survey] === survey_id) {
+                        vm.chosenSurvey.splice(survey, 1);
+                    }
+                }
+            }
+        };
+
+        survey.selectedSurveys(vm.chosenSurvey);
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -111,7 +134,7 @@
                     activeStatus();
                     toastr.success('Edit success');
                 } else {
-                    vm.customers.push(res.data);
+                    vm.customers.unshift(res.data);
                     annonce(res.data.id);
                 }
             });

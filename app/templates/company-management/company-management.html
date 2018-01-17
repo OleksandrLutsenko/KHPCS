@@ -1,11 +1,5 @@
 <div class="company-admin" layout="row" layout-align="center">
     <div class="tab-list">
-        <div ng-click=" vm.createCompany()" class="questionnaire-list"
-             md-whiteframe="{{height}}"
-             layout="column" layout-align="center center">
-            <p class="plus-ico"><i class="material-icons">control_point</i></p>
-            <p>New Company</p>
-        </div>
         <div ng-repeat="company in vm.company | orderBy: reverse:true"
              class="questionnaire-list"
              md-whiteframe="{{height}}"
@@ -27,6 +21,12 @@
             <div class="text-quest">
                 <p class="hidden-text">{{company.name}}</p>
             </div>
+        </div>
+        <div ng-click=" vm.createCompany()" class="questionnaire-list"
+             md-whiteframe="{{height}}"
+             layout="column" layout-align="center center">
+            <p class="plus-ico"><i class="material-icons">control_point</i></p>
+            <p>New Company</p>
         </div>
     </div>
 </div>

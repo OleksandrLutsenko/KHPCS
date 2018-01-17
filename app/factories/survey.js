@@ -11,6 +11,8 @@
         model.getActiveSurvey = getActiveSurvey;
         model.setActiveBlock = setActiveBlock;
         model.getActiveBlock = getActiveBlock;
+        model.selectedSurveys = selectedSurveys;
+        model.getChosenSurvey = getChosenSurvey;
 
         model.getActiveQuestionair = getActiveQuestionair;
 
@@ -46,10 +48,26 @@
             return  tmpObj;
         }
 
+        function selectedSurveys(id) {
+            delete $sessionStorage['chosen_survey'];
+            $sessionStorage['chosen_survey'] = id;
+        }
+        function getChosenSurvey() {
+            let tmpObj = {
+                id: $sessionStorage['chosen_survey']
+            };
+            return  tmpObj;
+        }
+
         function getActiveQuestionair() {
             let items = surveyService.getSurveyOnly();
+            let idSurvey = surveyService.getSelectedSurveys();
+
+            if(idSurvey.length > 1){
+                idSurvey = idSurvey[0];
+            }
             for (let index = 0; index < items.length; index++){
-                if(items[index].survey_status == 'active'){
+                if(items[index].survey_id == idSurvey){
                     let tmpObl = {
                         id: items[index].survey_id,
                         index: index
