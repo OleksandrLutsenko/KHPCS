@@ -1,6 +1,6 @@
 <div class="company-admin" layout="row" layout-align="center">
     <div class="tab-list">
-        <div ng-repeat="company in vm.company | orderBy: reverse:true"
+        <div ng-repeat="company in vm.company"
              class="questionnaire-list"
              md-whiteframe="{{height}}"
              ng-click="vm.setActiveCompany(company.id, $index , company.name)"

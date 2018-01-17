@@ -13,24 +13,7 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.surveys = surveyOnly.data.onlySurvey;
-        console.log(vm.surveys);
-
         let firstCustomers = customerService.getCustomers();
-
-        // let idSurvey = survey.getActiveQuestionair().id;
-
-        // function activeStatus() {
-        //     firstCustomers.forEach(function (itemCustomer) {
-        //         itemCustomer.reports.forEach(function(itemReport){
-        //             if(itemReport.survey_id == idSurvey){
-        //                 itemCustomer.continue = true;
-        //             }
-        //         });
-        //     });
-        // }
-
-        // activeStatus();
 
         vm.customers = firstCustomers;
 
@@ -40,28 +23,14 @@
         vm.downloadPDF = downloadPDF;
         vm.user = userService.getUser();
 
-        // if(customers.getfinishQuestionair()){
-        //
-        //     let tmpObj;
-        //     let id = customers.setActiveCustomers();
-        //
-        //     for(let i = 0; i < vm.customers.length; i++){
-        //         if(id == vm.customers[i].id){
-        //             tmpObj = vm.customers[i];
-        //             break
-        //         }
-        //     }
-        //
-        //     console.log('id', id);
-        //     console.log('tmp', tmpObj);
-        //
-        //     vm.downloadPDF(tmpObj);
-        // }
+        vm.surveys = surveyOnly.data.onlySurvey;
 
-        vm.survModel = [];
-        vm.surveys.forEach(function (survey) {
-            vm.survModel[survey.survey_id] = false;
-        });
+        if(vm.surveys !== undefined){
+            vm.survModel = [];
+            vm.surveys.forEach(function (survey) {
+                vm.survModel[survey.survey_id] = false;
+            });
+        }
 
         vm.chosenSurvey = [];
         vm.chooseSurveys = function (survey_id) {
@@ -77,16 +46,21 @@
         };
 
         vm.clearCheck = function () {
-            vm.chosenSurvey = [];
-            vm.surveys.forEach(function (survey) {
-                vm.survModel[survey.survey_id] = false;
-            });
-            survey.selectedSurveys(vm.chosenSurvey);
+            if(vm.surveys !== undefined){
+                if(vm.checkSelect === undefined){
+                    vm.chosenSurvey = [];
+                    vm.surveys.forEach(function (survey) {
+                        vm.survModel[survey.survey_id] = false;
+                    });
+                    survey.selectedSurveys(vm.chosenSurvey);
+                }
+            }
         };
         survey.selectedSurveys(vm.chosenSurvey);
 
-
-        function pass(id) {
+        function pass(id , checkSelect) {
+            checkSelect = true;
+            vm.checkSelect = checkSelect;
             customers.setActiveCustomers(id);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
@@ -103,7 +77,6 @@
         //         pass(id);
         //     });
         // }
-
 
         function deleteCustomer(id, customers) {
             $mdDialog.show({
@@ -139,7 +112,6 @@
             }).then(function (res) {
                 if (res.type === 'update') {
                     vm.customers.splice(vm.customers.indexOf(customers), 1, res.data);
-                    // activeStatus();
                     toastr.success('Edit success');
                 } else {
                     vm.customers.unshift(res.data);
@@ -152,21 +124,14 @@
             surveyService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.onlySurvey;
                 contractService.loadTemplateList().then(function (templateList) {
-                    // console.log(templateList.data.contractsWithoutBody);
                     let templates = templateList.data.contractsWithoutBody;
-                    // console.log('reports = ', customer.reports);
-                    // console.log('surveys = ', surveys);
-                    // console.log('templates = ', templates);
-
                     let dataFromDialog = {
                         customer: customer.name + ' ' + customer.surname,
                         reports: customer.reports,
                         surveys: surveys,
                         templates: templates
                     };
-                    console.log(dataFromDialog);
                     downloadContractDialog(dataFromDialog);
-
 
                     function downloadContractDialog(dataFromDialog) {
                         $mdDialog.show({

@@ -108,7 +108,7 @@
                     toastr.success('Questionnaire was updated');
                 }
                 else {
-                    vm.survey.push(res.data.survey);
+                    vm.survey.unshift(res.data.survey);
                     toastr.success('Questionnaire was created');
                 }
             })

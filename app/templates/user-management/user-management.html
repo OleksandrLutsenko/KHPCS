@@ -34,23 +34,38 @@
                             <!--{{filtered.length}}-->
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
-                            <td md-cell ng-if="vm.user.role_id > 1">{{customers.user_name }}</td>
+                            <td md-cell ng-if="customers.user_name === null && vm.user.role_id > 1">Don't have a
+                                Financial Advisor
+                            </td>
+                            <td md-cell ng-if="customers.user_name !== null && vm.user.role_id > 1 ">
+                                {{customers.user_name}}
+                            </td>
                             <td md-cell>
                                 <md-input-container>
                                     <label>Choose a survey</label>
                                     <md-select class="md-block-restyle" ng-model="vm.select"
-                                          md-on-close="vm.clearCheck()"    >
-                                        <md-list ng-repeat="survey in vm.surveys" >
+                                               md-on-close="vm.clearCheck()"
+                                    >
+                                        <md-list ng-repeat="survey in vm.surveys">
                                             <md-list-item class="secondary-button-padding">
                                                 <p> {{survey.survey_name}} </p>
-                                                <md-checkbox  aria-label="Checkbox 1"
-                                                             class="md-primary" ng-model="vm.survModel[survey.survey_id]"
+                                                <md-checkbox aria-label="Checkbox 1"
+                                                             class="md-primary"
+                                                             ng-model="vm.survModel[survey.survey_id]"
                                                              ng-change="vm.chooseSurveys(survey.survey_id)">
                                                 </md-checkbox>
                                             </md-list-item>
+
+
+                                        </md-list>
+                                        <md-list>
+                                            <md-list-item ng-if="vm.surveys === undefined">Don't have a chosen surveys
+                                            </md-list-item>
                                         </md-list>
 
-                                        <md-button class="md-primary" ng-click="vm.pass(customers.id)">Get started</md-button>
+                                        <md-button class="md-primary" ng-click="vm.pass(customers.id , checkSelect)"
+                                                   ng-if="vm.surveys !== undefined">Get started
+                                        </md-button>
                                     </md-select>
                                 </md-input-container>
                             </td>
@@ -73,8 +88,8 @@
                         </tbody>
                     </table>
                 </md-table-container>
-                <md-table-pagination  md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
-                                      md-total="{{vm.customers.length}}" md-page-select>
+                <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
+                                     md-total="{{vm.customers.length}}" md-page-select>
                 </md-table-pagination>
             </md-card>
 

@@ -10,6 +10,9 @@
         let vm = this;
         tabsService.startTab('page2');
 
+        vm.myLimit = 10;
+        vm.myPage = 1;
+
         vm.customersCompany = customersCompany.data;
         vm.userRole = userService.getUser().role_id;
         vm.companyOne = oneCompany;
@@ -103,9 +106,9 @@
                 }
             }).then(function (res) {
                 if (res.data.role_id === '3') {
-                    vm.companyAdmInv.push(res.data);
+                    vm.companyAdmInv.unshift(res.data);
                 } else {
-                    vm.fnnAdviserInv.push(res.data);
+                    vm.fnnAdviserInv.unshift(res.data);
                 }
                 toastr.success('Email was sent');
             });
@@ -134,7 +137,7 @@
                 if (user.is_used === undefined) {
                     companyService.deleteAdmin(id).then(function (res) {
                         if (res.success) {
-                            if (user.role_id === '1') {
+                            if (user.role_id === 1) {
                                 vm.fnnAdviser.splice(vm.fnnAdviserInv.indexOf(user), 1);
                             } else {
                                 vm.companyAdm.splice(vm.companyAdm.indexOf(user), 1);
@@ -146,7 +149,7 @@
                 } else {
                     companyService.cancelInv(id).then(function (res) {
                         if (res.success) {
-                            if (user.role_id === '1') {
+                            if (user.role_id === 1) {
                                 vm.fnnAdviserInv.splice(vm.fnnAdviserInv.indexOf(user), 1);
                             } else {
                                 vm.companyAdmInv.splice(vm.companyAdmInv.indexOf(user), 1);
