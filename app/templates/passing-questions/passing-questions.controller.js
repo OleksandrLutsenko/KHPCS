@@ -19,6 +19,8 @@
         let succesNext = true;
         vm.data = [];
 
+        vm.activeSurveyName = oneSurveyItems.name;
+
         console.log(customerAnswer, 'customaerAnswer');
 
         let indexActiveBlock;
@@ -365,6 +367,7 @@
                         if(allChosenSurveys.length > 1){
                             allChosenSurveys.splice([0] , 1);
                             survey.selectedSurveys(allChosenSurveys);
+                            toastr.success('Has been completed' ,  vm.activeSurveyName);
                             $state.reload();
                         } else {
                             customers.setfinishQuestionair(true);

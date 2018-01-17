@@ -1,8 +1,11 @@
 <md-content layout-padding class="passing-question">
     <div layout="row" layout-align="center center">
-        <h2>{{vm.header}}</h2>
+        <h2>Current survey:  {{vm.activeSurveyName}}</h2>
     </div>
 
+    <div layout="row" layout-align="center center">
+        <h2>{{vm.header}}</h2>
+    </div>
 
     <form name="vm.questionForm">
     <div ng-repeat="(mainKey, questions) in vm.questions">
