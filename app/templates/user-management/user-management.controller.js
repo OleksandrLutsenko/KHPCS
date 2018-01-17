@@ -76,7 +76,15 @@
             }
         };
 
+        vm.clearCheck = function () {
+            vm.chosenSurvey = [];
+            vm.surveys.forEach(function (survey) {
+                vm.survModel[survey.survey_id] = false;
+            });
+            survey.selectedSurveys(vm.chosenSurvey);
+        };
         survey.selectedSurveys(vm.chosenSurvey);
+
 
         function pass(id) {
             customers.setActiveCustomers(id);
@@ -85,16 +93,16 @@
             });
         }
 
-        function annonce(id) {
-            $mdDialog.show({
-                controller: 'AnnonceController',
-                controllerAs: 'vm',
-                templateUrl: 'components/user-management/addClient/annonce.html',
-                clickOutsideToClose: true
-            }).then(function () {
-                pass(id);
-            });
-        }
+        // function annonce(id) {
+        //     $mdDialog.show({
+        //         controller: 'AnnonceController',
+        //         controllerAs: 'vm',
+        //         templateUrl: 'components/user-management/addClient/annonce.html',
+        //         clickOutsideToClose: true
+        //     }).then(function () {
+        //         pass(id);
+        //     });
+        // }
 
 
         function deleteCustomer(id, customers) {
@@ -131,11 +139,11 @@
             }).then(function (res) {
                 if (res.type === 'update') {
                     vm.customers.splice(vm.customers.indexOf(customers), 1, res.data);
-                    activeStatus();
+                    // activeStatus();
                     toastr.success('Edit success');
                 } else {
                     vm.customers.unshift(res.data);
-                    annonce(res.data.id);
+                    // annonce(res.data.id);
                 }
             });
         }

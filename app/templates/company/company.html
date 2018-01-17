@@ -137,6 +137,9 @@
                     <md-list-item class="secondary-button-padding">
                         <h3> {{survey.survey_name}}</h3>
                     </md-list-item>
+                    <md-list-item class="secondary-button-padding" ng-if="vm.noneTmp(survey.survey_id)">
+                        <p>No templates. Please create one.</p>
+                    </md-list-item>
                     <md-list ng-repeat="template in vm.templates" ng-if="survey.survey_id === template.survey_id">
                         <md-list-item class="secondary-button-padding">
                             <p> {{template.title}} {{template.id}}</p>

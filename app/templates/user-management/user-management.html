@@ -30,14 +30,16 @@
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in vm.customers   | filter: vm.search | limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            ng-repeat="customers in vm.customers   | filter: vm.search |  limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            <!--{{filtered.length}}-->
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-if="vm.user.role_id > 1">{{customers.user_name }}</td>
                             <td md-cell>
                                 <md-input-container>
                                     <label>Choose a survey</label>
-                                    <md-select class="md-block-restyle" ng-model="vm.select">
+                                    <md-select class="md-block-restyle" ng-model="vm.select"
+                                          md-on-close="vm.clearCheck()"    >
                                         <md-list ng-repeat="survey in vm.surveys" >
                                             <md-list-item class="secondary-button-padding">
                                                 <p> {{survey.survey_name}} </p>
@@ -47,17 +49,10 @@
                                                 </md-checkbox>
                                             </md-list-item>
                                         </md-list>
+
                                         <md-button class="md-primary" ng-click="vm.pass(customers.id)">Get started</md-button>
                                     </md-select>
                                 </md-input-container>
-                                <!--<md-button class="md-raised md-primary" ng-click="vm.pass(customers.id)"-->
-                                           <!--ng-if="!customers.continue">-->
-                                    <!--Continue-->
-                                <!--</md-button>-->
-                                <md-button class="md-primary"
-                                           ng-disabled="true" ng-if="customers.continue">
-                                    Completed
-                                </md-button>
                             </td>
                             <td md-cell ng-if="customers.reports.length">
                                 <i class="material-icons" ng-click="vm.downloadPDF(customers)">file_download</i>
@@ -78,8 +73,8 @@
                         </tbody>
                     </table>
                 </md-table-container>
-                <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
-                                     md-total="{{vm.customers.length}}" md-page-select>
+                <md-table-pagination  md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
+                                      md-total="{{vm.customers.length}}" md-page-select>
                 </md-table-pagination>
             </md-card>
 

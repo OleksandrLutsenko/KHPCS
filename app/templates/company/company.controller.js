@@ -20,6 +20,11 @@
         vm.fnnAdviser = vm.companyOne.financial_advisors;
         vm.fnnAdviserInv = vm.companyOne.financial_advisors_invites;
 
+        vm.createAdmin = createAdmin;
+        vm.deleteAdmin = deleteAdmin;
+        vm.reSend = reSend;
+        vm.changeFA = changeFA;
+
         if (vm.userRole === 2) {
             vm.surveys = loadSurvey.data.onlySurvey;
             vm.templates = loadTemp.data.contractsWithoutBody;
@@ -57,10 +62,16 @@
             };
         }
 
-        vm.createAdmin = createAdmin;
-        vm.deleteAdmin = deleteAdmin;
-        vm.reSend = reSend;
-        vm.changeFA = changeFA;
+        vm.noneTmp = function (surv_id) {
+            let status = true;
+            for (let index in vm.templates) {
+                if (vm.templates[index].survey_id === surv_id) {
+                    status = false;
+                    break;
+                }
+            }
+            return status;
+        };
 
         function changeFA(id, user_id) {
             vm.data = [{
