@@ -15,20 +15,6 @@
 
         let firstCustomers = customerService.getCustomers();
 
-        let idSurvey = survey.getActiveQuestionair().id;
-
-        function activeStatus() {
-            firstCustomers.forEach(function (itemCustomer) {
-                itemCustomer.reports.forEach(function(itemReport){
-                    if(itemReport.survey_id == idSurvey){
-                        itemCustomer.continue = true;
-                    }
-                });
-            });
-        }
-
-        activeStatus();
-
         vm.customers = firstCustomers;
 
         vm.pass = pass;
@@ -37,42 +23,60 @@
         vm.downloadPDF = downloadPDF;
         vm.user = userService.getUser();
 
-        // if(customers.getfinishQuestionair()){
-        //
-        //     let tmpObj;
-        //     let id = customers.setActiveCustomers();
-        //
-        //     for(let i = 0; i < vm.customers.length; i++){
-        //         if(id == vm.customers[i].id){
-        //             tmpObj = vm.customers[i];
-        //             break
-        //         }
-        //     }
-        //
-        //     console.log('id', id);
-        //     console.log('tmp', tmpObj);
-        //
-        //     vm.downloadPDF(tmpObj);
-        // }
+        vm.surveys = surveyOnly.data.onlySurvey;
 
-        function pass(id) {
+        if(vm.surveys !== undefined){
+            vm.survModel = [];
+            vm.surveys.forEach(function (survey) {
+                vm.survModel[survey.survey_id] = false;
+            });
+        }
+
+        vm.chosenSurvey = [];
+        vm.chooseSurveys = function (survey_id) {
+            if (vm.survModel[survey_id] === true) {
+                vm.chosenSurvey.push(survey_id);
+            } else {
+                for (let survey in vm.chosenSurvey) {
+                    if (vm.chosenSurvey[survey] === survey_id) {
+                        vm.chosenSurvey.splice(survey, 1);
+                    }
+                }
+            }
+        };
+
+        vm.clearCheck = function () {
+            if(vm.surveys !== undefined){
+                if(vm.checkSelect === undefined){
+                    vm.chosenSurvey = [];
+                    vm.surveys.forEach(function (survey) {
+                        vm.survModel[survey.survey_id] = false;
+                    });
+                    survey.selectedSurveys(vm.chosenSurvey);
+                }
+            }
+        };
+        survey.selectedSurveys(vm.chosenSurvey);
+
+        function pass(id , checkSelect) {
+            checkSelect = true;
+            vm.checkSelect = checkSelect;
             customers.setActiveCustomers(id);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
             });
         }
 
-        function annonce(id) {
-            $mdDialog.show({
-                controller: 'AnnonceController',
-                controllerAs: 'vm',
-                templateUrl: 'components/user-management/addClient/annonce.html',
-                clickOutsideToClose: true
-            }).then(function () {
-                pass(id);
-            });
-        }
-
+        // function annonce(id) {
+        //     $mdDialog.show({
+        //         controller: 'AnnonceController',
+        //         controllerAs: 'vm',
+        //         templateUrl: 'components/user-management/addClient/annonce.html',
+        //         clickOutsideToClose: true
+        //     }).then(function () {
+        //         pass(id);
+        //     });
+        // }
 
         function deleteCustomer(id, customers) {
             $mdDialog.show({
@@ -108,11 +112,10 @@
             }).then(function (res) {
                 if (res.type === 'update') {
                     vm.customers.splice(vm.customers.indexOf(customers), 1, res.data);
-                    activeStatus();
                     toastr.success('Edit success');
                 } else {
-                    vm.customers.push(res.data);
-                    annonce(res.data.id);
+                    vm.customers.unshift(res.data);
+                    // annonce(res.data.id);
                 }
             });
         }
@@ -121,21 +124,14 @@
             surveyService.loadSurveyOnly().then(function (res) {
                 let surveys = res.data.onlySurvey;
                 contractService.loadTemplateList().then(function (templateList) {
-                    // console.log(templateList.data.contractsWithoutBody);
                     let templates = templateList.data.contractsWithoutBody;
-                    // console.log('reports = ', customer.reports);
-                    // console.log('surveys = ', surveys);
-                    // console.log('templates = ', templates);
-
                     let dataFromDialog = {
                         customer: customer.name + ' ' + customer.surname,
                         reports: customer.reports,
                         surveys: surveys,
                         templates: templates
                     };
-                    console.log(dataFromDialog);
                     downloadContractDialog(dataFromDialog);
-
 
                     function downloadContractDialog(dataFromDialog) {
                         $mdDialog.show({

@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddAdminController', AddAdminController);
 
-    AddAdminController.$inject = ['id', '$mdDialog', '$state', 'companyService'];
+    AddAdminController.$inject = ['data', '$mdDialog', '$state','toastr' , 'companyService'];
 
-    function AddAdminController(id, $mdDialog, $state, companyService) {
+    function AddAdminController(data, $mdDialog, $state,toastr, companyService) {
         let vm = this;
 
         vm.save = save;
@@ -16,10 +16,12 @@
             $mdDialog.cancel()
         }
 
+        vm.userRole = data.role;
+
         vm.data = {
             email: '',
             role_id: '',
-            company_id: id,
+            company_id: data.id,
             is_used: 0
         };
 
@@ -32,14 +34,15 @@
             else {
                 companyService.inviteAdm(vm.data).then(function (res) {
                     if (res.success) {
+                        console.log(res.data);
                             let tmpObj = {
                                 type: 'createCompanyAdm',
-                                data: res.data
+                                data: res.data.data
                             };
                             $mdDialog.hide(tmpObj);
                     }
                     else {
-                        cancel();
+                        toastr.error('This email is already taken');
                     }
 
                 });

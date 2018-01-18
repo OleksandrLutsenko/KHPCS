@@ -21,8 +21,8 @@
                     <md-input-container>
                         <label>Choose a role</label>
                         <md-select ng-model="vm.data.role" name="select" required="">
-                            <md-option value="3">Company admin</md-option>
-                            <md-option value="1">Financial adviser</md-option>
+                            <md-option value="3" ng-if="vm.userRole === 2">Company admin</md-option>
+                            <md-option value="1">Financial advisor</md-option>
 
                         </md-select>
                         <div ng-messages="vm.customersForm.select.$error">

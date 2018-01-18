@@ -14,7 +14,6 @@
         model.getActiveTab = getActiveTab;
         model.startTab = startTab;
 
-
         return model;
 
         function logout() {

@@ -33,6 +33,7 @@
                     deleteAdm: baseUrl + 'api/user/' + id + '/delete',
                     cancelInv: baseUrl + 'api/invite/' + id + '/delete',
                     companyCustomers: baseUrl + 'api/company/' + id + '/customers',
+                    selectedSurvTempInCompany: baseUrl + 'api/company/' + id + '/index-assigns',
                 }
             },
             survey_management: {
@@ -88,7 +89,7 @@
                     createSurveyTemplate: baseUrl + 'api/contract-research/' + id + '/contract',
                     getOneTemplate: baseUrl + 'api/contract/' + id,
                     getTemplates: baseUrl + 'api/contract',
-                    getTemplatesForThePool: baseUrl + 'api/survey/' + id + '/contracts',
+                    getTemplatesForThePool: baseUrl + 'api/survey' + id + 'contracts',
                     getTemplateList: baseUrl + 'api/onlycontract',
                     deleteTemplate: baseUrl + 'api/contract/' + id,
                     updateTemplate: baseUrl + 'api/contract/' + id,

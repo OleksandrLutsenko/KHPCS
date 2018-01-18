@@ -5,9 +5,9 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService'];
+    PassingQuestionController.$inject = ['passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService' , 'surveyService' , 'survey'];
 
-    function PassingQuestionController(passingQuestionService, $state, customers, customerAnswer , oneSurveyItems, toastr, tabsService) {
+    function PassingQuestionController(passingQuestionService, $state, customers, customerAnswer , oneSurveyItems, toastr, tabsService , surveyService , survey) {
         let vm = this;
         tabsService.startTab('page1');
 
@@ -18,6 +18,8 @@
         vm.backSucces = false;
         let succesNext = true;
         vm.data = [];
+
+        vm.activeSurveyName = oneSurveyItems.name;
 
         console.log(customerAnswer, 'customaerAnswer');
 
@@ -339,7 +341,10 @@
 
 
 
+        let allChosenSurveys = surveyService.getSelectedSurveys();
+
         function toNextBlock() {
+            console.log(items.blocks);
             if(items.blocks.length - 1 > indexActiveBlock){
                 indexActiveBlock++;
                 generete();
@@ -359,9 +364,17 @@
                 };
                 passingQuestionService.createReport(data).then(function (res) {
                     if(res.success){
-                        customers.setfinishQuestionair(true);
-                        $state.go('tab.user-management');
-                        toastr.success('Completed');
+                        if(allChosenSurveys.length > 1){
+                            allChosenSurveys.splice([0] , 1);
+                            survey.selectedSurveys(allChosenSurveys);
+                            toastr.success('Has been completed' ,  vm.activeSurveyName);
+                            $state.reload();
+                        } else {
+                            customers.setfinishQuestionair(true);
+                            $state.go('tab.user-management');
+                            toastr.success('Completed');
+                        }
+
                     }
                     else {
                         console.log('error');

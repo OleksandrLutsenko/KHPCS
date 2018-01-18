@@ -34,7 +34,7 @@
                 }
             }).then(function (res) {
                 if (res.type === 'create') {
-                    vm.company.push(res.data.company);
+                    vm.company.unshift(res.data.company);
                     toastr.success('Company was created');
                 } else {
                     vm.company.splice(vm.company.indexOf(company), 1, res.data.company);

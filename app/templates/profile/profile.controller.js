@@ -12,6 +12,19 @@
         vm.user = userService.getUser();
 
         let users = vm.user;
+        vm.role = users.role_id;
+        switch (vm.role) {
+            case 1:
+                vm.role = 'Financial Advisor';
+                break;
+            case 2:
+                vm.role = 'Super Admin';
+                break;
+            case 3:
+                vm.role = 'Company Admin';
+                break;
+        }
+
 
         if (typeof vm.user.id !== 'undefined') {
             vm.dataInfo = {
