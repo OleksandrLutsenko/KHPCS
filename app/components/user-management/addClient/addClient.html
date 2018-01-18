@@ -41,7 +41,9 @@
                     </md-input-container>
                 </div>
                 <div class="bot-btn" layout="row" layout-align="space-between">
-                    <md-button class="md-raised md-primary" type="submit">Create
+                    <md-button class="md-raised md-primary" type="submit" ng-if="vm.id === undefined">Create
+                    </md-button>
+                    <md-button class="md-raised md-primary" type="submit" ng-if="vm.id !== undefined">Save
                     </md-button>
                     <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
                 </div>

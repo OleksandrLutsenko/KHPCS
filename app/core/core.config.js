@@ -76,13 +76,7 @@
                 resolve: {
                     loadCompany: function (companyService) {
                         return companyService.loadCompany();
-                    },
-                    // security: function ($state, userService) {
-                    //     let userRole = userService.getUser().role_id;
-                    //     if (userRole === 3) {
-                    //         return $state.go('tab.company');
-                    //     }
-                    // }
+                    }
                 }
 
             })

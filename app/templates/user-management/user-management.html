@@ -45,22 +45,25 @@
                                     <md-select class="md-block-restyle" ng-model="vm.select"
                                                md-on-close="vm.clearCheck()"
                                     >
-                                        <md-list ng-repeat="survey in vm.surveys" ng-if="survey.survey_status !== 'archived'">
-                                            <md-list-item class="secondary-button-padding" >
+                                        <md-list ng-repeat="survey in vm.surveys"
+                                                 ng-if="survey.survey_status !== 'archived'">
+                                            <md-list-item class="secondary-button-padding">
                                                 <p> {{survey.survey_name}} </p>
                                                 <md-checkbox aria-label="Checkbox 1"
-                                                             class="md-primary"
+                                                             class="md-primary box-survey"
                                                              ng-model="vm.survModel[survey.survey_id]"
                                                              ng-change="vm.chooseSurveys(survey.survey_id)">
                                                 </md-checkbox>
                                             </md-list-item>
                                         </md-list>
-                                        <md-list>
-                                            <md-list-item ng-if="vm.surveys === undefined">Don't have a chosen surveys
+                                        <md-list ng-if="vm.surveys === undefined">
+                                            <md-list-item>Don't have a chosen surveys
                                             </md-list-item>
                                         </md-list>
-                                        <md-button class="md-primary" ng-click="vm.pass(customers.id , checkSelect)"
-                                                   ng-if="vm.surveys !== undefined">Get started
+                                        <md-button class="start-btn md-primary"
+                                                   ng-click="vm.pass(customers.id , checkSelect)"
+                                                   ng-if="vm.surveys !== undefined"
+                                        ">Get started
                                         </md-button>
                                     </md-select>
                                 </md-input-container>
@@ -88,7 +91,6 @@
                                      md-total="{{vm.customers.length}}" md-page-select>
                 </md-table-pagination>
             </md-card>
-
         </div>
     </md-content>
 </div>
