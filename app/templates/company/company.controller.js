@@ -107,21 +107,9 @@
             }).then(function (res) {
 
                 if (res.data.role_id == 3) {
-                    for (let index in vm.companyAdmInv) {
-                        if (vm.companyAdmInv[index].email !== res.data.email) {
-                                vm.companyAdmInv.unshift(res.data);
-                            }
-                            break;
-                    }
-
+                    vm.companyAdmInv.unshift(res.data);
                 } else {
-                    for (let index in vm.fnnAdviserInv) {
-                        if (vm.fnnAdviserInv[index].email !== res.data.email) {
-                            vm.fnnAdviserInv.unshift(res.data);
-                        }
-                        break;
-                    }
-
+                    vm.fnnAdviserInv.unshift(res.data);
                 }
                 toastr.success('Email was sent');
             });
