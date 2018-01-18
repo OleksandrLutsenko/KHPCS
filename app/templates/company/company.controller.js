@@ -105,7 +105,7 @@
                     }
                 }
             }).then(function (res) {
-                if (res.data.role_id === '3') {
+                if (res.data.role_id == 3) {
                     vm.companyAdmInv.unshift(res.data);
                 } else {
                     vm.fnnAdviserInv.unshift(res.data);
@@ -134,7 +134,7 @@
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             }).then(function () {
-                if (user.is_used === undefined) {
+                if (user.is_used == undefined) {
                     companyService.deleteAdmin(id).then(function (res) {
                         if (res.success) {
                             if (user.role_id === 1) {
@@ -149,7 +149,7 @@
                 } else {
                     companyService.cancelInv(id).then(function (res) {
                         if (res.success) {
-                            if (user.role_id === 1) {
+                            if (user.role_id == 1) {
                                 vm.fnnAdviserInv.splice(vm.fnnAdviserInv.indexOf(user), 1);
                             } else {
                                 vm.companyAdmInv.splice(vm.companyAdmInv.indexOf(user), 1);
