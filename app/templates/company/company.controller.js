@@ -92,7 +92,6 @@
             });
         }
 
-        console.log(vm.companyAdmInv);
         function createAdmin(role) {
             $mdDialog.show({
                 controller: 'AddAdminController',
