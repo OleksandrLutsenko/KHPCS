@@ -5,101 +5,116 @@
         .controller('ContractEditorController', ContractEditorController);
 
 
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService', '$mdSidenav'];
 
-    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService', '$scope'];
-
-    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $scope) {
+    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $mdSidenav) {
         let vm = this;
         tabsService.startTab('page4');
         console.log('contract-editor controller start');
 
         let activeSurveyID;
-        let activeSurveyName;
+        vm.activeSurveyName = undefined;
         let activeBlockId;
         let activeTemplateTitle;
         let tmpResearchId;
+        let deletedUserVar = [];
         let tmpAnswersArr = [];
         let tmpImagesArr = [];
         let pasteImgBeforeCreateTemplate = false;
         vm.activeTemplateId = undefined;
-        vm.showTemplateTab = true;
-        vm.showSurveyVarTab = false;
-        vm.showUserVarTab = false;
-
+        vm.fileName = 'Choose File';
+        let image = document.getElementById('file');
+        vm.showEditor = false;
+        vm.showSurveysList = true;
         vm.surveys = [];
         userService.loadSurveysOnly().then(function (res) {
             if (res.success) {
-                console.log(res.data.onlySurvey);
                 vm.surveys = res.data.onlySurvey;
+                console.log(vm.surveys);
+
                 if (vm.surveys.length) {
 
-                    for (let i=0; i<vm.surveys.length; i++) {
+                    for (let i = 0; i < vm.surveys.length; i++) {
                         if (vm.surveys[i].survey_status === 'active' || vm.surveys[i].survey_status === 'inactive') {
                             activeSurveyID = vm.surveys[i].survey_id;
-                            activeSurveyName = vm.surveys[i].survey_name;
+                            vm.activeSurveyName = vm.surveys[i].survey_name;
                             break;
                         }
                     }
 
-                    surveyService.loadOneSurvey(activeSurveyID).then(function (survey) {
-                        if (survey.success) {
-                            vm.activeSurvey = survey.data.survey.blocks;
-                            console.log(vm.activeSurvey, 'vm.activeSurvey');
-                        }else{
-                            console.log('load survey error');
-                        }
-                    });
-
+                    loadOneSurvey(activeSurveyID);
+                    loadTemplates(activeSurveyID);
+                    loadAllUserVariability();
                     CKEDITOR.instances.CKeditorArea.setData('');
-
-                    // contractService.createNewResearch().then(function (res) {
-                    //     tmpResearchId = res.data.id;
-                    // console.log(tmpResearchId);
-                    // });
                 }
-            }else {
+            } else {
                 console.log('load surveys error');
             }
         });
 
-        contractService.getVariabilityWithDeleted().then(function (res) {
-            if(res.success) {
-                vm.variability = res.data;
-                console.log(vm.variability, 'vm.variability');
-            }else {
-                console.log('load variability error');
-            }
-        });
+        console.log(vm.surveys);
 
 
-        // contractService.loadAllTemplates().then(function (res) {
-        contractService.loadTemplateList().then(function (res) {
-            if(res.success) {
-                vm.templates = res.data.contractsWithoutBody;
-                console.log(vm.templates, 'vm.templates');
+        function loadOneSurvey(id) {
+            surveyService.loadOneSurvey(id).then(function (survey) {
+                if (survey.success) {
+                    vm.activeSurvey = survey.data.survey.blocks;
+                    console.log(vm.activeSurvey, 'vm.activeSurvey');
 
-                vm.availabilityOfTemplates = function () {
-                    let tmpStatus = true;
+                    let numberInOrder = 0;
+                    vm.activeSurvey.forEach(function (block) {
+                        block.questions.forEach(function (question) {
+                            numberInOrder++;
+                            question.numberInOrder = numberInOrder;
+                            // console.log(question.id + '-->' + question.numberInOrder);
+                            question.answers.forEach(function (answer) {
+                                answer.child_questions.forEach(function (childQuestion) {
+                                    numberInOrder++;
+                                    childQuestion.numberInOrder = numberInOrder;
+                                    // console.log(childQuestion.id + '-->' + childQuestion.numberInOrder);
+                                });
+                            });
+                        });
+                    });
+                } else {
+                    console.log('load survey error');
+                }
+            });
+        }
+        function loadAllUserVariability() {
+            contractService.getVariabilityWithDeleted().then(function (res) {
+                if (res.success) {
+                    vm.variability = [];
 
-                    for (let i=0; i<vm.templates.length; i++){
-                        if (vm.templates[i].survey_id === activeSurveyID) {
-                            tmpStatus = false;
+                    res.data.forEach(function (cell) {
+                        if (cell.deleted_at === null) {
+                            vm.variability.push(cell);
+                        } else {
+                            deletedUserVar.push(cell)
                         }
-                    }
+                    });
+                    console.log(vm.variability, 'vm.variability');
+                    // console.log(deletedUserVar, 'deletedUserVar');
+                } else {
+                    console.log('load variability error');
+                }
+            });
+        }
 
-                    if (tmpStatus === true){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                };
-            }else {
-                console.log('load templates error');
-            }
-        });
-
+        function loadTemplates(id) {
+            contractService.loadTemplatesForThePoll(id).then(function (res) {
+                if (res.success) {
+                    vm.templates = res.data;
+                    console.log(vm.templates, 'vm.templates');
+                } else {
+                    console.log('load templates error');
+                }
+            });
+        }
 
         CKEDITOR.replace('CKeditorArea');
+
+
 
         CKEDITOR.addCss('body{width: 21cm;min-height: 29.7cm;border: 1px #D3D3D3 solid;box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);padding: 2cm; box-sizing: border-box; margin: 0 auto; font-family: -webkit-pictograph; font-size: 15px !important;line-height: 1.2 !important}');
         CKEDITOR.addCss('body p{margin: 5px 0;}');
@@ -112,7 +127,6 @@
                 return false;
             }
         };
-
         vm.showSelectedSurvey = function (id) {
             if (id === activeSurveyID) {
                 return true;
@@ -120,7 +134,6 @@
                 return false;
             }
         };
-
         vm.showSelectedTemplate = function (id) {
             if (id === vm.activeTemplateId) {
                 return true;
@@ -129,23 +142,8 @@
             }
         };
 
-        vm.clickTemplateTab = function () {
-            vm.showTemplateTab = true;
-            vm.showSurveyVarTab = false;
-            vm.showUserVarTab = false;
-        };
-        vm.clickSurveyVarTab = function () {
-            vm.showTemplateTab = false;
-            vm.showSurveyVarTab = true;
-            vm.showUserVarTab = false;
-        };
-        vm.clickUserVarTab = function () {
-            vm.showTemplateTab = false;
-            vm.showSurveyVarTab = false;
-            vm.showUserVarTab = true;
-        };
+        //////////////////////////Поблочный просмотр вопросов(+Тригер)/////////////////
 
-        //////////////////////////Поблочный просмотр вопросов(+Тригер)///////////////////
         vm.showQuestionsInBlock = function (idCurrentBlock) {
             if (activeBlockId === idCurrentBlock){
                 activeBlockId = undefined;
@@ -161,43 +159,43 @@
                 return false;
             }
         };
-        ///////////////////////////////////////////////////////////////////////////////
-
 
         ///////////////////////////////////////////////////////////////////////////////
+
         vm.setActiveSurvey = function setActiveSurvey(id, name) {
+            CKEDITOR.instances.CKeditorArea.setData('');
             activeSurveyID = id;
-            activeSurveyName = name;
+            vm.activeSurveyName = name;
             pasteImgBeforeCreateTemplate = false;
             tmpResearchId = undefined;
-
-            surveyService.loadOneSurvey(activeSurveyID).then(function (survey) {
-                if (survey.success) {
-                    vm.activeSurvey = survey.data.survey.blocks;
-                    console.log(vm.activeSurvey, 'vm.activeSurvey');
-                }else{
-                    console.log('load survey error');
-                }
-            });
-
             vm.activeTemplateId = undefined;
             activeTemplateTitle = undefined;
-            CKEDITOR.instances.CKeditorArea.setData('');
+
+            vm.showEditor = true;
+            vm.showSurveysList = false;
+
+            loadOneSurvey(activeSurveyID);
+            loadTemplates(activeSurveyID);
+        };
+
+        vm.changeSurvey = function () {
+            vm.showEditor = false;
+            vm.showSurveysList = true;
         };
 
         vm.pasteTitle = function (data) {
             CKEDITOR.instances.CKeditorArea.insertText(data);
         };
 
-        vm.pasteVariability = function (title, id) {
-            let surveyVarInEditorSide = '[[Answer ' + id + ']]';
+        vm.pasteVariability = function (title, id, numberInOrder) {
+            let surveyVarInEditorSide = '[[Answer ' + numberInOrder + ']]';
             let surveyVarInServerSide = '{!!$contractAnswers[' + id + ']!!}';
             let tmpVarObj = {
                 inServer: surveyVarInServerSide,
                 inEditor: surveyVarInEditorSide
             };
 
-            CKEDITOR.instances.CKeditorArea.insertText('[[Answer ' + id + ']] ');
+            CKEDITOR.instances.CKeditorArea.insertText(surveyVarInEditorSide + ' ');
 
             let coincidence = false;
             if (!tmpAnswersArr.length) {
@@ -218,6 +216,7 @@
         /////////////////////////Работа с шаблонами////////////////////////////////////
 
         vm.pasteTemplate = function (data) {
+            CKEDITOR.instances.CKeditorArea.setData("");
             let deletedQuestionInSurvey;
             vm.activeTemplateId = data.id;
             activeTemplateTitle = data.title;
@@ -239,7 +238,7 @@
                                 block.questions.forEach(function (question) {
                                     let surveyVarInServerSide = '{!!$contractAnswers[' + question.id + ']!!}';
                                     if (body.indexOf(surveyVarInServerSide) !== -1) {
-                                        let surveyVarInEditorSide = '[[Answer ' + question.id + ']]';
+                                        let surveyVarInEditorSide = '[[Answer ' + question.numberInOrder + ']]';
                                         let tmpVarObj = {
                                             inServer: surveyVarInServerSide,
                                             inEditor: surveyVarInEditorSide
@@ -251,7 +250,7 @@
                                         answer.child_questions.forEach(function (childQuestion) {
                                             let surveyVarInServerSide = '{!!$contractAnswers[' + childQuestion.id + ']!!}';
                                             if (body.indexOf(surveyVarInServerSide) !== -1) {
-                                                let surveyVarInEditorSide = '[[Answer ' + childQuestion.id + ']]';
+                                                let surveyVarInEditorSide = '[[Answer ' + childQuestion.numberInOrder + ']]';
                                                 let tmpVarObj = {
                                                     inServer: surveyVarInServerSide,
                                                     inEditor: surveyVarInEditorSide
@@ -267,7 +266,7 @@
                             deletedQuestionInSurvey.forEach(function (questionID) {
                                 let surveyVarInServerSide = '{!!$contractAnswers[' + questionID + ']!!}';
                                 if (body.indexOf(surveyVarInServerSide) !== -1) {
-                                    let surveyVarInEditorSide = '<span style="background-color: red">Answer ' + questionID + ' was deleted</span>';
+                                    let surveyVarInEditorSide = '<span style="background-color: red">Question was deleted</span>';
                                     let tmpVarObj = {
                                         inServer: surveyVarInServerSide,
                                         inEditor: surveyVarInEditorSide
@@ -277,29 +276,44 @@
                                 }
                             });
 
+                            (function () {
+                                vm.variability.forEach(function (variability) {
+                                    let userVarInServerSide;
+                                    let userVarInEditorSide;
 
-                            vm.variability.forEach(function (variability) {
-                                let userVarInServerSide;
-                                let userVarInEditorSide;
+                                    userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
 
-                                userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
-
-                                if (body.indexOf(userVarInServerSide) !== -1) {
-                                    if (variability.deleted_at !== null) {
-                                        userVarInEditorSide = '<span style="background-color: red">Variability ' + variability.id + ' was deleted</span>';
-                                        // console.log(userVarInEditorSide);
-                                    } else {
+                                    if (body.indexOf(userVarInServerSide) !== -1) {
                                         userVarInEditorSide = '[[User var ' + variability.id + ']]';
 
+                                        let tmpVarObj = {
+                                            inServer: userVarInServerSide,
+                                            inEditor: userVarInEditorSide
+                                        };
+                                        body = body.split(userVarInServerSide).join(userVarInEditorSide);
+                                        tmpAnswersArr.push(tmpVarObj);
                                     }
-                                    let tmpVarObj = {
-                                        inServer: userVarInServerSide,
-                                        inEditor: userVarInEditorSide
-                                    };
-                                    body = body.split(userVarInServerSide).join(userVarInEditorSide);
-                                    tmpAnswersArr.push(tmpVarObj);
-                                }
-                            });
+                                });
+
+                                deletedUserVar.forEach(function (variability) {
+                                    let userVarInServerSide;
+                                    let userVarInEditorSide;
+
+                                    userVarInServerSide = '{!!$userVariables[' + variability.id + ']!!}';
+
+                                    if (body.indexOf(userVarInServerSide) !== -1) {
+                                        userVarInEditorSide = '<span style="background-color: red">Variability ' + variability.id + ' was deleted</span>';
+
+                                        let tmpVarObj = {
+                                            inServer: userVarInServerSide,
+                                            inEditor: userVarInEditorSide
+                                        };
+                                        body = body.split(userVarInServerSide).join(userVarInEditorSide);
+                                        tmpAnswersArr.push(tmpVarObj);
+                                    }
+                                });
+                            })();
+
 
                             (function () {
                                 let staticVarArr = [{serverSide: '{!! $user["name"] !!}', editorSide: '[[user name]]'},
@@ -316,14 +330,15 @@
                                     if (body.indexOf(staticVar.serverSide) !== -1) {
                                         userVarInEditorSide = staticVar.editorSide;
                                         userVarInServerSide = staticVar.serverSide;
+                                        let tmpVarObj = {
+                                            inServer: userVarInServerSide,
+                                            inEditor: userVarInEditorSide
+                                        };
+                                        tmpAnswersArr.push(tmpVarObj);
+                                        body = body.split(userVarInServerSide).join(userVarInEditorSide);
                                     }
-                                    let tmpVarObj = {
-                                        inServer: userVarInServerSide,
-                                        inEditor: userVarInEditorSide
-                                    };
-                                    body = body.split(userVarInServerSide).join(userVarInEditorSide);
-                                    tmpAnswersArr.push(tmpVarObj);
                                 });
+                                console.log(tmpAnswersArr);
                             }());
 
                             (function () {
@@ -355,189 +370,153 @@
         };
 
         vm.createTemplate = function () {
-            // vm.activeTemplateId = undefined;
-            // activeTemplateTitle = undefined;
-            // CKEDITOR.instances.CKeditorArea.setData('');
-            // console.log(vm.templates);
-            // console.log(activeSurveyID);
-
-
-
-
-
             $mdDialog.show({
-                controller: createTemplateTitleController,
+                controller: 'AddUpdateTemplateController',
                 controllerAs: 'vm',
-                templateUrl: 'components/contract-editor/create-template-title/create-template-title.html',
-                clickOutsideToClose: true
-            });
-
-            function createTemplateTitleController() {
-                let vs = this;
-
-                let body = CKEDITOR.instances.CKeditorArea.getData();
-                tmpAnswersArr.forEach(function (item) {
-                    body = body.split(item.inEditor).join(item.inServer);
-                });
-
-                vs.data = {
-                    "title": "",
-                    "body": "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>" + body + "</body></html>",
-                    "survey_id": activeSurveyID
-                };
-
-                vs.createTemplate = function () {
-                    if (vs.templateForm.name.$invalid) {
-                        toastr.error('Error invalid data');
+                templateUrl: 'components/contract-editor/add-or-update-template/add-or-update-template.html',
+                clickOutsideToClose: true,
+                locals : {
+                    data: {
+                        type: 'create',
+                        activeSurveyID: activeSurveyID,
+                        tmpAnswersArr: tmpAnswersArr,
+                        templates: vm.templates,
+                        pasteImgBeforeCreateTemplate: pasteImgBeforeCreateTemplate,
+                        tmpResearchId: tmpResearchId
                     }
-                    else {
-                        if (pasteImgBeforeCreateTemplate === true) {
-                            createTemplate(body, tmpImagesArr);
-                            console.log('pasteImgBeforeCreateTemplate = false');
-                            // pasteImgBeforeCreateTemplate = false;
-                            console.log("Research undefined");
-                        } else {
-                            contractService.createNewResearch().then(function (res) {
-                                tmpResearchId = res.data.id;
-                                console.log('Create research (' + tmpResearchId + ')');
-
-                                createTemplate(body, tmpImagesArr);
-                            });
-                        }
-
-                        // console.log(vs.data);
-                        $mdDialog.cancel();
-                    }
-
-                    function createTemplate() {
-                        console.log(body);
-                        contractService.createTemplate(tmpResearchId, vs.data).then(function (res) {
-                            console.log(res);
-                            if (res.success) {
-                                contractService.loadTemplateList().then(function (res) {
-                                    vm.templates = res.data.contractsWithoutBody;
-                                    vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
-                                    activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
-                                    // CKEDITOR.instances.CKeditorArea.setData("");
-                                });
-                                if (pasteImgBeforeCreateTemplate === true) {
-                                    tmpImagesArr.forEach(function (cell) {
-                                        console.log(cell.link);
-                                        if (body.indexOf(cell.link) === -1) {
-                                            console.log('Image ' + cell.id + ' is not used and will be deleted');
-                                            contractService.deleteImage(cell.id);
-                                        }
-                                        pasteImgBeforeCreateTemplate = false;
-                                        tmpImagesArr = [];
-                                    });
-
-                                }
-                                // tmpImagesArr = [];
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.success === true) {
+                    vm.templates = res.templates;
+                    console.log(vm.templates, 'vm.templates');
+                    CKEDITOR.instances.CKeditorArea.setData('');
+                    vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
+                    activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
+                    if (tmpImagesArr.length) {
+                        console.log('tmpImagesArr не пуст');
+                        tmpImagesArr.forEach(function (cell) {
+                            console.log(cell.link);
+                            let CKEditorBody = CKEDITOR.instances.CKeditorArea.getData();
+                            if (CKEditorBody.indexOf(cell.link) === -1) {
+                                console.log('Image ' + cell.id + ' is not used and will be deleted');
+                                contractService.deleteImage(cell.id);
                             }
                         });
+                        pasteImgBeforeCreateTemplate = false;
+                        tmpImagesArr = [];
                     }
-                };
-
-                vs.close = function () {
-                    $mdDialog.cancel();
-                };
-            }
+                }
+            });
         };
 
-        vm.updateTemplate = function () {
+        vm.saveTemplate = function () {
 
             $mdDialog.show({
-                controller: updateTemplateTitleController,
+                controller: 'AddUpdateTemplateController',
                 controllerAs: 'vm',
-                templateUrl: 'components/contract-editor/update-template-title/update-template-title.html',
-                clickOutsideToClose: true
+                templateUrl: 'components/contract-editor/add-or-update-template/add-or-update-template.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        type: 'save',
+                        activeTemplateId: vm.activeTemplateId,
+                        activeSurveyID: activeSurveyID,
+                        tmpAnswersArr: tmpAnswersArr,
+                        activeTemplateTitle: activeTemplateTitle,
+                        templates: vm.templates,
+                        tmpResearchId: tmpResearchId,
+                        pasteImgBeforeCreateTemplate: pasteImgBeforeCreateTemplate
+                    }
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.success === true) {
+                    vm.templates = res.templates;
+                    pasteImgBeforeCreateTemplate = res.pasteImgBeforeCreateTemplate;
+                    activeTemplateTitle = res.activeTemplateTitle;
+                    if (res.create) {
+                        vm.activeTemplateId = vm.templates[vm.templates.length - 1].id;
+                        activeTemplateTitle = vm.templates[vm.templates.length - 1].title;
+                    }
+                }
+
+                if (tmpImagesArr.length) {
+                    tmpImagesArr.forEach(function (cell) {
+                        // console.log(cell.link);
+                        let CKEditorBody = CKEDITOR.instances.CKeditorArea.getData();
+                        if (CKEditorBody.indexOf(cell.link) === -1) {
+                            console.log('Image ' + cell.id + ' is not used and will be deleted');
+                            contractService.deleteImage(cell.id);
+                        }
+                    });
+                    tmpImagesArr = [];
+                }
             });
+        };
 
-            function updateTemplateTitleController() {
-                let vs = this;
-
-                let body = CKEDITOR.instances.CKeditorArea.getData();
-                tmpAnswersArr.forEach(function (item) {
-                    body = body.split(item.inEditor).join(item.inServer);
-                });
-
-                vs.data = {
-                    title: activeTemplateTitle,
-                    body: "<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\"content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\"><meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\"><title>Document</title></head><body>" + body + "</body></html>",
-                    survey_id: activeSurveyID
-                };
-                // console.log(vs.data);
-
-                vs.updateTemplate = function () {
-                    if (vs.templateForm.name.$invalid) {
-                        toastr.error('Error invalid data');
+        vm.saveAsTemplate = function () {
+            $mdDialog.show({
+                controller: 'AddUpdateTemplateController',
+                controllerAs: 'vm',
+                templateUrl: 'components/contract-editor/add-or-update-template/add-or-update-template.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        type: 'saveAs',
+                        activeTemplateId: vm.activeTemplateId,
+                        activeSurveyID: activeSurveyID,
+                        tmpAnswersArr: tmpAnswersArr,
+                        activeTemplateTitle: activeTemplateTitle,
+                        templates: vm.templates,
                     }
-                    else {
-                        contractService.updateTemplate(vm.activeTemplateId, vs.data).then(function (res) {
-                            console.log(res);
-                            if (res.success) {
-                                activeTemplateTitle = res.data.contract.title;
-                                contractService.loadTemplateList().then(function (res) {
-                                    vm.templates = res.data.contractsWithoutBody;
-                                    // console.log(vm.templates, 'Template list');
-                                });
-                                tmpImagesArr.forEach(function (cell) {
-                                    // console.log(cell.link);
-                                    if (body.indexOf(cell.link) === -1) {
-                                        console.log('Image ' + cell.id + ' is not used and will be deleted');
-                                        contractService.deleteImage(cell.id);
-                                    }
-                                    tmpImagesArr = [];
-                                });
-                            } else{
-                                console.log('Update template error');
-                            }
-                        });
-                        $mdDialog.cancel();
-                    }
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.success === true) {
+                    vm.templates = res.templates;
+                }
 
-                };
-
-                vs.close = function () {
-                    $mdDialog.cancel();
-                };
-            }
+                if (tmpImagesArr.length) {
+                    tmpImagesArr.forEach(function (cell) {
+                        // console.log(cell.link);
+                        let CKEditorBody = CKEDITOR.instances.CKeditorArea.getData();
+                        if (CKEditorBody.indexOf(cell.link) === -1) {
+                            console.log('Image ' + cell.id + ' is not used and will be deleted');
+                            contractService.deleteImage(cell.id);
+                        }
+                    });
+                    tmpImagesArr = [];
+                }
+            });
         };
 
         vm.removeTemplate = function () {
             $mdDialog.show({
-                controller: removeTemplateController,
+                controller: 'RemoveTemplateController',
                 controllerAs: 'vm',
                 templateUrl: 'components/deleteView/deleteView.html',
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        templateID: vm.activeTemplateId,
+                        activeSurveyID: activeSurveyID
+                    }
+                }
+            }).then(function (res) {
+                // console.log(res);
+                if (res.success === true) {
+                    CKEDITOR.instances.CKeditorArea.setData("");
+
+                    vm.templates = res.templates;
+                    console.log(vm.templates, ' vm.templates');
+                    vm.activeTemplateId = undefined;
+                    activeTemplateTitle = undefined;
+                    tmpResearchId = undefined;
+                    pasteImgBeforeCreateTemplate = false;
+                }
             });
-
-            function removeTemplateController($mdDialog) {
-                let vs = this;
-
-                vs.confirm = function () {
-                    contractService.removeTemplate(vm.activeTemplateId).then(function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            contractService.loadTemplateList().then(function (res) {
-                                vm.templates = res.data.contractsWithoutBody;
-                                CKEDITOR.instances.CKeditorArea.setData("");
-                                vm.activeTemplateId = undefined;
-                                activeTemplateTitle = undefined;
-                            });
-                            tmpResearchId = undefined;
-                            pasteImgBeforeCreateTemplate = false;
-                        }
-                    });
-                    $mdDialog.cancel();
-                };
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
         };
-
-        ///////////////////////////////////////////////////////////////////////////////
 
 
         //////////////////////Работа с пользовательскими переменными///////////////////
@@ -615,112 +594,69 @@
         vm.createUserVariability = function () {
 
             $mdDialog.show({
-                controller: createVariabilityController,
+                controller: 'AddUpdateUserVarController',
                 controllerAs: 'vm',
-                templateUrl: 'components/contract-editor/add-user-variability/add-user-variability.html',
-                clickOutsideToClose: true
+                templateUrl: 'components/contract-editor/add-or-update-user-variability/add-or-update-user-variability.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        type: 'create'
+                    }
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.success === true) {
+                    vm.variability = res.notDeletedVariability;
+                    deletedUserVar = res.deletedVariability;
+                    console.log('success true');
+                }
             });
-
-            function createVariabilityController($mdDialog) {
-                let vs = this;
-
-                vs.saveVariability = function () {
-                    if (vs.varForm.name.$invalid) {
-                        toastr.error('Error invalid data');
-                    }
-                    else {
-                        console.log(vs.data);
-                        contractService.createVariability(vs.data).then(function (res) {
-                            console.log(res);
-                            if (res.success) {
-                                contractService.getVariabilityWithDeleted().then(function (res) {
-                                    console.log(res.data, 'Variability list');
-                                    vm.variability = res.data;
-                                });
-                            } else {
-                                console.log('Create user variability error');
-                            }
-                        });
-                        $mdDialog.cancel();
-                    }
-                };
-                vs.close = function () {
-                    $mdDialog.cancel();
-                };
-            }
         };
 
         vm.editUserVariability = function (id, data) {
 
             $mdDialog.show({
-                controller: editVariabilityController,
+                controller: 'AddUpdateUserVarController',
                 controllerAs: 'vm',
-                templateUrl: 'components/contract-editor/edit-user-variability/edit-user-variability.html',
-                clickOutsideToClose: true
+                templateUrl: 'components/contract-editor/add-or-update-user-variability/add-or-update-user-variability.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        type: 'update',
+                        text: data,
+                        id: id
+                    }
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.success === true) {
+                    vm.variability = res.notDeletedVariability;
+                    deletedUserVar = res.deletedVariability;
+                    console.log('success true');
+                }
             });
-
-            function editVariabilityController($mdDialog) {
-                let vs = this;
-                vs.data = {
-                    'text': data
-                };
-
-                vs.updateVariability = function () {
-                    if (vs.varForm.name.$invalid) {
-                        toastr.error('Error invalid data');
-                    }
-                    else {
-                        console.log('saveVariability');
-                        contractService.editVariability(id, vs.data).then(function (res) {
-                            console.log(res);
-                            if (res.success) {
-                                contractService.getVariabilityWithDeleted().then(function (res) {
-                                    console.log(res.data, 'Variability list');
-                                    vm.variability = res.data;
-                                });
-                            } else {
-                                console.log('Save user variability error');
-                            }
-                        });
-                        $mdDialog.cancel();
-                    }
-                };
-                vs.close = function () {
-                    $mdDialog.cancel();
-                };
-            }
         };
 
         vm.removeUserVariability = function (id) {
+
             $mdDialog.show({
-                controller: removeVariabilityController,
+                controller: 'RemoveUserVarController',
                 controllerAs: 'vm',
                 templateUrl: 'components/deleteView/deleteView.html',
-                clickOutsideToClose: true
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        id: id
+                    }
+                }
+            }).then(function (res) {
+                console.log(res);
+                if (res.success === true) {
+                    vm.variability = res.notDeletedVariability;
+                    deletedUserVar = res.deletedVariability;
+                    console.log('success true');
+                }
             });
-
-            function removeVariabilityController($mdDialog) {
-                let vs = this;
-
-                vs.confirm = function () {
-                    contractService.removeVariability(id).then(function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            contractService.getVariabilityWithDeleted().then(function (res) {
-                                console.log(res.data, 'Variability list');
-                                vm.variability = res.data;
-                                toastr.success('Remove success');
-                            });
-                        } else {
-                            console.log('Remove user variability error');
-                        }
-                    });
-                    $mdDialog.cancel();
-                };
-                vs.cancel = function () {
-                    $mdDialog.cancel();
-                };
-            }
         };
 
         ////////////////////////////////Image//////////////////////////////////////////
@@ -740,18 +676,16 @@
             }
 
             function sendImg() {
-                let image = document.getElementById('file');
                 let fd = new FormData();
                 fd.append('image_file', image.files[0]);
                 let xhttp = new XMLHttpRequest();
 
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        // console.log('done');
+                        console.log('done');
                         let data = JSON.parse(this.response);
-                        // console.log(data);
+                        console.log(data);
                         CKEDITOR.instances.CKeditorArea.insertHtml('<img src="' + data.image.link + '" alt="Image" style="max-width: 300px">&nbsp');
-
                         let tmpImgObj = {
                             id: data.image.id,
                             link: data.image.link
@@ -764,37 +698,44 @@
                 xhttp.open("POST", contractService.uploadImage(tmpResearchId), fd, true);
                 xhttp.setRequestHeader("token", userService.getToken());
                 xhttp.send(fd);
-            };
-        }
+            }
+        };
 
-        let image = document.getElementById('file');
-
-        vm.fileName = 'Choose File';
+        //Upload image without confirm
         image.addEventListener("change" , function() {
             if (image.files.length) {
-                $scope.$apply(
-                    function () {
-                        vm.fileName = image.files[0].name;
-                        console.log(image.files[0].type);
-                        if (image.files[0].type.indexOf('image') !== -1) {
-                            vm.showUpload = true;
-                            console.log('Картинка!!!');
-                        } else {
-                            vm.showUpload = false;
-                            vm.fileName = 'Choose File';
-                            toastr.error('Select an image file');
-                        }
-                    });
-            } else {
-                $scope.$apply(
-                    function () {
-                    vm.fileName = 'Choose File';
-                    vm.showUpload = false;
-                });
+                if (image.files[0].type.indexOf('image') !== -1) {
+                    // console.log(image.files[0]);
+                    vm.sendImage();
+                } else {
+                    toastr.error('The selected file should be a picture');
+                }
             }
         });
 
+        // __________________________
+
+        vm.activeTabName = 'Templates';
 
 
+        vm.setActiveTabName = function (name) {
+            if(name !== vm.activeTabName){
+                vm.activeTabName = name;
+            }
+        };
+
+        vm.isActiveTab = function (name) {
+            if (vm.activeTabName === name){
+                return true
+            } else {
+                return false
+            }
+        };
+
+        vm.toggleLeftTab = toggleLeftTab;
+
+        function toggleLeftTab() {
+            $mdSidenav('left-tab').toggle();
+        }
     }
 })();

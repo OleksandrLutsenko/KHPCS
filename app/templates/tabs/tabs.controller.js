@@ -19,12 +19,9 @@
             }else {
                 vm.currentNavItem =  'page1';
             }
+            // $scope.$apply()
+            console.log('Tabs start')
         })();
-
-
-
-
-
 
         vm.profile = function () {
             console.log('Test profile');
@@ -42,8 +39,9 @@
         };
 
         vm.closeNavButton = closeNav;
-        function closeNav() {
+        function closeNav(page) {
             $mdSidenav('nav').close();
+            vm.currentNavItem =  page;
         }
 
         vm.toggleOpenNav = buildToggler('nav');

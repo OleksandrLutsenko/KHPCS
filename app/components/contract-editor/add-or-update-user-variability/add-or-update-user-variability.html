@@ -1,4 +1,4 @@
-<md-dialog flex="30" class="editUserVariability">
+<md-dialog flex="30" class="addUserVariability">
     <div class="createWindow">
         <div class="createTop">
             <p>Please enter your variable</p>
@@ -17,7 +17,12 @@
                 </form>
             </div>
             <div class="botBtn" layout="" layout-align="space-between">
-                <md-button class="md-raised md-primary" ng-click="vm.updateVariability()">Save</md-button>
+                <md-button class="md-raised md-primary" ng-click="vm.updateVariability()"
+                ng-if="vm.showUpdateButton">Save</md-button>
+
+                <md-button class="md-raised md-primary" ng-click="vm.createVariability()"
+                ng-if="vm.showCreateButton">Create</md-button>
+
                 <md-button class="md-raised" ng-click="vm.close()">Cancel</md-button>
             </div>
         </div>
