@@ -133,7 +133,7 @@
                 role_id: user.role_id,
                 company_id: user.company_id
             };
-            companyService.inviteAdm(vm.data).then(function (res) {
+            companyService.reSend(vm.data).then(function (res) {
                 if (res.success) {
                     toastr.success('Email was sent');
                 }

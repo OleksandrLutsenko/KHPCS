@@ -25,12 +25,16 @@
         model.companyCustomers = companyCustomers;
         model.changeFA = changeFA;
         model.selectedSurvTempInCompany = selectedSurvTempInCompany;
+        model.reSend = reSend;
 
         return model;
 
-        /////////////////////////////////////
         function inviteAdm (data) {
             return http.post(url.user.inviteAdm, data);
+        }
+
+        function reSend(data) {
+            return http.post(url.user.reSend, data);
         }
 
         function cancelInv(id) {

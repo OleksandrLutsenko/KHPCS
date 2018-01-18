@@ -15,7 +15,8 @@
                 getItems: baseUrl + 'api/survey',
                 loadSurveysOnly: baseUrl + 'api/onlysurvey',
                 forgot: baseUrl + 'api/user/request-reset',
-                inviteAdm: baseUrl + 'api/send-invite'
+                inviteAdm: baseUrl + 'api/send-invite',
+                reSend: baseUrl + 'api/resend-invite'
             },
             create_adm: function (token) {
                 return {register: baseUrl + 'api/auth/register/' + token}
@@ -89,7 +90,7 @@
                     createSurveyTemplate: baseUrl + 'api/contract-research/' + id + '/contract',
                     getOneTemplate: baseUrl + 'api/contract/' + id,
                     getTemplates: baseUrl + 'api/contract',
-                    getTemplatesForThePool: baseUrl + 'api/survey' + id + 'contracts',
+                    getTemplatesForThePool: baseUrl + 'api/survey/' + id + '/contracts',
                     getTemplateList: baseUrl + 'api/onlycontract',
                     deleteTemplate: baseUrl + 'api/contract/' + id,
                     updateTemplate: baseUrl + 'api/contract/' + id,
