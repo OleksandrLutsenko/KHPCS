@@ -36,16 +36,16 @@
     cursor: pointer;
   }
 
-   button {
-    text-transform: capitalize;
-  }
-
   .md-primary{
     position: initial;
   }
 
   .none-icon {
     cursor: default;
+  }
+
+  .empty-select{
+    height:100%;
   }
 
 }

@@ -5,9 +5,17 @@
   background: #c6c6c6;
   cursor: pointer;
 }
-md-pagination-wrapper{
-  width:100%;
+
+md-pagination-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content:center;
 }
-md-tab-item{
+
+md-tab-item {
   width: 33%;
+}
+
+.search-customers{
+  margin-bottom: 0;
 }

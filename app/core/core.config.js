@@ -106,6 +106,7 @@
                         } else {
                             return companyService.companyAdmin().then(function (res) {
                                 if (res.success) {
+                                    console.log('CA')
                                     return res.data.company;
                                 }
                             });
@@ -120,6 +121,10 @@
                     customersCompany: function (companyService, company) {
                         let id = company.getActiveCompany().id;
                         return companyService.companyCustomers(id);
+                    },
+                    assignST: function (companyService, company) {
+                        let id = company.getActiveCompany().id;
+                        return companyService.selectedSurvTempInCompany(id);
                     }
 
                 }

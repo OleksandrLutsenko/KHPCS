@@ -33,6 +33,7 @@
                     deleteAdm: baseUrl + 'api/user/' + id + '/delete',
                     cancelInv: baseUrl + 'api/invite/' + id + '/delete',
                     companyCustomers: baseUrl + 'api/company/' + id + '/customers',
+                    selectedSurvTempInCompany: baseUrl + 'api/company/' + id + '/index-assigns',
                 }
             },
             survey_management: {

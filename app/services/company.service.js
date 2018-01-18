@@ -24,6 +24,7 @@
         model.cancelInv = cancelInv;
         model.companyCustomers = companyCustomers;
         model.changeFA = changeFA;
+        model.selectedSurvTempInCompany = selectedSurvTempInCompany;
 
         return model;
 
@@ -87,6 +88,10 @@
 
         function companyCustomers(id) {
             return http.get(url.company_func(id).companyCustomers);
+        }
+
+        function selectedSurvTempInCompany(id) {
+            return http.get(url.company_func(id).selectedSurvTempInCompany );
         }
 
     }
