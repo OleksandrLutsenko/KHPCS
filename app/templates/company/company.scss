@@ -16,27 +16,6 @@ md-tab-item {
   width: 33%;
 }
 
-div.panel {
-  width: 90%;
-  margin-top: 20px;
-}
-
-details {
-  background: #fff;
-  font-size: 16px;
-  border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
-  display: flex;
-}
-
-summary {
-  cursor: pointer;
-  padding: 16px 24px;
-  font-size: 15px;
-}
-
-summary ul {
-  margin: 0;
-  padding-left: 0;
-  list-style: none;
+.search-customers{
+  margin-bottom: 0;
 }
