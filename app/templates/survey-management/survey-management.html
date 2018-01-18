@@ -2,7 +2,7 @@
 
     <div class="tab-list">
         <div ng-repeat="survey in vm.survey | orderBy : 'survey_status' " ng-if="(survey.survey_status !== 'archived')"
-             class="questionnaire-list"
+             class="questionnaire-list pointer"
              md-whiteframe="{{height}}"
              ng-click="vm.setActiveSurvey(survey.survey_id, $index)" ui-sref="tab.survey-block">
             <md-menu>
@@ -49,7 +49,7 @@
 
             <div layout="row" layout-align="space-between center" class="md-theme-light">
                 <p class="md-toolbar-tools1">Archive list</p>
-                <i class="material-icons" ng-click="vm.closeArchiveButton()">highlight_off</i>
+                <i class="material-icons pointer" ng-click="vm.closeArchiveButton()">highlight_off</i>
             </div>
 
             <md-content layout-padding="">
@@ -58,9 +58,9 @@
                         <div class="sm-left" flex="70" layout-wrap="no-wrap">
                             <p class="hidden-text">
                                 {{archiveItem.survey_name}}</p>
-                        </div>
+                         </div>
                         <div class="sm-right" flex="30" layout="row" layout-align="center">
-                            <i class="material-icons"
+                            <i class="material-icons "
                                ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive' , survey , archiveItem)"
                                title="Unarchive">unarchive</i>
                             <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id , $index)"

@@ -19,14 +19,7 @@
     margin: 10px;
     border-bottom: 1px solid #d8d8d8;
   }
-  .pointer {
-    cursor: pointer;
-    outline:none;
-    user-select: none;
-  }
-  .chevron {
-    font-size: 14px;
-  }
+
   //CKEditor//
 
   //Template, Survey, UserVar//
@@ -85,7 +78,7 @@
     border-bottom: 1px solid #f2f1f1;
   }
 
-  .survey-question:hover, .inserted_question:hover {
+  .survey-question:hover, .inserted_question:hover, .inserted_answer:hover {
     background: #DDDDDD;
     transition: .4s;
   }
@@ -138,10 +131,6 @@
     width: 90%;
   }
 
-  #cke_36 {
-    display: none;
-  }
-
   .bold{
     font-weight: bold;
   }
@@ -149,6 +138,15 @@
   .name-survey{
     font-size: 1.17em;
     font-weight: bold;
+  }
+
+  //for CK editor
+  //#cke_36, #cke_129,   {
+  //  display: none;
+  //}
+
+  .cke_button__image{
+    display: none;
   }
 
   //___________________TABS__________________

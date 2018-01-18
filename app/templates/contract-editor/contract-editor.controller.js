@@ -5,14 +5,15 @@
         .controller('ContractEditorController', ContractEditorController);
 
 
-    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService', '$mdSidenav'];
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService', '$mdSidenav', 'survey'];
 
-    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $mdSidenav) {
+    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $mdSidenav, survey) {
         let vm = this;
         tabsService.startTab('page4');
         console.log('contract-editor controller start');
 
         let activeSurveyID;
+        let activeSurveyIndex;
         vm.activeSurveyName = undefined;
         let activeBlockId;
         let activeTemplateTitle;
@@ -162,9 +163,10 @@
 
         ///////////////////////////////////////////////////////////////////////////////
 
-        vm.setActiveSurvey = function setActiveSurvey(id, name) {
+        vm.setActiveSurvey = function setActiveSurvey(id, name, index) {
             CKEDITOR.instances.CKeditorArea.setData('');
             activeSurveyID = id;
+            activeSurveyIndex = index;
             vm.activeSurveyName = name;
             pasteImgBeforeCreateTemplate = false;
             tmpResearchId = undefined;
@@ -491,7 +493,7 @@
             });
         };
 
-        vm.removeTemplate = function () {
+        vm.removeTemplate = function (id) {
             $mdDialog.show({
                 controller: 'RemoveTemplateController',
                 controllerAs: 'vm',
@@ -499,7 +501,7 @@
                 clickOutsideToClose: true,
                 locals: {
                     data: {
-                        templateID: vm.activeTemplateId,
+                        templateID: id,
                         activeSurveyID: activeSurveyID
                     }
                 }
@@ -520,6 +522,12 @@
 
 
         //////////////////////Работа с пользовательскими переменными///////////////////
+
+        vm.toSurney = function () {
+            tabsService.startTab('page3');
+            survey.setActiveSurvey(activeSurveyID, activeSurveyIndex);
+
+        };
 
         vm.pasteStaticVariability = function (data) {
             let userVarInEditorSide;
@@ -685,7 +693,7 @@
                         console.log('done');
                         let data = JSON.parse(this.response);
                         console.log(data);
-                        CKEDITOR.instances.CKeditorArea.insertHtml('<img src="' + data.image.link + '" alt="Image" style="max-width: 300px">&nbsp');
+                        CKEDITOR.instances.CKeditorArea.insertHtml('<img src="' + data.image.link + '" alt="Image" style="max-width: 17cm">&nbsp');
                         let tmpImgObj = {
                             id: data.image.id,
                             link: data.image.link

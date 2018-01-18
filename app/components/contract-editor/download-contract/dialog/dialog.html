@@ -1,30 +1,29 @@
 <md-dialog class="download-contract">
 
     <md-toolbar>
-        <div class="md-toolbar-tools">
+        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2>Download contract</h2>
-            <span flex></span>
             <md-button class="md-icon-button" ng-click="vm.cancel()">
                 <i class="material-icons">highlight_off</i>
             </md-button>
         </div>
     </md-toolbar>
 
-    <md-input-container class="" flex-gt-sm>
+    <md-input-container class="md-block">
         <label>Select a survey</label>
         <md-select class="md-block-restyle" ng-model="vm.test">
             <md-option ng-repeat="survey in vm.surveys" value="{{survey.name}}"
-            ng-click="vm.actualSurvey(survey)">
+                       ng-click="vm.actualSurvey(survey)">
                 {{survey.name}}
             </md-option>
         </md-select>
     </md-input-container>
 
-    <md-input-container class="md-block" flex-gt-sm ng-if="vm.showTemplates">
+    <md-input-container class="md-block" ng-if="vm.showTemplates">
         <label>Select a template</label>
         <md-select ng-model="user.template">
             <md-option ng-repeat="template in vm.templates" value="{{template.name}}"
-            ng-click="vm.actualTemplate(template)">
+                       ng-click="vm.actualTemplate(template)">
                 {{template.name}}
             </md-option>
         </md-select>

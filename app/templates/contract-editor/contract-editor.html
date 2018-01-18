@@ -1,11 +1,12 @@
 <div class="contract-editor">
 
-    <div class="menus1" layout="row" layout-align="center"  flex="100" ng-if="vm.showSurveysList">
+    <div class="menus1" layout="row" layout-align="center"  flex="100" ng-if="vm.showSurveysList" >
         <div class="tab-list" >
             <div ng-repeat="survey in vm.surveys | orderBy: reverse:true"
                  class="questionnaire-list"
                  md-whiteframe="{{height}}"
-                 ng-click="vm.setActiveSurvey(survey.survey_id, survey.survey_name)"
+                 ng-click="vm.setActiveSurvey(survey.survey_id, survey.survey_name, $index)"
+                 ng-if="survey.survey_status !== 'archived'"
                  layout="row" layout-align="center center">
 
                 <div class="text-quest">
@@ -20,7 +21,7 @@
 
         <!--Heder button-->
 
-        <div class="CKeditor-heder" layout="row" flex>
+        <div class="CKeditor-heder" layout="row">
             <div flex="33"  layout="row" layout-align="start center">
                 <md-button  layout="row" layout-align="center center" ng-click="vm.changeSurvey()" >
                     <i class="material-icons">arrow_back</i>
@@ -41,7 +42,7 @@
             </div>
 
             <div flex="" layout="row" layout-align="end center">
-                <md-button class="md-raised" ng-click="vm.saveAsTemplate()" ng-if="vm.activeTemplateId !== undefined">Save As..</md-button>
+                <!--<md-button class="md-raised" ng-click="vm.saveAsTemplate()" ng-if="vm.activeTemplateId !== undefined">Save As..</md-button>-->
                 <md-button class="md-raised md-primary" ng-click="vm.saveTemplate()">Save Template</md-button>
             </div>
 
@@ -50,7 +51,7 @@
 
         <!--CK and Tabs-->
 
-        <div flex="" layout="row">
+        <div layout="row">
 
             <!--Variables-->
 
@@ -121,8 +122,9 @@
                                     <!--<i class="material-icons pointer" ng-if="vm.activeTemplateId !== undefined"-->
                                     <!--ng-click="vm.updateTemplate()">save</i>-->
 
-                                    <i class="material-icons pointer" ng-if="vm.showSelectedTemplate(template.id)"
-                                       ng-click="vm.removeTemplate()">delete_forever</i>
+                                    <md-icon class="pointer hidden-icon" ng-click="vm.removeTemplate(template.id)"
+                                             md-svg-src="content/icons/icon_delete.svg" aria-label="android ">
+                                    </md-icon>
                                 </div>
 
                             </div>
@@ -133,6 +135,15 @@
                     <!--SurveyTab-->
 
                     <div ng-if="vm.isActiveTab('Survey var')">
+
+                        <div class="add-section pointer" ng-click="vm.toSurney()" ui-sref="tab.survey-block"
+                             layout="row" layout-align="center center">
+                            <div class="block-item" flex="90" layout="row"  layout-align="start center">
+                                <i class="material-icons ">arrow_back</i>
+                                <p>Edit survey</p>
+                            </div>
+                        </div>
+
                         <p ng-if="!vm.activeSurvey.length" class="empty-block">
                             No data
                         </p>
@@ -141,7 +152,7 @@
                              layout="column" layout-align="center center" ng-class="{'active-item': vm.showQuestions(block.id)}">
 
 
-                            <div flex="90" class="block-item block-item2 pointer" layout="row" layout-align="space-between center"
+                            <div  class="block-item block-item2 pointer" layout="row" layout-align="space-between center"
                                  ng-click="vm.showQuestionsInBlock(block.id)" >
                                 {{block.name}}
                             </div>
@@ -239,7 +250,7 @@
                                 <div flex class="pointer" ng-click="vm.pasteUserVariability(var.id)">
                                     {{var.text}}
                                 </div>
-                                <div class="icons">
+                                <div class="icons hidden-icon">
                                     <md-icon class="pointer" ng-click="vm.editUserVariability(var.id, var.text)" md-svg-src="content/icons/icon_edit.svg" aria-label="android "></md-icon>
                                     <md-icon class="pointer" ng-click="vm.removeUserVariability(var.id)" md-svg-src="content/icons/icon_delete.svg" aria-label="android "></md-icon>
                                 </div>

@@ -17,10 +17,6 @@
     border-right: solid 2px #001041;
   }
 
-  .block-container {
-
-  }
-
   .block-item {
     padding: 5px 0 5px 0;
     border-bottom: solid 1px #f2f1f1;
@@ -39,8 +35,16 @@
     color: #001041;
   }
 
+  .hidden-icon{
+    display: none;
+    margin-right: 10px;
+  }
+
   .block-item:hover {
     background: #DDDDDD;
     transition: .4s;
+    .hidden-icon{
+      display: block;
+    }
   }
 }

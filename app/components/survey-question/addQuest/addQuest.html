@@ -9,10 +9,10 @@
             </div>
         </md-toolbar>
 
-        <md-dialog-content class="dialog-content" flex="100">
+        <md-dialog-content class="dialog-content" >
 
             <div layout="row">
-                <md-input-container flex="100">
+                <md-input-container >
                 <label>Identifier</label>
                 <input ng-model="vm.data.identifier" name="identifier" required minlength="3">
                 <div ng-messages="vm.questForm.identifier.$error">
@@ -22,7 +22,7 @@
                 </md-input-container>
             </div>
             <div layout="row">
-                <md-input-container flex="100">
+                <md-input-container >
                     <label>Name your question</label>
                     <input ng-model="vm.data.title" name="title" required minlength="3">
                     <div ng-messages="vm.questForm.title.$error">

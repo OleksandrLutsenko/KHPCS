@@ -8,7 +8,7 @@
 
     function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService, surveyService) {
         let vm = this;
-        tabsService.startTab();
+        tabsService.startTab('page3');
 
         let activeBlock = survey.getActiveBlock();
         let indexBlock = activeBlock.indexBlock;
