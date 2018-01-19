@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\File;
 
 class ContractResearch extends Model
 {
-//    use SoftDeletes;
+    use SoftDeletes;
 
     public function images(){
         return $this->hasMany(Image::class);

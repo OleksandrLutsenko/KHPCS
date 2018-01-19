@@ -10,9 +10,9 @@ class Customer extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'surname', 'classification'];
+    protected $fillable = ['name', 'surname', 'classification', 'user_id', 'company_id'];
 
-    protected $visible = ['id', 'name', 'surname', 'classification', 'user_id', 'user_name', 'reports', 'created_at'];
+    protected $visible = ['id', 'name', 'surname', 'classification', 'user_id', 'user_name', 'reports', 'created_at', 'company_id'];
 
     protected $appends = ['reports', 'user_name'];
 
@@ -48,7 +48,11 @@ class Customer extends Model
     public function getUserNameAttribute()
     {
         $user = User::find($this->user_id);
-        return $user->name;
+        if ($user) {
+            return $user->name;
+        } else {
+            return null;
+        }
     }
 
     public static function boot()
@@ -57,6 +61,7 @@ class Customer extends Model
 
         static::creating(function ($table) {
             $table->user_id = Auth::user()->id;
+            $table->company_id = Auth::user()->company_id;
         });
 
         static::deleting(function ($customer) {

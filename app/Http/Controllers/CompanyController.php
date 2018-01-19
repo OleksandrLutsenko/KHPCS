@@ -17,7 +17,7 @@ class CompanyController extends Controller
     public function index()
     {
         if (Auth::user()->isAdmin()) {
-            $companies = Company::all();
+            $companies = Company::latest()->get();
             return response(['companies' => $companies], 200);
         } else {
             return response(['message' => 'Page not found'], 404);
@@ -65,7 +65,7 @@ class CompanyController extends Controller
     {
         if (Auth::user()->isCompanyAdmin()) {
             $company = Company::find(Auth::user()->company_id);
-            $company->setAppends(['company_admin', 'financial_advisors']);
+            $company->setAppends(['company_admin', 'financial_advisors', 'financial_advisors_invites']);
             return response(['company' => $company], 200);
         } else {
             return response(['message' => 'Page not found'], 404);
@@ -127,5 +127,10 @@ class CompanyController extends Controller
         } else {
             return response(['message' => 'Page not found'], 404);
         }
+    }
+
+    public function indexAssigns(Company $company)
+    {
+        return $company->companySurveys->all();
     }
 }

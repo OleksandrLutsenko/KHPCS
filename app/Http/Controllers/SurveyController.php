@@ -24,12 +24,12 @@ class SurveyController extends Controller
     public function index(Survey $survey, User $user)
     {
         if (Auth::user()->isAdmin()) {
-            return Survey::all();
+            return Survey::latest()->get();
         } else {
             $assigned = CompanySurvey::where('company_id', Auth::user()->company_id)
                 ->select('survey_id')
                 ->get();
-            return Survey::whereIn('id', $assigned)->get();
+            return Survey::latest()->whereIn('id', $assigned)->get();
         }
     }
 
@@ -37,7 +37,7 @@ class SurveyController extends Controller
     {
         if (Auth::user()->isAdmin()) {
 
-            $surveys = $survey->get();
+            $surveys = $survey->latest()->get();
             foreach ($surveys as $survey) {
                 $survey->setAppends(['survey_status']);
                 $onlySurvey[] = [

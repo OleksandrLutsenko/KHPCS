@@ -22,41 +22,34 @@ class CustomerController extends Controller
     public function index(Customer $customer, User $user)
     {
         if(Auth::user()->isAdmin()){
-            return Customer::all();
+            return Customer::latest()->get();
         } else {
             $customers = Customer::latest()->owned()->get();
             return $customers;
         }
     }
 
-//    public function indexFA(Customer $customer, User $user)
-//    {
-//        $customers = Customer::latest()->owned()->get();
-//        return $customers;
-//    }
-//
-//
-//    public function indexCompanyCA(Customer $customer, User $user)
-//    {
-//        if(Auth::user()->isCompanyAdmin()) {
-//            $FAsIDs = User::where('company_id', Auth::user()->company_id)
-//                ->select('id')
-//                ->get();
-//            $customers = Customer::whereIn('user_id', $FAsIDs)->get();
-//            return $customers;
-//        }
-//    }
-//
-//    public function indexCompanySA(Customer $customer, User $user, Company $company)
-//    {
-//        if(Auth::user()->isAdmin()) {
-//            $FAsIDs = User::where('company_id', $company->id)
-//                ->select('id')
-//                ->get();
-//            $customers = Customer::whereIn('user_id', $FAsIDs)->get();
-//            return $customers;
-//        }
-//    }
+    public function indexCompanySA(Customer $customer, User $user, Company $company)
+    {
+        if(Auth::user()->isAdmin()) {
+            $customers = Customer::orderBy('user_id', 'desc')
+                ->latest()
+                ->where('company_id', $company->id)
+                ->get();
+            return $customers;
+        }
+        elseif(Auth::user()->isCompanyAdmin()) {
+            if(Auth::user()->company_id == $company->id) {
+                $customers = Customer::orderBy('user_id', 'desc')
+                    ->latest()
+                    ->where('company_id', Auth::user()->company_id)
+                    ->get();
+                return $customers;
+            }
+        }else {
+            return response(['message' => 'Page not found'], 404);
+        }
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -85,9 +78,7 @@ class CustomerController extends Controller
         if ($user->can('show', $customer)) {
             return $customer;
         } else {
-            return response([
-                "error" => "Page is not found"], 404
-            );
+            return response(["error" => "Page not found"], 404);
         }
     }
 
@@ -104,6 +95,21 @@ class CustomerController extends Controller
     {
         $customer->update($request->all());
         return response()->json($customer, 200);
+    }
+
+    public function updateFA(Request $request, User $user)
+    {
+        if(Auth::user()->isAdmin() or Auth::user()->isCompanyAdmin()) {
+            $requests = $request->all();
+            foreach ($requests as $request) {
+                $customer = Customer::find($request['id']);
+                $customer->update(['user_id' => $request['user_id']]);
+                $customers[] = $customer;
+            }
+            return response(['customers' => $customers], 201);
+        } else {
+            return response(['message' => 'Page not found'], 404);
+        }
     }
 
     /**

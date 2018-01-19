@@ -33,13 +33,30 @@ class UserController extends Controller
             ->where('is_used', 0)
             ->first();
         if($invite){
-            $user = $this->user->create([
-                'name' => $request->get('name'),
-                'password' => bcrypt($request->get('password')),
-                'email' => $invite->email,
-                'role_id' => $invite->role_id,
-                'company_id' => $invite->company_id
-            ]);
+            $user = User::onlyTrashed()->where('email', $invite->email)->first();
+            if ($user) {
+                $user->update([
+                    'deleted_at' => null,
+                    'name' => $request->get('name'),
+                    'password' => bcrypt($request->get('password')),
+                    'email' => $invite->email,
+                    'role_id' => $invite->role_id,
+                    'company_id' => $invite->company_id
+                ]);
+                $user = User::find($user->id);
+                $user->activateInvite();
+
+            } else {
+                $user = $this->user->create([
+                    'name' => $request->get('name'),
+                    'password' => bcrypt($request->get('password')),
+                    'email' => $invite->email,
+                    'role_id' => $invite->role_id,
+                    'company_id' => $invite->company_id
+                ]);
+
+                $user->activateInvite();
+            }
             return response(['message' => 'User created successfully', 'user' => $user,], 200);
         } else {
             return response(['message' => 'Page not found'], 404);

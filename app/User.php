@@ -15,7 +15,7 @@ class User extends Authenticatable implements CanResetPassword
 
     use SoftDeletes;
 
-    protected $fillable = ['name', 'email', 'password', 'company_id', 'role_id', 'customers'];
+    protected $fillable = ['name', 'email', 'password', 'company_id', 'role_id', 'customers', 'deleted_at'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -92,21 +92,26 @@ class User extends Authenticatable implements CanResetPassword
         return response('The email was sent', 200);
     }
 
+    public function activateInvite()
+    {
+        $invite = Invite::where('email', $this->email)
+            ->where('is_used', 0)->first();
+        if($invite){
+            $invite->is_used = 1;
+            $invite->save();
+        }
+    }
+
     public static function boot()
     {
         parent::boot();
 
-        static::creating(function ($table) {
-            $invite = Invite::where('email', $table->email)
-                ->where('is_used', 0)->first();
-            if($invite){
-                $invite->is_used = 1;
-                $invite->save();
+        static::deleted(function ($table) {
+            $customers = Customer::where('user_id', $table->id)->get();
+            foreach ($customers as $customer) {
+                $customer->update(['user_id' => null]);
             }
-        });
-
-        static::deleting(function ($table) {
-            Customer::where('user_id', $table->id)->delete();
+            Invite::where('email', $table->email)->first()->delete();
         });
     }
 }
