@@ -115,6 +115,8 @@
                     setActiveBlock(id, indexBlock);
                     toastr.success('New block was created');
                 }
+            }, function () {
+
             })
         }
 
@@ -136,6 +138,8 @@
                         }
                         toastr.success('Block was deleted');
                     }
+                }, function () {
+
                 });
             });
         }

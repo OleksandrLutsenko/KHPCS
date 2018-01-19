@@ -40,6 +40,8 @@
                     vm.company.splice(vm.company.indexOf(company), 1, res.data.company);
                     toastr.success('Edit was success');
                 }
+            }, function () {
+
             });
         }
 
@@ -58,6 +60,8 @@
                         console.log('error')
                     }
                 });
+            }, function () {
+
             })
         }
     }

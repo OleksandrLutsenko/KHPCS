@@ -10,13 +10,10 @@
         let vm = this;
         tabsService.startTab('page1');
 
-        console.log('testUpdServer');
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        let firstCustomers = customerService.getCustomers();
-
-        vm.customers = firstCustomers;
+        vm.customers  = customerService.getCustomers();
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -26,7 +23,7 @@
 
         vm.surveys = surveyOnly.data.onlySurvey;
 
-        if(vm.surveys !== undefined){
+        if (vm.surveys !== undefined) {
             vm.survModel = [];
             vm.surveys.forEach(function (survey) {
                 vm.survModel[survey.survey_id] = false;
@@ -47,8 +44,8 @@
         };
 
         vm.clearCheck = function () {
-            if(vm.surveys !== undefined){
-                if(vm.checkSelect === undefined){
+            if (vm.surveys !== undefined) {
+                if (vm.checkSelect === undefined) {
                     vm.chosenSurvey = [];
                     vm.surveys.forEach(function (survey) {
                         vm.survModel[survey.survey_id] = false;
@@ -59,7 +56,7 @@
         };
         survey.selectedSurveys(vm.chosenSurvey);
 
-        function pass(id , checkSelect) {
+        function pass(id, checkSelect) {
             checkSelect = true;
             vm.checkSelect = checkSelect;
             customers.setActiveCustomers(id);
@@ -95,6 +92,8 @@
                         console.log('error');
                     }
                 });
+            }, function () {
+
             });
         }
 
@@ -118,6 +117,8 @@
                     vm.customers.unshift(res.data);
                     // annonce(res.data.id);
                 }
+            }, function () {
+
             });
         }
 
@@ -150,7 +151,6 @@
                             }
                         });
                     }
-
                 });
             });
         };

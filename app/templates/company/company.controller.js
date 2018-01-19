@@ -112,6 +112,8 @@
                     vm.fnnAdviserInv.unshift(res.data);
                 }
                 toastr.success('Email was sent');
+            }, function () {
+
             });
         }
 
@@ -160,6 +162,8 @@
 
                     });
                 }
+            }, function () {
+
             })
         }
     }

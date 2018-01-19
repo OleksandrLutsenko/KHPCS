@@ -82,6 +82,8 @@
                         console.log('error')
                     }
                 });
+            }, function () {
+
             })
         }
 
@@ -111,6 +113,8 @@
                     vm.survey.unshift(res.data.survey);
                     toastr.success('Questionnaire was created');
                 }
+            }, function () {
+
             })
         }
     }

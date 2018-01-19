@@ -76,6 +76,12 @@
                 resolve: {
                     loadCompany: function (companyService) {
                         return companyService.loadCompany();
+                    },
+                    security: function ($state, userService) {
+                        let userRole = userService.getUser().role_id;
+                        if (userRole === 3) {
+                            return $state.go('tab.company');
+                        }
                     }
                 }
 
@@ -111,12 +117,12 @@
                     loadTemp: function (contractService) {
                         return contractService.loadTemplateList();
                     },
-                    customersCompany: function (companyService, company) {
-                        let id = company.getActiveCompany().id;
+                    customersCompany: function (companyService, company , oneCompany) {
+                        let id = oneCompany.id;
                         return companyService.companyCustomers(id);
                     },
-                    assignST: function (companyService, company) {
-                        let id = company.getActiveCompany().id;
+                    assignST: function (companyService, company , oneCompany) {
+                        let id = oneCompany.id;
                         return companyService.selectedSurvTempInCompany(id);
                     }
                 }

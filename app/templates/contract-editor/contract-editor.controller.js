@@ -409,6 +409,8 @@
                         tmpImagesArr = [];
                     }
                 }
+            }, function () {
+
             });
         };
 
@@ -454,6 +456,8 @@
                     });
                     tmpImagesArr = [];
                 }
+            }, function () {
+
             });
         };
 
@@ -490,6 +494,8 @@
                     });
                     tmpImagesArr = [];
                 }
+            }, function () {
+
             });
         };
 
@@ -517,6 +523,8 @@
                     tmpResearchId = undefined;
                     pasteImgBeforeCreateTemplate = false;
                 }
+            }, function () {
+
             });
         };
 
@@ -618,6 +626,8 @@
                     deletedUserVar = res.deletedVariability;
                     console.log('success true');
                 }
+            }, function () {
+
             });
         };
 
@@ -642,6 +652,8 @@
                     deletedUserVar = res.deletedVariability;
                     console.log('success true');
                 }
+            }, function () {
+
             });
         };
 
@@ -664,6 +676,8 @@
                     deletedUserVar = res.deletedVariability;
                     console.log('success true');
                 }
+            }, function () {
+
             });
         };
 
