@@ -76,12 +76,6 @@
                 resolve: {
                     loadCompany: function (companyService) {
                         return companyService.loadCompany();
-                    },
-                    security: function ($state, userService) {
-                        let userRole = userService.getUser().role_id;
-                        if (userRole === 3) {
-                            return $state.go('tab.company');
-                        }
                     }
                 }
 
@@ -106,7 +100,6 @@
                         } else {
                             return companyService.companyAdmin().then(function (res) {
                                 if (res.success) {
-                                    console.log('CA')
                                     return res.data.company;
                                 }
                             });
@@ -126,7 +119,6 @@
                         let id = company.getActiveCompany().id;
                         return companyService.selectedSurvTempInCompany(id);
                     }
-
                 }
             })
             .state('tab.survey-management', {

@@ -1,9 +1,10 @@
 <md-dialog flex="40" flex-xs="90" flex-sm="60" class="add-client">
     <div>
-        <md-toolbar layout="row" layout-align="center center" ng-if="vm.id === undefined">
+        <md-toolbar layout="row" layout-align="center" ng-if="vm.id === undefined"
+                    class="view-head">
             <p>Create a new company</p>
         </md-toolbar>
-        <md-toolbar layout="row" layout-align="center center" ng-if="vm.id !== undefined">
+        <md-toolbar layout="row" layout-align="center" ng-if="vm.id !== undefined" class="view-head">
             <p>Change name company</p>
         </md-toolbar>
 

@@ -4,17 +4,6 @@
     margin: 10px 0 0 0;
   }
 
-  .create-top {
-    background: #3f51b5;
-  }
-
-  .create-top p {
-    font-size: 25px;
-    text-align: center;
-    color: white;
-    padding: 10px;
-  }
-
   .content-add {
     padding: 30px;
   }
@@ -23,52 +12,43 @@
     padding-bottom: 20px;
   }
 
-  .create-top i {
-    color: #fff;
-    cursor: pointer;
-    position: absolute;
-    right: 10px;
-    top: 13px;
-
-  }
-
 }
 
-.annonce {
-
-  min-width: 320px;
-  max-width: 320px;
-
-  .ann-head {
-    background: #3f51b5;
-  }
-
-  .ann-head p {
-    font-size: 25px;
-    text-align: center;
-    color: white;
-    padding: 10px;
-  }
-
-  .botBtn button:first-child {
-    margin-right: 10px;
-  }
-
-  .ann-cont {
-    padding: 20px;
-  }
-
-  .ann-bot-btn {
-    width: 100%;
-    padding-top: 10px;
-  }
-
-  button {
-    text-transform: capitalize;
-    box-shadow: none !important;
-    line-height: 0;
-    min-width: 98px;
-    min-height: 32px;
-    margin: 0;
-  }
-}
+//.annonce {
+//
+//  min-width: 320px;
+//  max-width: 320px;
+//
+//  .ann-head {
+//    background: #3f51b5;
+//  }
+//
+//  .ann-head p {
+//    font-size: 25px;
+//    text-align: center;
+//    color: white;
+//    padding: 10px;
+//  }
+//
+//  .botBtn button:first-child {
+//    margin-right: 10px;
+//  }
+//
+//  .ann-cont {
+//    padding: 20px;
+//  }
+//
+//  .ann-bot-btn {
+//    width: 100%;
+//    padding-top: 10px;
+//  }
+//
+//  button {
+//    text-transform: capitalize;
+//    box-shadow: none !important;
+//    line-height: 0;
+//    min-width: 98px;
+//    min-height: 32px;
+//    margin: 0;
+//  }
+//}

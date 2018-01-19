@@ -2,12 +2,12 @@
 
     <div class="create-window">
 
-        <div class="view-head" ng-if="vm.type">
+        <md-toolbar ng-if="vm.type" layout="row" layout-align="center" class="view-head">
             <p>Please enter new section name</p>
-        </div>
-        <div class="view-head" ng-if="!vm.type">
+        </md-toolbar>
+        <md-toolbar ng-if="!vm.type" layout="row" layout-align="center" class="view-head">
             <p>Edit section name</p>
-        </div>
+        </md-toolbar>
         <div class="content">
             <form name="vm.blockForm">
                 <div class="all-input">

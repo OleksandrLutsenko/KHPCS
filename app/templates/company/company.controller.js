@@ -36,7 +36,7 @@
             vm.templateModel = [];
             vm.templates.forEach(function (template) {
                 for (let at in assignTemplates) {
-                    if(template.id !== assignTemplates[at].contract_id) {
+                    if (template.id !== assignTemplates[at].contract_id) {
                         vm.templateModel[template.id] = false;
                     } else {
                         vm.templateModel[template.id] = true;
@@ -105,6 +105,7 @@
                     }
                 }
             }).then(function (res) {
+
                 if (res.data.role_id == 3) {
                     vm.companyAdmInv.unshift(res.data);
                 } else {
@@ -120,7 +121,7 @@
                 role_id: user.role_id,
                 company_id: user.company_id
             };
-            companyService.inviteAdm(vm.data).then(function (res) {
+            companyService.reSend(vm.data).then(function (res) {
                 if (res.success) {
                     toastr.success('Email was sent');
                 }

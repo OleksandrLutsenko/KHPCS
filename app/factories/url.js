@@ -15,7 +15,8 @@
                 getItems: baseUrl + 'api/survey',
                 loadSurveysOnly: baseUrl + 'api/onlysurvey',
                 forgot: baseUrl + 'api/user/request-reset',
-                inviteAdm: baseUrl + 'api/send-invite'
+                inviteAdm: baseUrl + 'api/send-invite',
+                reSend: baseUrl + 'api/resend-invite'
             },
             create_adm: function (token) {
                 return {register: baseUrl + 'api/auth/register/' + token}

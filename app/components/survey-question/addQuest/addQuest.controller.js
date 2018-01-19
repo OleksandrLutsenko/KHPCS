@@ -80,7 +80,7 @@
             }
 
             if (vm.questForm.title.$invalid || vm.questForm.type.$invalid || !succes) {
-                toastr.error('Please try again');
+                // toastr.error('Please try again');
             }
             else if ((vm.data.type == 1 || vm.data.type == 0) && couterLenght < 2) {
                 toastr.error('Answer lenght min 2');
@@ -94,8 +94,6 @@
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
-
-
 
                     let dataForSend = [vm.data];
 
