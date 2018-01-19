@@ -3,27 +3,20 @@
 namespace App\Http\Controllers;
 
 use App;
-use App\Block;
 use App\CompanySurvey;
 use App\Contract;
 use App\ContractResearch;
-use App\Customer;
-use App\CustomerAnswer;
 use App\Http\Requests\ContractRequest;
 use App\Image;
-use App\Question;
 use App\Report;
 use App\Survey;
 use App\User;
 use App\Variable;
-use Dompdf\Dompdf;
 use Response;
 use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use View;
 
 class ContractController extends Controller
 {
@@ -222,20 +215,6 @@ class ContractController extends Controller
     {
         $user = Auth::user();
         if ($user->can('delete', $contract)) {
-
-//            $images = Image::where('contract_research_id', $contract->contractResearch->id)->get();
-//                dd($images);
-
-//            $images = $contract->images;
-
-//            foreach ($images as $image){
-//                $fileUri = $image->link;
-//                File::delete('../'.$fileUri);
-//                $image->delete();
-//            }
-//
-//            $contract->contractResearch->delete();
-
             $contract->delete();
             return compact('contract');
         } else {

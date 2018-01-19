@@ -6,11 +6,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Invite;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use JWTAuth;
 use App\User;
 use JWTAuthException;
@@ -43,7 +39,6 @@ class UserController extends Controller
                     'role_id' => $invite->role_id,
                     'company_id' => $invite->company_id
                 ]);
-
                 $user = User::find($user->id);
                 $user->activateInvite();
             } else {

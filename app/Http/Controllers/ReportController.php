@@ -37,8 +37,8 @@ class ReportController extends Controller
      * @param Report $report
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function showCustomerAnswer(User $user, Report $report){
-
+    public function showCustomerAnswer(User $user, Report $report)
+    {
         $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
         foreach ($customerAnswers as $customerAnswer){
             $question = Question::find($customerAnswer->question_id);

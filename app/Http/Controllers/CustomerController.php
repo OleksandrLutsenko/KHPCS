@@ -28,7 +28,7 @@ class CustomerController extends Controller
             return $customers;
         }
     }
-    
+
     public function indexCompanySA(Customer $customer, User $user, Company $company)
     {
         if(Auth::user()->isAdmin()) {
@@ -78,9 +78,7 @@ class CustomerController extends Controller
         if ($user->can('show', $customer)) {
             return $customer;
         } else {
-            return response([
-                "error" => "Page is not found"], 404
-            );
+            return response(["error" => "Page not found"], 404);
         }
     }
 
@@ -109,6 +107,8 @@ class CustomerController extends Controller
                 $customers[] = $customer;
             }
             return response(['customers' => $customers], 201);
+        } else {
+            return response(['message' => 'Page not found'], 404);
         }
     }
 

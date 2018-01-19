@@ -8,7 +8,7 @@ class CompanySurvey extends Model
 {
     protected $fillable = ['company_id', 'survey_id', 'contract_id'];
 
-    public function companySurveys()
+    public function company()
     {
         return $this->belongsTo(Company::class);
     }

@@ -38,6 +38,10 @@ class Contract extends Model
         return $this->belongsTo(ContractResearch::class);
     }
 
+    public function companySurveys(){
+        return $this->hasMany(CompanySurvey::class);
+    }
+
     /**
      * @return mixed
      */
@@ -190,19 +194,18 @@ class Contract extends Model
         parent::boot();
 
         static::deleting(function ($contract) {
-
             $contractResearch = $contract->contractResearch;
             $images = $contractResearch->images;
             $companySurveys = $contract->companySurveys;
-            foreach ($companySurveys as $companySurvey) {
-                $companySurvey->delete();
-            }
             foreach ($images as $image){
                 $fileUri = $image->link;
                 File::delete('../'.$fileUri);
                 $image->delete();
             }
             $contractResearch->delete();
+            foreach ($companySurveys as $companySurvey) {
+                $companySurvey->delete();
+            }
         });
     }
 

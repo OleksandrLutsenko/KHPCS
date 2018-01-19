@@ -62,11 +62,18 @@ class Company extends Model
 
         static::deleting(function ($table) {
             $users = $table->users;
-            $invites = $table->companySurveys;
+            $companySurveys = $table->companySurveys;
+            $customers = Customer::where('company_id', $table->id)->get();
+            $invites = Invite::where('company_id', $table->id)->get();
             foreach ($users as $user) {
                 $user->delete();
             }
-            
+            foreach ($companySurveys as $companySurvey) {
+                $companySurvey->delete();
+            }
+            foreach ($customers as $customer) {
+                $customer->delete();
+            }
             foreach ($invites as $invite) {
                 $invite->delete();
             }

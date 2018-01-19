@@ -87,6 +87,5 @@ class InviteController extends Controller
                 "error" => "You do not have a permission"], 404
             );
         }
-
     }
 }
