@@ -14,7 +14,7 @@
         </div>
         <md-card>
             <md-table-container>
-                <table md-table>
+                <table md-table ng-if="vm.companyAdm.length !== 0 || vm.companyAdmInv.length !== 0">
                     <thead md-head>
                     <tr md-row>
                         <th md-column>Company admin name</th>
@@ -53,7 +53,7 @@
         </md-card>
         <md-card>
             <md-table-container>
-                <table md-table>
+                <table md-table ng-if="vm.fnnAdviser.length !== 0 || vm.fnnAdviserInv.length !== 0">
                     <thead md-head>
                     <tr md-row>
                         <th md-column>Financial adviser name</th>
@@ -102,7 +102,7 @@
         </div>
         <md-card>
 
-            <md-table-container>
+            <md-table-container ng-if="vm.customersCompany.length">
                 <table md-table>
                     <thead md-head>
                     <tr md-row>
@@ -133,10 +133,11 @@
                     </tr>
                     </tbody>
                 </table>
+                <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
+                                     md-total="{{vm.customersCompany.length}}" md-page-select>
+                </md-table-pagination>
             </md-table-container>
-            <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
-                                 md-total="{{vm.customersCompany.length}}" md-page-select>
-            </md-table-pagination>
+
         </md-card>
     </section>
     <section ng-if="selectedIndex === 2 && vm.userRole === 2">
