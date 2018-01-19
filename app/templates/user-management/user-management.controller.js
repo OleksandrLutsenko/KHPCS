@@ -10,6 +10,7 @@
         let vm = this;
         tabsService.startTab('page1');
 
+        console.log('testUpdServer');
         vm.myLimit = 10;
         vm.myPage = 1;
 
