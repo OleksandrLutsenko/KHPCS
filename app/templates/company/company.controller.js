@@ -147,7 +147,7 @@
                         }
 
                     });
-                } else {
+                } else{
                     companyService.cancelInv(id).then(function (res) {
                         if (res.success) {
                             if (user.role_id == 1) {
