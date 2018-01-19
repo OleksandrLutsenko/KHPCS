@@ -38,10 +38,6 @@ class Contract extends Model
         return $this->belongsTo(ContractResearch::class);
     }
 
-    public function companySurveys(){
-        return $this->hasMany(CompanySurvey::class);
-    }
-
     /**
      * @return mixed
      */
