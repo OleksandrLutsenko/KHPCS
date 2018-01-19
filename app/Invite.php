@@ -11,14 +11,14 @@ class Invite extends Model
 
     use SoftDeletes;
 
-    protected $fillable = ['email', 'role_id', 'company_id', 'key'];
+    protected $fillable = ['email', 'role_id', 'company_id', 'key', 'is_used'];
 
     static function generateInviteKey()
     {
         return $key = str_random(30);
     }
 
-    public function sendInvite($company, $email, $role, $key)
+    public function sendInvite($company, $email, $role, $key, $invite)
     {
         $letter['from'] = 'knights@gmail.com';
         $letter['subject'] = 'Invite to Knightshayes for '.$company->name;
@@ -29,7 +29,7 @@ class Invite extends Model
                         ->subject($letter['subject']);
                 });
 
-        return response('The email was sent', 200);
+        return response(['data' => $invite, 'message' => 'The email was sent'], 200);
     }
 
     protected static function boot()

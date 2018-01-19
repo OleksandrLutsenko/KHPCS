@@ -30,6 +30,10 @@ class Contract extends Model
         return $this->belongsTo(Survey::class);
     }
 
+    public function companySurveys(){
+        return $this->hasMany(CompanySurvey::class);
+    }
+
     public function contractResearch(){
         return $this->belongsTo(ContractResearch::class);
     }
@@ -189,6 +193,10 @@ class Contract extends Model
 
             $contractResearch = $contract->contractResearch;
             $images = $contractResearch->images;
+            $companySurveys = $contract->companySurveys;
+            foreach ($companySurveys as $companySurvey) {
+                $companySurvey->delete();
+            }
             foreach ($images as $image){
                 $fileUri = $image->link;
                 File::delete('../'.$fileUri);

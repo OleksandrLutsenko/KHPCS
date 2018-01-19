@@ -14,8 +14,7 @@ class Company extends Model
 //    protected $appends = ['company_admin', 'financial_advisors'];
 
     public function getCompanyAdminAttribute(){
-//        dd($this);
-        $company_admin = $this->users()
+        $company_admin = $this->users()->latest()
             ->where('company_id', $this->id)
             ->where('role_id', User::COMPANY_ADMIN)
             ->get();
@@ -23,7 +22,7 @@ class Company extends Model
     }
 
     public function getFinancialAdvisorsAttribute(){
-        $financial_advisors = $this->users()
+        $financial_advisors = $this->users()->latest()
             ->where('company_id', $this->id)
             ->where('role_id', User::FA)
             ->get();
@@ -31,14 +30,14 @@ class Company extends Model
     }
 
     public function getCompanyAdminInvitesAttribute(){
-        $company_admin_invites = Invite::where('company_id', $this->id)
+        $company_admin_invites = Invite::latest()->where('company_id', $this->id)
             ->where('role_id', User::COMPANY_ADMIN)
             ->get();
         return $company_admin_invites;
     }
 
     public function getFinancialAdvisorsInvitesAttribute(){
-        $financial_advisors_invites = Invite::where('company_id', $this->id)
+        $financial_advisors_invites = Invite::latest()->where('company_id', $this->id)
             ->where('role_id', User::FA)
             ->get();
         return $financial_advisors_invites;
@@ -52,20 +51,25 @@ class Company extends Model
         return $this->hasMany(User::class);
     }
 
-<<<<<<< HEAD
-=======
     public function companySurveys()
     {
         return $this->hasMany(CompanySurvey::class);
     }
 
->>>>>>> 39de64b3ee8f7a40292f845fbf42aa18c4e5d54e
     public static function boot()
     {
         parent::boot();
 
         static::deleting(function ($table) {
-            $table->users->delete();
+            $users = $table->users;
+            $invites = $table->companySurveys;
+            foreach ($users as $user) {
+                $user->delete();
+            }
+            
+            foreach ($invites as $invite) {
+                $invite->delete();
+            }
         });
     }
 }

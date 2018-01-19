@@ -173,15 +173,18 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::get('/company-own', 'CompanyController@showOwn');
 
         Route::post('/company/{company}/assign', 'CompanyController@assignSurveyAndContracts');
+        Route::get('/company/{company}/index-assigns', 'CompanyController@indexAssigns');
 
-        Route::post('/send-invite', 'InviteController@createAndSendInvite');
+        Route::post('/resend-invite', 'InviteController@createAndSendInvite');
+        Route::post('/send-invite', 'InviteController@A');
         Route::get('/index-invite', 'InviteController@indexInvite');
+        Route::delete('/invite/{invite}/delete', 'InviteController@deleteInvite');
         Route::get('/user/{user}', 'UserController@showFAs');
         Route::delete('/user/{user}/delete', 'UserController@delete');
         Route::post('/user/{user}/update-role', 'UserController@updateRole');
 
+        Route::get('/company/{company}/customers', 'CustomerController@indexCompanySA');
+        Route::put('/customers/change-fa', 'CustomerController@updateFA');
 
-        
-        
     });
 });

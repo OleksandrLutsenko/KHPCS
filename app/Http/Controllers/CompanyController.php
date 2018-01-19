@@ -17,7 +17,7 @@ class CompanyController extends Controller
     public function index()
     {
         if (Auth::user()->isAdmin()) {
-            $companies = Company::all();
+            $companies = Company::latest()->get();
             return response(['companies' => $companies], 200);
         } else {
             return response(['message' => 'Page not found'], 404);
@@ -61,15 +61,11 @@ class CompanyController extends Controller
         }
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 39de64b3ee8f7a40292f845fbf42aa18c4e5d54e
     public function showOwn(Company $company)
     {
         if (Auth::user()->isCompanyAdmin()) {
             $company = Company::find(Auth::user()->company_id);
-            $company->setAppends(['company_admin', 'financial_advisors']);
+            $company->setAppends(['company_admin', 'financial_advisors', 'financial_advisors_invites']);
             return response(['company' => $company], 200);
         } else {
             return response(['message' => 'Page not found'], 404);
@@ -109,8 +105,6 @@ class CompanyController extends Controller
         } else {
             return response(['message' => 'Page not found'], 404);
         }
-<<<<<<< HEAD
-=======
     }
 
     public function assignSurveyAndContracts(Request $request, Company $company)
@@ -129,10 +123,14 @@ class CompanyController extends Controller
                 }
             }
             $assigned = CompanySurvey::where('company_id', $company->id)->get();
-           return response(['assigned' => $assigned], 201);
+            return response(['assigned' => $assigned], 201);
         } else {
             return response(['message' => 'Page not found'], 404);
         }
->>>>>>> 39de64b3ee8f7a40292f845fbf42aa18c4e5d54e
+    }
+
+    public function indexAssigns(Company $company)
+    {
+        return $company->companySurveys->all();
     }
 }

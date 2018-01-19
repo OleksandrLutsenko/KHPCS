@@ -12,4 +12,8 @@ class CompanySurvey extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function contract(){
+        return $this->belongsTo(CompanySurvey::class);
+    }
 }
