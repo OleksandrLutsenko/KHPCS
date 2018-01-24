@@ -22,7 +22,12 @@
                         userService.setToken(res.data.token);
                         userService.loadUser().then(function () {
                             userService.loadItems().then(function () {
-                                $state.go('tab.user-management');
+                                let userRole = userService.getUser().role_id;
+                                if (userRole === 3) {
+                                    return $state.go('tab.company');
+                                } else {
+                                    $state.go('tab.user-management');
+                                }
                             })
                         })
                     }

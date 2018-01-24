@@ -1,7 +1,8 @@
 .addQuest {
 
   .dialog-content {
-    padding: 5px 30px 30px 30px;
+    padding: 5px 30px 5px 30px;
+    //height: 600px;
   }
 
   .add-answer-button {
@@ -10,15 +11,26 @@
     font-size: 15px;
   }
 
+  .main-input {
+    width: 100%;
+  }
+
+  .radio-input {
+    width: 60%;
+  }
+
   #answer-container {
     height: 220px;
   }
+  .answer-container {
+    max-height: 220px;
+  }
 
   md-dialog-actions {
-    padding: 0 30px 30px 30px;
+    padding: 10px 30px 20px 30px;
+    border-top: none !important;
     button {
       margin: 0;
     }
   }
-
 }

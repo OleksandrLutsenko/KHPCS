@@ -33,12 +33,24 @@
                         <md-select ng-model="vm.data.classification" name="select" required="">
                             <md-option value="retail">Retail</md-option>
                             <md-option value="professional">Professional</md-option>
-                            <md-option value="eligible">Eligible counterparty</md-option>
+                            <md-option value="eligible">ECP</md-option>
                         </md-select>
                         <div ng-messages="vm.customersForm.select.$error">
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
+                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.id === undefined">
+                        <label>State</label>
+                        <md-select ng-model="vm.data.company_id" name="company" required="">
+                            <md-option ng-repeat="company in vm.company" value="{{company.id}}">
+                                {{company.name}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="vm.customersForm.company.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+
                 </div>
                 <div class="bot-btn" layout="row" layout-align="space-between">
                     <md-button class="md-raised md-primary" type="submit" ng-if="vm.id === undefined">Create
