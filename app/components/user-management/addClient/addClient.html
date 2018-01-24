@@ -39,17 +39,17 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
-                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.id === undefined">
-                        <label>State</label>
-                        <md-select ng-model="vm.data.company_id" name="company" required="">
-                            <md-option ng-repeat="company in vm.company" value="{{company.id}}">
-                                {{company.name}}
-                            </md-option>
-                        </md-select>
-                        <div ng-messages="vm.customersForm.company.$error">
-                            <div ng-message="required">This is required.</div>
-                        </div>
-                    </md-input-container>
+                    <!--<md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.id === undefined">-->
+                        <!--<label>Choose a company</label>-->
+                        <!--<md-select ng-model="vm.data.company_id" name="company" required="">-->
+                            <!--<md-option ng-repeat="company in vm.company" value="{{company.id}}">-->
+                                <!--{{company.name}}-->
+                            <!--</md-option>-->
+                        <!--</md-select>-->
+                        <!--<div ng-messages="vm.customersForm.company.$error">-->
+                            <!--<div ng-message="required">This is required.</div>-->
+                        <!--</div>-->
+                    <!--</md-input-container>-->
 
                 </div>
                 <div class="bot-btn" layout="row" layout-align="space-between">
