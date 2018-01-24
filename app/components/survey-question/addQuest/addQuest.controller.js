@@ -60,6 +60,8 @@
 
         }
 
+
+
         function save() {
             let succes = true;
             let couterLenght = 0;
@@ -80,14 +82,13 @@
             }
 
             if (vm.questForm.title.$invalid || vm.questForm.type.$invalid || !succes) {
-                // toastr.error('Please try again');
             }
             else if ((vm.data.type == 1 || vm.data.type == 0) && couterLenght < 2) {
                 toastr.error('Answer lenght min 2');
             }
             else {
+                console.log('mainKey', mainKey);
                 if(typeof questionKey != 'undefined'){
-                    // itemsOrig.splice(questionKey, 1, vm.data);
 
                     if (vm.data.type == 1 || vm.data.type == 0){
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
@@ -104,7 +105,6 @@
                     })
                 }
                 else if(typeof mainKey != 'undefined') {
-                    // itemsOrig.splice(mainKey, 1, vm.data);
 
                     if (vm.data.type == 1 || vm.data.type == 0){
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
@@ -121,7 +121,7 @@
                     })
                 }
                 else {
-                    // itemsOrig.push(vm.data);
+                    vm.data.child_order_number = null;
 
                     if(itemsOrig.length == 0){
                         vm.data.order_number = 0;
@@ -136,11 +136,12 @@
                         });
                     }
 
+
                     let dataForSend = [vm.data];
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                         if(res.success){
-                            itemsOrig.push(vm.data);
+                            itemsOrig.push(res.data.questions[0]);
                         }
                     })
                 }

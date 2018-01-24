@@ -8,7 +8,8 @@
         'factory.customers',
         'factory.surveyQuestion',
         'factory.tabs',
-        'factory.company'
+        'factory.company',
+        'factory.countries'
     ]);
 
 })();
