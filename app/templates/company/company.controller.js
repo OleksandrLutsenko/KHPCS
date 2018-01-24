@@ -3,7 +3,7 @@
     angular.module('app')
         .controller('CompanyController', CompanyController);
 
-    CompanyController.$inject = ['assignST', 'loadSurvey', 'loadTemp', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'tabsService', 'customersCompany'];
+    CompanyController.$inject = [   'assignST', 'loadSurvey', 'loadTemp', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'tabsService', 'customersCompany'];
 
 
     function CompanyController(assignST, loadSurvey, loadTemp, userService, companyService, oneCompany, company, $mdDialog, toastr, tabsService, customersCompany) {
@@ -14,9 +14,9 @@
         vm.myPage = 1;
 
         vm.customersCompany = customersCompany.data;
-        vm.userRole = userService.getUser().role_id;
+        vm.user =  userService.getUser();
+        vm.userRole = vm.user.role_id;
         vm.companyOne = oneCompany;
-        console.log(vm.companyOne);
 
         vm.companyAdm = vm.companyOne.company_admin;
         vm.companyAdmInv = vm.companyOne.company_admin_invites;
@@ -83,7 +83,7 @@
             }];
             companyService.changeFA(vm.data).then(function (res) {
                 if (res.success) {
-                    let id = company.getActiveCompany().id;
+                    let id = vm.user.company_id;
                     companyService.companyCustomers(id).then(function (res) {
                         vm.customersCompany = res.data;
                     });

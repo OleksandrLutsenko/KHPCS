@@ -1,7 +1,7 @@
 <div class="menus" layout="row" layout-align="center">
 
     <div class="tab-list">
-        <div ng-repeat="survey in vm.survey | orderBy : 'survey_status' " ng-if="(survey.survey_status !== 'archived')"
+        <div ng-repeat="survey in vm.survey" ng-if="(survey.survey_status !== 'archived')"
              class="questionnaire-list pointer"
              md-whiteframe="{{height}}"
              ng-click="vm.setActiveSurvey(survey.survey_id, $index)" ui-sref="tab.survey-block">

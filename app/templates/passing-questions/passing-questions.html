@@ -113,22 +113,46 @@
                 <div>
                     <md-input-container class="question-text">
                         <label>{{questions.title}}</label>
-                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" name="inputType1" type="text" pattern="[a-zA-Z, ' ']+" ng-if="questions.validation_type == 1">
+                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
+                               name="inputType1" type="text" pattern="[a-zA-Z, ' ']+" ng-if="questions.validation_type == 1" maxlength="{{questions.characters_limit}}">
                         <div ng-messages="vm.questionForm.inputType1.$error" ng-if="questions.validation_type == 1">
                             <div ng-message="pattern">Only text.</div>
                             <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
                         </div>
-                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" name="inputType2" pattern="[0-9]+" ng-if="questions.validation_type == 2">
+                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
+                               name="inputType2" pattern="[0-9]+" ng-if="questions.validation_type == 2" maxlength="{{questions.characters_limit}}">
                         <div ng-messages="vm.questionForm.inputType2.$error" ng-if="questions.validation_type == 2">
                             <div ng-message="pattern">Only numbers.</div>
                             <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
                         </div>
-                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}" name="inputType0" ng-if="questions.validation_type == 0">
+                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
+                               name="inputType0" ng-if="questions.validation_type == 0" maxlength="{{questions.characters_limit}}">
                         <div ng-messages="vm.questionForm.inputType0.$error" ng-if="questions.validation_type == 0">
                             <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
                         </div>
                     </md-input-container>
                 </div>
+            </div>
+            <div ng-if="questions.type == 4" flex="80" flex-xs="100">
+
+                <md-autocomplete
+                        ng-disabled="vm.isDisabled"
+                        md-no-cache="vm.noCache"
+                        md-selected-item="vm.data[mainKey].mainData"
+                        md-search-text-change="vm.searchTextChange(vm.searchText)"
+                        md-search-text="vm.searchText"
+                        md-selected-item-change="vm.selectedItemChange(item)"
+                        md-items="item in vm.querySearch(vm.searchText)"
+                        md-item-text="item"
+                        md-min-length="0"
+                        placeholder="Enter the country">
+                    <md-item-template>
+                        <span  >{{item}}</span>
+                    </md-item-template>
+                    <md-not-found>
+                        No states matching "{{vm.searchText}}" were found.
+                    </md-not-found>
+                </md-autocomplete>
             </div>
         </div>
     </div>

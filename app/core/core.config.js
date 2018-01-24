@@ -2,9 +2,13 @@
     angular
         .module('app')
         .config(mainConfig);
-    mainConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
+    mainConfig.$inject = ['$stateProvider', '$urlRouterProvider' , '$mdThemingProvider'];
 
-    function mainConfig($stateProvider, $urlRouterProvider) {
+    function mainConfig($stateProvider, $urlRouterProvider , $mdThemingProvider) {
+
+        $mdThemingProvider
+            .theme('blue-grey')
+            .accentPalette('blue-grey');
 
         $urlRouterProvider.otherwise('/login');
 
@@ -59,12 +63,6 @@
                     ,
                     surveyOnly: function (surveyService) {
                         return surveyService.loadSurveyOnly();
-                    },
-                    security: function ($state, userService) {
-                        let userRole = userService.getUser().role_id;
-                        if (userRole === 3) {
-                            return $state.go('tab.company');
-                        }
                     }
                 }
             })

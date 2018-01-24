@@ -1,4 +1,4 @@
-<div class="company">
+<div class="company" md-theme="blue-grey">
     <div layout="row" layout-align="center center">
         <h2>{{vm.companyOne.name}}</h2>
     </div>
@@ -91,54 +91,58 @@
         </md-card>
     </section>
     <section ng-if="selectedIndex === 1">
-        <md-button class="md-raised" ui-sref="tab.company-management" ng-if="vm.userRole === 2">Back</md-button>
-        <div layout="row" layout-align="center" flex="100">
-            <md-input-container flex="90" class="search-customers">
-                <label layout="row">
-                    <i class="material-icons">search</i>
-                    <p layout="row" layout-align="none end">Search</p></label>
-                <input type="text" ng-model="vm.search">
-            </md-input-container>
-        </div>
-        <md-card>
+        <div ng-if="vm.customersCompany.length">
+            <md-button class="md-raised" ui-sref="tab.company-management" ng-if="vm.userRole === 2">Back</md-button>
+            <div layout="row" layout-align="center" flex="100">
+                <md-input-container flex="90" class="search-customers">
+                    <label layout="row">
+                        <i class="material-icons">search</i>
+                        <p layout="row" layout-align="none end">Search</p></label>
+                    <input type="text" ng-model="vm.search">
+                </md-input-container>
+            </div>
+            <md-card>
 
-            <md-table-container ng-if="vm.customersCompany.length">
-                <table md-table>
-                    <thead md-head>
-                    <tr md-row>
-                        <th md-column>Client name</th>
-                        <th md-column>Client classification</th>
-                        <th md-column>Financial Adviser</th>
-                        <th md-column>Data created</th>
-                    </tr>
-                    </thead>
-                    <tbody md-body>
-                    <tr md-row
-                        ng-repeat="customers in vm.customersCompany | filter: vm.search |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
-                        <td md-cell>{{customers.name + ' ' + customers.surname }}</td>
-                        <td md-cell>{{customers.classification}}</td>
-                        <td md-cell>
-                            <md-input-container>
-                                <label ng-if="customers.user_name !== null">{{customers.user_name}}</label>
-                                <label ng-if="customers.user_name === null">Don't have a financial advisor</label>
-                                <md-select class="md-block-restyle" ng-model="vm.select" aria-label="Financial advisor">
-                                    <md-option ng-repeat="fnnAdviser in  vm.fnnAdviser"
-                                               ng-click="vm.changeFA(customers.id , fnnAdviser.id , customers)">
-                                        {{fnnAdviser.name}}
-                                    </md-option>
-                                </md-select>
-                            </md-input-container>
-                        </td>
-                        <td md-cell>{{customers.created_at}}</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <md-table-container ng-if="vm.customersCompany.length">
+                    <table md-table>
+                        <thead md-head>
+                        <tr md-row>
+                            <th md-column>Client name</th>
+                            <th md-column>Client classification</th>
+                            <th md-column>Financial Adviser</th>
+                            <th md-column>Data created</th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row
+                            ng-repeat="customers in vm.customersCompany | filter: vm.search |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            <td md-cell>{{customers.name + ' ' + customers.surname }}</td>
+                            <td md-cell>{{customers.classification}}</td>
+                            <td md-cell>
+                                <md-input-container>
+                                    <label ng-if="customers.user_name !== null">{{customers.user_name}}</label>
+                                    <label ng-if="customers.user_name === null">Don't have a financial advisor</label>
+                                    <md-select class="md-block-restyle" ng-model="vm.select"
+                                               aria-label="Financial advisor">
+                                        <md-option ng-repeat="fnnAdviser in  vm.fnnAdviser"
+                                                   ng-click="vm.changeFA(customers.id , fnnAdviser.id , customers)">
+                                            {{fnnAdviser.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </td>
+                            <td md-cell>{{customers.created_at}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </md-table-container>
                 <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
                                      md-total="{{vm.customersCompany.length}}" md-page-select>
                 </md-table-pagination>
-            </md-table-container>
 
-        </md-card>
+            </md-card>
+        </div>
     </section>
     <section ng-if="selectedIndex === 2 && vm.userRole === 2">
         <md-button class="md-raised" ui-sref="tab.company-management" ng-if="vm.userRole === 2">Back</md-button>
