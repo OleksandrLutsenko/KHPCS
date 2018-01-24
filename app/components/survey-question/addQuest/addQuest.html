@@ -1,4 +1,4 @@
-<md-dialog flex="40" flex-xs="90" flex-sm="60" class="addQuest" aria-label="Enter the question">
+<md-dialog flex="30" flex-xs="90" flex-sm="60" class="addQuest" aria-label="Enter the question">
 
 
     <form name="vm.questForm" ng-submit="vm.save()" novalidate>
@@ -9,20 +9,21 @@
             </div>
         </md-toolbar>
 
-        <md-dialog-content class="dialog-content" >
+        <md-dialog-content class="dialog-content" layout="column">
 
-            <div layout="row">
-                <md-input-container >
-                <label>Identifier</label>
-                <input ng-model="vm.data.identifier" name="identifier" required minlength="3">
-                <div ng-messages="vm.questForm.identifier.$error">
-                    <div ng-message="required">This is required.</div>
-                    <div ng-message="minlength">Name min length 3.</div>
-                </div>
+            <div>
+                <md-input-container class="main-input">
+                    <label>Identifier</label>
+                    <input ng-model="vm.data.identifier" name="identifier" required minlength="3">
+                    <div ng-messages="vm.questForm.identifier.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="minlength">Name min length 3.</div>
+                    </div>
                 </md-input-container>
             </div>
-            <div layout="row">
-                <md-input-container >
+
+            <div>
+                <md-input-container class="main-input">
                     <label>Name your question</label>
                     <input ng-model="vm.data.title" name="title" required minlength="3">
                     <div ng-messages="vm.questForm.title.$error">
@@ -31,22 +32,25 @@
                     </div>
                 </md-input-container>
             </div>
-            <div layout="row">
 
-                <md-input-container flex="33">
+            <div>
+                <md-input-container class="radio-input">
                     <label>Select a type</label>
                     <md-select ng-model="vm.data.type" name="type" required>
                         <md-option ng-value="0"><em>Check Box</em></md-option>
                         <md-option ng-value="1"><em>Radio</em></md-option>
                         <md-option ng-value="2"><em>Text</em></md-option>
                         <md-option ng-value="3"><em>Date</em></md-option>
+                        <md-option ng-value="4"><em>Country</em></md-option>
                     </md-select>
                     <div ng-messages="vm.questForm.type.$error">
                         <div ng-message="required">This is required.</div>
                     </div>
                 </md-input-container>
+            </div>
 
-                <md-input-container flex="33" ng-if="vm.data.type == 2">
+            <div layout="row">
+                <md-input-container flex="50" ng-if="vm.data.type == 2">
                     <label>Select a validation type</label>
                     <md-select ng-model="vm.data.validation_type" name="validation_type" required>
                         <md-option ng-value="0"><em>Text and numbers</em></md-option>
@@ -58,7 +62,7 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container flex="33" ng-if="vm.data.type == 2">
+                <md-input-container flex="50" ng-if="vm.data.type == 2">
                     <label>Characters limit</label>
                     <input ng-model="vm.data.characters_limit" name="characters_limit" required maxlength="4">
                     <div ng-messages="vm.questForm.characters_limit.$error">
@@ -66,7 +70,6 @@
                         <div ng-message="maxlength">Name max length 4.</div>
                     </div>
                 </md-input-container>
-
             </div>
 
 
@@ -76,11 +79,13 @@
                     Add Answer
                 </md-button>
 
-                <md-virtual-repeat-container id = "answer-container">
-                    <div layout="row" ng-repeat="answers in vm.data.answers" class="answer" ng-if="(vm.data.type == 1 || vm.data.type == 0) && !answers.delete">
+                <!--<md-virtual-repeat-container id = "answer-container">-->
+                <div class="answer-container">
+                    <div layout="row" ng-repeat="answers in vm.data.answers" class="answer"
+                         ng-if="(vm.data.type == 1 || vm.data.type == 0) && !answers.delete">
 
-                        <div flex="30" layout="row" layout-align="none center">
-                            <md-input-container>
+                        <div flex="90" layout="row" layout-align="none center">
+                            <md-input-container flex="100">
                                 <label>Name</label>
                                 <input ng-model="answers.answer_text" name="answer_text" required minlength="1">
                                 <div ng-messages="vm.questForm.answer_text.$error">
@@ -90,12 +95,14 @@
                             </md-input-container>
                         </div>
 
-                        <div flex="10" >
+                        <div flex="10" layout="row" layout-align="end center">
+                            <!--<div flex="10">-->
                             <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
                         </div>
 
                     </div>
-                </md-virtual-repeat-container>
+                </div>
+                <!--</md-virtual-repeat-container>-->
 
             </div>
 

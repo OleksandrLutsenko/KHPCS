@@ -2,7 +2,7 @@
 
     <div class="menus1" layout="row" layout-align="center"  flex="100" ng-if="vm.showSurveysList" >
         <div class="tab-list" >
-            <div ng-repeat="survey in vm.surveys | orderBy: reverse:true"
+            <div ng-repeat="survey in vm.surveys"
                  class="questionnaire-list"
                  md-whiteframe="{{height}}"
                  ng-click="vm.setActiveSurvey(survey.survey_id, survey.survey_name, $index)"
@@ -21,33 +21,44 @@
 
         <!--Heder button-->
 
-        <div class="CKeditor-heder" layout="row">
-            <div flex="33"  layout="row" layout-align="start center">
-                <md-button  layout="row" layout-align="center center" ng-click="vm.changeSurvey()" >
-                    <i class="material-icons">arrow_back</i>
-                    <p>Back</p>
-                </md-button>
-
-                <md-button  layout="row" layout-align="center center" hide-gt-md=""
-                            ng-click="vm.toggleLeftTab()">
-                    <i class="material-icons">menu</i>
-                    <span>Variables</span>
-                </md-button>
-            </div>
-
-            <div flex="33" layout="row" layout-align="center center"  flex="30">
+        <div class="header-after-tile">
+            <div flex="33" layout="row" layout-align="center center"  flex="30" class="show-mobile">
                 <div layout="row" layout-align="center center" >
-                    <p class="name-survey">{{vm.activeSurveyName}}</p>
+                    <p class="nameTile">{{vm.activeSurveyName}}</p>
                 </div>
             </div>
 
-            <div flex="" layout="row" layout-align="end center">
-                <!--<md-button class="md-raised" ng-click="vm.saveAsTemplate()" ng-if="vm.activeTemplateId !== undefined">Save As..</md-button>-->
-                <md-button class="md-raised md-primary" ng-click="vm.saveTemplate()">Save Template</md-button>
+            <div layout="row">
+                <div flex="33"  layout="row" layout-align="start center" class="left-panel">
+                    <md-button  layout="row" layout-align="center center" class="left-button"
+                                ng-click="vm.changeSurvey()">
+                        <i class="material-icons">arrow_back</i>
+                        <p class="hide-mobile">Back</p>
+                    </md-button>
+
+                    <md-button  layout="row" layout-align="center center" hide-gt-md="" class="left-button"
+                                ng-click="vm.toggleLeftTab()" >
+                        <i class="material-icons">menu</i>
+                        <span class="hide-mobile">Variables</span>
+                    </md-button>
+                </div>
+
+                <div  layout="row" layout-align="center center"
+                      flex="33" class="hide-mobile">
+                    <div  layout-align="center center" >
+                        <p class="nameTile">{{vm.activeSurveyName}}</p>
+                    </div>
+                </div>
+
+                <div  flex="" layout="row" layout-align="end center">
+                    <!--<md-button class="md-raised" ng-click="vm.saveAsTemplate()" ng-if="vm.activeTemplateId !== undefined">Save As..</md-button>-->
+                    <md-button class="md-raised md-primary" ng-click="vm.saveTemplate()">Save Template</md-button>
+                </div>
+
             </div>
 
-
         </div>
+
 
         <!--CK and Tabs-->
 
