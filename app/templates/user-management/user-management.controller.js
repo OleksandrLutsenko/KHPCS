@@ -13,7 +13,7 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
-        vm.customers  = customerService.getCustomers();
+        vm.customers = customerService.getCustomers();
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
