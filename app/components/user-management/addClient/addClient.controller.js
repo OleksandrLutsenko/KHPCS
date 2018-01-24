@@ -18,9 +18,10 @@
         vm.customers = customerService.getCustomers();
         vm.user = userService.getUser();
 
-        if(vm.user.role_id == 2) {
-            vm.company = companyService.getCompany().companies;
-        }
+        // if(vm.user.role_id == 2) {
+        //     console.log(vm.user.role_id);
+        //     vm.company = companyService.getCompany().companies;
+        // }
 
         let id = data.id;
         vm.id = id;
