@@ -4,12 +4,11 @@
         .module('app')
         .controller('AddClientController', AddClientController);
 
-    AddClientController.$inject = ['data', '$mdDialog', 'customerService' , 'customers' , '$state' , 'surveyService' , 'companyService' , 'userService'];
+    AddClientController.$inject = ['data', '$mdDialog', 'customerService', 'customers', '$state', 'surveyService', 'companyService', 'userService'];
 
-    function AddClientController(data, $mdDialog, customerService , customers, $state , surveyService , companyService , userService) {
+    function AddClientController(data, $mdDialog, customerService, customers, $state, surveyService, companyService, userService) {
         let vm = this;
 
-        vm.id = data.id;
         vm.save = save;
         vm.cancel = cancel;
         vm.continue = continueQuest;
@@ -18,8 +17,12 @@
         vm.customers = customerService.getCustomers();
         vm.user = userService.getUser();
 
-        if(vm.user.role_id == 2) {
-            vm.company = companyService.getCompany().companies;
+        if (vm.user.role_id == 2) {
+            vm.companies = [];
+            companyService.allCompanies().then(function (res) {
+                  vm.companies = res.data.companies;
+                }
+            );
         }
 
         let id = data.id;
@@ -52,7 +55,7 @@
 
         function save() {
             if (vm.customersForm.$invalid) {
-               return;
+                return;
             }
             else {
 
@@ -64,8 +67,7 @@
                                 data: res.data
                             };
                             $mdDialog.hide(tmpObj);
-                        }
-                        else {
+                        } else {
                             cancel();
                         }
                     });
@@ -78,8 +80,7 @@
                                 data: res.data
                             };
                             $mdDialog.hide(tmpObj);
-                        }
-                        else {
+                        } else {
                             cancel();
                         }
                     });

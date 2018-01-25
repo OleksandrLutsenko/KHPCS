@@ -40,6 +40,7 @@
         });
 
         vm.actualSurvey = function (survey) {
+            vm.templates = [];
             actualSurveyId = survey.survey_id;
             actualSurveyName = survey.name;
             actualReportId = survey.report_id;
