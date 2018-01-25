@@ -299,12 +299,17 @@
             console.log('dataForSend', dataForSend);
 
 
-            passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
-                console.log(res);
-                if (res.success) {
-                    toNextBlock();
-                }
-            })
+            if(!succesNext){
+                toastr.error('All fields should be complited');
+            }
+            else {
+                passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
+                    console.log(res);
+                    if(res.success){
+                        toNextBlock();
+                    }
+                })
+            }
 
         }
 
