@@ -34,7 +34,7 @@
 
             vm.items = items[indexBlock].questions;
             vm.nameBlock = items[indexBlock].name;
-            if(!vm.drag){
+            if (!vm.drag) {
                 vm.drag = !vm.drag;
             }
         });
@@ -42,6 +42,7 @@
         function toggleLeft() {
             $scope.$emit('showBlock', true);
         }
+
         function editButton() {
             vm.drag = !vm.drag;
 
@@ -58,7 +59,7 @@
             'ui-floating': true,
 
             start: function (e, ui) {
-                $scope.$apply(function() {
+                $scope.$apply(function () {
                     vm.childDraging = true;
                 });
                 console.log('start', vm.childDraging);
@@ -69,9 +70,9 @@
 
                 let succes = true;
 
-                if(droptargetModel.length > 0){
-                    for(let i = 0; i < droptargetModel.length; i++){
-                        if(droptargetModel[i] == model){
+                if (droptargetModel.length > 0) {
+                    for (let i = 0; i < droptargetModel.length; i++) {
+                        if (droptargetModel[i] == model) {
                             succes = false;
                             break
                         }
@@ -81,13 +82,13 @@
                     succes = true;
                 }
 
-                if(succes){
-                    if(typeof model.answers != 'undefined' && model.type == 1){
-                        answers: for(let i = 0; i < model.answers.length; i++){
-                            if(typeof model.answers[i].child_questions != 'undefined'){
-                                if(model.answers[i].child_questions.length > 0){
-                                    for(let j = 0; j < model.answers[i].child_questions.length; j++){
-                                        if(typeof model.answers[i].child_questions[j].delete == 'undefined'){
+                if (succes) {
+                    if (typeof model.answers != 'undefined' && model.type == 1) {
+                        answers: for (let i = 0; i < model.answers.length; i++) {
+                            if (typeof model.answers[i].child_questions != 'undefined') {
+                                if (model.answers[i].child_questions.length > 0) {
+                                    for (let j = 0; j < model.answers[i].child_questions.length; j++) {
+                                        if (typeof model.answers[i].child_questions[j].delete == 'undefined') {
                                             ui.item.sortable.cancel();
                                             toastr.error('Can not contain questions');
                                             break answers;
@@ -118,7 +119,7 @@
             'ui-floating': true,
 
             start: function (e, ui) {
-                $scope.$apply(function() {
+                $scope.$apply(function () {
                     vm.childDraging = true;
                 });
                 console.log('start', vm.childDraging);
@@ -157,20 +158,20 @@
         function save() {
             let dataForSend = angular.copy(vm.items);
 
-            if(dataForSend.length > 0){
+            if (dataForSend.length > 0) {
                 dataForSend.forEach(function (itemQuestion, indexQuestion) {
                     itemQuestion.order_number = indexQuestion;
                     itemQuestion.child_order_number = null;
-                    if(itemQuestion.type == 1 || itemQuestion.type == 0){
+                    if (itemQuestion.type == 1 || itemQuestion.type == 0) {
                         itemQuestion.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                             itemAnswer.child_questions.forEach(function (itemQuestionInAnswer, indexQuestionInAnswer) {
                                 itemQuestionInAnswer.child_order_number = indexQuestionInAnswer;
                                 itemQuestionInAnswer.order_number = null;
-                                if(itemQuestionInAnswer.type == 1 || itemQuestionInAnswer.type == 0){
+                                if (itemQuestionInAnswer.type == 1 || itemQuestionInAnswer.type == 0) {
                                     itemQuestionInAnswer.answers.forEach(function (itemAnswerInChildQuestion, indexAnswerInChildQuestion) {
                                         itemAnswerInChildQuestion.order_number = indexAnswerInChildQuestion;
-                                        if(typeof itemQuestionInAnswer.id != 'undefined'){
+                                        if (typeof itemQuestionInAnswer.id != 'undefined') {
                                             itemAnswerInChildQuestion.question_id = itemQuestionInAnswer.id;
                                         }
                                     });
@@ -181,7 +182,7 @@
                 });
 
                 blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                    if(res.success){
+                    if (res.success) {
                         vm.items = res.data.questions;
                         items[indexBlock].questions = res.data.questions;
                     }
@@ -196,8 +197,8 @@
                 templateUrl: 'components/deleteView/deleteView.html',
                 clickOutsideToClose: true
             }).then(function () {
-                if(typeof questionKey != 'undefined') {
-                    if(typeof id == 'undefined') {
+                if (typeof questionKey != 'undefined') {
+                    if (typeof id == 'undefined') {
                         vm.items[mainKey].answers[answerKey].child_questions.splice(questionKey, 1);
                     }
                     else {
@@ -209,7 +210,7 @@
                         }];
 
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                            if(res.success){
+                            if (res.success) {
                                 vm.items[mainKey].answers[answerKey].child_questions.splice(questionKey, 1);
                             }
                         })
@@ -217,7 +218,7 @@
 
                 }
                 else {
-                    if(typeof id == 'undefined') {
+                    if (typeof id == 'undefined') {
                         vm.items.splice(mainKey, 1);
                     }
                     else {
@@ -229,7 +230,7 @@
                         }];
 
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                            if(res.success){
+                            if (res.success) {
                                 vm.items.splice(mainKey, 1);
                             }
                         })
@@ -257,5 +258,6 @@
                 clickOutsideToClose: true,
             })
         }
+
     }
 })();
