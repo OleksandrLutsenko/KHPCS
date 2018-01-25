@@ -58,16 +58,15 @@
         };
         survey.selectedSurveys(vm.chosenSurvey);
 
-        function checkStatus(customers) {
-            vm.surveys.forEach(function (survey) {
-                customers.reports.forEach(function (check) {
-                     if(survey.survey_id === check.survey_id){
-                         survey.check = true;
-                     }
-                 })
+        function checkStatus(reports) {
+            angular.forEach(vm.surveys, function (survey) {
+                    angular.forEach(reports, function (report) {
+                        if (survey.survey_id === report.survey_id) {
+                            survey.check = true;
+                        }
+                    })
                 }
             );
-            console.log(vm.surveys);
         }
 
         function pass(id, checkSelect) {
