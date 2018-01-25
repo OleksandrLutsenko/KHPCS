@@ -3,9 +3,6 @@
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
             <h2>Download contract</h2>
-            <md-button class="md-icon-button" ng-click="vm.cancel()">
-                <i class="material-icons">highlight_off</i>
-            </md-button>
         </div>
     </md-toolbar>
 
@@ -29,7 +26,7 @@
         </md-select>
     </md-input-container>
 
-    <md-dialog-actions ng-if="vm.showOK">
+    <md-dialog-actions class="bot-btn" ng-if="vm.showOK">
         <md-button aria-label="Download" class="download-button" ng-click="vm.finish()">Download</md-button>
     </md-dialog-actions>
 
