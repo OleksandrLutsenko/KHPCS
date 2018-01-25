@@ -259,5 +259,23 @@
             })
         }
 
+
+        // let assignTemplates = assignST.data;
+        // vm.templateModel = [];
+        // vm.templates.forEach(function (template) {
+        //     for (let at in assignTemplates) {
+        //         if (template.id !== assignTemplates[at].contract_id) {
+        //             vm.templateModel[template.id] = false;
+        //         } else {
+        //             vm.templateModel[template.id] = true;
+        //             break;
+        //         }
+        //     }
+        // });
+
+       vm.mandatoryCheck = mandatoryCheck;
+        function mandatoryCheck(id) {
+            console.log(id);
+        };
     }
 })();

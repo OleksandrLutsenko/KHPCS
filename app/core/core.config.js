@@ -2,9 +2,9 @@
     angular
         .module('app')
         .config(mainConfig);
-    mainConfig.$inject = ['$stateProvider', '$urlRouterProvider' , '$mdThemingProvider'];
+    mainConfig.$inject = ['$stateProvider', '$urlRouterProvider', '$mdThemingProvider'];
 
-    function mainConfig($stateProvider, $urlRouterProvider , $mdThemingProvider) {
+    function mainConfig($stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
         $mdThemingProvider
             .theme('blue-grey')
@@ -115,11 +115,11 @@
                     loadTemp: function (contractService) {
                         return contractService.loadTemplateList();
                     },
-                    customersCompany: function (companyService, company , oneCompany) {
+                    customersCompany: function (companyService, oneCompany) {
                         let id = oneCompany.id;
                         return companyService.companyCustomers(id);
                     },
-                    assignST: function (companyService, company , oneCompany) {
+                    assignST: function (companyService, oneCompany) {
                         let id = oneCompany.id;
                         return companyService.selectedSurvTempInCompany(id);
                     }
