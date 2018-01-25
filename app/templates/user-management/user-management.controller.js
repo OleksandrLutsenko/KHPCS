@@ -22,6 +22,7 @@
         vm.deleteCustomer = deleteCustomer;
         vm.createOrUpdate = createOrUpdate;
         vm.downloadPDF = downloadPDF;
+        vm.checkStatus = checkStatus;
         vm.user = userService.getUser();
 
         vm.surveys = surveyOnly.data.onlySurvey;
@@ -52,12 +53,25 @@
                     vm.chosenSurvey = [];
                     vm.surveys.forEach(function (survey) {
                         vm.survModel[survey.survey_id] = false;
+                        survey.check = false;
                     });
                     survey.selectedSurveys(vm.chosenSurvey);
                 }
             }
         };
         survey.selectedSurveys(vm.chosenSurvey);
+
+        function checkStatus(customers) {
+            vm.surveys.forEach(function (survey) {
+                customers.reports.forEach(function (check) {
+                     if(survey.survey_id === check.survey_id){
+                         survey.check = true;
+                     }
+                 })
+                }
+            );
+            console.log(vm.surveys);
+        }
 
         function pass(id, checkSelect) {
             checkSelect = true;

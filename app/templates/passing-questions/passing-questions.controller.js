@@ -58,8 +58,6 @@
         }
 
         vm.cities = countries;
-
-        vm.cities = countries;
         vm.querySearch = querySearch;
 
         function querySearch(query) {
@@ -104,7 +102,7 @@
             for (let i = 0; i < customerAnswer.length; i++) {
                 if (customerAnswer[i].block_id == idActiveBlock) {
                     customerAnswerOnActiveBlock = customerAnswer[i].customerAnswers;
-                    break
+                    break;
                 }
             }
 
@@ -112,10 +110,10 @@
                 for (let i = 0; i < customerAnswerOnActiveBlock.length; i++) {
                     if (customerAnswerOnActiveBlock[i].question_id == item.id) {
                         if (item.type == 1) {
-                            return customerAnswerOnActiveBlock[i].answer_id
+                            return customerAnswerOnActiveBlock[i].answer_id;
                         }
                         else {
-                            return customerAnswerOnActiveBlock[i].value
+                            return customerAnswerOnActiveBlock[i].value;
                         }
                     }
                 }
@@ -126,7 +124,7 @@
 
                 customerAnswerOnActiveBlock.forEach(function (itemAnswer) {
                     if (itemAnswer.question_id == item.id) {
-                        mainData.push(itemAnswer.answer_id)
+                        mainData.push(itemAnswer.answer_id);
                     }
                 });
 
@@ -156,7 +154,7 @@
                         };
                         itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
                             if (itemChildQuestion.type == 0) {
-                                mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswerCheckBox(itemChildQuestion)
+                                mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswerCheckBox(itemChildQuestion);
                             }
                             else {
                                 mainData.answerData[indexAnswer].childData[indexChildQuestion] = findAnswer(itemChildQuestion);
@@ -170,7 +168,7 @@
                             }
 
                         });
-                    })
+                    });
                 }
 
                 vm.data.push(mainData);
@@ -301,12 +299,17 @@
             console.log('dataForSend', dataForSend);
 
 
-            passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
-                console.log(res);
-                if (res.success) {
-                    toNextBlock();
-                }
-            })
+            if(!succesNext){
+                toastr.error('All fields should be complited');
+            }
+            else {
+                passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
+                    console.log(res);
+                    if(res.success){
+                        toNextBlock();
+                    }
+                })
+            }
 
         }
 
@@ -319,7 +322,7 @@
         function serchAnswerId(idQuestion) {
             for (let i = 0; i < customerAnswerOnActiveBlock.length; i++) {
                 if (idQuestion == customerAnswerOnActiveBlock[i].question_id) {
-                    return customerAnswerOnActiveBlock[i].id
+                    return customerAnswerOnActiveBlock[i].id;
                 }
             }
         }
@@ -398,6 +401,7 @@
                 })
             }
         }
+
     }
 
 })();

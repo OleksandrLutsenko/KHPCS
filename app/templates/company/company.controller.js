@@ -3,7 +3,7 @@
     angular.module('app')
         .controller('CompanyController', CompanyController);
 
-    CompanyController.$inject = [   'assignST', 'loadSurvey', 'loadTemp', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'tabsService', 'customersCompany'];
+    CompanyController.$inject = ['assignST', 'loadSurvey', 'loadTemp', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'tabsService', 'customersCompany'];
 
 
     function CompanyController(assignST, loadSurvey, loadTemp, userService, companyService, oneCompany, company, $mdDialog, toastr, tabsService, customersCompany) {
@@ -14,7 +14,7 @@
         vm.myPage = 1;
 
         vm.customersCompany = customersCompany.data;
-        vm.user =  userService.getUser();
+        vm.user = userService.getUser();
         vm.userRole = vm.user.role_id;
         vm.companyOne = oneCompany;
 
@@ -83,11 +83,17 @@
             }];
             companyService.changeFA(vm.data).then(function (res) {
                 if (res.success) {
-                    let id = vm.user.company_id;
-                    companyService.companyCustomers(id).then(function (res) {
+                    if (vm.user.role_id === 3) {
+                        let id = vm.user.company_id;
+                        vm.id = id;
+                    } else {
+                        let id = company.getActiveCompany().id;
+                        vm.id = id;
+                    }
+                    companyService.companyCustomers(vm.id).then(function (res) {
                         vm.customersCompany = res.data;
+                        toastr.success('Financial adviser was changed');
                     });
-                    toastr.success('Financial adviser was changed');
                 }
             });
         }
@@ -149,7 +155,7 @@
                         }
 
                     });
-                } else{
+                } else {
                     companyService.cancelInv(id).then(function (res) {
                         if (res.success) {
                             if (user.role_id == 1) {

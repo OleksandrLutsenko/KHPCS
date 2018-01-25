@@ -8,159 +8,218 @@
     </div>
 
     <form name="vm.questionForm">
-    <div ng-repeat="(mainKey, questions) in vm.questions">
-        <div layout="row" layout-align="center center">
+        <div ng-repeat="(mainKey, questions) in vm.questions">
+            <div layout="row" layout-align="center center">
 
-            <div ng-if="questions.type == 1 || questions.type == 0 || questions.type == 3" flex="80" flex-xs="100">
-                <div>
+                <div ng-if="questions.type == 1 || questions.type == 0 || questions.type == 3" flex="80" flex-xs="100">
+                    <div>
 
-                    <div layout="row">
-                        <h3>{{questions.title}}</h3>
-                    </div>
+                        <div layout="row">
+                            <h3>{{questions.title}}</h3>
+                        </div>
 
-                    <div ng-if="questions.type == 3">
-                        <md-input-container>
-                            <label>Enter date</label>
-                            <md-datepicker ng-model="vm.data[mainKey].mainData"></md-datepicker>
-                        </md-input-container>
-                    </div>
+                        <div ng-if="questions.type == 3">
+                            <md-input-container>
+                                <label>Enter date</label>
+                                <md-datepicker ng-model="vm.data[mainKey].mainData"></md-datepicker>
+                            </md-input-container>
+                        </div>
 
-                    <div  ng-if="questions.type == 0">
-                        <div>
-                            <div ng-repeat="answers in questions.answers">
-                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].mainData)" class="md-primary" ng-click="vm.toggle(answers.id, vm.data[mainKey].mainData)">
-                                    {{answers.answer_text}}
-                                </md-checkbox>
+                        <div ng-if="questions.type == 0">
+                            <div>
+                                <div ng-repeat="answers in questions.answers">
+                                    <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].mainData)"
+                                                 class="md-primary"
+                                                 ng-click="vm.toggle(answers.id, vm.data[mainKey].mainData)">
+                                        {{answers.answer_text}}
+                                    </md-checkbox>
+                                </div>
                             </div>
                         </div>
+
+                        <div ng-if="questions.type == 1">
+                            <md-radio-group ng-model="vm.data[mainKey].mainData">
+                                <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}"
+                                                 class="md-primary">
+                                    {{answers.answer_text}}
+                                </md-radio-button>
+                            </md-radio-group>
+                        </div>
+
                     </div>
+                    <div ng-repeat="(answerKey, answers) in questions.answers" ng-if="questions.type == 1">
+                        <div ng-repeat="(childKey, child_questions) in answers.child_questions">
+                            <div layout="row" layout-align="center center"
+                                 ng-if="vm.data[mainKey].mainData == child_questions.parent_answer_id">
+                                <div ng-if="child_questions.type == 1 || child_questions.type == 0 ||
+                                 child_questions.type == 3 || child_questions.type == 4" flex="80" flex-xs="100">
+                                    <div>
+                                        <div layout="row">
+                                            <h4>{{child_questions.title}}</h4>
+                                        </div>
 
-                    <div ng-if="questions.type == 1">
-                        <md-radio-group ng-model="vm.data[mainKey].mainData">
-                            <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}" class="md-primary">
-                                {{answers.answer_text}}
-                            </md-radio-button>
-                        </md-radio-group>
-                    </div>
 
-                </div>
-                <div ng-repeat="(answerKey, answers) in questions.answers" ng-if="questions.type == 1">
-                    <div ng-repeat="(childKey, child_questions) in answers.child_questions">
-                        <div layout="row" layout-align="center center" ng-if="vm.data[mainKey].mainData == child_questions.parent_answer_id">
-                            <div ng-if="child_questions.type == 1 || child_questions.type == 0 || child_questions.type == 3" flex="80" flex-xs="100">
-                                <div>
-                                    <div layout="row">
-                                        <h3>{{child_questions.title}}</h3>
-                                    </div>
-
-                                    <div ng-if="child_questions.type == 3">
-                                        <md-input-container>
-                                            <label>Enter date</label>
-                                            <md-datepicker ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]"></md-datepicker>
-                                        </md-input-container>
-                                    </div>
-
-                                    <div ng-if="child_questions.type == 0">
-                                        <div>
-                                            <div ng-repeat="answers in child_questions.answers">
-                                                <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])" class="md-primary" ng-click="vm.toggle(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])">
-                                                    {{answers.answer_text}}
-                                                </md-checkbox>
+                                        <div ng-if="child_questions.type == 0">
+                                            <div>
+                                                <div ng-repeat="answers in child_questions.answers">
+                                                    <md-checkbox
+                                                            ng-checked="vm.exists(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])"
+                                                            class="md-primary"
+                                                            ng-click="vm.toggle(answers.id, vm.data[mainKey].answerData[answerKey].childData[childKey])">
+                                                        {{answers.answer_text}}
+                                                    </md-checkbox>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div ng-if="child_questions.type == 1">
-                                        <md-radio-group ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]">
-                                            <md-radio-button ng-repeat="answers in child_questions.answers" value="{{answers.id}}" class="md-primary">
-                                                {{answers.answer_text}}
-                                            </md-radio-button>
-                                        </md-radio-group>
-                                    </div>
+                                        <div ng-if="child_questions.type == 1">
+                                            <md-radio-group
+                                                    ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]">
+                                                <md-radio-button ng-repeat="answers in child_questions.answers"
+                                                                 value="{{answers.id}}" class="md-primary">
+                                                    {{answers.answer_text}}
+                                                </md-radio-button>
+                                            </md-radio-group>
+                                        </div>
 
+                                        <div ng-if="child_questions.type == 3">
+                                            <md-input-container>
+                                                <label>Enter date</label>
+                                                <md-datepicker
+                                                        ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]"></md-datepicker>
+                                            </md-input-container>
+                                        </div>
+
+                                        <div ng-if="child_questions.type == 4" style="padding-bottom: 20px">
+                                            <md-autocomplete
+                                                    ng-disabled="vm.isDisabled"
+                                                    md-no-cache="vm.noCache"
+                                                    md-selected-item="vm.data[mainKey].answerData[answerKey].childData[childKey]"
+                                                    md-search-text-change=vm.searchTextChange(item)
+                                                    md-search-text=item
+                                                    md-selected-item-change=vm.selectedItemChange(item)
+                                                    md-items="item in vm.querySearch(item)"
+                                                    md-item-text="item"
+                                                    md-min-length="0"
+                                                    placeholder="Enter the country">
+                                                <md-item-template>
+                                                    <span>{{item}}</span>
+                                                </md-item-template>
+                                                <md-not-found>
+                                                    No matches found
+                                                </md-not-found>
+                                            </md-autocomplete>
+                                        </div>
+
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div ng-if="child_questions.type == 2" flex="80" flex-xs="100">
-                                <div>
-                                    <md-input-container class="question-text">
-                                        <label>{{child_questions.title}}</label>
-                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType1" type="text" pattern="[a-zA-Z, ' ']+" ng-if="child_questions.validation_type == 1">
-                                        <div ng-messages="vm.questionForm.childInputType1.$error" ng-if="child_questions.validation_type == 1">
-                                            <div ng-message="pattern">Only text.</div>
-                                            <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
-                                        </div>
-                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType2" pattern="[0-9]+" ng-if="child_questions.validation_type == 2">
-                                        <div ng-messages="vm.questionForm.childInputType2.$error" ng-if="child_questions.validation_type == 2">
-                                            <div ng-message="pattern">Only numbers.</div>
-                                            <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
-                                        </div>
-                                        <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]" md-maxlength="{{child_questions.characters_limit}}" name="childInputType0" ng-if="child_questions.validation_type == 0">
-                                        <div ng-messages="vm.questionForm.childInputType0.$error" ng-if="child_questions.validation_type == 0">
-                                            <div ng-message="md-maxlength">Max length {{child_questions.characters_limit}}.</div>
-                                        </div>
-                                    </md-input-container>
+                                <div ng-if="child_questions.type == 2" flex="80" flex-xs="100">
+                                    <div>
+                                        <md-input-container class="question-text">
+                                            <label>{{child_questions.title}}</label>
+                                            <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]"
+                                                   md-maxlength="{{child_questions.characters_limit}}"
+                                                   name="childInputType1" type="text" pattern="[a-zA-Z, ' ']+"
+                                                   ng-if="child_questions.validation_type == 1"
+                                                   maxlength="{{child_questions.characters_limit}}">
+                                            <div ng-messages="vm.questionForm.childInputType1.$error"
+                                                 ng-if="child_questions.validation_type == 1">
+                                                <div ng-message="pattern">Only text.</div>
+                                                <div ng-message="md-maxlength">Max length
+                                                    {{child_questions.characters_limit}}.
+                                                </div>
+                                            </div>
+                                            <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]"
+                                                   md-maxlength="{{child_questions.characters_limit}}"
+                                                   name="childInputType2" pattern="[0-9]+"
+                                                   ng-if="child_questions.validation_type == 2"
+                                                   maxlength="{{child_questions.characters_limit}}">
+                                            <div ng-messages="vm.questionForm.childInputType2.$error"
+                                                 ng-if="child_questions.validation_type == 2">
+                                                <div ng-message="pattern">Only numbers.</div>
+                                                <div ng-message="md-maxlength">Max length
+                                                    {{child_questions.characters_limit}}.
+                                                </div>
+                                            </div>
+                                            <input ng-model="vm.data[mainKey].answerData[answerKey].childData[childKey]"
+                                                   md-maxlength="{{child_questions.characters_limit}}"
+                                                   name="childInputType0" ng-if="child_questions.validation_type == 0"
+                                                   maxlength="{{child_questions.characters_limit}}">
+                                            <div ng-messages="vm.questionForm.childInputType0.$error"
+                                                 ng-if="child_questions.validation_type == 0">
+                                                <div ng-message="md-maxlength">Max length
+                                                    {{child_questions.characters_limit}}.
+                                                </div>
+                                            </div>
+                                        </md-input-container>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                 </div>
 
-            </div>
+                <div ng-if="questions.type == 2" flex="80" flex-xs="100">
+                    <div>
+                        <md-input-container class="question-text">
+                            <label>{{questions.title}}</label>
+                            <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
+                                   name="inputType1" type="text" pattern="[a-zA-Z, ' ']+"
+                                   ng-if="questions.validation_type == 1" maxlength="{{questions.characters_limit}}">
+                            <div ng-messages="vm.questionForm.inputType1.$error" ng-if="questions.validation_type == 1">
+                                <div ng-message="pattern">Only text.</div>
+                                <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                            </div>
+                            <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
+                                   name="inputType2" pattern="[0-9]+" ng-if="questions.validation_type == 2"
+                                   maxlength="{{questions.characters_limit}}">
+                            <div ng-messages="vm.questionForm.inputType2.$error" ng-if="questions.validation_type == 2">
+                                <div ng-message="pattern">Only numbers.</div>
+                                <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                            </div>
+                            <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
+                                   name="inputType0" ng-if="questions.validation_type == 0"
+                                   maxlength="{{questions.characters_limit}}">
+                            <div ng-messages="vm.questionForm.inputType0.$error" ng-if="questions.validation_type == 0">
+                                <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
 
-            <div ng-if="questions.type == 2" flex="80" flex-xs="100">
-                <div>
-                    <md-input-container class="question-text">
-                        <label>{{questions.title}}</label>
-                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
-                               name="inputType1" type="text" pattern="[a-zA-Z, ' ']+" ng-if="questions.validation_type == 1" maxlength="{{questions.characters_limit}}">
-                        <div ng-messages="vm.questionForm.inputType1.$error" ng-if="questions.validation_type == 1">
-                            <div ng-message="pattern">Only text.</div>
-                            <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
-                        </div>
-                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
-                               name="inputType2" pattern="[0-9]+" ng-if="questions.validation_type == 2" maxlength="{{questions.characters_limit}}">
-                        <div ng-messages="vm.questionForm.inputType2.$error" ng-if="questions.validation_type == 2">
-                            <div ng-message="pattern">Only numbers.</div>
-                            <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
-                        </div>
-                        <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
-                               name="inputType0" ng-if="questions.validation_type == 0" maxlength="{{questions.characters_limit}}">
-                        <div ng-messages="vm.questionForm.inputType0.$error" ng-if="questions.validation_type == 0">
-                            <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
-                        </div>
-                    </md-input-container>
+                <div ng-if="questions.type == 4" flex="80" flex-xs="100">
+
+                    <h3>{{questions.title}}</h3>
+
+                    <md-autocomplete
+                            ng-disabled="vm.isDisabled"
+                            md-no-cache="vm.noCache"
+                            md-selected-item="vm.data[mainKey].mainData"
+                            md-search-text-change="vm.searchTextChange(item)"
+                            md-search-text="item"
+                            md-selected-item-change="vm.selectedItemChange(item)"
+                            md-items="item in vm.querySearch(item)"
+                            md-item-text="item"
+                            md-min-length="0"
+                            placeholder="Enter the country">
+                        <md-item-template>
+                            <span>{{item}}</span>
+                        </md-item-template>
+                        <md-not-found>
+                            No matches found
+                        </md-not-found>
+                    </md-autocomplete>
                 </div>
             </div>
-            <div ng-if="questions.type == 4" flex="80" flex-xs="100">
-
-                <md-autocomplete
-                        ng-disabled="vm.isDisabled"
-                        md-no-cache="vm.noCache"
-                        md-selected-item="vm.data[mainKey].mainData"
-                        md-search-text-change="vm.searchTextChange(vm.searchText)"
-                        md-search-text="vm.searchText"
-                        md-selected-item-change="vm.selectedItemChange(item)"
-                        md-items="item in vm.querySearch(vm.searchText)"
-                        md-item-text="item"
-                        md-min-length="0"
-                        placeholder="Enter the country">
-                    <md-item-template>
-                        <span  >{{item}}</span>
-                    </md-item-template>
-                    <md-not-found>
-                        No states matching "{{vm.searchText}}" were found.
-                    </md-not-found>
-                </md-autocomplete>
-            </div>
         </div>
-    </div>
     </form>
     <div layout="row" layout-align="center center">
         <div class="buttons-bar" flex="80" flex-xs="100" layout="row" layout-align="end center">
             <div>
-                <md-button  class="md-raised backButton" ng-click="vm.back()" ng-if="vm.backSucces">Back</md-button>
+                <md-button class="md-raised backButton" ng-click="vm.back()" ng-if="vm.backSucces">Back</md-button>
                 <md-button class="md-raised md-primary" ng-click="vm.next()">Next</md-button>
             </div>
         </div>
