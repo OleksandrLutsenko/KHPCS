@@ -5,11 +5,12 @@
         .controller('ContractEditorController', ContractEditorController);
 
 
-    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService', '$mdSidenav', 'survey'];
+    ContractEditorController.$inject = ['userService', '$mdDialog', 'toastr', 'contractService', 'tabsService', 'surveyService', '$mdSidenav', 'survey', '$scope'];
 
-    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $mdSidenav, survey) {
+    function ContractEditorController(userService, $mdDialog, toastr, contractService, tabsService, surveyService, $mdSidenav, survey, $scope) {
         let vm = this;
-        tabsService.startTab('page4');
+        tabsService.startTab();
+        $scope.$emit('changeTab', 'page4');
         console.log('contract-editor controller start');
 
         let activeSurveyID;
