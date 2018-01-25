@@ -1,8 +1,8 @@
 <md-dialog flex="30" class="createTemplateTitle">
     <div class="createWindow">
-        <div class="createTop">
+       <md-toolbar class="view-head" layout="row" layout-align="center center">
             <p>Please enter template name</p>
-        </div>
+        </md-toolbar>
         <div class="content">
             <div class="allInput">
                 <form name="vm.templateForm">
@@ -18,7 +18,7 @@
                 </form>
             </div>
 
-            <div class="botBtn" layout="" layout-align="space-between">
+            <div class="bot-btn" layout="row" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.createTemplate()"
                            ng-if="vm.showCreateButton">Create</md-button>
 
