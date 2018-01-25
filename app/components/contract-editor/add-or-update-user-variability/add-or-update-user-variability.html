@@ -1,8 +1,8 @@
 <md-dialog flex="30" class="addUserVariability">
     <div class="createWindow">
-        <div class="createTop">
+        <md-toolbar class="view-head" layout="row" layout-align="center center">
             <p>Please enter your variable</p>
-        </div>
+        </md-toolbar>
         <div class="content">
             <div class="allInput">
                 <form name="vm.varForm">
@@ -16,7 +16,7 @@
                     </md-input-container>
                 </form>
             </div>
-            <div class="botBtn" layout="" layout-align="space-between">
+            <div class="bot-btn" layout="" layout-align="space-between">
                 <md-button class="md-raised md-primary" ng-click="vm.updateVariability()"
                 ng-if="vm.showUpdateButton">Save</md-button>
 

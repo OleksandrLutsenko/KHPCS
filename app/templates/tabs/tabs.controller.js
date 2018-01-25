@@ -19,8 +19,6 @@
             }else {
                 vm.currentNavItem =  'page1';
             }
-            // $scope.$apply()
-            console.log('Tabs start')
         })();
 
         vm.profile = function () {
