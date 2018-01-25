@@ -18,6 +18,7 @@
         model.companyDel = companyDel;
         model.companyEdit = companyEdit;
         model.loadOneCompany = loadOneCompany;
+        model.allCompanies = allCompanies;
         model.assign = assign;
         model.companyAdmin = companyAdmin;
         model.deleteAdmin = deleteAdmin;
@@ -76,6 +77,10 @@
         }
         function getCompany() {
             return $sessionStorage['company_only'];
+        }
+
+        function allCompanies(){
+            return http.get(url.company.company);
         }
 
         function loadOneCompany(id) {
