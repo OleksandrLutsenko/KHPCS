@@ -5,11 +5,12 @@
         .controller('SurveyManagementController', SurveyManagementController);
 
 
-    SurveyManagementController.$inject = ['surveyService', '$mdDialog', 'survey', '$mdSidenav', 'toastr', 'tabsService'];
+    SurveyManagementController.$inject = ['surveyService', '$mdDialog', 'survey', '$mdSidenav', 'toastr', 'tabsService', '$scope'];
 
-    function SurveyManagementController(surveyService, $mdDialog, survey, $mdSidenav, toastr, tabsService) {
+    function SurveyManagementController(surveyService, $mdDialog, survey, $mdSidenav, toastr, tabsService, $scope) {
         let vm = this;
-        tabsService.startTab('page3');
+        tabsService.startTab();
+        $scope.$emit('changeTab', 'page3');
 
         vm.setActiveSurvey = setActiveSurvey;
         survey.setActiveBlock();

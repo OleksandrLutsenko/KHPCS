@@ -8,6 +8,7 @@
     function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService, $timeout, $mdSidenav, $sessionStorage) {
         let vm = this;
         tabsService.startTab();
+        $scope.$emit('changeTab', 'page2');
 
         let activeSurvey = survey.getActiveSurvey();
         vm.activeBlock = survey.getActiveBlock().indexBlock;

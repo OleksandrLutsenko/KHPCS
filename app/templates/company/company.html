@@ -158,7 +158,7 @@
                     </md-list-item>
                     <md-list ng-repeat="template in vm.templates" ng-if="survey.survey_id === template.survey_id">
                         <md-list-item class="secondary-button-padding">
-                            <p> {{template.title}} {{template.id}}</p>
+                            <p> {{template.title}}</p>
                             <md-checkbox ng-model="vm.templateModel[template.id]" aria-label="Checkbox 1"
                                          class="md-primary"
                                          ng-change="vm.checkboxTemplates(template.survey_id , template.id)">

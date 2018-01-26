@@ -31,7 +31,12 @@
                 url: '/login',
                 templateUrl: 'templates/login/login.html',
                 controller: 'LoginController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    security: function (tabs) {
+                        tabs.clearAfterLogout();
+                    }
+                }
             })
             .state('registration', {
                 url: '/register/:token',

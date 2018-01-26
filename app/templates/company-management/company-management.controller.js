@@ -3,11 +3,13 @@
     angular.module('app')
         .controller('CompanyManagementController', CompanyManagementController);
 
-    CompanyManagementController.$inject = ['companyService', 'company', '$mdDialog', 'toastr', 'tabsService'];
+    CompanyManagementController.$inject = ['companyService', 'company', '$mdDialog', 'toastr', 'tabsService', '$scope'];
 
-    function CompanyManagementController(companyService, company, $mdDialog, toastr, tabsService) {
+    function CompanyManagementController(companyService, company, $mdDialog, toastr, tabsService, $scope) {
         let vm = this;
-        tabsService.startTab('page2');
+        tabsService.startTab();
+        $scope.$emit('changeTab', 'page2');
+
 
         vm.createCompany = createCompany;
         vm.deleteCompany = deleteCompany;
