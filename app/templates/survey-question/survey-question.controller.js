@@ -8,23 +8,18 @@
 
     function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService, surveyService) {
         let vm = this;
-        tabsService.startTab('page3');
+        $scope.$emit('changeTab', 'page3');
 
         $scope.$on('setBlockName', function (event, data) {
             vm.nameBlock = data;
-            console.log('Change name ', data);
         });
         $scope.$on('setItems', function (event, data) {
             items = data;
-            console.log('Change items ', data);
         });
-        console.log(items);
 
         let activeBlock = survey.getActiveBlock();
         let indexBlock = activeBlock.indexBlock;
         let idBlock = activeBlock.id;
-
-        console.log(idBlock, items[indexBlock]);
 
         vm.items = items[indexBlock].questions;
         vm.nameBlock = items[indexBlock].name;
@@ -40,14 +35,10 @@
         vm.editButton = editButton;
 
         $scope.$on('setActiveBlock', function (event, data) {
-            console.log('DATA' , data);
             activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
             idBlock = activeBlock.id;
 
-            console.log(indexBlock , idBlock);
-            console.log(items);
-            console.log(items[indexBlock]);
             vm.items = items[indexBlock].questions;
             vm.nameBlock = items[indexBlock].name;
             if (!vm.drag) {
@@ -80,7 +71,6 @@
                 $scope.$apply(function () {
                     vm.childDraging = true;
                 });
-                console.log('start', vm.childDraging);
             },
             update: function (event, ui) {
                 let droptargetModel = ui.item.sortable.droptargetModel;
@@ -120,7 +110,6 @@
             },
             stop: function (e, ui) {
                 vm.childDraging = vm.drag;
-                console.log('stop', vm.childDraging);
                 save();
             }
         };
@@ -140,14 +129,12 @@
                 $scope.$apply(function () {
                     vm.childDraging = true;
                 });
-                console.log('start', vm.childDraging);
             },
             update: function (e, ui) {
                 console.log('update', vm.childDraging);
             },
             stop: function (e, ui) {
                 vm.childDraging = false;
-                console.log('stop', vm.childDraging);
                 save();
             }
 

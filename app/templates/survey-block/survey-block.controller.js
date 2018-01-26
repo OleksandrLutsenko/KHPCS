@@ -8,7 +8,7 @@
     function SurveyBlockController(blockService, $state, survey, $scope, $mdDialog , toastr, items, tabsService, $timeout, $mdSidenav, $sessionStorage) {
         let vm = this;
         tabsService.startTab();
-        $scope.$emit('changeTab', 'page2');
+        $scope.$emit('changeTab', 'page3');
 
         let activeSurvey = survey.getActiveSurvey();
         vm.activeBlock = survey.getActiveBlock().indexBlock;
@@ -16,7 +16,6 @@
         let idSurvey = activeSurvey.id;
 
         vm.items = items;
-        console.log(vm.items);
 
         vm.addBlock = addBlock;
         vm.setActiveBlock = setActiveBlock;
@@ -118,15 +117,11 @@
                 else {
                     items.push(res.data.block);
                     vm.items = items;
-                    console.log('vm.items = ', vm.items);
-                    console.log('items = ', items);
 
                     let indexBlock = vm.items.length - 1;
                     let id = res.data.block.id;
-                    console.log(id, indexBlock);
 
                     setActiveBlock(id, indexBlock);
-                    console.log(items);
                     $scope.$broadcast('setItems', items);
                     toastr.success('New block was created');
                 }
@@ -148,8 +143,6 @@
                             vm.items = [];
                             items = [];
                             $scope.$broadcast('setItems', items);
-                            console.log('vm.items = ', vm.items);
-                            console.log('items = ', items);
                             vm.activeBlock = undefined;
                             delete $sessionStorage.active_block_id;
                             delete $sessionStorage.active_block_index;
@@ -157,8 +150,6 @@
                         } else {
                             vm.items.splice(index, 1);
                             // items.splice(index, 1);
-                            console.log('vm.items = ', vm.items);
-                            console.log('items = ', items);
                             $scope.$broadcast('setItems', items);
                             let indexBlock = survey.getActiveBlock().indexBlock;
                             if(indexBlock == index) {

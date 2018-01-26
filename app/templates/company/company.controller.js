@@ -3,12 +3,12 @@
     angular.module('app')
         .controller('CompanyController', CompanyController);
 
-    CompanyController.$inject = ['assignST', 'loadSurvey', 'loadTemp', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'tabsService', 'customersCompany'];
+    CompanyController.$inject = ['$scope','assignST', 'loadSurvey', 'loadTemp', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'tabsService', 'customersCompany'];
 
 
-    function CompanyController(assignST, loadSurvey, loadTemp, userService, companyService, oneCompany, company, $mdDialog, toastr, tabsService, customersCompany) {
+    function CompanyController($scope,assignST, loadSurvey, loadTemp, userService, companyService, oneCompany, company, $mdDialog, toastr, tabsService, customersCompany) {
         let vm = this;
-        tabsService.startTab('page2');
+        $scope.$emit('changeTab', 'page2');
 
         vm.myLimit = 10;
         vm.myPage = 1;
