@@ -201,19 +201,19 @@
 
             let dataForSend = [];
 
-            if (vm.data.length > 0) {
+            if(vm.data.length > 0){
                 vm.data.forEach(function (itemQuestion, indexQuestion) {
 
                     checkForFill(itemQuestion.mainData);
 
-                    if (mainQuestionInBlock[indexQuestion].type == 1 || mainQuestionInBlock[indexQuestion].type == 0) {
+                    if(mainQuestionInBlock[indexQuestion].type == 1 || mainQuestionInBlock[indexQuestion].type == 0) {
                         let tmpObj = {};
                         tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
 
-                        if (mainQuestionInBlock[indexQuestion].type == 1) {
+                        if(mainQuestionInBlock[indexQuestion].type == 1){
                             let id = serchAnswerId(mainQuestionInBlock[indexQuestion].id);
 
-                            if (id != undefined) {
+                            if(id != undefined){
                                 tmpObj.id = id;
                             }
                         }
@@ -222,24 +222,24 @@
 
                         dataForSend.push(tmpObj);
 
-                        if (mainQuestionInBlock[indexQuestion].type == 1) {
+                        if(mainQuestionInBlock[indexQuestion].type == 1){
                             mainQuestionInBlock[indexQuestion].answers.forEach(function (itemAnswer, indexAnswer) {
-                                if (itemAnswer.child_questions.length > 0) {
-                                    if (itemQuestion.mainData == itemAnswer.id) {
+                                if(itemAnswer.child_questions.length > 0){
+                                    if(itemQuestion.mainData == itemAnswer.id){
                                         itemAnswer.child_questions.forEach(function (itemChildQuestion, indexChildQuestion) {
-                                            if (typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined') {
+                                            if(typeof itemQuestion.answerData != 'undefined' && typeof itemQuestion.answerData[indexAnswer] != 'undefined'){
                                                 let tmpObj = {};
                                                 tmpObj.question_id = itemChildQuestion.id;
 
-                                                if (itemChildQuestion.type == 1) {
-                                                    let id = serchAnswerId(itemChildQuestion.id);
+                                                // if(itemChildQuestion.type == 1){
+                                                let id = serchAnswerId(itemChildQuestion.id);
 
-                                                    if (id != undefined) {
-                                                        tmpObj.id = id;
-                                                    }
+                                                if(id != undefined){
+                                                    tmpObj.id = id;
                                                 }
+                                                // }
 
-                                                if (itemChildQuestion.type == 1 || itemChildQuestion.type == 0) {
+                                                if(itemChildQuestion.type == 1 || itemChildQuestion.type == 0){
                                                     tmpObj.answer_id = itemQuestion.answerData[indexAnswer].childData[indexChildQuestion];
                                                 }
                                                 else {
@@ -259,14 +259,14 @@
                                         itemAnswer.child_questions.forEach(function (itemChildQuestion) {
                                             let id = serchAnswerId(itemChildQuestion.id);
 
-                                            if (id != undefined) {
+                                            if(id != undefined){
                                                 let tmpObj = {};
                                                 tmpObj.delete = true;
                                                 tmpObj.question_id = itemChildQuestion.id;
 
-                                                if (itemChildQuestion.type == 1) {
-                                                    tmpObj.id = id;
-                                                }
+                                                // if(itemChildQuestion.type == 1){
+                                                tmpObj.id = id;
+                                                // }
                                                 dataForSend.push(tmpObj);
                                             }
                                         })
@@ -283,7 +283,7 @@
                         tmpObj.value = itemQuestion.mainData;
                         tmpObj.question_id = mainQuestionInBlock[indexQuestion].id;
 
-                        if (id != undefined) {
+                        if(id != undefined){
                             tmpObj.id = id;
                         }
 
@@ -298,7 +298,6 @@
 
             console.log('dataForSend', dataForSend);
 
-
             if(!succesNext){
                 toastr.error('All fields should be complited');
             }
@@ -310,7 +309,6 @@
                     }
                 })
             }
-
         }
 
         function checkForFill(item) {

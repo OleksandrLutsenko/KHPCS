@@ -10,9 +10,21 @@
         let vm = this;
         tabsService.startTab('page3');
 
+        $scope.$on('setBlockName', function (event, data) {
+            vm.nameBlock = data;
+            console.log('Change name ', data);
+        });
+        $scope.$on('setItems', function (event, data) {
+            items = data;
+            console.log('Change items ', data);
+        });
+        console.log(items);
+
         let activeBlock = survey.getActiveBlock();
         let indexBlock = activeBlock.indexBlock;
         let idBlock = activeBlock.id;
+
+        console.log(idBlock, items[indexBlock]);
 
         vm.items = items[indexBlock].questions;
         vm.nameBlock = items[indexBlock].name;
@@ -28,16 +40,22 @@
         vm.editButton = editButton;
 
         $scope.$on('setActiveBlock', function (event, data) {
+            console.log('DATA' , data);
             activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
             idBlock = activeBlock.id;
 
+            console.log(indexBlock , idBlock);
+            console.log(items);
+            console.log(items[indexBlock]);
             vm.items = items[indexBlock].questions;
             vm.nameBlock = items[indexBlock].name;
             if (!vm.drag) {
                 vm.drag = !vm.drag;
             }
         });
+
+
 
         function toggleLeft() {
             $scope.$emit('showBlock', true);
@@ -186,7 +204,7 @@
                         vm.items = res.data.questions;
                         items[indexBlock].questions = res.data.questions;
                     }
-                })
+                });
             }
         }
 
@@ -213,7 +231,7 @@
                             if (res.success) {
                                 vm.items[mainKey].answers[answerKey].child_questions.splice(questionKey, 1);
                             }
-                        })
+                        });
                     }
 
                 }
@@ -233,7 +251,7 @@
                             if (res.success) {
                                 vm.items.splice(mainKey, 1);
                             }
-                        })
+                        });
                     }
                 }
             }, function () {
@@ -256,7 +274,7 @@
                 },
                 templateUrl: 'components/survey-question/addQuest/addQuest.html',
                 clickOutsideToClose: true,
-            })
+            });
         }
 
     }
