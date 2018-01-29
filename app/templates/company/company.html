@@ -8,9 +8,15 @@
         <md-tab label="Surveys" ng-if="vm.userRole === 2"></md-tab>
     </md-tabs>
     <section ng-if="selectedIndex === 0">
-        <div layout="row" layout-align="space-between">
-            <md-button class="md-raised" ui-sref="tab.company-management" ng-if="vm.userRole === 2">Back</md-button>
-            <md-button class="md-raised" ng-click="vm.createAdmin(vm.userRole)">Add User</md-button>
+        <div layout="row" layout-align="end">
+            <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row"
+                       layout-align="center center" style="position: absolute; left: 0">
+                <i class="material-icons">arrow_back</i>
+                Back
+            </md-button>
+            <div class="add-icon" layout="" layout-align="center center" ng-click="vm.createAdmin(vm.userRole)">
+                <i class="material-icons">person_add</i>
+            </div>
         </div>
         <md-card>
             <md-table-container>
@@ -47,22 +53,12 @@
                                        ng-if="vm.userRole === 2">highlight_off</i>
                         </td>
                     </tr>
-                    </tbody>
-                </table>
-            </md-table-container>
-        </md-card>
-        <md-card>
-            <md-table-container>
-                <table md-table ng-if="vm.fnnAdviser.length !== 0 || vm.fnnAdviserInv.length !== 0">
-                    <thead md-head>
                     <tr md-row>
-                        <th md-column>Financial adviser name</th>
-                        <th md-column>Financial adviser Email</th>
-                        <th md-column>Invitation date</th>
-                        <th md-column></th>
+                        <td md-cell class="table-head">Financial adviser name</td>
+                        <td md-cell class="table-head">Financial adviser Email</td>
+                        <td md-cell class="table-head">Invitation date</td>
+                        <td md-cell></td>
                     </tr>
-                    </thead>
-                    <tbody md-body>
                     <tr md-row
                         ng-repeat="fnnAdviser in  vm.fnnAdviser ">
                         <td md-cell>{{fnnAdviser.name }}</td>
@@ -89,10 +85,51 @@
                 </table>
             </md-table-container>
         </md-card>
+        <!--<md-card>-->
+            <!--<md-table-container>-->
+                <!--<table md-table ng-if="vm.fnnAdviser.length !== 0 || vm.fnnAdviserInv.length !== 0">-->
+                    <!--<thead md-head>-->
+                    <!--<tr md-row>-->
+                        <!--<th md-column>Financial adviser name</th>-->
+                        <!--<th md-column>Financial adviser Email</th>-->
+                        <!--<th md-column>Invitation date</th>-->
+                        <!--<th md-column></th>-->
+                    <!--</tr>-->
+                    <!--</thead>-->
+                    <!--<tbody md-body>-->
+                    <!--<tr md-row-->
+                        <!--ng-repeat="fnnAdviser in  vm.fnnAdviser ">-->
+                        <!--<td md-cell>{{fnnAdviser.name }}</td>-->
+                        <!--<td md-cell>{{fnnAdviser.email}}</td>-->
+                        <!--<td md-cell>{{fnnAdviser.created_at}}</td>-->
+                        <!--<td md-cell><i class="material-icons"-->
+                                       <!--ng-click="vm.deleteAdmin(fnnAdviser.id , fnnAdviser)"-->
+                        <!--&gt;highlight_off</i>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr md-row-->
+                        <!--ng-repeat="fnnAdviserInv in  vm.fnnAdviserInv "-->
+                        <!--ng-if="fnnAdviserInv.is_used === 0">-->
+                        <!--<td md-cell>-->
+                            <!--<md-button class="md-raised" ng-click="vm.reSend(fnnAdviserInv)">Re-send</md-button>-->
+                        <!--</td>-->
+                        <!--<td md-cell>{{fnnAdviserInv.email}}</td>-->
+                        <!--<td md-cell>{{fnnAdviserInv.created_at}}</td>-->
+                        <!--<td md-cell><i class="material-icons"-->
+                                       <!--ng-click="vm.deleteAdmin(fnnAdviserInv.id, fnnAdviserInv)">highlight_off</i>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--</tbody>-->
+                <!--</table>-->
+            <!--</md-table-container>-->
+        <!--</md-card>-->
     </section>
     <section ng-if="selectedIndex === 1">
-        <div ng-if="vm.customersCompany.length">
-            <md-button class="md-raised" ui-sref="tab.company-management" ng-if="vm.userRole === 2">Back</md-button>
+
+            <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row" class="back-btn">
+                <i class="material-icons">arrow_back</i>
+                Back
+            </md-button> <div ng-if="vm.customersCompany.length">
             <div layout="row" layout-align="center" flex="100">
                 <md-input-container flex="90" class="search-customers">
                     <label layout="row">
@@ -103,7 +140,7 @@
             </div>
             <md-card>
 
-                <md-table-container ng-if="vm.customersCompany.length">
+                <md-table-container>
                     <table md-table>
                         <thead md-head>
                         <tr md-row>
@@ -140,16 +177,18 @@
                 <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
                                      md-total="{{vm.customersCompany.length}}" md-page-select>
                 </md-table-pagination>
-
             </md-card>
         </div>
     </section>
     <section ng-if="selectedIndex === 2 && vm.userRole === 2">
-        <md-button class="md-raised" ui-sref="tab.company-management" ng-if="vm.userRole === 2">Back</md-button>
+        <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row" class="back-btn">
+            <i class="material-icons">arrow_back</i>
+            Back
+        </md-button>
         <md-content class="md-padding">
             <div>
                 <h1>Surveys:</h1>
-                <md-list ng-repeat="survey in vm.surveys" ng-if="survey.survey_status !== 'archived'">
+                <md-list ng-repeat="survey in vm.surveys">
                     <md-list-item class="secondary-button-padding">
                         <h3> {{survey.survey_name}}</h3>
                     </md-list-item>
@@ -170,5 +209,4 @@
             </div>
         </md-content>
     </section>
-
 </div>

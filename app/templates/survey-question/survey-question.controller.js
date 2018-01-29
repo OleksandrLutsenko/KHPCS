@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService', 'surveyService'];
+    SurveyQuestionController.$inject = ['$sessionStorage','survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService', 'surveyService'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, tabsService, surveyService) {
+    function SurveyQuestionController( $sessionStorage,survey, $scope, $mdDialog, blockService, toastr, items, tabsService, surveyService) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -45,7 +45,6 @@
                 vm.drag = !vm.drag;
             }
         });
-
 
 
         function toggleLeft() {
@@ -263,6 +262,36 @@
                 clickOutsideToClose: true,
             });
         }
+
+        // vm.mandatoryModel = [];
+        //
+        // vm.mandatoryModel.forEach(function (template) {
+        //     for (let at in assignTemplates) {
+        //         if (template.id !== assignTemplates[at].contract_id) {
+        //             vm.templateModel[template.id] = false;
+        //         } else {
+        //             vm.templateModel[template.id] = true;
+        //             break;
+        //         }
+        //     }
+        // });
+        //
+        //
+        // vm.mandatoryCheck = mandatoryCheck;
+        // function mandatoryCheck(question) {
+        //
+        //     console.log(question);
+        //
+        //     if (vm.mandatoryModel[question.id] === false) {
+        //         console.log('false', vm.mandatoryModel[question.id]);
+        //         question = vm.mandatoryModel[question];
+        //     } else {
+        //         console.log('true', vm.mandatoryModel[question.id]);
+        //         question = vm.mandatoryModel[question];
+        //     }
+        //     // $sessionStorage['mandatory_question'] = question;
+        //     console.log(vm.mandatoryModel);
+        // };
 
     }
 })();

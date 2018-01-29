@@ -5,11 +5,11 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['countries', 'passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey'];
+    PassingQuestionController.$inject = ['$scope','countries', 'passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey'];
 
-    function PassingQuestionController(countries, passingQuestionService, $state, customers, customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey) {
+    function PassingQuestionController($scope,countries, passingQuestionService, $state, customers, customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey) {
         let vm = this;
-        tabsService.startTab('page1');
+        $scope.$emit('changeTab', 'page6');
 
         vm.toggle = toggle;
         vm.exists = exists;

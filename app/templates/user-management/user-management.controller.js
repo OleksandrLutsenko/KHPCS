@@ -3,15 +3,13 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'surveyOnly', 'contractService', '$scope'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'contractService', '$scope'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, surveyOnly, contractService, $scope) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey,  contractService, $scope) {
         let vm = this;
         tabsService.startTab();
         $scope.$emit('changeTab', 'page1');
-
-
 
         vm.myLimit = 10;
         vm.myPage = 1;
@@ -25,7 +23,18 @@
         vm.checkStatus = checkStatus;
         vm.user = userService.getUser();
 
-        vm.surveys = surveyOnly.data.onlySurvey;
+        vm.surveys = [];
+        userService.loadSurveysOnly().then(function (res) {
+            if (res.success) {
+                angular.forEach(res.data.onlySurvey, function (survey) {
+                    if (survey.survey_status !== 'archived') {
+                        vm.surveys.push(survey);
+                    }
+                });
+            } else {
+                console.log('load surveys error');
+            }
+        });
 
         if (vm.surveys !== undefined) {
             vm.survModel = [];

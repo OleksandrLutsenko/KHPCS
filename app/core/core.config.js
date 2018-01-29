@@ -65,10 +65,10 @@
                     loadCustomers: function (customerService) {
                         return customerService.loadCustomers();
                     }
-                    ,
-                    surveyOnly: function (surveyService) {
-                        return surveyService.loadSurveyOnly();
-                    }
+                    // ,
+                    // surveyOnly: function (surveyService) {
+                    //     return surveyService.loadSurveyOnly();
+                    // }
                 }
             })
             .state('tab.company-management', {
@@ -113,12 +113,6 @@
                                 }
                             });
                         }
-                    },
-                    loadSurvey: function (surveyService) {
-                        return surveyService.loadSurveyOnly();
-                    },
-                    loadTemp: function (contractService) {
-                        return contractService.loadTemplateList();
                     },
                     customersCompany: function (companyService, oneCompany) {
                         let id = oneCompany.id;

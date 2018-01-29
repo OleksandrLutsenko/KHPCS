@@ -3,42 +3,29 @@
     angular.module('app')
         .controller('ProfileController', ProfileController);
 
-    ProfileController.$inject = ['userService', 'toastr', 'tabsService', '$scope'];
+    ProfileController.$inject = ['userService', 'toastr', 'tabsService', '$scope', 'tabs'];
 
-    function ProfileController(userService, toastr, tabsService, $scope) {
+    function ProfileController(userService, toastr, tabsService, $scope, tabs) {
         let vm = this;
         tabsService.startTab();
         $scope.$emit('changeTab', 'page5');
 
-
+        vm.updateProfileInfo = updateProfileInfo;
+        vm.menu = menu();
         vm.user = userService.getUser();
+        vm.role = tabs.getRole();
 
-        let users = vm.user;
-        vm.role = users.role_id;
-        switch (vm.role) {
-            case 1:
-                vm.role = 'Financial Advisor';
-                break;
-            case 2:
-                vm.role = 'Super Admin';
-                break;
-            case 3:
-                vm.role = 'Company Admin';
-                break;
-        }
-
+        let user = vm.user;
 
         if (typeof vm.user.id !== 'undefined') {
             vm.dataInfo = {
-                id: users.id,
-                name: users.name,
-                email: users.email
+                id: user.id,
+                name: user.name,
+                email: user.email
             }
         }
 
         let id = vm.dataInfo.id;
-
-        vm.updateProfileInfo = updateProfileInfo;
 
         function updateProfileInfo() {
             if (vm.profile.$invalid) {
@@ -62,7 +49,7 @@
 
                 if (vm.show === true) {
                     if (vm.profilePass.$invalid || vm.data.password !== vm.data.password_confirmation) {
-                         return;
+                        return;
                     } else {
                         userService.updatePass(id, vm.data).then(function (res) {
                             if (res.success) {
@@ -81,8 +68,6 @@
                 }
             }
         }
-
-        vm.menu = menu();
 
         function menu() {
             let show = [{}];
