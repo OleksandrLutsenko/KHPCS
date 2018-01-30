@@ -139,7 +139,7 @@
                     vm.customers.splice(vm.customers.indexOf(customers), 1, res.data);
                     toastr.success('Edit success');
                 } else {
-                    vm.customers.unshift(res.data);
+                        vm.customers.unshift(res.data);
                     // annonce(res.data.id);
                 }
             }, function () {
@@ -179,5 +179,6 @@
                 });
             });
         };
+
     }
 }());

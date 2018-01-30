@@ -3,7 +3,10 @@
   md-card {
     margin: 0;
     margin-bottom: 20px;
+  }
 
+  td:nth-child(2) {
+    text-transform: capitalize;
   }
 
   .search {
@@ -36,16 +39,8 @@
     cursor: pointer;
   }
 
-  .md-primary{
-    position: initial;
-  }
-
   .none-icon {
     cursor: default;
-  }
-
-  .empty-select{
-    height:100%;
   }
 }
 .start-btn{
