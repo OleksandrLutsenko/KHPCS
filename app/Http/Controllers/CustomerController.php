@@ -61,7 +61,7 @@ class CustomerController extends Controller
      */
     public function store(Customer $customer, CustomerRequest $request, User $user)
     {
-        $customer = Customer::create($request->all());
+        $customer = Customer::create($request->getCustomerAttribute());
         return response()->json($customer, 201);
     }
 

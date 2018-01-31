@@ -14,14 +14,15 @@ class Question extends Model
     const TYPE_RADIO = 1;
     const TYPE_TXT = 2;
     const TYPE_DATE = 3;
+    const TYPE_COUNTRY = 4;
 
     const VALIDATION_TYPE_TEXT_AND_NUMBERS = 0;
     const VALIDATION_TYPE_TEXT = 1;
     const VALIDATION_TYPE_NUMBERS = 2;
 
-    protected $fillable = ['title', 'type', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit'];
+    protected $fillable = ['title', 'type', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit', 'mandatory'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit', 'mandatory'];
 
     protected $appends = ['answers'];
 

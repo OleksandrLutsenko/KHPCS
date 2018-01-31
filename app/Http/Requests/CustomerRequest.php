@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerRequest extends FormRequest
 {
@@ -28,5 +29,16 @@ class CustomerRequest extends FormRequest
             'surname' => 'required|min:2|max:30',
             'classification' => 'max:30',
         ];
+    }
+
+    public function getCustomerAttribute(){
+        if (Auth::user()->isAdmin()) {
+            $attributes['user_id'] = null;
+            $attributes['company_id'] = $this->company_id;
+        } else {
+            $attributes['user_id'] = Auth::user()->id;
+            $attributes['company_id'] = Auth::user()->company_id;
+        }
+        return $attributes;
     }
 }

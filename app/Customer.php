@@ -60,8 +60,8 @@ class Customer extends Model
         parent::boot();
 
         static::creating(function ($table) {
-            $table->user_id = Auth::user()->id;
-            $table->company_id = Auth::user()->company_id;
+//            $table->user_id = Auth::user()->id;
+//            $table->company_id = Auth::user()->company_id;
         });
 
         static::deleting(function ($customer) {
