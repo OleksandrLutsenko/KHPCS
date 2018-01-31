@@ -109,7 +109,7 @@ class Question extends Model
 
         static::deleting(function ($question) {
             $answers = $question->answer;
-            $question->deleteAnswers();
+//            $question->deleteAnswers();
             $customerAnswers = $question->customerAnswer;
             foreach ($customerAnswers as $customerAnswer) {
                 $customerAnswer->delete();
@@ -277,6 +277,5 @@ class Question extends Model
         }
         return $question;
     }
-
 }
 

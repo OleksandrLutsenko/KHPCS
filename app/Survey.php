@@ -95,6 +95,7 @@ class Survey extends Model
     public function trashedQuestions($survey)
     {
         $blockArray = Block::withTrashed()
+
                             ->where('survey_id', $survey->id)->get();
         $blockArrayIDs = array_column($blockArray->toArray(), 'id');
 
@@ -117,7 +118,7 @@ class Survey extends Model
             ->get();
         return $surveyQuestions;
     }
-
+    
     public static function boot()
     {
         parent::boot();

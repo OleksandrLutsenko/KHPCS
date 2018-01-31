@@ -33,7 +33,6 @@ class VariableController extends Controller
      * @param Request|Request $request
      * @param Variable $variable
      * @return \Illuminate\Http\Response
-     * @internal param User $user
      * @internal param Survey $survey
      */
     public function store(Request $request, Variable $variable)
@@ -47,7 +46,6 @@ class VariableController extends Controller
      *
      * @param Variable $variable
      * @return \Illuminate\Http\Response
-     * @internal param User $user
      * @internal param Survey $survey
      * @internal param int $id
      */

@@ -1,3 +1,4 @@
 #!/bin/bash
+exec 2>/var/www/bash.log
 
-find ./storage/contracts/*.log -type f -mmin +60 -exec rm {} \;
+find /var/www/knightshayes.api/storage/contracts/*.* -type f -mmin +1 -exec rm {} \;

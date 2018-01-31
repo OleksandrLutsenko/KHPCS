@@ -6,11 +6,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Invite;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Password;
 use JWTAuth;
 use App\User;
 use JWTAuthException;
@@ -45,7 +41,6 @@ class UserController extends Controller
                 ]);
                 $user = User::find($user->id);
                 $user->activateInvite();
-
             } else {
                 $user = $this->user->create([
                     'name' => $request->get('name'),
@@ -77,7 +72,7 @@ class UserController extends Controller
         } catch (JWTAuthException $e) {
             return response()->json(['failed_to_create_token'], 500);
         }
-        return response()->json(compact('token'));
+    return response()->json(compact('token'));
     }
 
     /**

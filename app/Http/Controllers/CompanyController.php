@@ -123,7 +123,7 @@ class CompanyController extends Controller
                 }
             }
             $assigned = CompanySurvey::where('company_id', $company->id)->get();
-           return response(['assigned' => $assigned], 201);
+            return response(['assigned' => $assigned], 201);
         } else {
             return response(['message' => 'Page not found'], 404);
         }

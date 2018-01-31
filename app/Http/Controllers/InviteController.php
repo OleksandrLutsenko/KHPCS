@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Company;
 use App\Invite;
 use App\Role;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,8 +38,6 @@ class InviteController extends Controller
             );
         }
     }
-
-
 
     public function A(Request $request, Invite $invite)
     {
@@ -90,6 +87,5 @@ class InviteController extends Controller
                 "error" => "You do not have a permission"], 404
             );
         }
-
     }
 }
