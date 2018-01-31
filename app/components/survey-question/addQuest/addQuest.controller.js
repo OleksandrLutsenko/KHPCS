@@ -81,7 +81,7 @@
                 succes = true;
             }
 
-            if (vm.questForm.title.$invalid || vm.questForm.type.$invalid || !succes) {
+            if (vm.questForm.$invalid || !succes) {
             }
             else if ((vm.data.type == 1 || vm.data.type == 0) && couterLenght < 2) {
                 toastr.error('Answer lenght min 2');
