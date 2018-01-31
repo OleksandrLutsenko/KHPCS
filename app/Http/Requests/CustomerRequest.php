@@ -31,7 +31,8 @@ class CustomerRequest extends FormRequest
         ];
     }
 
-    public function getCustomerAttribute(){
+    public function getCustomerAttribute()
+    {
         if (Auth::user()->isAdmin()) {
             $attributes['user_id'] = null;
             $attributes['company_id'] = $this->company_id;
@@ -39,6 +40,9 @@ class CustomerRequest extends FormRequest
             $attributes['user_id'] = Auth::user()->id;
             $attributes['company_id'] = Auth::user()->company_id;
         }
+        $attributes['name'] = $this->name;
+        $attributes['surname'] = $this->surname;
+        $attributes['classification'] = $this->classification;
         return $attributes;
     }
 }
