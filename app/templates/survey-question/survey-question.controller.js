@@ -35,6 +35,9 @@
         vm.toggleLeft = toggleLeft;
         vm.editButton = editButton;
 
+        vm.mandatoryChecked = mandatoryChecked;
+        vm.mandatoryCheck = mandatoryCheck;
+
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
@@ -264,11 +267,11 @@
             });
         }
 
-        vm.exists = function (question) {
+        function mandatoryChecked(question) {
             return question.mandatory;
         };
 
-        vm.toggleTodo = function (saveTodo) {
+        function mandatoryCheck(saveTodo) {
             angular.forEach(vm.items, function (question) {
                 if (saveTodo.id === question.id) {
                     if (question.mandatory) {

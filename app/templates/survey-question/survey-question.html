@@ -66,8 +66,8 @@
                                 <div class="icons" ng-show="!vm.edit" layout="row">
 
                                     <md-checkbox class="md-primary"
-                                                 ng-model="question.mandatory" ng-click="vm.toggleTodo(question)"
-                                                 ng-checked="vm.exists(question)"
+                                                 ng-model="question.mandatory" ng-click="vm.mandatoryCheck(question)"
+                                                 ng-checked="vm.mandatoryChecked(question)"
                                     aria-label="1">
                                     </md-checkbox>
                                     <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg"
@@ -114,11 +114,6 @@
                                                         </div>
 
                                                         <div class="icons" ng-show="!vm.edit" layout="row">
-                                                            <!--<md-checkbox class="md-primary"-->
-                                                                         <!--aria-label="mandatory-check"-->
-                                                                         <!--ng-model="vm.mandatoryFill[question.id]"-->
-                                                                         <!--ng-change="vm.mandatoryCheck(question.id)"-->
-                                                            <!--&gt; </md-checkbox>-->
                                                             <md-icon
                                                                     ng-click="vm.showEdit(mainKey, answerKey, questionKey)"
                                                                     md-svg-src="content/icons/icon_edit.svg"
