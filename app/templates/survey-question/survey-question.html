@@ -114,14 +114,18 @@
                                                         </div>
 
                                                         <div class="icons" ng-show="!vm.edit" layout="row">
-                                                            <md-icon
-                                                                    ng-click="vm.showEdit(mainKey, answerKey, questionKey)"
-                                                                    md-svg-src="content/icons/icon_edit.svg"
-                                                                    aria-label="android "></md-icon>
-                                                            <md-icon
-                                                                    ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)"
-                                                                    md-svg-src="content/icons/icon_delete.svg"
-                                                                    aria-label="android "></md-icon>
+                                                            <i class="material-icons"
+                                                               ng ng-click="vm.showEdit(mainKey, answerKey, questionKey)"">mode_edit</i>
+                                                            <i class="material-icons"
+                                                               ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)">highlight_off</i>
+                                                            <!--<md-icon-->
+                                                                    <!--ng-click="vm.showEdit(mainKey, answerKey, questionKey)"-->
+                                                                    <!--md-svg-src="content/icons/icon_edit.svg"-->
+                                                                    <!--aria-label="android "></md-icon>-->
+                                                            <!--<md-icon-->
+                                                                    <!--ng-click="vm.deleteQuest(child_questions.id, mainKey, answerKey, questionKey)"-->
+                                                                    <!--md-svg-src="content/icons/icon_delete.svg"-->
+                                                                    <!--aria-label="android "></md-icon>-->
                                                         </div>
                                                     </div>
 

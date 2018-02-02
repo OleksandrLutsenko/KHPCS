@@ -8,18 +8,20 @@
   .logo-tabs img {
     height: 100px;
   }
-  .nav-menu{
+  .log-btn {
+    display: flex;
+  }
+
+  .nav-menu {
     background-color: #001041;
     height: 48px;
   }
   .nav {
-
     p {
       text-transform: none;
-      margin: 0;
     }
   }
-  .exit-menu{
+  .exit-menu {
     height: 48px;
     display: flex;
   }
@@ -36,7 +38,7 @@
     padding: 12px 30px;
   }
 
-  .side-menu{
+  .side-menu {
     height: fit-content;
   }
 
@@ -46,11 +48,11 @@
     padding: 14px;
   }
 
-  .md-sidenav-right{
+  .md-sidenav-right {
     height: fit-content;
   }
 
-  @media  (max-width: 835px) {
+  @media (max-width: 835px) {
     .nav {
       display: none;
     }
@@ -58,8 +60,13 @@
       display: flex;
     }
   }
-  .md-button{
+  .md-button {
     text-transform: capitalize;
   }
-
+}
+.log-btn{
+  display: flex !important;
+}
+.log-btn i {
+  margin-right: 5px;
 }

@@ -504,7 +504,7 @@
             $mdDialog.show({
                 controller: 'RemoveTemplateController',
                 controllerAs: 'vm',
-                templateUrl: 'components/deleteView/deleteView.html',
+                templateUrl: 'components/delete-view/delete-view.html',
                 clickOutsideToClose: true,
                 locals: {
                     data: {
@@ -663,7 +663,7 @@
             $mdDialog.show({
                 controller: 'RemoveUserVarController',
                 controllerAs: 'vm',
-                templateUrl: 'components/deleteView/deleteView.html',
+                templateUrl: 'components/delete-view/delete-view.html',
                 clickOutsideToClose: true,
                 locals: {
                     data: {

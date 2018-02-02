@@ -79,12 +79,14 @@
 
                 <md-menu-content width="4">
 
-                    <md-menu-item>
-                        <md-button ui-sref="tab.profile" ng-click="vm.closeNavButton()">Profile</md-button>
+                    <md-menu-item >
+                        <md-button ui-sref="tab.profile" ng-click="vm.closeNavButton()" class="log-btn">
+                            <i class="material-icons">account_circle</i>Profile</md-button>
                     </md-menu-item>
 
                     <md-menu-item>
-                        <md-button ng-click="vm.logout()">Logout</md-button>
+                        <md-button ng-click="vm.logout()" class="log-btn">
+                            <i class="material-icons">exit_to_app</i>Logout</md-button>
                     </md-menu-item>
 
                 </md-menu-content>

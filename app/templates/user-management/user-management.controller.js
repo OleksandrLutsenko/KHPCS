@@ -94,7 +94,7 @@
         //     $mdDialog.show({
         //         controller: 'AnnonceController',
         //         controllerAs: 'vm',
-        //         templateUrl: 'components/user-management/addClient/annonce.html',
+        //         templateUrl: 'components/user-management/add-client/annonce.html',
         //         clickOutsideToClose: true
         //     }).then(function () {
         //         pass(id);
@@ -105,7 +105,7 @@
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
-                templateUrl: 'components/deleteView/deleteView.html',
+                templateUrl: 'components/delete-view/delete-view.html',
                 clickOutsideToClose: true
             }).then(function () {
                 customerService.deleteCustomers(id).then(function (res) {
@@ -132,7 +132,7 @@
                         customers: customers,
                     }
                 },
-                templateUrl: 'components/user-management/addClient/addClient.html',
+                templateUrl: 'components/user-management/add-client/add-client.html',
                 clickOutsideToClose: true
             }).then(function (res) {
                 if (res.type === 'update') {

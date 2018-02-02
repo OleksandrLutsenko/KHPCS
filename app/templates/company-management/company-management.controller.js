@@ -51,7 +51,7 @@
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
-                templateUrl: 'components/deleteView/deleteView.html',
+                templateUrl: 'components/delete-view/delete-view.html',
                 clickOutsideToClose: true
             }).then(function () {
                 companyService.companyDel(id).then(function (res) {

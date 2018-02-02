@@ -18,7 +18,6 @@
             else {
                 userService.forgot(vm.data).then(function (res) {
                     if (res.success) {
-                        console.log('sent token');
                         toastr.success('Instructions was sent on your email');
                         $state.go('login');
                     }

@@ -124,7 +124,7 @@
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in vm.customersCompany | filter: vm.search |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            ng-repeat="customers in filteredCustomers = (vm.customersCompany | filter:vm.search) |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname }}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell>
@@ -147,7 +147,7 @@
 
                 </md-table-container>
                 <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
-                                     md-total="{{vm.customersCompany.length}}" md-page-select>
+                                     md-total="{{filteredCustomers.length}}" md-page-select>
                 </md-table-pagination>
             </md-card>
         </div>

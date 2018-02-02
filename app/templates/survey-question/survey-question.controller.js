@@ -202,7 +202,7 @@
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
-                templateUrl: 'components/deleteView/deleteView.html',
+                templateUrl: 'components/delete-view/delete-view.html',
                 clickOutsideToClose: true
             }).then(function () {
                 if (typeof questionKey != 'undefined') {
@@ -262,7 +262,7 @@
                         idBlock: idBlock
                     }
                 },
-                templateUrl: 'components/survey-question/addQuest/addQuest.html',
+                templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
             });
         }
