@@ -38,7 +38,7 @@
                 }
             },
             survey_management: {
-                createSurvey: baseUrl + 'api/survey',
+                createSurvey: baseUrl + 'api/survey'
             },
             reset_func: function (token) {
                 return {resetPass: baseUrl + 'api/user/reset-password?token=' + token}
@@ -60,7 +60,8 @@
                     updateBlock: baseUrl + 'api/block/' + id,
                     orderUpdate: baseUrl + 'api/survey/' + id + '/order-update',
                     //
-                    addBlockQuestion: baseUrl + 'api/block/' + id + '/add-block-questions'
+                    addBlockQuestion: baseUrl + 'api/block/' + id + '/add-block-questions',
+                    updateQuestion: baseUrl + 'api/question/' + id
                 };
             },
             customers: {

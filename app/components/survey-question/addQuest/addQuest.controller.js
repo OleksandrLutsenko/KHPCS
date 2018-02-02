@@ -6,7 +6,7 @@
 
     AddQuestionController.$inject = ['$mdDialog', 'data', 'blockService', 'toastr'];
 
-    function AddQuestionController($mdDialog, data, blockService, toastr) {
+    function AddQuestionController($mdDialog, data, blockService, toastr ) {
         let vm = this;
 
         vm.addAnsver = addAnsver;
@@ -25,7 +25,7 @@
             itemsOrig = data.items[mainKey].answers[answerKey].child_questions;
             vm.data = angular.copy(itemsOrig[questionKey]);
         }
-        else if(typeof mainKey != 'undefined'){
+        else if (typeof mainKey != 'undefined') {
             itemsOrig = data.items;
             vm.data = angular.copy(itemsOrig[mainKey]);
         }
@@ -42,7 +42,7 @@
                 && vm.data.answers[vm.data.answers.length - 1].answer_text !== '') {
 
                 let tmpObj = {
-                  child_questions: []
+                    child_questions: []
                 };
 
                 vm.data.answers.push(tmpObj);
@@ -60,19 +60,18 @@
 
         }
 
-
-
         function save() {
+
             let succes = true;
             let couterLenght = 0;
 
-            if(vm.data.type == 1 || vm.data.type == 0){
+            if (vm.data.type == 1 || vm.data.type == 0) {
                 vm.data.answers.forEach(function (item) {
-                    if(!item.delete){
+                    if (!item.delete) {
                         couterLenght++
                     }
 
-                    if(typeof item.answer_text == 'undefined' || item.answer_text == ''){
+                    if (typeof item.answer_text == 'undefined' || item.answer_text == '') {
                         succes = false
                     }
                 });
@@ -87,10 +86,9 @@
                 toastr.error('Answer lenght min 2');
             }
             else {
-                console.log('mainKey', mainKey);
-                if(typeof questionKey != 'undefined'){
+                if (typeof questionKey != 'undefined') {
 
-                    if (vm.data.type == 1 || vm.data.type == 0){
+                    if (vm.data.type == 1 || vm.data.type == 0) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
@@ -99,14 +97,14 @@
                     let dataForSend = [vm.data];
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if(res.success){
+                        if (res.success) {console.log('1', dataForSend);
                             itemsOrig.splice(questionKey, 1, vm.data);
                         }
                     })
                 }
-                else if(typeof mainKey != 'undefined') {
+                else if (typeof mainKey != 'undefined') {
 
-                    if (vm.data.type == 1 || vm.data.type == 0){
+                    if (vm.data.type == 1 || vm.data.type == 0) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
@@ -115,7 +113,7 @@
                     let dataForSend = [vm.data];
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if(res.success){
+                        if (res.success) {
                             itemsOrig.splice(mainKey, 1, vm.data);
                         }
                     })
@@ -123,24 +121,23 @@
                 else {
                     vm.data.child_order_number = null;
 
-                    if(itemsOrig.length == 0){
+                    if (itemsOrig.length == 0) {
                         vm.data.order_number = 0;
                     }
                     else {
                         vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
                     }
 
-                    if (vm.data.type == 1 || vm.data.type == 0){
+                    if (vm.data.type == 1 || vm.data.type == 0) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
 
-
                     let dataForSend = [vm.data];
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if(res.success){
+                        if (res.success) {
                             itemsOrig.push(res.data.questions[0]);
                         }
                     })

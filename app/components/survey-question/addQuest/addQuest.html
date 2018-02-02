@@ -79,7 +79,6 @@
                     Add Answer
                 </md-button>
 
-                <!--<md-virtual-repeat-container id = "answer-container">-->
                 <div class="answer-container">
                     <div layout="row" ng-repeat="answers in vm.data.answers" class="answer"
                          ng-if="(vm.data.type == 1 || vm.data.type == 0) && !answers.delete">
@@ -102,12 +101,9 @@
 
                     </div>
                 </div>
-                <!--</md-virtual-repeat-container>-->
-
             </div>
 
         </md-dialog-content>
-
 
         <md-dialog-actions class="bot-btn" layout="row" layout-align="space-between center">
             <md-button class="md-raised md-primary" type="submit">Save</md-button>
@@ -115,6 +111,4 @@
         </md-dialog-actions>
 
     </form>
-
-
 </md-dialog>

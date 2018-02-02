@@ -64,16 +64,12 @@
                                     {{question.identifier}}
                                 </div>
                                 <div class="icons" ng-show="!vm.edit" layout="row">
-                                    <!--<md-checkbox ng-model="vm.templateModel[template.id]" aria-label="Checkbox 1"-->
-                                                 <!--class="md-primary"-->
-                                                 <!--ng-change="vm.checkboxTemplates(template.survey_id , template.id)">-->
-                                    <!--</md-checkbox>-->
-                                    <!--<md-checkbox class="md-primary"-->
-                                                 <!--aria-label="mandatory-check"-->
-                                                 <!--ng-model="vm.mandatoryModel[question.id]"-->
-                                                 <!--ng-click="vm.mandatoryCheck(question)">-->
 
-                                     <!--</md-checkbox>-->
+                                    <md-checkbox class="md-primary"
+                                                 ng-model="question.mandatory" ng-click="vm.toggleTodo(question)"
+                                                 ng-checked="vm.exists(question)"
+                                    aria-label="1">
+                                    </md-checkbox>
                                     <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg"
                                              aria-label="android "></md-icon>
                                     <md-icon ng-click="vm.deleteQuest(question.id, mainKey)"

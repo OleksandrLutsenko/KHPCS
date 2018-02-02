@@ -121,7 +121,13 @@
                     assignST: function (companyService, oneCompany) {
                         let id = oneCompany.id;
                         return companyService.selectedSurvTempInCompany(id);
-                    }
+                    },
+                    loadSurvey: function (surveyService) {
+                        return surveyService.loadSurveyOnly();
+                    },
+                    loadTemp: function (contractService) {
+                        return contractService.loadTemplateList();
+                    },
                 }
             })
             .state('tab.survey-management', {

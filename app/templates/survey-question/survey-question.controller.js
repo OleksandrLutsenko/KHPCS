@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['$sessionStorage','survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', 'tabsService', 'surveyService'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
 
-    function SurveyQuestionController( $sessionStorage,survey, $scope, $mdDialog, blockService, toastr, items, tabsService, surveyService) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -22,6 +22,7 @@
         let idBlock = activeBlock.id;
 
         vm.items = items[indexBlock].questions;
+
         vm.nameBlock = items[indexBlock].name;
         vm.edit = false;
 
@@ -263,35 +264,25 @@
             });
         }
 
-        // vm.mandatoryModel = [];
-        //
-        // vm.mandatoryModel.forEach(function (template) {
-        //     for (let at in assignTemplates) {
-        //         if (template.id !== assignTemplates[at].contract_id) {
-        //             vm.templateModel[template.id] = false;
-        //         } else {
-        //             vm.templateModel[template.id] = true;
-        //             break;
-        //         }
-        //     }
-        // });
-        //
-        //
-        // vm.mandatoryCheck = mandatoryCheck;
-        // function mandatoryCheck(question) {
-        //
-        //     console.log(question);
-        //
-        //     if (vm.mandatoryModel[question.id] === false) {
-        //         console.log('false', vm.mandatoryModel[question.id]);
-        //         question = vm.mandatoryModel[question];
-        //     } else {
-        //         console.log('true', vm.mandatoryModel[question.id]);
-        //         question = vm.mandatoryModel[question];
-        //     }
-        //     // $sessionStorage['mandatory_question'] = question;
-        //     console.log(vm.mandatoryModel);
-        // };
+        vm.exists = function (question) {
+            return question.mandatory;
+        };
+
+        vm.toggleTodo = function (saveTodo) {
+            angular.forEach(vm.items, function (question) {
+                if (saveTodo.id === question.id) {
+                    if (question.mandatory) {
+                        question.mandatory = false;
+                    } else {
+                        question.mandatory = true;
+                    }
+                    vm.data = question;
+                    blockService.updateQuestion(vm.data.id, vm.data).then(function (res) {
+                    });
+                }
+
+            });
+        }
 
     }
 })();

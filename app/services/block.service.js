@@ -16,11 +16,16 @@
         model.updateBlock = updateBlock;
         model.deleteBlock = deleteBlock;
         model.orderUpdate = orderUpdate;
+        model.updateQuestion = updateQuestion;
 
         return model;
 
-        function addBlockQuestion(id, credentials) {
-            return http.post(url.survey_management_func(id).addBlockQuestion, credentials);
+        function addBlockQuestion(id, data) {
+            return http.post(url.survey_management_func(id).addBlockQuestion, data);
+        }
+
+        function updateQuestion(id , data) {
+            return http.put(url.survey_management_func(id).updateQuestion , data)
         }
 
         function createBlock(id, credentials) {

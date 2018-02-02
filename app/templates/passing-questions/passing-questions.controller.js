@@ -298,8 +298,8 @@
 
             console.log('dataForSend', dataForSend);
 
-            if (!succesNext) {
-                toastr.error('All fields should be complited');
+            if (vm.questionForm.$invalid) {
+                toastr.error('Please fill all required questions');
             }
             else {
                 passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {

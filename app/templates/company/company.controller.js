@@ -3,10 +3,10 @@
     angular.module('app')
         .controller('CompanyController', CompanyController);
 
-    CompanyController.$inject = ['$scope', 'assignST', 'contractService', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'customersCompany'];
+    CompanyController.$inject = ['loadSurvey', 'loadTemp', '$scope', 'assignST', 'userService', 'companyService', 'oneCompany', 'company', '$mdDialog', 'toastr', 'customersCompany'];
 
 
-    function CompanyController($scope, assignST, contractService, userService, companyService, oneCompany, company, $mdDialog, toastr, customersCompany) {
+    function CompanyController(loadSurvey, loadTemp, $scope, assignST,  userService, companyService, oneCompany, company, $mdDialog, toastr, customersCompany) {
         let vm = this;
         $scope.$emit('changeTab', 'page2');
 
@@ -30,29 +30,8 @@
 
         if (vm.userRole === 2) {
 
-            vm.surveys = [];
-            userService.loadSurveysOnly().then(function (res) {
-                if (res.success) {
-                    angular.forEach(res.data.onlySurvey, function (survey) {
-                        if (survey.survey_status !== 'archived') {
-                            vm.surveys.push(survey);
-                        }
-                    });
-                } else {
-                    console.log('load surveys error');
-                }
-            });
-
-            vm.templates = [];
-            contractService.loadTemplateList().then(function (res) {
-                if (res.success) {
-                    angular.forEach(res.data.contractsWithoutBody, function (tmp) {
-                        vm.templates.push(tmp);
-                    });
-                } else {
-                    console.log('load surveys error');
-                }
-            });
+            vm.surveys = loadSurvey.data.onlySurvey;
+            vm.templates = loadTemp.data.contractsWithoutBody;
 
             let assignTemplates = assignST.data;
             vm.templateModel = [];
