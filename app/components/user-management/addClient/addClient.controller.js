@@ -4,15 +4,50 @@
         .module('app')
         .controller('AddClientController', AddClientController);
 
-    AddClientController.$inject = ['data', '$mdDialog', 'customerService', 'customers', '$state', 'surveyService', 'companyService', 'userService'];
+    AddClientController.$inject = ['data', '$mdDialog', 'customerService', 'customers', '$state', 'surveyService', 'companyService', 'userService', 'contractService', 'survey', 'toastr'];
 
-    function AddClientController(data, $mdDialog, customerService, customers, $state, surveyService, companyService, userService) {
+    function AddClientController( data, $mdDialog, customerService, customers, $state, surveyService, companyService, userService, contractService, survey, toastr) {
         let vm = this;
 
         vm.save = save;
         vm.cancel = cancel;
         vm.continue = continueQuest;
         vm.pass = pass;
+
+        console.log(data.surveys);
+        vm.surveys = data.surveys;
+        console.table(vm.surveys);
+        // vm.templates = contractService.loadTemplateList();
+        // console.table(vm.templates);
+
+
+
+        contractService.loadTemplateList().then(function (res) {
+            if (res.success) {
+                vm.templates = res.data.contractsWithoutBody;
+                console.table(vm.templates);
+
+                // if (vm.surveys.length) {
+                //
+                //     for (let i = 0; i < vm.surveys.length; i++) {
+                //         if (vm.surveys[i].survey_status === 'active' || vm.surveys[i].survey_status === 'inactive') {
+                //             activeSurveyID = vm.surveys[i].survey_id;
+                //             vm.activeSurveyName = vm.surveys[i].survey_name;
+                //             break;
+                //         }
+                //     }
+                //
+                //     loadOneSurvey(activeSurveyID);
+                //     loadTemplates(activeSurveyID);
+                //     loadAllUserVariability();
+                //     CKEDITOR.instances.CKeditorArea.setData('');
+                // }
+            } else {
+                console.log('load templates error');
+            }
+        });
+
+
 
         vm.customers = customerService.getCustomers();
         vm.user = userService.getUser();
@@ -38,6 +73,7 @@
         }
 
         function pass(id) {
+            survey.selectedSurveys(vm.chosenSurvey);
             customers.setActiveCustomers(id);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
@@ -75,11 +111,17 @@
                 else {
                     customerService.createCustomers(vm.data).then(function (res) {
                         if (res.success) {
-                            let tmpObj = {
-                                type: 'create',
-                                data: res.data
-                            };
-                            $mdDialog.hide(tmpObj);
+                            if((vm.chosenSurvey.length === 0) || (!vm.goThrough)){
+                                let tmpObj = {
+                                    type: 'create',
+                                    data: res.data
+                                };
+                                $mdDialog.hide(tmpObj);
+                            } else {
+                                userService.setPackData(vm.chosenTemplates, res.data);
+                                toastr.success('User was created');
+                                vm.pass(res.data.id);
+                            }
                         } else {
                             cancel();
                         }
@@ -87,5 +129,76 @@
                 }
             }
         }
+
+
+        ///____________________Process _________________
+        vm.goThrough = false;
+        vm.printItem = function () {
+            console.log(vm.goThrough);
+        }
+
+        vm.noneTmp = function (surv_id) {
+            let status = true;
+            for (let index in vm.templates) {
+                if (vm.templates[index].survey_id === surv_id) {
+                    status = false;
+                    break;
+                }
+            }
+            return status;
+        };
+
+        ///____________________Psssing _________________
+
+        vm.survModel = [];
+
+        vm.chosenSurvey = [];
+        vm.chooseSurveys = function (survey_id) {
+            if (vm.survModel[survey_id] === true) {
+                vm.chosenSurvey.push(survey_id);
+            } else {
+                for (let survey in vm.chosenSurvey) {
+                    if (vm.chosenSurvey[survey] === survey_id) {
+                        vm.chosenSurvey.splice(survey, 1);
+                        break;
+                    }
+                }
+                for (let survey in vm.chosenTemplates){
+                    if (vm.chosenTemplates[survey].survey_id === survey_id) {
+                        vm.chosenTemplates.splice(survey, 1);
+                        break;
+                    }
+                }
+            }
+        };
+
+        ///____________________Download _________________
+
+        vm.templateModel = [];
+        vm.chosenTemplates = [];
+
+
+        vm.chooseTemplates = function (survey_id, survey_name, template_id, template_title) {
+            let templateSurvay = {
+                survey_id: survey_id,
+                survey_name: survey_name,
+                template_id: template_id,
+                template_title: template_title
+            }
+
+            if (!vm.chosenTemplates.length){
+                vm.chosenTemplates.push(templateSurvay);
+            } else {
+                for (let survey in vm.chosenTemplates){
+                    if (vm.chosenTemplates[survey].survey_id === survey_id) {
+                        vm.chosenTemplates.splice(survey, 1);
+                        break;
+                    }
+                }
+                vm.chosenTemplates.push(templateSurvay);
+            }
+        };
+
+
     }
 })();

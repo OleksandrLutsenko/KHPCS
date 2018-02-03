@@ -1,5 +1,5 @@
-<md-dialog flex="40" flex-xs="90" flex-sm="60" class="add-client">
-    <div>
+<md-dialog flex="40" flex-xs="90"  flex-sm="70"   class="add-client">
+
 
         <md-toolbar ng-if="vm.id == undefined" layout="row" layout-align="center" class="view-head">
             <p>Add a new client</p>
@@ -8,9 +8,10 @@
             <p>Editing client</p>
         </md-toolbar>
 
-        <div class="content-add">
+
             <form name="vm.customersForm" ng-submit="vm.save()" novalidate>
-                <div class="all-input" layout="column">
+
+                <md-dialog-content class="all-input" layout="column">
                     <md-input-container>
                         <label>Client name</label>
                         <input type="text" name="name" ng-model="vm.data.name" required maxlength="32">
@@ -39,42 +40,74 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
-                        <md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.id === undefined">
-                            <label>Choose a company</label>
-                            <md-select ng-model="vm.data.company_id" name="company" required="">
-                                <md-option ng-repeat="company in vm.companies" value="{{company.id}}">
-                                    {{company.name}}
-                                </md-option>
-                            </md-select>
-                            <div ng-messages="vm.customersForm.company.$error">
-                                <div ng-message="required">This is required.</div>
+                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.id === undefined">
+                        <label>Choose a company</label>
+                        <md-select ng-model="vm.data.company_id" name="company" required="">
+                            <md-option ng-repeat="company in vm.companies" value="{{company.id}}">
+                                {{company.name}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="vm.customersForm.company.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                    <md-checkbox ng-model="vm.goThrough" aria-label="Checkbox 1" ng-if="vm.id === undefined"
+                                 class="box">
+                        Go through the survey and download the contract
+                    </md-checkbox>
+
+                    <div ng-if="vm.id === undefined && vm.goThrough ">
+                        <md-button>Print some</md-button>
+                        <div ng-repeat="survey in vm.surveys" layout="row" layout-align="space-between center"
+                        ng-if="survey.survey_status !== 'archived'">
+                            <md-checkbox aria-label="Checkbox 1"
+                                         class="md-primary box-survey"
+                                         ng-model="vm.survModel[survey.survey_id]"
+                                         ng-change="vm.chooseSurveys(survey.survey_id)">
+                                <p>{{survey.survey_name}}</p>
+                            </md-checkbox>
+
+                            <div class="" ng-if="vm.noneTmp(survey.survey_id) && vm.survModel[survey.survey_id]">
+                                <p>Only take a survey (No templates)</p>
                             </div>
-                        </md-input-container>
+
+                            <md-input-container class="md-block"
+                                                ng-if="!vm.noneTmp(survey.survey_id) && vm.survModel[survey.survey_id]"
+                                                ng-click="showeList = true">
+                                <label>Select a template</label>
+                                <md-select
+                                        ng-model="vm.templateModel[survey.survey_id]">
+                                    <md-option ng-repeat="template in vm.templates" value="{{template.title}}"
+                                               ng-if="showeList && survey.survey_id === template.survey_id"
+                                               ng-click="vm.chooseTemplates(survey.survey_id,
+                                               survey.survey_name, template.id, template.title)">
+                                        <span>
+                                        {{template.title}}
+                                        </span>
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
+                        </div>
+                    </div>
+                </md-dialog-content>
 
 
-
-                    <!--<md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="box">-->
-                        <!--Go through the survey and download the contract-->
-                    <!--</md-checkbox>-->
-
-                    <!--<div ng-if="data.cb1">-->
-                        <!--<p>surv1</p>-->
-                        <!--<p>surv2</p>-->
-                        <!--<p>surv3</p>-->
-                        <!--<p>surv4</p>-->
-                    <!--</div>-->
-
-
-                </div>
-                <div class="bot-btn" layout="row" layout-align="space-between">
-                    <md-button class="md-raised md-primary" type="submit" ng-if="vm.id === undefined">Create
+                <md-dialog-actions class="bot-btn client-btn" layout="row" layout-align="space-between">
+                    <md-button class="md-raised md-primary" type="submit" ng-if="vm.goThrough">Start test
+                    </md-button>
+                    <md-button class="md-raised md-primary" type="submit"
+                               ng-if="vm.id === undefined && !vm.goThrough">Create
                     </md-button>
                     <md-button class="md-raised md-primary" type="submit" ng-if="vm.id !== undefined">Save
                     </md-button>
                     <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
-                </div>
+                </md-dialog-actions>
             </form>
 
-        </div>
-    </div>
+
+
+
 </md-dialog>
+
+
+

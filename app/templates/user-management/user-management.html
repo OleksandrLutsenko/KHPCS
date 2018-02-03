@@ -45,8 +45,7 @@
                                     <label>Choose a survey</label>
                                     <md-select class="md-block-restyle" ng-model="vm.select"
                                                md-on-close="vm.clearCheck()"
-                                               md-on-open="vm.checkStatus(customers)"
-                                    >
+                                               md-on-open="vm.checkStatus(customers)">
                                         <md-list ng-repeat="survey in vm.surveys"
                                                  ng-if="survey.survey_status !== 'archived'">
                                             <md-list-item class="secondary-button-padding">
@@ -64,7 +63,7 @@
                                             </md-list-item>
                                         </md-list>
                                         <md-button class="start-btn md-primary"
-                                                   ng-click="vm.pass(customers.id , checkSelect)"
+                                                   ng-click="vm.pass(customers.id)"
                                                    ng-if="vm.surveys !== undefined">
                                             Get started
                                         </md-button>

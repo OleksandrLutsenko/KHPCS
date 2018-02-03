@@ -10,6 +10,7 @@
         let vm = this;
         tabsService.startTab();
         $scope.$emit('changeTab', 'page1');
+        userService.downloadPackagePDF('downloadPDF is worck');
 
 
 
@@ -29,9 +30,9 @@
 
         if (vm.surveys !== undefined) {
             vm.survModel = [];
-            vm.surveys.forEach(function (survey) {
-                vm.survModel[survey.survey_id] = false;
-            });
+            // vm.surveys.forEach(function (survey) {
+            //     vm.survModel[survey.survey_id] = false;
+            // });
         }
 
         vm.chosenSurvey = [];
@@ -73,9 +74,9 @@
             console.log(vm.surveys);
         }
 
-        function pass(id, checkSelect) {
-            checkSelect = true;
-            vm.checkSelect = checkSelect;
+        function pass(id) {
+            // checkSelect = true;
+            vm.checkSelect = true;
             customers.setActiveCustomers(id);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
@@ -122,6 +123,7 @@
                     data: {
                         id: id,
                         customers: customers,
+                        surveys: vm.surveys
                     }
                 },
                 templateUrl: 'components/user-management/addClient/addClient.html',

@@ -8,6 +8,12 @@
     userService.$inject = ['http', 'url', '$localStorage', '$sessionStorage'];
 
     function userService(http, url, $localStorage, $sessionStorage) {
+
+        //Download package pdf
+        let chosenTemplates;
+        let customer;
+
+
         let model = {};
         model.login = login;
         model.getToken = getToken;
@@ -28,6 +34,10 @@
         //DownloadContract
         model.getContract = getContract;
         model.removePdf = removePdf;
+
+        //Download package pdf
+        model.downloadPackagePDF = downloadPackagePDF;
+        model.setPackData = setPackData;
 
         return model;
 
@@ -105,6 +115,16 @@
         }
         function removePdf(idReport) {
             return http.delete(url.contract_download_func(idReport).removePDF);
+        }
+
+        function downloadPackagePDF(some) {
+            console.log("_______________dfsdfsdfsd________________");
+            console.log(customer);
+            console.log(chosenTemplates);
+        }
+        function setPackData(TemplatesArr, customerArr) {
+            chosenTemplates = TemplatesArr;
+            customer = customerArr;
         }
     }
 })();

@@ -9,7 +9,7 @@
   }
 
   .all-input {
-    padding-bottom: 20px;
+    padding: 30px 30px 0 30px;
   }
 
   .company-input{
@@ -19,6 +19,26 @@
   .box{
     margin-top: 20px;
   }
+
+  .survey-list{
+    overflow: auto;
+    height: 200xp;
+  }
+
+  .single-survey{
+    margin: 10px;
+  }
+
+  .client-btn{
+    padding: 20px 30px 30px 30px;
+  }
+
+  .client-btn button{
+    padding: 0;
+    margin: 0;
+  }
+
+
 
 
 
