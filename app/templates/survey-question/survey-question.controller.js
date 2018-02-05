@@ -266,6 +266,10 @@
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
+            }).then(function () {
+                $scope.$emit('changeItems', vm.items);
+            },function () {
+                
             });
         }
 

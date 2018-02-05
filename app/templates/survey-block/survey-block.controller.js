@@ -163,9 +163,9 @@
                             toastr.success('Block was deleted');
                         }
                     }
-                }, function () {
-
                 });
+            }, function () {
+
             });
         }
     }

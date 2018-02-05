@@ -68,7 +68,7 @@
                                     <md-checkbox class="md-primary"
                                                  ng-model="question.mandatory" ng-click="vm.mandatoryCheck(question)"
                                                  ng-checked="vm.mandatoryChecked(question)"
-                                    aria-label="1">
+                                                 ng-if="question.type !== 1" aria-label="1">
                                     </md-checkbox>
                                     <md-icon ng-click="vm.showEdit(mainKey)" md-svg-src="content/icons/icon_edit.svg"
                                              aria-label="android "></md-icon>

@@ -99,7 +99,6 @@
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                         if (res.success) {
                             itemsOrig.splice(questionKey, 1, vm.data);
-                            $scope.$emit('changeItems', vm.items);
                         }
                     })
                 }
@@ -116,7 +115,6 @@
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                         if (res.success) {
                             itemsOrig.splice(mainKey, 1, vm.data);
-                            $scope.$emit('changeItems', vm.items);
                         }
                     })
                 }
@@ -137,11 +135,10 @@
                     }
 
                     let dataForSend = [vm.data];
-
+                    dataForSend[0].mandatory = 1;
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                         if (res.success) {
                             itemsOrig.push(res.data.questions[0]);
-                            $scope.$emit('changeItems', vm.items);
                         }
                     })
                 }
