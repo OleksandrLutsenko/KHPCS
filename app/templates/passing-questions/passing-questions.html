@@ -35,12 +35,12 @@
                         <div ng-if="questions.type == 0">
                             <div>
                                 <div ng-repeat="answers in questions.answers"
-                                     required="{{questions.mandatory}}">
+                                     ng-required="{{questions.mandatory}}" >
                                     <md-checkbox ng-checked="vm.exists(answers.id, vm.data[mainKey].mainData)"
                                                  class="md-primary"
                                                  ng-click="vm.toggle(answers.id, vm.data[mainKey].mainData)"
-
-                                                 name="typeZero">
+                                                 name="typeZero"
+                                                 >
                                         {{answers.answer_text}}
                                     </md-checkbox>
                                 </div>
@@ -50,7 +50,7 @@
                         <div ng-if="questions.type == 1">
                             <md-input-container>
                             <md-radio-group ng-model="vm.data[mainKey].mainData"
-                                            required="{{questions.mandatory}}">
+                                            ng-required="{{questions.mandatory}}">
                                 <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}"
                                                  class="md-primary"
                                                  name="typeOne">
