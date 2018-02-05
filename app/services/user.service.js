@@ -8,6 +8,7 @@
     userService.$inject = ['http', 'url', '$localStorage', '$sessionStorage'];
 
     function userService(http, url, $localStorage, $sessionStorage) {
+
         let model = {};
         model.login = login;
         model.getToken = getToken;
@@ -28,6 +29,15 @@
         //DownloadContract
         model.getContract = getContract;
         model.removePdf = removePdf;
+
+        //Download package pdf
+        model.downloadPackagePDF = downloadPackagePDF;
+        model.setPackData = setPackData;
+
+        //Download package pdf
+        let chosenTemplates = undefined;
+        let customerFromAdd = undefined;
+
 
         return model;
 
@@ -106,5 +116,71 @@
         function removePdf(idReport) {
             return http.delete(url.contract_download_func(idReport).removePDF);
         }
+
+        function downloadPackagePDF(customers) {
+            if(!(customers.length && customerFromAdd && chosenTemplates)){
+                console.log('No files for batch printing');
+            } else {
+                let reports;
+               for(let customerNumber in customers){
+                   if(customers[customerNumber].id === customerFromAdd.id){
+                       console.log(customers[customerNumber].reports);
+                       reports = customers[customerNumber].reports;
+                       break
+                   } else {
+                       console.log('user does not exist');
+                   }
+               }
+               for (let item in reports){
+                   for (let templateNumber in chosenTemplates){
+                       if(chosenTemplates[templateNumber].survey_id === reports[item].survey_id){
+                           let filename = customerFromAdd.name + '_' + customerFromAdd.name + '_'
+                               + chosenTemplates[templateNumber].template_title + '_' + new Date().getTime();
+                           filename = filename.split(' ').join('_');
+                           console.log(filename);
+                           OfferDownloadOnePDF(reports[item].id, chosenTemplates[templateNumber].template_id , filename);
+                       }
+                   }
+               }
+            }
+            chosenTemplates = undefined;
+            customerFromAdd = undefined;
+        }
+
+        function setPackData(TemplatesArr, customerArr) {
+            chosenTemplates = TemplatesArr;
+            customerFromAdd = customerArr;
+        }
+
+        function OfferDownloadOnePDF(reportId, templateId, filename) {
+            getContract(reportId, templateId, filename).then(function (links) {
+                let link = links.filePathUrlPdf;
+                if ((navigator.userAgent.search(/Chrome/) > -1) || (navigator.userAgent.search(/Safari/) > -1)) {
+                    //Creating new link node.
+                    let downloadPDF = document.createElement('a');
+                    downloadPDF.href = link;
+
+                    if (downloadPDF.download !== undefined){
+                        //Set HTML5 download attribute. This will prevent file from opening if supported.
+                        downloadPDF.download = filename;
+                    }
+
+                    //Dispatching click event.
+                    if (document.createEvent) {
+                        let e = document.createEvent('MouseEvents');
+                        e.initEvent('click' ,true ,true);
+                        downloadPDF.dispatchEvent(e);
+                        return true;
+                    }
+                }
+                else {
+                    let query = '?download';
+
+                    window.open(link + query, '_self');
+                }
+            });
+        }
+
+
     }
 })();
