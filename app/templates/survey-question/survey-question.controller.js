@@ -220,6 +220,7 @@
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                             if (res.success) {
                                 vm.items[mainKey].answers[answerKey].child_questions.splice(questionKey, 1);
+                                $scope.$emit('changeItems', vm.items);
                             }
                         });
                     }
@@ -240,6 +241,7 @@
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                             if (res.success) {
                                 vm.items.splice(mainKey, 1);
+                                $scope.$emit('changeItems', vm.items);
                             }
                         });
                     }

@@ -97,8 +97,9 @@
                     let dataForSend = [vm.data];
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if (res.success) {console.log('1', dataForSend);
+                        if (res.success) {
                             itemsOrig.splice(questionKey, 1, vm.data);
+                            $scope.$emit('changeItems', vm.items);
                         }
                     })
                 }
@@ -115,6 +116,7 @@
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                         if (res.success) {
                             itemsOrig.splice(mainKey, 1, vm.data);
+                            $scope.$emit('changeItems', vm.items);
                         }
                     })
                 }
@@ -139,6 +141,7 @@
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                         if (res.success) {
                             itemsOrig.push(res.data.questions[0]);
+                            $scope.$emit('changeItems', vm.items);
                         }
                     })
                 }

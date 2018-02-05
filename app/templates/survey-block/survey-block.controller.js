@@ -43,6 +43,10 @@
             $mdSidenav('left').toggle();
         }
 
+        $scope.$on('changeItems', function (event, data) {
+            vm.items[vm.activeBlock].questions = data;
+        });
+
         if (vm.items.length > 0) {
             if(vm.activeBlock == undefined){
                 setActiveBlock(vm.items[0].id, 0);
