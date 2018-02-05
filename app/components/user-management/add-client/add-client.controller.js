@@ -101,6 +101,7 @@
                                 userService.setPackData(vm.chosenTemplates, res.data);
                                 toastr.success('User was created');
                                 vm.pass(res.data.id);
+                                cancel();
                             }
                         } else {
                             cancel();
