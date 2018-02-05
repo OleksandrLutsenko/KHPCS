@@ -15,7 +15,7 @@ class AddQuestionsTable extends Migration
     {
         Schema::table('questions', function (Blueprint $table) {
             $table->integer('mandatory', false, 10);
-
+            $table->string('next_question')->nullable();
         });
     }
 
