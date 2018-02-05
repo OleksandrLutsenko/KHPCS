@@ -18,6 +18,7 @@ class CreateAnswersTable extends Migration
             $table->string('answer_text')->default('text');
             $table->integer('question_id', false, 10);
             $table->integer('order_number', false, 10)->nullable();
+            $table->string('next_question')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
