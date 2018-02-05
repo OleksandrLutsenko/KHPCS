@@ -21,12 +21,41 @@
   }
 
   .survey-list{
-    overflow: auto;
-    height: 200xp;
+    //overflow: auto;
+    //height: 200xp;
   }
 
   .single-survey{
-    margin: 10px;
+    min-height: 50px;
+    margin: 0 0;
+  }
+
+  .box-survey{
+    margin-bottom: 0 !important;
+  }
+  .hidden-box {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hidden-box1{
+    padding-right: 5px;
+  }
+
+
+  .select-template, .no-templates{
+    width: 180px;
+  }
+
+  .no-templates-top{
+    font-size: 12px;
+    margin: 5px 5px 5px 0;
+    color: rgba(0,0,0,0.54);
+  }
+
+  .no-templates-bottom{
+    margin-bottom: 3px
   }
 
   .client-btn{
@@ -38,6 +67,33 @@
     margin: 0;
   }
 
+  @media (max-width: 550px) {
+
+    .select-template, .no-templates{
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .single-survey {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .repeat-list{
+      padding-top: 35px;
+    }
+
+  }
+
+  @media (max-width: 410px) {
+    .hidden-box1{
+      width: 180px;
+    }
+
+    .bot-btn button:last-child {
+      margin-left: 5px;
+    }
+  }
 
 
 

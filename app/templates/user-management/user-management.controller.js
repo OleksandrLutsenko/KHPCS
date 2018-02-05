@@ -10,7 +10,9 @@
         let vm = this;
         tabsService.startTab();
         $scope.$emit('changeTab', 'page1');
-        userService.downloadPackagePDF('downloadPDF is worck');
+
+
+
 
 
 
@@ -18,6 +20,7 @@
         vm.myPage = 1;
 
         vm.customers = customerService.getCustomers();
+        userService.downloadPackagePDF(vm.customers);
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;

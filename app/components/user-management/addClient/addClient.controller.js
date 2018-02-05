@@ -14,34 +14,14 @@
         vm.continue = continueQuest;
         vm.pass = pass;
 
-        console.log(data.surveys);
         vm.surveys = data.surveys;
-        console.table(vm.surveys);
-        // vm.templates = contractService.loadTemplateList();
-        // console.table(vm.templates);
+
 
 
 
         contractService.loadTemplateList().then(function (res) {
             if (res.success) {
                 vm.templates = res.data.contractsWithoutBody;
-                console.table(vm.templates);
-
-                // if (vm.surveys.length) {
-                //
-                //     for (let i = 0; i < vm.surveys.length; i++) {
-                //         if (vm.surveys[i].survey_status === 'active' || vm.surveys[i].survey_status === 'inactive') {
-                //             activeSurveyID = vm.surveys[i].survey_id;
-                //             vm.activeSurveyName = vm.surveys[i].survey_name;
-                //             break;
-                //         }
-                //     }
-                //
-                //     loadOneSurvey(activeSurveyID);
-                //     loadTemplates(activeSurveyID);
-                //     loadAllUserVariability();
-                //     CKEDITOR.instances.CKeditorArea.setData('');
-                // }
             } else {
                 console.log('load templates error');
             }
@@ -133,9 +113,6 @@
 
         ///____________________Process _________________
         vm.goThrough = false;
-        vm.printItem = function () {
-            console.log(vm.goThrough);
-        }
 
         vm.noneTmp = function (surv_id) {
             let status = true;

@@ -56,27 +56,30 @@
                         Go through the survey and download the contract
                     </md-checkbox>
 
-                    <div ng-if="vm.id === undefined && vm.goThrough ">
-                        <md-button>Print some</md-button>
-                        <div ng-repeat="survey in vm.surveys" layout="row" layout-align="space-between center"
-                        ng-if="survey.survey_status !== 'archived'">
-                            <md-checkbox aria-label="Checkbox 1"
-                                         class="md-primary box-survey"
-                                         ng-model="vm.survModel[survey.survey_id]"
-                                         ng-change="vm.chooseSurveys(survey.survey_id)">
-                                <p>{{survey.survey_name}}</p>
-                            </md-checkbox>
+                    <div ng-if="vm.id === undefined && vm.goThrough " class="repeat-list">
+                        <div ng-repeat="survey in vm.surveys" layout="row" layout-align="space-between end"
+                        ng-if="survey.survey_status !== 'archived'" class="single-survey">
+                            <div layout="row" class="hidden-box">
+                                <md-checkbox aria-label="Checkbox 1"
+                                             class="md-primary box-survey"
+                                             ng-model="vm.survModel[survey.survey_id]"
+                                             ng-change="vm.chooseSurveys(survey.survey_id)">
 
-                            <div class="" ng-if="vm.noneTmp(survey.survey_id) && vm.survModel[survey.survey_id]">
-                                <p>Only take a survey (No templates)</p>
+                                </md-checkbox>
+                                <p class="hidden-box hidden-box1">{{survey.survey_name}}</p>
                             </div>
 
-                            <md-input-container class="md-block"
+
+                            <div class="no-templates" ng-if="vm.noneTmp(survey.survey_id) && vm.survModel[survey.survey_id]">
+                                <p class="no-templates-top">No templates</p>
+                                <p class="no-templates-bottom">Only take a survey</p>
+                            </div>
+
+                            <md-input-container class="md-block select-template"
                                                 ng-if="!vm.noneTmp(survey.survey_id) && vm.survModel[survey.survey_id]"
                                                 ng-click="showeList = true">
                                 <label>Select a template</label>
-                                <md-select
-                                        ng-model="vm.templateModel[survey.survey_id]">
+                                <md-select ng-model="vm.templateModel[survey.survey_id]">
                                     <md-option ng-repeat="template in vm.templates" value="{{template.title}}"
                                                ng-if="showeList && survey.survey_id === template.survey_id"
                                                ng-click="vm.chooseTemplates(survey.survey_id,
