@@ -40,9 +40,10 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
-                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.id === undefined">
+
+                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2">
                         <label>Choose a company</label>
-                        <md-select ng-model="vm.data.company_id" name="company" required="">
+                        <md-select ng-model="vm.data.company_id" name="company" required="" ng-disabled="{{vm.user.update}}">
                             <md-option ng-repeat="company in vm.companies" value="{{company.id}}">
                                 {{company.name}}
                             </md-option>
@@ -51,6 +52,7 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
+
                     <md-checkbox ng-model="vm.goThrough" aria-label="Checkbox 1" ng-if="vm.id === undefined"
                                  class="box">
                         Go through the survey and download the contract

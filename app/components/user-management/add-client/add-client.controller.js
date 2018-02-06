@@ -38,6 +38,9 @@
                   vm.companies = res.data.companies;
                 }
             );
+            vm.user.update = true;
+        } else {
+            vm.user.update = false;
         }
 
         let id = data.id;
@@ -103,7 +106,7 @@
                                 $mdDialog.hide(tmpObj);
                             } else {
                                 userService.setPackData(vm.chosenTemplates, res.data);
-                                toastr.success('User was created');
+                                toastr.success('New customer has been created');
                                 vm.pass(res.data.id);
                                 cancel();
                             }
