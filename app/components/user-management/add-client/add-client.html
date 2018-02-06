@@ -39,29 +39,28 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
-                        <md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.id === undefined">
-                            <label>Choose a company</label>
-                            <md-select ng-model="vm.data.company_id" name="company" required="">
-                                <md-option ng-repeat="company in vm.companies" value="{{company.id}}">
-                                    {{company.name}}
-                                </md-option>
-                            </md-select>
-                            <div ng-messages="vm.customersForm.company.$error">
-                                <div ng-message="required">This is required.</div>
-                            </div>
-                        </md-input-container>
+                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2 ">
+                        <label>Client company</label>
 
-
+                        <md-select ng-model="vm.data.company_id" name="company" ng-disabled="{{vm.user.update}}">
+                            <md-option ng-repeat="company in vm.companies" value="{{company.id}}">
+                                {{company.name}}
+                            </md-option>
+                        </md-select>
+                        <div ng-messages="vm.customersForm.company.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
 
                     <!--<md-checkbox ng-model="data.cb1" aria-label="Checkbox 1" class="box">-->
-                        <!--Go through the survey and download the contract-->
+                    <!--Go through the survey and download the contract-->
                     <!--</md-checkbox>-->
 
                     <!--<div ng-if="data.cb1">-->
-                        <!--<p>surv1</p>-->
-                        <!--<p>surv2</p>-->
-                        <!--<p>surv3</p>-->
-                        <!--<p>surv4</p>-->
+                    <!--<p>surv1</p>-->
+                    <!--<p>surv2</p>-->
+                    <!--<p>surv3</p>-->
+                    <!--<p>surv4</p>-->
                     <!--</div>-->
 
 

@@ -6,7 +6,7 @@
     UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'contractService', '$scope'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey,  contractService, $scope) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, contractService, $scope) {
         let vm = this;
         tabsService.startTab();
         $scope.$emit('changeTab', 'page1');
@@ -139,7 +139,8 @@
                     vm.customers.splice(vm.customers.indexOf(customers), 1, res.data);
                     toastr.success('Edit success');
                 } else {
-                        vm.customers.unshift(res.data);
+                    vm.customers.unshift(res.data);
+                    toastr.success('New customer has been created');
                     // annonce(res.data.id);
                 }
             }, function () {

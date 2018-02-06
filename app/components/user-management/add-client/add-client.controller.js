@@ -34,7 +34,11 @@
                 name: customersUser.name,
                 surname: customersUser.surname,
                 classification: customersUser.classification,
+                company_id: customersUser.company_id
             }
+            vm.user.update = true;
+        } else{
+            vm.user.update = false;
         }
 
         function pass(id) {
