@@ -15,6 +15,8 @@
         vm.myPage = 1;
 
         vm.customers = customerService.getCustomers();
+        userService.downloadPackagePDF(vm.customers);
+
 
         vm.pass = pass;
         vm.deleteCustomer = deleteCustomer;
@@ -130,6 +132,7 @@
                     data: {
                         id: id,
                         customers: customers,
+                        surveys: vm.surveys
                     }
                 },
                 templateUrl: 'components/user-management/add-client/add-client.html',
