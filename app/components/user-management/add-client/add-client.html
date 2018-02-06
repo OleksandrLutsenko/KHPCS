@@ -39,7 +39,7 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
-                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2 ">
+                    <md-input-container class="company-input" ng-if="vm.user.role_id == 2 && vm.user.role_id == 2 !== undefined">
                         <label>Client company</label>
 
                         <md-select ng-model="vm.data.company_id" name="company" ng-disabled="{{vm.user.update}}">
