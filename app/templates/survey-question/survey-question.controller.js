@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
+    SurveyQuestionController.$inject = [ 'survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items) {
+    function SurveyQuestionController( survey, $scope, $mdDialog, blockService, toastr, items) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -20,9 +20,10 @@
         let activeBlock = survey.getActiveBlock();
         let indexBlock = activeBlock.indexBlock;
         let idBlock = activeBlock.id;
+        let loopingValid;
 
+        vm.data = [];
         vm.items = items[indexBlock].questions;
-
         vm.nameBlock = items[indexBlock].name;
         vm.edit = false;
 
@@ -34,7 +35,6 @@
         vm.deleteQuest = deleteQuest;
         vm.toggleLeft = toggleLeft;
         vm.editButton = editButton;
-
         vm.mandatoryChecked = mandatoryChecked;
         vm.mandatoryCheck = mandatoryCheck;
 
@@ -266,16 +266,208 @@
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
-            }).then(function () {
-                $scope.$emit('changeItems', vm.items);
-            },function () {
-                
             });
+        }
+
+        console.log('vm.items ', vm.items);
+
+        if (vm.items.length) {
+            vm.chain = [vm.items[0]];
+            chain(vm.chain[0].next_question);
+        }
+
+        let dataObj = {answer: undefined};
+        vm.data.push(dataObj);
+
+        function chain(nextQuestion, questionIdentifier) {
+            let questionsArr = vm.items;
+            let tmpNextQuestion = nextQuestion;
+
+            if (vm.chain.length > 1) {
+                if (nextQuestion === null) {
+                    for (let index = 0; index < vm.chain.length; index++) {
+                        if (questionIdentifier === vm.chain[index].identifier) {
+                            vm.chain.splice(index + 1, vm.chain.length);
+                            vm.data.splice(index + 1, vm.data.length);
+                            // console.log(vm.chain);
+                            chainBuilder(nextQuestion);
+                        }
+                    }
+                } else {
+                    if (vm.chain[vm.chain.length - 1].identifier !== nextQuestion.identifier) {
+                        for (let index = 0; index < vm.chain.length; index++) {
+                            if (questionIdentifier === vm.chain[index].identifier) {
+                                vm.chain.splice(index + 1, vm.chain.length);
+                                vm.data.splice(index + 1, vm.data.length);
+                                // console.log(vm.chain);
+                                chainBuilder(nextQuestion);
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                chainBuilder(nextQuestion);
+            }
+
+            function chainBuilder(nextQuestClick) {
+                let dataObj = {answer: undefined};
+
+                for (let x in questionsArr) {
+                    if (nextQuestClick === null) {
+                        vm.endOfChain = true;  // Переменная для показа кнопки [Next] в passing-questions
+                        break;
+                    }
+                    if (tmpNextQuestion === null) {
+                        break;
+                    }
+                    for (let i in questionsArr) {
+                        if (tmpNextQuestion === questionsArr[i].identifier && questionsArr[i].type !== 1) {
+                            vm.chain.push(questionsArr[i]);
+                            vm.data.push(dataObj);
+                            if (questionsArr[i].next_question === null) {
+                                tmpNextQuestion = null;
+                                vm.endOfChain = true;  // Переменная для показа кнопки [Next] в passing-questions
+                                break;
+                            } else {
+                                tmpNextQuestion = questionsArr[i].next_question;
+                            }
+                        } else if (tmpNextQuestion === questionsArr[i].identifier && questionsArr[i].type === 1) {
+                            vm.chain.push(questionsArr[i]);
+                            vm.data.push(dataObj);
+                            tmpNextQuestion = null;
+                            vm.endOfChain = false;
+                            break;
+                        }
+                    }
+                }
+                console.log('vm.chain', vm.chain);
+            }
+        }
+
+        let radioId;
+        vm.checkRadioTreeExample = function (radio, parentIdentifier) {
+            // console.log('radio', radio);
+            if (radioId === radio.id) {
+                // console.log('Old radio, no change');
+            } else {
+                radioId = radio.id;
+
+                let tmpStatus = false;
+                for (let chainIndex in vm.chain) {
+                    if (vm.chain[chainIndex].type === 1) {
+                        if (radioId == vm.data[chainIndex].answer) {
+                            console.log('Already in use');
+                            tmpStatus = true;
+                            break;
+                        }
+                    }
+                }
+                if (tmpStatus === false) {
+                    chain(radio.next_question, parentIdentifier);
+                }
+            }
+        };
+        vm.changeNextQuest = changeNextQuest;
+        function changeNextQuest(question, quest, answer) {
+
+            if (quest === undefined) {
+                question.next_question = null;
+                vm.data = question;
+
+                if (answer !== undefined) {
+                    answer.next_question = null;
+                    vm.data = question;
+                }
+                console.log(vm.data);
+                blockService.addBlockQuestion(idBlock, [vm.data]);
+
+            } else if (question.type === 1) {
+                angular.forEach(question.answers, function (ans) {
+                    if (answer.id === ans.id) {
+                        answer.next_question = quest.identifier;
+                        vm.data = question;
+                    }
+                });
+
+                loopingTest(question);
+
+                if (loopingValid === false) {
+
+                } else {
+                    blockService.addBlockQuestion(idBlock, [vm.data]);
+                }
+
+            } else {
+                vm.data = question;
+                vm.data.next_question = quest.identifier;
+
+                loopingTest(question);
+                if (loopingValid === false) {
+                    console.log('false');
+                    return vm.data;
+                } else {
+                    blockService.addBlockQuestion(idBlock, [vm.data]);
+                }
+            }
+
+            function loopingTest(Obj) {
+                let tmpArr = vm.items;
+                let tmpIdentifier = Obj.identifier;
+                let chain = [Obj];
+                let tmpValid = true;
+
+                for (let i in tmpArr) {
+                    for (let index in tmpArr) {
+                        if (tmpArr[index].type === 1) {
+                            for (let radioIndex in tmpArr[index].answers) {
+                                if (tmpArr[index].answers[radioIndex].next_question === tmpIdentifier) {
+                                    tmpIdentifier = tmpArr[index].identifier;
+                                    chain.push(tmpArr[index]);
+                                }
+                            }
+                        } else {
+                            if (tmpArr[index].next_question === tmpIdentifier) {
+                                tmpIdentifier = tmpArr[index].identifier;
+                                chain.push(tmpArr[index]);
+                            }
+                        }
+
+                    }
+                }
+
+                if (Obj.type === 1) {
+                    tmpValid = true;
+                    for (let answerIndex in Obj.answers) {
+                        for (let chainIndex in chain) {
+                            tmpValid = true;
+                            if (chain[chainIndex].identifier === Obj.answers[answerIndex].next_question) {
+                                tmpValid = false;
+                                toastr.error('You create loop!');
+                                console.log('You create loop!');
+                                break;
+                            }
+                        }
+                        loopingValid = tmpValid;
+                    }
+                } else {
+                    for (let chainIndex in chain) {
+                        tmpValid = true;
+                        if (chain[chainIndex].identifier === Obj.next_question) {
+                            tmpValid = false;
+                            toastr.error('You create loop!');
+                            console.log('You create loop!');
+                            break;
+                        }
+                    }
+                    loopingValid = tmpValid;
+                }
+            }
         }
 
         function mandatoryChecked(question) {
             return question.mandatory;
-        };
+        }
 
         function mandatoryCheck(saveTodo) {
             angular.forEach(vm.items, function (question) {
@@ -292,6 +484,5 @@
 
             });
         }
-
     }
 })();

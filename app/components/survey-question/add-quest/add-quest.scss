@@ -11,13 +11,17 @@
     font-size: 15px;
   }
 
-  .main-input {
+  .next-quest-radio{
+    margin-bottom: 42px;
+    width: 100%;
+  }
+  .main-input , .radio-input{
     width: 100%;
   }
 
-  .radio-input {
-    width: 60%;
-  }
+  //.radio-input{
+  //  width: 100%;
+  //}
 
   #answer-container {
     height: 220px;

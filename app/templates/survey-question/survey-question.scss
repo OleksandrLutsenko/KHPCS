@@ -1,8 +1,23 @@
 .quest {
   overflow: hidden;
   background-color: #ffffff;
-  min-height: 100%;
+  min-height: 100vh;
 
+
+  md-pagination-wrapper {
+    width: 100% ;
+    display: flex;
+    justify-content:center;
+  }
+  md-tab-item {
+    width: 264px;
+  }
+  md-content{
+    min-height: 100vh;
+  }
+  md-ink-bar{
+    background: #001041 !important;
+  }
   .name-block {
     padding-left: 10px;
   }
@@ -29,6 +44,9 @@
     min-height: 30px;
   }
 
+  .next-input{
+    min-width: 200px;
+  }
   .question-container {
     //min-height: 10px;
     //border: 2px solid #3f51b5;

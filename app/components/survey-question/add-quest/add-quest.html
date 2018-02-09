@@ -70,6 +70,30 @@
                         <div ng-message="maxlength">Name max length 4.</div>
                     </div>
                 </md-input-container>
+
+            </div>
+
+            <div>
+                <md-input-container class="main-input"
+                                    ng-if="vm.data.type == 2 || vm.data.type == 3 || vm.data.type == 4">
+                    <label>Next question: {{question.next_question}}
+                        <p ng-if="question.next_question === null">undefined</p>
+                    </label>
+
+                    <md-select class="md-block-restyle" ng-model="vm.data.next_question"
+                               aria-label="">
+                        <md-option ng-value="null" ng-click="vm.changeNextQuest(question)">
+                            undefined
+                        </md-option>
+                        <md-option ng-repeat="quest in  vm.questions"
+                                   ng-value="quest.title"
+                                   ng-if="vm.data.id !== quest.id"
+
+                        >
+                            {{quest.title}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
 
 
@@ -79,12 +103,13 @@
                     Add Answer
                 </md-button>
 
+                <!--<md-virtual-repeat-container id = "answer-container">-->
                 <div class="answer-container">
                     <div layout="row" ng-repeat="answers in vm.data.answers" class="answer"
                          ng-if="(vm.data.type == 1 || vm.data.type == 0) && !answers.delete">
 
-                        <div flex="90" layout="row" layout-align="none center">
-                            <md-input-container flex="100">
+                        <div flex="90" layout="row">
+                            <md-input-container flex="60">
                                 <label>Name</label>
                                 <input ng-model="answers.answer_text" name="answer_text" required minlength="1">
                                 <div ng-messages="vm.questForm.answer_text.$error">
@@ -92,10 +117,27 @@
                                     <div ng-message="minlength">Name min length 1.</div>
                                 </div>
                             </md-input-container>
-                            <!--<md-input-container>-->
-                                <!--<label>Next question Identifier</label>-->
-                                <!--<input ng-model="answers.next" name="answer_next" maxlength="20">-->
-                            <!--</md-input-container>-->
+
+                            <md-input-container ng-if="vm.data.type == 1" class="next-quest-radio">
+                                <label>Next question: {{question.next_question}}
+                                    <p ng-if="question.next_question === null">undefined</p>
+                                </label>
+                                <md-select class="md-block-restyle"
+                                           aria-label=""
+                                           ng-model="answers.next_question"
+                                >
+                                    <md-option ng-value="null" ng-click="vm.changeNextQuest(question)">
+                                        undefined
+                                    </md-option>
+                                    <md-option ng-repeat="quest in  vm.questions"
+                                               ng-value="quest.title"
+                                               ng-if="vm.data.id !== quest.id"
+                                               ng-model="answers.next_question"
+                                    >
+                                        {{quest.title}}
+                                    </md-option>
+                                </md-select>
+                            </md-input-container>
                         </div>
 
                         <div flex="10" layout="row" layout-align="end center">
@@ -104,15 +146,37 @@
                         </div>
 
                     </div>
+                    <md-input-container class="main-input" ng-if="vm.data.type !== 1">
+                        <label>Next question: {{question.next_question}}
+                            <p ng-if="question.next_question === null">undefined</p>
+                        </label>
+
+                        <md-select class="md-block-restyle" ng-model="vm.data.next_question"
+                                   aria-label="">
+                            <md-option ng-value="null" ng-click="vm.changeNextQuest(question)">
+                                undefined
+                            </md-option>
+                            <md-option ng-repeat="quest in  vm.questions"
+                                       ng-value="quest.title"
+                                       ng-if="vm.data.id !== quest.id"
+                            >
+                                {{quest.title}}s
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
                 </div>
+
+                <!--</md-virtual-repeat-container>-->
+
             </div>
-
         </md-dialog-content>
-
         <md-dialog-actions class="bot-btn" layout="row" layout-align="space-between center">
             <md-button class="md-raised md-primary" type="submit">Save</md-button>
             <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
         </md-dialog-actions>
 
     </form>
+
+
 </md-dialog>

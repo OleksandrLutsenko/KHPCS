@@ -6,7 +6,7 @@
 
     AddQuestionController.$inject = ['$mdDialog', 'data', 'blockService', 'toastr'];
 
-    function AddQuestionController($mdDialog, data, blockService, toastr ) {
+    function AddQuestionController($mdDialog, data, blockService, toastr) {
         let vm = this;
 
         vm.addAnsver = addAnsver;
@@ -18,14 +18,26 @@
         let answerKey = data.answerKey;
         let questionKey = data.questionKey;
         let idBlock = data.idBlock;
+        let questionsArr = data.items;
+        vm.questions = questionsArr;
+        let identifierDefault;
+        if (mainKey !== undefined) {
+            identifierDefault = data.items[mainKey].identifier;
+            console.log(identifierDefault);
+        }
+        console.log(data.items[mainKey]);
         let itemsOrig;
+        let loopingValid;
+        let identifierValid;
+
+        console.log('questions = ', questionsArr);
 
 
         if (typeof questionKey != 'undefined') {
             itemsOrig = data.items[mainKey].answers[answerKey].child_questions;
             vm.data = angular.copy(itemsOrig[questionKey]);
         }
-        else if (typeof mainKey != 'undefined') {
+        else if(typeof mainKey != 'undefined'){
             itemsOrig = data.items;
             vm.data = angular.copy(itemsOrig[mainKey]);
         }
@@ -33,7 +45,7 @@
             itemsOrig = data.items;
             vm.data = {
                 answers: []
-            }
+            };
         }
 
         function addAnsver() {
@@ -60,19 +72,20 @@
 
         }
 
-        function save() {
 
+
+        function save() {
             let succes = true;
             let couterLenght = 0;
 
-            if (vm.data.type == 1 || vm.data.type == 0) {
+            if(vm.data.type == 1 || vm.data.type == 0){
                 vm.data.answers.forEach(function (item) {
-                    if (!item.delete) {
-                        couterLenght++
+                    if(!item.delete){
+                        couterLenght++;
                     }
 
-                    if (typeof item.answer_text == 'undefined' || item.answer_text == '') {
-                        succes = false
+                    if(typeof item.answer_text == 'undefined' || item.answer_text == ''){
+                        succes = false;
                     }
                 });
             }
@@ -83,73 +96,180 @@
             if (vm.questForm.$invalid || !succes) {
             }
             else if ((vm.data.type == 1 || vm.data.type == 0) && couterLenght < 2) {
-                toastr.error('Answer lenght min 2');
+                toastr.error('Answer length min 2');
             }
             else {
-                if (typeof questionKey != 'undefined') {
+                console.log('mainKey', mainKey);
+                if(typeof questionKey != 'undefined'){
 
-                    if (vm.data.type == 1 || vm.data.type == 0) {
+                    if (vm.data.type == 1 || vm.data.type == 0){
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
+                            console.log(itemAnswer);
                         });
                     }
 
                     let dataForSend = [vm.data];
+                    loopingTest(vm.data);
+                    console.log('?');
+
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if (res.success) {
+                        if(res.success){
                             itemsOrig.splice(questionKey, 1, vm.data);
                         }
-                    })
+                    });
                 }
-                else if (typeof mainKey != 'undefined') {
+                else if(typeof mainKey != 'undefined') {
 
-                    if (vm.data.type == 1 || vm.data.type == 0) {
+                    if (vm.data.type == 1 || vm.data.type == 0){
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
 
                     let dataForSend = [vm.data];
+                    loopingTest(vm.data);
 
-                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if (res.success) {
-                            itemsOrig.splice(mainKey, 1, vm.data);
-                        }
-                    })
+                    let tmpData = angular.copy(vm.data);
+                    tmpData.editType = 'edit';
+                    identifierValidFunc(tmpData);
+
+                    if (loopingValid === true && identifierValid === true) {
+                        console.log(dataForSend);
+                        blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                            if(res.success){
+                                console.log('edit');
+                                itemsOrig.splice(mainKey, 1, vm.data);
+                            }
+                        });
+                        $mdDialog.hide();
+                    }
                 }
                 else {
                     vm.data.child_order_number = null;
 
-                    if (itemsOrig.length == 0) {
+                    if(itemsOrig.length == 0){
                         vm.data.order_number = 0;
                     }
                     else {
                         vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
                     }
 
-                    if (vm.data.type == 1 || vm.data.type == 0) {
+                    if (vm.data.type == 1 || vm.data.type == 0){
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
-
+                    vm.data.mandatory = 1;
                     let dataForSend = [vm.data];
-                    dataForSend[0].mandatory = 1;
-                    blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if (res.success) {
-                            itemsOrig.push(res.data.questions[0]);
-                        }
-                    })
+                    loopingTest(vm.data);
+
+                    let tmpData = vm.data;
+                    // tmpData.editType = 'add';
+                    identifierValidFunc(tmpData);
+
+                    if (loopingValid === true && identifierValid === true) {
+
+                        console.log(dataForSend);
+
+                        blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                            if(res.success){
+                                itemsOrig.push(res.data.questions[0]);
+                            }
+                        });
+                        $mdDialog.hide();
+                    }
                 }
-                $mdDialog.hide();
+                // $mdDialog.hide();
             }
+        }
+
+        function loopingTest(Obj) {
+            let tmpArr = questionsArr;
+            let tmpIdentifier = Obj.identifier;
+            let chain = [Obj];
+            let tmpValid = true;
+
+            console.log('tmpArr', tmpArr);
+            console.log('Obj', Obj);
+
+            for (let i in tmpArr) {
+                for (let index in tmpArr) {
+                    if (tmpArr[index].type === 1) {
+                        for (let radioIndex in tmpArr[index].answers) {
+                            if (tmpArr[index].answers[radioIndex].next_question === tmpIdentifier) {
+                                tmpIdentifier = tmpArr[index].identifier;
+                                chain.push(tmpArr[index]);
+                            }
+                        }
+                    } else {
+                        if (tmpArr[index].next_question === tmpIdentifier) {
+                            tmpIdentifier = tmpArr[index].identifier;
+                            chain.push(tmpArr[index]);
+                        }
+                    }
+
+                }
+            }
+            // console.log('chain', chain);
+
+            if (Obj.type === 1) {
+                tmpValid = true;
+                for (let answerIndex in Obj.answers) {
+                    for (let chainIndex in chain) {
+                        tmpValid = true;
+                        if (chain[chainIndex].identifier === Obj.answers[answerIndex].next_question) {
+                            tmpValid = false;
+                            toastr.error('You create loop!');
+                            break;
+                        }
+                    }
+                    loopingValid = tmpValid;
+                }
+            } else {
+                for (let chainIndex in chain) {
+                    tmpValid = true;
+                    if (chain[chainIndex].identifier === Obj.next_question) {
+                        tmpValid = false;
+                        toastr.error('You create loop!');
+                        break;
+                    }
+                }
+                loopingValid = tmpValid;
+            }
+        }
+
+        function identifierValidFunc(Obj) {
+            let tmpValid = true;
+
+            if (Obj.editType === 'add') {
+                for (let index in questionsArr) {
+                    if (questionsArr[index].identifier === vm.data.identifier) {
+                        tmpValid = false;
+                        console.log(questionsArr[index].identifier + ' = ' + vm.data.identifier);
+                        toastr.error('Identifier already exist');
+                    }
+                }
+                identifierValid = tmpValid;
+            } else {
+                for(let index in questionsArr) {
+                    if (Obj.identifier !== identifierDefault) {
+                        if (questionsArr[index].identifier === vm.data.identifier) {
+                            tmpValid = false;
+                            console.log(questionsArr[index].identifier + ' = ' + vm.data.identifier);
+                            toastr.error('Identifier already exist');
+                        }
+                    }
+                }
+            }
+            identifierValid = tmpValid;
+            console.log('identifierValid = ', identifierValid)
         }
 
         function cancel() {
             $mdDialog.cancel();
         }
-
     }
 
 })();
