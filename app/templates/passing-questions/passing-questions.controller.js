@@ -93,7 +93,9 @@
         }
 
         function exists(item, list) {
-            return list.indexOf(item) > -1;
+            if (list !== undefined) {
+                return list.indexOf(item) > -1;
+            }
         }
 
         function generete() {
@@ -370,15 +372,33 @@
             });
 
             if (vm.questionForm.$invalid) {
-                toastr.error('Required fields must be completed');
+                toastr.error('Required fields should be complited');
             } else {
                 if (dataForSend.length) {
-                    passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
-                        console.log(res);
-                        if (res.success) {
-                            toNextBlock();
+
+                    dataForSend = dataForSend.filter(function (obj) {
+                        if (obj.answer_id) {
+                            if (Array.isArray(obj.answer_id)) {
+                                if (obj.answer_id.length === 0) {
+
+                                } else {
+                                    return obj;
+                                }
+                            }
                         }
-                    })
+                    });
+
+                    // console.log('dataForSend', dataForSend);
+                    if (dataForSend.length) {
+                        passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
+                            console.log(res);
+                            if (res.success) {
+                                toNextBlock();
+                            }
+                        })
+                    } else {
+                        toNextBlock();
+                    }
                 } else {
                     toNextBlock();
                 }
@@ -500,9 +520,11 @@
                 chainBuilder(nextQuestion);
             }
 
+            
+
             function chainBuilder(nextQuestClick) {
                 for (let x in questionsArr) {
-                    if (nextQuestClick === null) {
+                    if (nextQuestClick === null && vm.questions[0].type !== 1) {
                         vm.endOfChain = true;
                         break;
                     }
@@ -516,6 +538,7 @@
                                 tmpNextQuestion = null;
                                 vm.endOfChain = true;  // Переменная для показа кнопки [Next] в passing-questions
                                 break;
+
                             } else {
                                 tmpNextQuestion = questionsArr[i].next_question;
                             }
