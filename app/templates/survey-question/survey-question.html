@@ -1,7 +1,7 @@
 <md-content class="quest" md-theme="blue-grey">
 
     <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
-        <md-tab label="Users"></md-tab>
+        <md-tab label="Question's"></md-tab>
         <md-tab label="Example"></md-tab>
     </md-tabs>
 
@@ -90,7 +90,7 @@
 
                                 </div>
                                 <div>
-                                    <md-input-container ng-if="question.type !== 1" class="next-input">
+                                    <md-input-container ng-if="question.type !== 1 " class="next-input">
                                         <label>Next question: {{question.next_question}}
                                             <p ng-if="question.next_question === null">undefined</p>
                                         </label>
@@ -124,7 +124,7 @@
                                             </div>
                                             <md-input-container ng-if="question.type === 1" class="next-input">
                                                 <label>Next question: {{answers.next_question}}
-                                                    <p ng-if="question.next_question === null">undefined</p>
+                                                    <!--<p ng-if="question.next_question === null">undefined</p>-->
                                                 </label>
                                                 <md-select class="md-block-restyle" ng-model="under"
                                                            aria-label="Financial advisor">
