@@ -160,7 +160,7 @@
         <md-content class="md-padding">
             <div>
                 <h1>Surveys:</h1>
-                <md-list ng-repeat="survey in vm.surveys">
+                <md-list ng-repeat="survey in vm.surveys" ng-if="survey.survey_status !== 'archived'">
                     <md-list-item class="secondary-button-padding">
                         <h3> {{survey.survey_name}}</h3>
                     </md-list-item>

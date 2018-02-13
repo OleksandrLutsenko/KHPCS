@@ -198,25 +198,25 @@
                                    ng-if="questions.validation_type == 1"
                                    maxlength="{{questions.characters_limit}}"
                                    ng-required="{{questions.mandatory}}">
-                            <!--<div ng-messages="vm.questionForm.inputType1.$error" ng-if="questions.validation_type == 1">-->
-                            <!--<div ng-message="pattern">Only text.</div>-->
-                            <!--<div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>-->
-                            <!--</div>-->
+                            <div ng-messages="vm.questionForm.inputType1.$error" ng-if="questions.validation_type == 1">
+                                <div ng-message="pattern">Only text.</div>
+                                <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                            </div>
                             <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
                                    name="inputType2" pattern="[0-9]+" ng-if="questions.validation_type == 2"
                                    maxlength="{{questions.characters_limit}}"
                                    ng-required="{{questions.mandatory}}">
-                            <!--<div ng-messages="vm.questionForm.inputType2.$error" ng-if="questions.validation_type == 2">-->
-                            <!--<div ng-message="pattern">Only numbers.</div>-->
-                            <!--<div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>-->
-                            <!--</div>-->
+                            <div ng-messages="vm.questionForm.inputType2.$error" ng-if="questions.validation_type == 2">
+                                <div ng-message="pattern">Only numbers.</div>
+                                <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                            </div>
                             <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
                                    name="inputType0" ng-if="questions.validation_type == 0"
                                    maxlength="{{questions.characters_limit}}"
                                    ng-required="{{questions.mandatory}}">
-                            <!--<div ng-messages="vm.questionForm.inputType0.$error" ng-if="questions.validation_type == 0">-->
-                            <!--<div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>-->
-                            <!--</div>-->
+                            <div ng-messages="vm.questionForm.inputType0.$error" ng-if="questions.validation_type == 0">
+                                <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                            </div>
                         </md-input-container>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                             md-item-text="item"
                             md-min-length="0"
                             placeholder="Enter the country"
-                            ng-required="{{questions.mandatory}}">
+                            ng-required="{{questions.mandatory}}" >
                         <md-item-template>
                             <span>{{item}}</span>
                         </md-item-template>

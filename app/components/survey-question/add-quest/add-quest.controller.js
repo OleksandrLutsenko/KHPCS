@@ -33,13 +33,17 @@
         console.log('questions = ', questionsArr);
 
 
+
         if (typeof questionKey != 'undefined') {
             itemsOrig = data.items[mainKey].answers[answerKey].child_questions;
             vm.data = angular.copy(itemsOrig[questionKey]);
+
         }
         else if(typeof mainKey != 'undefined'){
             itemsOrig = data.items;
             vm.data = angular.copy(itemsOrig[mainKey]);
+
+
         }
         else {
             itemsOrig = data.items;
@@ -47,7 +51,6 @@
                 answers: []
             };
         }
-
         function addAnsver() {
             if (vm.data.answers.length == 0 ||
                 typeof vm.data.answers[vm.data.answers.length - 1].answer_text !== 'undefined'
@@ -99,7 +102,6 @@
                 toastr.error('Answer length min 2');
             }
             else {
-                console.log('mainKey', mainKey);
                 if(typeof questionKey != 'undefined'){
 
                     if (vm.data.type == 1 || vm.data.type == 0){
@@ -129,6 +131,7 @@
                     }
 
                     let dataForSend = [vm.data];
+                    console.log('vm.data = ', vm.data);
                     loopingTest(vm.data);
 
                     let tmpData = angular.copy(vm.data);
@@ -176,12 +179,62 @@
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                             if(res.success){
                                 itemsOrig.push(res.data.questions[0]);
+
                             }
                         });
                         $mdDialog.hide();
                     }
                 }
                 // $mdDialog.hide();
+            }
+        }
+
+        vm.changeNextQuest = function(quest, answer ) {
+            let question = vm.data;
+
+            if (quest === undefined) {
+                question.next_question = null;
+                vm.data = question;
+
+                if (answer !== undefined) {
+                    answer.next_question = null;
+                    vm.data = question;
+                }
+                console.log(vm.data);
+                blockService.addBlockQuestion(idBlock, [vm.data]);
+
+            } else if (question.type === 1) {
+                angular.forEach(question.answers, function (ans) {
+                    console.log(answer);
+                    if (answer.id === ans.id) {
+                        vm.answerOldValue = answer.next_question;
+                        answer.next_question = quest.identifier;
+                        vm.data = question;
+                    }
+                });
+
+                loopingTest(question);
+
+                if (loopingValid === false) {
+                    console.log(vm.data);
+                    return vm.data;
+                } else {
+                    blockService.addBlockQuestion(idBlock, [vm.data]);
+                }
+
+            } else {
+                vm.data = question;
+                vm.oldValue = vm.data.next_question;
+                vm.data.next_question = quest.identifier;
+
+                loopingTest(question);
+                if (loopingValid === false) {
+                    console.log('false');
+                    console.log(vm.data);
+                    return vm.data;
+                } else {
+                    blockService.addBlockQuestion(idBlock, [vm.data]);
+                }
             }
         }
 
@@ -198,12 +251,16 @@
                 for (let index in tmpArr) {
                     if (tmpArr[index].type === 1) {
                         for (let radioIndex in tmpArr[index].answers) {
+                            // console.log(tmpArr[index].answers[radioIndex].next_question);
+                            // console.log(tmpIdentifier);
                             if (tmpArr[index].answers[radioIndex].next_question === tmpIdentifier) {
                                 tmpIdentifier = tmpArr[index].identifier;
                                 chain.push(tmpArr[index]);
                             }
                         }
                     } else {
+                        // console.log(tmpArr[index].next_question);
+                        // console.log(tmpIdentifier);
                         if (tmpArr[index].next_question === tmpIdentifier) {
                             tmpIdentifier = tmpArr[index].identifier;
                             chain.push(tmpArr[index]);
@@ -212,32 +269,43 @@
 
                 }
             }
-            // console.log('chain', chain);
+            console.log('chain', chain);
+            console.log('Obj ', Obj);
 
             if (Obj.type === 1) {
-                tmpValid = true;
+                // console.log('It`s radio!');
                 for (let answerIndex in Obj.answers) {
                     for (let chainIndex in chain) {
-                        tmpValid = true;
+
+                        // console.log(chain[chainIndex].identifier);
+                        // console.log(Obj.answers[answerIndex].next_question);
+                        // console.log("-------------------------------------------");
+
+                        // if (chain[chainIndex].title === Obj.answers[answerIndex].next_question) {
                         if (chain[chainIndex].identifier === Obj.answers[answerIndex].next_question) {
                             tmpValid = false;
-                            toastr.error('You create loop!');
+                            console.log('You create loop!');
+                            toastr.error('You create loop1!');
+                            Obj.answers[answerIndex].next_question = vm.answerOldValue;
                             break;
                         }
                     }
                     loopingValid = tmpValid;
                 }
             } else {
+                // console.log('It`s no radio!');
                 for (let chainIndex in chain) {
-                    tmpValid = true;
                     if (chain[chainIndex].identifier === Obj.next_question) {
                         tmpValid = false;
-                        toastr.error('You create loop!');
+                        console.log('You create loop!');
+                        toastr.error('You create loop2!');
+                        Obj.next_question = vm.oldValue;
                         break;
                     }
                 }
                 loopingValid = tmpValid;
             }
+            console.log('loopingValid = ', loopingValid);
         }
 
         function identifierValidFunc(Obj) {
@@ -270,6 +338,7 @@
         function cancel() {
             $mdDialog.cancel();
         }
+
     }
 
 })();

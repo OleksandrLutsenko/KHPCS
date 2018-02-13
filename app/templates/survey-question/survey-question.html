@@ -103,8 +103,7 @@
                                             <md-option ng-repeat="quest in  vm.items"
                                                        ng-click="vm.changeNextQuest(question, quest)"
                                                        ng-value="quest.title"
-                                                       ng-if="quest.id !== question.id"
-                                            >
+                                                       ng-if="quest.id !== question.id">
                                                 {{quest.title}}
                                             </md-option>
 
@@ -124,7 +123,7 @@
                                             </div>
                                             <md-input-container ng-if="question.type === 1" class="next-input">
                                                 <label>Next question: {{answers.next_question}}
-                                                    <!--<p ng-if="question.next_question === null">undefined</p>-->
+                                                    <p ng-if="answers.next_question === null">undefined</p>
                                                 </label>
                                                 <md-select class="md-block-restyle" ng-model="under"
                                                            aria-label="Financial advisor">
@@ -210,28 +209,108 @@
     <section ng-if="selectedIndex === 1">
 
         <md-content class="md-padding">
-            <p layout="row" layout-align="center center">Tree example</p>
-            <div ng-repeat="question in vm.chain" style="margin: 10px">
+            <div layout="row" layout-align="center center">
+                <div flex="80">
+                    <h2 layout="row" layout-align="center center">Tree example</h2>
 
-                <div ng-if="question.type !== 1">
-                    <p>{{question.title}}</p>
-                </div>
+                    <div ng-repeat="(questIndex, question) in vm.chain">
 
-                <div ng-if="question.type === 1">
-                    <p>{{question.title}}</p>
-                    <md-radio-group>
-                        <div ng-repeat="radio in question.answers" style="margin-left: 10px">
-                            <md-radio-button value={{radio.answer_text}} class="md-primary pointer"
-                                             ng-click="vm.checkRadioTreeExample(radio, question.identifier)">
-                                {{radio.answer_text}}
-                            </md-radio-button>
+                        <div ng-if="question.type === 0">
+                            <h3>{{question.title}}
+                                <span ng-if="question.mandatory" class="required-quest">*</span>
+                            </h3>
+
+                            <div ng-repeat="answer in question.answers">
+                                <md-checkbox class="md-primary">
+                                    {{answer.answer_text}}
+                                </md-checkbox>
+                            </div>
                         </div>
-                    </md-radio-group>
-                </div>
 
-            </div>
-            <div ng-if="vm.endOfChain">
-                <h4>End of questions</h4>
+                        <div ng-if="question.type === 1">
+                            <h3>{{question.title}}
+                                <span ng-if="question.mandatory" class="required-quest">*</span>
+                            </h3>
+
+                            <md-radio-group ng-model="vm.exampleAnswers[questIndex].answer">
+                                <div ng-repeat="radio in question.answers">
+                                    <md-radio-button value={{radio.id}} class="md-primary pointer"
+                                                     ng-click="vm.checkRadioTreeExample(radio, question.identifier, questIndex, true)">
+                                        {{radio.answer_text}}
+                                    </md-radio-button>
+                                </div>
+                            </md-radio-group>
+                        </div>
+
+                        <div ng-if="question.type === 2">
+                            <h3>{{question.title}}
+                                <span ng-if="question.mandatory" class="required-quest">*</span>
+                            </h3>
+
+                            <md-input-container class="question-text">
+                                <label>{{question.title}}</label>
+
+                                <input ng-model="exampleDataText[question.id]" md-maxlength="{{question.characters_limit}}"
+                                       name="inputType0" ng-if="question.validation_type == 0"
+                                       maxlength="{{question.characters_limit}}"
+                                       ng-required="{{question.mandatory}}">
+
+                                <input ng-model="exampleDataText[question.id]" md-maxlength="{{question.characters_limit}}"
+                                       name="inputType1" type="text" pattern="[a-zA-Z, ' ']+"
+                                       ng-if="question.validation_type == 1"
+                                       maxlength="{{question.characters_limit}}"
+                                       ng-required="{{question.mandatory}}">
+
+                                <input ng-model="exampleDataText[question.id]" md-maxlength="{{question.characters_limit}}"
+                                       name="inputType2" pattern="[0-9]+" ng-if="question.validation_type == 2"
+                                       maxlength="{{question.characters_limit}}"
+                                       ng-required="{{question.mandatory}}">
+                            </md-input-container>
+                        </div>
+
+                        <div ng-if="question.type === 3">
+                            <h3>{{question.title}}
+                                <span ng-if="question.mandatory" class="required-quest">*</span>
+                            </h3>
+
+                            <md-input-container>
+                                <label>Enter date</label>
+                                <md-datepicker
+                                        ng-model=exampleDataDatePicker[question.id]></md-datepicker>
+                            </md-input-container>
+                        </div>
+
+                        <div ng-if="question.type === 4">
+                            <h3>{{question.title}}
+                                <span ng-if="question.mandatory" class="required-quest">*</span>
+                            </h3>
+
+                            <md-autocomplete
+                                    ng-disabled="vm.isDisabled"
+                                    md-no-cache="vm.noCache"
+                                    md-selected-item="exampleDataCountry"
+                                    md-search-text-change=vm.searchTextChange(item)
+                                    md-search-text=item
+                                    md-selected-item-change=vm.selectedItemChange(item)
+                                    md-items="item in vm.querySearch(item)"
+                                    md-item-text="item"
+                                    md-min-length="0"
+                                    placeholder="Enter the country">
+                                <md-item-template>
+                                    <span>{{item}}</span>
+                                </md-item-template>
+                                <md-not-found>
+                                    No matches found
+                                </md-not-found>
+                            </md-autocomplete>
+                        </div>
+
+                    </div>
+
+                    <div ng-if="vm.endOfChain">
+                        <h3>End of questions</h3>
+                    </div>
+                </div>
             </div>
         </md-content>
     </section>

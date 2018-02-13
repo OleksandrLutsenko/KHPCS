@@ -1,4 +1,4 @@
-<md-dialog flex="30" flex-xs="90" flex-sm="60" class="addQuest" aria-label="Enter the question">
+<md-dialog flex="40" flex-xs="90" flex-sm="60" class="addQuest" aria-label="Enter the question" ng-cloak="">
 
 
     <form name="vm.questForm" ng-submit="vm.save()" novalidate>
@@ -76,20 +76,21 @@
             <div>
                 <md-input-container class="main-input"
                                     ng-if="vm.data.type == 2 || vm.data.type == 3 || vm.data.type == 4">
-                    <label>Next question: {{question.next_question}}
-                        <p ng-if="question.next_question === null">undefined</p>
+                    <label class="next-label">Next question: {{vm.data.next_question}}
+                        <p ng-if="vm.data.next_question === null">undefined</p>
                     </label>
 
                     <md-select class="md-block-restyle" ng-model="vm.data.next_question"
                                aria-label="">
-                        <md-option ng-value="null" ng-click="vm.changeNextQuest(question)">
+
+                        <md-option ng-value="null" ng-click="vm.changeNextQuest(quest)">
                             undefined
                         </md-option>
-                        <md-option ng-repeat="quest in  vm.questions"
-                                   ng-value="quest.title"
-                                   ng-if="vm.data.id !== quest.id"
 
-                        >
+                        <md-option ng-repeat="quest in  vm.questions"
+                                   ng-click="vm.changeNextQuest(quest)"
+                                   ng-value="quest.identifier"
+                                   ng-if="vm.data.id !== quest.id">
                             {{quest.title}}
                         </md-option>
                     </md-select>
@@ -119,20 +120,22 @@
                             </md-input-container>
 
                             <md-input-container ng-if="vm.data.type == 1" class="next-quest-radio">
-                                <label>Next question: {{question.next_question}}
-                                    <p ng-if="question.next_question === null">undefined</p>
+                                <label class="next-label">Next question: {{answers.next_question}}
+                                    <p ng-if="answers.next_question === null">undefined</p>
+
                                 </label>
                                 <md-select class="md-block-restyle"
-                                           aria-label=""
+                                           aria-label="Select"
                                            ng-model="answers.next_question"
+                                           md-on-close="vm.checkValidLoop()"
                                 >
-                                    <md-option ng-value="null" ng-click="vm.changeNextQuest(question)">
+                                    <md-option ng-value="null" ng-click="vm.changeNextQuest(quest)">
                                         undefined
                                     </md-option>
                                     <md-option ng-repeat="quest in  vm.questions"
-                                               ng-value="quest.title"
+                                               ng-click="vm.changeNextQuest(quest , answers)"
+                                               ng-value="quest.identifier"
                                                ng-if="vm.data.id !== quest.id"
-                                               ng-model="answers.next_question"
                                     >
                                         {{quest.title}}
                                     </md-option>
@@ -147,26 +150,25 @@
 
                     </div>
                     <md-input-container class="main-input" ng-if="vm.data.type !== 1">
-                        <label>Next question: {{question.next_question}}
-                            <p ng-if="question.next_question === null">undefined</p>
+                        <label class="next-label">Next question: {{vm.data.next_question}}
+                            <p ng-if="vm.data.next_question === null">undefined</p>
                         </label>
 
                         <md-select class="md-block-restyle" ng-model="vm.data.next_question"
                                    aria-label="">
-                            <md-option ng-value="null" ng-click="vm.changeNextQuest(question)">
+                            <md-option ng-value="null" ng-click="vm.changeNextQuest(quest)">
                                 undefined
                             </md-option>
                             <md-option ng-repeat="quest in  vm.questions"
-                                       ng-value="quest.title"
+                                       ng-click="vm.changeNextQuest(quest)"
+                                       ng-value="quest.identifier"
                                        ng-if="vm.data.id !== quest.id"
                             >
-                                {{quest.title}}s
+                                {{quest.title}}
                             </md-option>
                         </md-select>
                     </md-input-container>
-
                 </div>
-
                 <!--</md-virtual-repeat-container>-->
 
             </div>

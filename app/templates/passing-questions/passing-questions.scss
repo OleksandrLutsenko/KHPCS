@@ -15,6 +15,14 @@
   md-radio-button .md-ripple-container{
     display: none;
   }
+
+  md-autocomplete{
+    max-width: 98%;
+  }
+  md-autocomplete input {
+    padding: 0 0 0 10px;
+
+  }
 }
 
 

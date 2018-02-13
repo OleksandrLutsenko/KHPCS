@@ -372,7 +372,7 @@
             });
 
             if (vm.questionForm.$invalid) {
-                toastr.error('Required fields should be complited');
+                toastr.error('All fields must be completed correctly');
             } else {
                 if (dataForSend.length) {
 
