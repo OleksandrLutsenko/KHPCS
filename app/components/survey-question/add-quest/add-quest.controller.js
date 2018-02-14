@@ -25,21 +25,20 @@
             identifierDefault = data.items[mainKey].identifier;
             console.log(identifierDefault);
         }
-        console.log(data.items[mainKey]);
+        // console.log(data.items[mainKey]);
+        // vm.oldData =data.items[mainKey];
         let itemsOrig;
         let loopingValid;
         let identifierValid;
 
         console.log('questions = ', questionsArr);
 
-
-
         if (typeof questionKey != 'undefined') {
             itemsOrig = data.items[mainKey].answers[answerKey].child_questions;
             vm.data = angular.copy(itemsOrig[questionKey]);
 
         }
-        else if(typeof mainKey != 'undefined'){
+        else if (typeof mainKey != 'undefined') {
             itemsOrig = data.items;
             vm.data = angular.copy(itemsOrig[mainKey]);
 
@@ -51,6 +50,7 @@
                 answers: []
             };
         }
+
         function addAnsver() {
             if (vm.data.answers.length == 0 ||
                 typeof vm.data.answers[vm.data.answers.length - 1].answer_text !== 'undefined'
@@ -76,18 +76,17 @@
         }
 
 
-
         function save() {
             let succes = true;
             let couterLenght = 0;
 
-            if(vm.data.type == 1 || vm.data.type == 0){
+            if (vm.data.type == 1 || vm.data.type == 0) {
                 vm.data.answers.forEach(function (item) {
-                    if(!item.delete){
+                    if (!item.delete) {
                         couterLenght++;
                     }
 
-                    if(typeof item.answer_text == 'undefined' || item.answer_text == ''){
+                    if (typeof item.answer_text == 'undefined' || item.answer_text == '') {
                         succes = false;
                     }
                 });
@@ -102,9 +101,9 @@
                 toastr.error('Answer length min 2');
             }
             else {
-                if(typeof questionKey != 'undefined'){
+                if (typeof questionKey != 'undefined') {
 
-                    if (vm.data.type == 1 || vm.data.type == 0){
+                    if (vm.data.type == 1 || vm.data.type == 0) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                             console.log(itemAnswer);
@@ -117,20 +116,20 @@
 
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                        if(res.success){
+                        if (res.success) {
                             itemsOrig.splice(questionKey, 1, vm.data);
                         }
                     });
                 }
-                else if(typeof mainKey != 'undefined') {
+                else if (typeof mainKey != 'undefined') {
 
-                    if (vm.data.type == 1 || vm.data.type == 0){
+                    if (vm.data.type == 1 || vm.data.type == 0) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
 
-                    let dataForSend = [vm.data];
+                    let dataForSend = vm.data;
                     console.log('vm.data = ', vm.data);
                     loopingTest(vm.data);
 
@@ -139,10 +138,26 @@
                     identifierValidFunc(tmpData);
 
                     if (loopingValid === true && identifierValid === true) {
-                        console.log(dataForSend);
-                        blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                            if(res.success){
-                                console.log('edit');
+
+                        angular.forEach(questionsArr, function (question) {
+                            if (question.type !== 1 && question.next_question === identifierDefault) {
+                                question.next_question = dataForSend.identifier;
+                                vm.dataForSendTwo = question;
+                                blockService.addBlockQuestion(idBlock, [vm.dataForSendTwo]);
+                            } else {
+                                angular.forEach(question.answers , function (answer) {
+                                    if(answer.next_question === identifierDefault){
+                                        answer.next_question = dataForSend.identifier;
+                                        vm.dataForSendTwo = question;
+                                        blockService.addBlockQuestion(idBlock, [vm.dataForSendTwo]);
+                                    }
+                                })
+                            }
+                        });
+
+                        blockService.addBlockQuestion(idBlock, [dataForSend]).then(function (res) {
+                            if (res.success) {
+                                console.log('edit1');
                                 itemsOrig.splice(mainKey, 1, vm.data);
                             }
                         });
@@ -152,19 +167,22 @@
                 else {
                     vm.data.child_order_number = null;
 
-                    if(itemsOrig.length == 0){
+                    if (itemsOrig.length == 0) {
                         vm.data.order_number = 0;
                     }
                     else {
                         vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
                     }
 
-                    if (vm.data.type == 1 || vm.data.type == 0){
+                    if (vm.data.type == 1 || vm.data.type == 0) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
                     vm.data.mandatory = 1;
+                    if(vm.data.next_question === undefined){
+                        vm.data.next_question = null;
+                    }
                     let dataForSend = [vm.data];
                     loopingTest(vm.data);
 
@@ -177,7 +195,7 @@
                         console.log(dataForSend);
 
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
-                            if(res.success){
+                            if (res.success) {
                                 itemsOrig.push(res.data.questions[0]);
 
                             }
@@ -189,7 +207,7 @@
             }
         }
 
-        vm.changeNextQuest = function(quest, answer ) {
+        vm.changeNextQuest = function (quest, answer) {
             let question = vm.data;
 
             if (quest === undefined) {
@@ -321,7 +339,7 @@
                 }
                 identifierValid = tmpValid;
             } else {
-                for(let index in questionsArr) {
+                for (let index in questionsArr) {
                     if (Obj.identifier !== identifierDefault) {
                         if (questionsArr[index].identifier === vm.data.identifier) {
                             tmpValid = false;

@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = [ 'survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
 
-    function SurveyQuestionController( survey, $scope, $mdDialog, blockService, toastr, items) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -39,6 +39,7 @@
         vm.mandatoryChecked = mandatoryChecked;
         vm.mandatoryCheck = mandatoryCheck;
         vm.changeNextQuest = changeNextQuest;
+        vm.startupChainBuild = startupChainBuild;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -235,13 +236,27 @@
                     else {
                         // vm.items[mainKey].delete = true;
 
-                        let dataForSend = [{
+                        let dataForSend = {
                             id: vm.items[mainKey].id,
+                            question: vm.items[mainKey],
                             delete: true
-                        }];
-
-                        blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
+                        };
+                        vm.oldQuestion = dataForSend.question;
+                        blockService.addBlockQuestion(idBlock, [dataForSend]).then(function (res) {
                             if (res.success) {
+                                angular.forEach(vm.items, function (question) {
+                                    if (question.type !== 1 && question.next_question === vm.oldQuestion.identifier) {
+                                        question.next_question = null;
+                                        blockService.addBlockQuestion(idBlock, [question]);
+                                    } else {
+                                        angular.forEach(question.answers, function (answer) {
+                                            if (answer.next_question === vm.oldQuestion.identifier) {
+                                                answer.next_question = null;
+                                                blockService.addBlockQuestion(idBlock, [question]);
+                                            }
+                                        })
+                                    }
+                                });
                                 vm.items.splice(mainKey, 1);
                                 $scope.$emit('changeItems', vm.items);
                             }
@@ -275,11 +290,18 @@
 
         console.log('vm.items ', vm.items);
 
-        if (vm.items.length) {
-            vm.chain = [vm.items[0]];
-            chain(vm.chain[0].next_question);
-            fill();
+
+        startupChainBuild();
+
+        function startupChainBuild() {
+            vm.chain = [];
+            if (vm.items.length) {
+                vm.chain = [vm.items[0]];
+                chain(vm.chain[0].next_question);
+                fill();
+            }
         }
+
 
         let dataObj = {answer: undefined};
         vm.data.push(dataObj);
@@ -509,6 +531,7 @@
                     loopingValid = tmpValid;
                 }
             }
+
             $scope.$emit('changeItems', vm.items);
         }
 

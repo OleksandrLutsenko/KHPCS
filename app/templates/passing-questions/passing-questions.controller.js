@@ -93,7 +93,7 @@
         }
 
         function exists(item, list) {
-            if (list !== undefined) {
+            if (item !== undefined && item !== null && list !== undefined && list !== null) {
                 return list.indexOf(item) > -1;
             }
         }
@@ -107,7 +107,9 @@
                 chain(vm.questions[0].next_question);
             } else {
                 console.log('No questions in block');
+                vm.questions = [];
                 vm.endOfChain = true;
+
             }
         }
 
@@ -378,13 +380,18 @@
 
                     dataForSend = dataForSend.filter(function (obj) {
                         if (obj.answer_id) {
+                            console.log(dataForSend);
                             if (Array.isArray(obj.answer_id)) {
-                                if (obj.answer_id.length === 0) {
 
+                                if (obj.answer_id.length === 0) {
                                 } else {
                                     return obj;
                                 }
+                            } else {
+                                return obj;
                             }
+                        } else {
+                            return obj;
                         }
                     });
 
@@ -461,6 +468,7 @@
                 generete();
 
                 vm.data = [];
+                vm.endOfChain = false;
                 fill();
                 start();
             }
@@ -491,7 +499,7 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function chain(nextQuestion, questionIdentifier) {
+        function chain(nextQuestion, questionIdentifier, click) {
             let questionsArr = mainQuestionInBlock;
             let tmpNextQuestion = nextQuestion;
 
@@ -501,7 +509,7 @@
                         if (questionIdentifier === vm.questions[index].identifier) {
                             vm.questions.splice(index + 1, vm.questions.length);
                             // console.log(vm.questions);
-                            chainBuilder(nextQuestion);
+                            chainBuilder(nextQuestion, click);
                         }
                     }
                 } else {
@@ -510,25 +518,28 @@
                             if (questionIdentifier === vm.questions[index].identifier) {
                                 vm.questions.splice(index + 1, vm.questions.length);
                                 // console.log(vm.questions);
-                                chainBuilder(nextQuestion);
+                                chainBuilder(nextQuestion, click);
                             }
                         }
                     }
                 }
 
             } else {
-                chainBuilder(nextQuestion);
+                chainBuilder(nextQuestion, click);
             }
 
-            
-
-            function chainBuilder(nextQuestClick) {
+            function chainBuilder(nextQuestClick, click) {
+                console.log(click);
                 for (let x in questionsArr) {
                     if (nextQuestClick === null && vm.questions[0].type !== 1) {
                         vm.endOfChain = true;
                         break;
                     }
-                    if (tmpNextQuestion === null) {
+                    if (nextQuestClick === null && vm.questions[0].type === 1 && questionsArr.length === 1 && click === true) {
+                        vm.endOfChain = true;
+                        break;
+                    }
+                    if (tmpNextQuestion === null && vm.questions[0].type !== 1) {
                         break;
                     }
                     for (let i in questionsArr) {
@@ -570,7 +581,7 @@
                 }
 
                 if (tmpStatus === false) {
-                    chain(radio.next_question, parentIdentifier);
+                    chain(radio.next_question, parentIdentifier, manualInput);
                     fill(index);
                 }
             } else {
