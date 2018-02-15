@@ -103,7 +103,8 @@
                                             <md-option ng-repeat="quest in  vm.items"
                                                        ng-click="vm.changeNextQuest(question, quest)"
                                                        ng-value="quest.title"
-                                                       ng-if="quest.id !== question.id">
+                                                       ng-if="quest.id !== question.id"
+                                             >
                                                 {{quest.title}}
                                             </md-option>
 

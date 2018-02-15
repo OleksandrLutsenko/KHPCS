@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items' , '$state'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items , $state) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -257,6 +257,7 @@
                                         })
                                     }
                                 });
+
                                 vm.items.splice(mainKey, 1);
                                 $scope.$emit('changeItems', vm.items);
                             }

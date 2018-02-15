@@ -468,7 +468,11 @@
                 generete();
 
                 vm.data = [];
-                vm.endOfChain = false;
+                if (vm.questions.length) {
+                    vm.endOfChain = false;
+                } else {
+                    vm.endOfChain = true;
+                }
                 fill();
                 start();
             }

@@ -71,9 +71,9 @@
         };
 
         vm.finish = function() {
-            // let filename = customer + ' ' + actualSurveyName + ' ' + actualTemplateName;
-            let filename = customer + ' ' + actualSurveyName + ' ' + actualTemplateName + new Date().getTime();
-            filename = filename.split(' ').join('_');
+            let filename = customer + ' ' + actualSurveyName + ' ' + actualTemplateName;
+            // let filename = customer + ' ' + actualSurveyName + ' ' + actualTemplateName + new Date().getTime();
+            filename = filename.split('/').join('-');
             userService.getContract(actualReportId, actualTemplateId, filename).then(function (links) {
                let link = links.filePathUrlPdf;
                 if ((navigator.userAgent.search(/Chrome/) > -1) || (navigator.userAgent.search(/Safari/) > -1)) {
