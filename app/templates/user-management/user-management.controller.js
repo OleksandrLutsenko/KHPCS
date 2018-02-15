@@ -8,14 +8,14 @@
 
     function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, contractService, $scope) {
         let vm = this;
-        tabsService.startTab();
+        // tabsService.startTab();
         $scope.$emit('changeTab', 'page1');
 
         vm.myLimit = 10;
         vm.myPage = 1;
 
         vm.customers = customerService.getCustomers();
-        userService.downloadPackagePDF(vm.customers);
+        // userService.downloadPackagePDF(vm.customers);
 
 
         vm.pass = pass;
@@ -83,10 +83,15 @@
             );
         }
 
-        function pass(id, checkSelect) {
+        function pass(customer, checkSelect) {
+            let cactomerTmp = {
+                id: customer.id,
+                name: customer.name,
+                surname: customer.surname
+            }
             checkSelect = true;
             vm.checkSelect = checkSelect;
-            customers.setActiveCustomers(id);
+            customers.setActiveCustomers(cactomerTmp);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
             });

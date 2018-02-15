@@ -206,7 +206,7 @@
                         let indexActiveSurvey = survey.getActiveQuestionair().index;
 
                         let id = {
-                            customer: customers.getActiveCustomers(),
+                            customer: customers.getActiveCustomers().id,
                             survey: items[indexActiveSurvey].survey_id
                         };
 

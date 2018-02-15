@@ -22,6 +22,7 @@
         model.updateInfo = updateInfo;
         model.updatePass = updatePass;
         model.loadSurveysOnly = loadSurveysOnly;
+        model.loadCompanySurveys = loadCompanySurveys;
         model.loadItems = loadItems;
         model.setItems = setItems;
         model.getItems = getItems;
@@ -92,6 +93,10 @@
             return http.get(url.survey_management_func().loadOnlySurvey);
         }
 
+        function loadCompanySurveys(id) {
+            return http.get(url.company_func(id).companySurveys);
+        }
+
         function loadItems() {
             return http.get(url.user.getItems, {}).then(function (res) {
                 if (res.success) {
@@ -118,6 +123,9 @@
         }
 
         function downloadPackagePDF(customers) {
+            console.log('customers',customers);
+            console.log('chosenTemplates',chosenTemplates);
+            console.log('customerFromAdd',customerFromAdd);
             if(!(customers.length && customerFromAdd && chosenTemplates)){
                 console.log('No files for batch printing');
             } else {

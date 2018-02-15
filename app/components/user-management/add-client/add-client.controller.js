@@ -14,7 +14,9 @@
         vm.continue = continueQuest;
         vm.pass = pass;
 
-        vm.surveys = data.surveys;
+        vm.surveys = [];
+        // vm.surveys = data.surveys;
+        console.log('vm.surveys',vm.surveys);
 
 
 
@@ -59,9 +61,9 @@
             vm.user.update = false;
         }
 
-        function pass(id) {
+        function pass(customer) {
             survey.selectedSurveys(vm.chosenSurvey);
-            customers.setActiveCustomers(id);
+            customers.setActiveCustomers(customer);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
             })
@@ -107,7 +109,13 @@
                             } else {
                                 userService.setPackData(vm.chosenTemplates, res.data);
                                 toastr.success('New customer has been created');
-                                vm.pass(res.data.id);
+                                let cactomerTmp = {
+                                    id: res.data.id,
+                                    name: res.data.name,
+                                    surname: res.data.surname
+                                }
+                                vm.pass(cactomerTmp);
+                                console.log('customer------------------' , res.data);
                                 cancel();
                             }
                         } else {
@@ -184,6 +192,14 @@
             }
         };
 
+        vm.loadSurvey = function (id) {
+            userService.loadCompanySurveys(id).then(function(res){
+                console.log(res);
+                vm.surveys = res.data;
+                vm.chosenSurvey = [];
+                vm.survModel = [];
+            })
+        }
 
     }
 })();
