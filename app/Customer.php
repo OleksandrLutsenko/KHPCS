@@ -48,12 +48,20 @@ class Customer extends Model
     public function getAvailableSurveysAttribute()
     {
         if(isset($this->company_id)) {
-            $companySurveys = CompanySurvey::where('company_id', $this->company_id)->get();
+            $companySurveys = CompanySurvey::where('company_id', $this->company_id)->get()->toArray();
             $surveysId = array_values(array_unique(array_column($companySurveys, 'survey_id')));
             $surveys = Survey::whereIn('id', $surveysId)->get();
-            return $surveys;
+            $surveysObj = [];
+            foreach($surveys as $survey) {
+                $surveysObj[] = [
+                    'id' => $survey->id,
+                    'name' => $survey->name
+                ];
+            }
+            return $surveysObj;
         }
     }
+
 
     public function getUserNameAttribute()
     {

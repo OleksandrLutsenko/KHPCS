@@ -184,6 +184,7 @@ Route::group(['middleware' => 'api-response'], function() {
 
         Route::get('/company/{company}/customers', 'CustomerController@indexCompanySA');
         Route::put('/customers/change-fa', 'CustomerController@updateFA');
+        Route::get('/company/{company}/available-surveys', 'CompanyController@getAvailableSurveys');
 
     });
 });

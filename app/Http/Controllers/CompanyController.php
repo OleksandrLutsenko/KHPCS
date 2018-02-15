@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Company;
 use App\CompanySurvey;
+use App\Survey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +23,21 @@ class CompanyController extends Controller
         } else {
             return response(['message' => 'Page not found'], 404);
         }
+    }
+
+    public function getAvailableSurveys(Company $company)
+    {
+        $companySurveys = CompanySurvey::where('company_id', $company->id)->get()->toArray();
+        $surveysId = array_values(array_unique(array_column($companySurveys, 'survey_id')));
+        $surveys = Survey::whereIn('id', $surveysId)->get();
+        $surveysObj = [];
+        foreach($surveys as $survey) {
+            $surveysObj[] = [
+                'id' => $survey->id,
+                'name' => $survey->name
+            ];
+        }
+        return response($surveysObj);
     }
 
     /**
