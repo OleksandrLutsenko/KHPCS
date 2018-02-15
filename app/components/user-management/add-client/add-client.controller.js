@@ -59,9 +59,9 @@
             vm.user.update = false;
         }
 
-        function pass(id) {
+        function pass(customer) {
             survey.selectedSurveys(vm.chosenSurvey);
-            customers.setActiveCustomers(id);
+            customers.setActiveCustomers(customer);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
             })
@@ -107,7 +107,13 @@
                             } else {
                                 userService.setPackData(vm.chosenTemplates, res.data);
                                 toastr.success('New customer has been created');
-                                vm.pass(res.data.id);
+                                let cactomerTmp = {
+                                    id: res.data.id,
+                                    name: res.data.name,
+                                    surname: res.data.surname
+                                }
+                                vm.pass(cactomerTmp);
+                                console.log('customer------------------' , res.data);
                                 cancel();
                             }
                         } else {

@@ -5,9 +5,9 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'countries', 'passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey'];
+    PassingQuestionController.$inject = ['$scope', 'countries', 'passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey', '$mdDialog', 'contractService'];
 
-    function PassingQuestionController($scope, countries, passingQuestionService, $state, customers, customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey) {
+    function PassingQuestionController($scope, countries, passingQuestionService, $state, customers, customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey, $mdDialog, contractService ) {
         let vm = this;
         $scope.$emit('changeTab', 'page6');
 
@@ -16,10 +16,13 @@
         vm.next = next;
         vm.back = back;
         vm.checkRadioTreeExample = checkRadioTreeExample;
+        vm.downloadPDF = downloadPDF;
         vm.backSucces = false;
         let succesNext = true;
         vm.data = [];
         vm.activeSurveyName = oneSurveyItems.name;
+        console.log('oneSurveyItems-----------------------',oneSurveyItems);
+
         vm.emptySurvey = false;
         // console.log(customerAnswer, 'customerAnswer');
 
@@ -28,7 +31,7 @@
         let items = oneSurveyItems;
         // console.log(items);
         let idActiveSurvey = items.id;
-        let activeCustomers = customers.getActiveCustomers();
+        let activeCustomers = customers.getActiveCustomers().id;
 
         let mainQuestionInBlock;
         let customerAnswerOnActiveBlock;
@@ -471,13 +474,18 @@
                 };
                 passingQuestionService.createReport(data).then(function (res) {
                     if (res.success) {
+                        console.log('res-----------------------' , res);
                         if (allChosenSurveys.length > 1) {
                             allChosenSurveys.splice([0], 1);
                             survey.selectedSurveys(allChosenSurveys);
                             toastr.success('Has been completed', vm.activeSurveyName);
+                            console.log('Finish one pass----------------------------------------------------');
+                            downloadPDF(res);
                             $state.reload();
                         } else {
                             customers.setfinishQuestionair(true);
+                            console.log('Finish all pass----------------------------------------------------');
+                            downloadPDF(res);
                             $state.go('tab.user-management');
                             toastr.success('Completed');
                         }
@@ -580,6 +588,49 @@
                 fill(index);
             }
         }
+
+        function downloadPDF(res) {
+
+            let dataToDownloadPDF = {
+                report_id: res.data.id,
+                survey_name: oneSurveyItems.name,
+                survey_id: oneSurveyItems.id,
+                customer_name: customers.getActiveCustomers().name,
+                customer_surname: customers.getActiveCustomers().surname,
+            };
+
+            contractService.loadTemplateList().then(function (templateList) {
+                let templates = templateList.data.contractsWithoutBody;
+                let dataFromDialog = {
+                    // customer: customer.name + ' ' + customer.surname,
+                    // reports: customer.reports,
+                    // surveys: surveys,
+                    templates: templates
+                };
+                downloadContractDialog(dataFromDialog);
+
+                function downloadContractDialog(dataFromDialog) {
+                    $mdDialog.show({
+                        controller: 'DialogViewController',
+                        controllerAs: 'vm',
+                        templateUrl: 'components/contract-editor/download-contract/dialog/dialog.html',
+                        clickOutsideToClose: true,
+                        locals: {
+                            dataFromDialog: {
+                                // customer: dataFromDialog.customer,
+                                // reports: dataFromDialog.reports,
+                                // surveys: dataFromDialog.surveys,
+                                templates: dataFromDialog.templates,
+                                all: dataToDownloadPDF
+                            }
+                        }
+                    });
+                }
+            });
+
+
+        };
+
 
     }
 

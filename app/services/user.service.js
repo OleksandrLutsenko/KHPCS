@@ -118,6 +118,9 @@
         }
 
         function downloadPackagePDF(customers) {
+            console.log('customers',customers);
+            console.log('chosenTemplates',chosenTemplates);
+            console.log('customerFromAdd',customerFromAdd);
             if(!(customers.length && customerFromAdd && chosenTemplates)){
                 console.log('No files for batch printing');
             } else {

@@ -1,12 +1,12 @@
 <md-dialog class="download-contract">
 
     <md-toolbar>
-        <div class="md-toolbar-tools" layout="row" layout-align="space-between center">
+        <div class="md-toolbar-tools" layout="row" layout-align="center center">
             <h2>Download contract</h2>
         </div>
     </md-toolbar>
 
-    <md-input-container class="md-block">
+    <md-input-container class="md-block" ng-if="vm.showSurveys">
         <label>Select a survey</label>
         <md-select class="md-block-restyle" ng-model="vm.test">
             <md-option ng-repeat="survey in vm.surveys" value="{{survey.name}}"
@@ -16,7 +16,7 @@
         </md-select>
     </md-input-container>
 
-    <md-input-container class="md-block" ng-if="vm.showTemplates">
+    <md-input-container class="md-block" ng-if="vm.showTemplates && !vm.emptyTemplate">
         <label>Select a template</label>
         <md-select ng-model="user.template">
             <md-option ng-repeat="template in vm.templates" value="{{template.name}}"
@@ -26,8 +26,14 @@
         </md-select>
     </md-input-container>
 
-    <md-dialog-actions class="bot-btn" ng-if="vm.showOK">
-        <md-button aria-label="Download" class="download-button" ng-click="vm.finish()">Download</md-button>
+    <md-input-container class="md-block" ng-if="vm.emptyTemplate">
+        <p>No templates for printing</p>
+    </md-input-container>
+
+    <md-dialog-actions class="bot-btn">
+        <md-button  class="md-raised md-primary download-btn-left"
+                    ng-click="vm.finish()"  ng-if="vm.showOK  && !vm.emptyTemplate">Download</md-button>
+        <md-button  class="md-raised download-btn-right" ng-click="vm.cancel()">Close</md-button>
     </md-dialog-actions>
 
 </md-dialog>
