@@ -21,15 +21,13 @@
         let succesNext = true;
         vm.data = [];
         vm.activeSurveyName = oneSurveyItems.name;
-        console.log('oneSurveyItems-----------------------',oneSurveyItems);
+
 
         vm.emptySurvey = false;
-        // console.log(customerAnswer, 'customerAnswer');
 
         let indexActiveBlock;
 
         let items = oneSurveyItems;
-        // console.log(items);
         let idActiveSurvey = items.id;
         let activeCustomers = customers.getActiveCustomers().id;
 
@@ -474,17 +472,14 @@
                 };
                 passingQuestionService.createReport(data).then(function (res) {
                     if (res.success) {
-                        console.log('res-----------------------' , res);
                         if (allChosenSurveys.length > 1) {
                             allChosenSurveys.splice([0], 1);
                             survey.selectedSurveys(allChosenSurveys);
                             toastr.success('Has been completed', vm.activeSurveyName);
-                            console.log('Finish one pass----------------------------------------------------');
                             downloadPDF(res);
                             $state.reload();
                         } else {
                             customers.setfinishQuestionair(true);
-                            console.log('Finish all pass----------------------------------------------------');
                             downloadPDF(res);
                             $state.go('tab.user-management');
                             toastr.success('Completed');

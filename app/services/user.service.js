@@ -22,6 +22,7 @@
         model.updateInfo = updateInfo;
         model.updatePass = updatePass;
         model.loadSurveysOnly = loadSurveysOnly;
+        model.loadCompanySurveys = loadCompanySurveys;
         model.loadItems = loadItems;
         model.setItems = setItems;
         model.getItems = getItems;
@@ -90,6 +91,10 @@
 
         function loadSurveysOnly() {
             return http.get(url.survey_management_func().loadOnlySurvey);
+        }
+
+        function loadCompanySurveys(id) {
+            return http.get(url.company_func(id).companySurveys);
         }
 
         function loadItems() {

@@ -14,7 +14,9 @@
         vm.continue = continueQuest;
         vm.pass = pass;
 
-        vm.surveys = data.surveys;
+        vm.surveys = [];
+        // vm.surveys = data.surveys;
+        console.log('vm.surveys',vm.surveys);
 
 
 
@@ -190,6 +192,14 @@
             }
         };
 
+        vm.loadSurvey = function (id) {
+            userService.loadCompanySurveys(id).then(function(res){
+                console.log(res);
+                vm.surveys = res.data;
+                vm.chosenSurvey = [];
+                vm.survModel = [];
+            })
+        }
 
     }
 })();

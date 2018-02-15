@@ -35,6 +35,7 @@
                     cancelInv: baseUrl + 'api/invite/' + id + '/delete',
                     companyCustomers: baseUrl + 'api/company/' + id + '/customers',
                     selectedSurvTempInCompany: baseUrl + 'api/company/' + id + '/index-assigns',
+                    companySurveys: baseUrl + '/api/company/' + id + '/available-surveys'
                 }
             },
             survey_management: {

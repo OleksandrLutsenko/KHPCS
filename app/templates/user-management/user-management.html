@@ -48,20 +48,20 @@
                                                md-on-open="vm.checkStatus(customers.reports)"
                                                ng-click="showSurveys = true"
                                     >
-                                        <md-list ng-repeat="survey in vm.surveys"
+                                        <md-list ng-repeat="survey in customers.available_surveys"
                                                  ng-if="showSurveys">
                                             <md-list-item class="secondary-button-padding">
-                                                <p> {{survey.survey_name}} <br> <span ng-if="survey.check === true">(Finished)</span>
+                                                <p> {{survey.name}} <br> <span ng-if="survey.check === true">(Finished)</span>
                                                 </p>
 
                                                 <md-checkbox aria-label="Checkbox 1"
                                                              class="md-primary box-survey"
-                                                             ng-model="vm.survModel[survey.survey_id]"
-                                                             ng-change="vm.chooseSurveys(survey.survey_id)">
+                                                             ng-model="vm.survModel[survey.id]"
+                                                             ng-change="vm.chooseSurveys(survey.id)">
                                                 </md-checkbox>
                                             </md-list-item>
                                         </md-list>
-                                        <md-list ng-if="vm.surveys === undefined">
+                                        <md-list ng-if="customers.available_surveys.length === 0">
                                             <md-list-item>Don't have a chosen surveys
                                             </md-list-item>
                                         </md-list>

@@ -15,7 +15,7 @@
         vm.myPage = 1;
 
         vm.customers = customerService.getCustomers();
-        userService.downloadPackagePDF(vm.customers);
+        // userService.downloadPackagePDF(vm.customers);
 
 
         vm.pass = pass;
