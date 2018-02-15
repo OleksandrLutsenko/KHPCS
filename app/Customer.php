@@ -14,7 +14,7 @@ class Customer extends Model
 
     protected $visible = ['id', 'name', 'surname', 'classification', 'user_id', 'user_name', 'reports', 'created_at', 'company_id'];
 
-    protected $appends = ['reports', 'user_name'];
+    protected $appends = ['reports', 'user_name', 'available_surveys'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -43,6 +43,16 @@ class Customer extends Model
     public function getReportsAttribute()
     {
         return $this->report;
+    }
+
+    public function getAvailableSurveysAttribute()
+    {
+        if(isset($this->company_id)) {
+            $companySurveys = CompanySurvey::where('company_id', $this->company_id)->get();
+            $surveysId = array_values(array_unique(array_column($companySurveys, 'survey_id')));
+            $surveys = Survey::whereIn('id', $surveysId)->get();
+            return $surveys;
+        }
     }
 
     public function getUserNameAttribute()
