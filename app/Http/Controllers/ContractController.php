@@ -6,8 +6,10 @@ use App;
 use App\CompanySurvey;
 use App\Contract;
 use App\ContractResearch;
+use App\CustomerAnswer;
 use App\Http\Requests\ContractRequest;
 use App\Image;
+use App\Question;
 use App\Report;
 use App\Survey;
 use App\User;
@@ -243,7 +245,8 @@ class ContractController extends Controller
                 $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
                 //
                 if($question->trashed()){
-                    $finalAnswer[0]->value = "<p style='color: red'>undefined value</p> ";
+//                    $finalAnswer[0]->value = "<p style='color: red'>undefined value</p> ";
+                    $finalAnswer[0]->value = '';
                 }
                 //
                 $contractAnswers[$question->id] = $finalAnswer[0]->value;

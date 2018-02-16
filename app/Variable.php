@@ -18,7 +18,8 @@ class Variable extends Model
 //        $userVariablesArr = array_column($variables->toArray(), 'text');
         foreach ($variables as $variable) {
             if ($variable->trashed()) {
-                $deletedVariableMessage = "<span style='background-color: red'>variable was deleted</span>";
+//                $deletedVariableMessage = "<span style='background-color: red'>variable was deleted</span>";
+                $deletedVariableMessage = " ";
                 $userVariables[$variable->id] = $deletedVariableMessage;
             } else {
                 $userVariables[$variable->id] = $variable->text;
@@ -36,7 +37,8 @@ class Variable extends Model
 
         static::deleting(function ($variable) {
             $variable->update([
-                $variable->text = '<span style="background-color: red">variable was deleted</span>'
+//                $variable->text = '<span style="background-color: red">variable was deleted</span>'
+                $variable->text = ' '
             ]);
         });
     }

@@ -64,7 +64,6 @@ class CustomerController extends Controller
         $customer = Customer::create($request->getCustomerAttribute());
         return response()->json($customer, 201);
     }
-
     /**
      * Display the specified resource.
      *

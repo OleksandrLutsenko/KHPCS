@@ -106,7 +106,8 @@ class Contract extends Model
                     $contractAnswers[$surveyQuestion->id] = 'N/A';
                 } else {
                     if ($surveyQuestion->trashed()) {
-                        $deletedQuestionMessage = "<span style='background-color: red'>question was deleted</span>";
+//                        $deletedQuestionMessage = "<span style='background-color: red'>question was deleted</span>";
+                        $deletedQuestionMessage = " ";
                         $contractAnswers[$surveyQuestion->id] = $deletedQuestionMessage;
                     } else {
                         if ($surveyQuestion->type == 3) {
