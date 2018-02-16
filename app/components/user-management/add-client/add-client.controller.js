@@ -42,7 +42,6 @@
                         for (let i in vm.companies){
                             if(vm.companies[i].id === customersUser.company_id){
                                 vm.companyName =  vm.companies[i].name;
-                                console.log('vm.companyName---------' ,vm.companyName);
                                 break
                             }
                         }
