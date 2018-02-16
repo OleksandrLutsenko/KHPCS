@@ -16,7 +16,7 @@
 
         vm.surveys = [];
         // vm.surveys = data.surveys;
-        console.log('vm.surveys',vm.surveys);
+
 
 
 
@@ -37,7 +37,16 @@
         if (vm.user.role_id == 2) {
             vm.companies = [];
             companyService.allCompanies().then(function (res) {
-                  vm.companies = res.data.companies;
+                    vm.companies = res.data.companies;
+                    if(vm.user.update){
+                        for (let i in vm.companies){
+                            if(vm.companies[i].id === customersUser.company_id){
+                                vm.companyName =  vm.companies[i].name;
+                                console.log('vm.companyName---------' ,vm.companyName);
+                                break
+                            }
+                        }
+                    }
                 }
             );
             vm.user.update = true;
@@ -115,7 +124,6 @@
                                     surname: res.data.surname
                                 }
                                 vm.pass(cactomerTmp);
-                                console.log('customer------------------' , res.data);
                                 cancel();
                             }
                         } else {
