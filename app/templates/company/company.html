@@ -21,17 +21,17 @@
         <md-card>
             <md-table-container>
                 <table md-table ng-if="vm.companyAdm.length !== 0 || vm.companyAdmInv.length !== 0">
-                    <thead md-head>
+                    <thead md-head md-order="companyAdmOrder">
                     <tr md-row>
-                        <th md-column>Company admin name</th>
-                        <th md-column>Company admin Email</th>
-                        <th md-column>Invitation date</th>
-                        <th md-column></th>
+                        <th md-column md-order-by="name">Company admin name</th>
+                        <th md-column md-order-by="email">Company admin Email</th>
+                        <th md-column md-order-by="created_at">Invitation date</th>
+                        <th md-column ></th>
                     </tr>
                     </thead>
                     <tbody md-body>
                     <tr md-row
-                        ng-repeat="companyAdm in vm.companyAdm ">
+                        ng-repeat="companyAdm in vm.companyAdm | orderBy: companyAdmOrder">
                         <td md-cell>{{companyAdm.name }}</td>
                         <td md-cell>{{companyAdm.email}}</td>
                         <td md-cell>{{companyAdm.created_at}}</td>
@@ -60,17 +60,17 @@
         <md-card>
             <md-table-container>
                 <table md-table ng-if="vm.fnnAdviser.length !== 0 || vm.fnnAdviserInv.length !== 0">
-                    <thead md-head>
+                    <thead md-head md-order="fnnAdvOrder">
                     <tr md-row>
-                        <th md-column>Financial adviser name</th>
-                        <th md-column>Financial adviser Email</th>
-                        <th md-column>Invitation date</th>
+                        <th md-column md-order-by="name">Financial adviser name</th>
+                        <th md-column md-order-by="email">Financial adviser Email</th>
+                        <th md-column md-order-by="created_at">Invitation date</th>
                         <th md-column></th>
                     </tr>
                     </thead>
                     <tbody md-body>
                     <tr md-row
-                        ng-repeat="fnnAdviser in  vm.fnnAdviser ">
+                        ng-repeat="fnnAdviser in  vm.fnnAdviser | orderBy: fnnAdvOrder ">
                         <td md-cell>{{fnnAdviser.name }}</td>
                         <td md-cell>{{fnnAdviser.email}}</td>
                         <td md-cell>{{fnnAdviser.created_at}}</td>
@@ -80,7 +80,7 @@
                         </td>
                     </tr>
                     <tr md-row
-                        ng-repeat="fnnAdviserInv in  vm.fnnAdviserInv "
+                        ng-repeat="fnnAdviserInv in  vm.fnnAdviserInv  "
                         ng-if="fnnAdviserInv.is_used === 0">
                         <td md-cell>
                             <md-button class="md-raised" ng-click="vm.reSend(fnnAdviserInv)">Re-send</md-button>
@@ -114,17 +114,17 @@
 
                 <md-table-container>
                     <table md-table>
-                        <thead md-head>
+                        <thead md-head md-order="customersOrder">
                         <tr md-row>
-                            <th md-column>Client name</th>
-                            <th md-column>Client classification</th>
-                            <th md-column>Financial Adviser</th>
-                            <th md-column>Data created</th>
+                            <th md-column md-order-by="name">Client name</th>
+                            <th md-column md-order-by="classification">Client classification</th>
+                            <th md-column md-order-by="user_name">Financial Adviser</th>
+                            <th md-column md-order-by="created_at">Data created</th>
                         </tr>
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in filteredCustomers = (vm.customersCompany | filter:vm.search) |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            ng-repeat="customers in filteredCustomers = (vm.customersCompany | filter:vm.search) |orderBy: customersOrder |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname }}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell>

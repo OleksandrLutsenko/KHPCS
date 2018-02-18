@@ -4,9 +4,9 @@
         .module('app')
         .controller('AddAdminController', AddAdminController);
 
-    AddAdminController.$inject = ['data', '$mdDialog', '$state','toastr' , 'companyService'];
+    AddAdminController.$inject = ['data', '$mdDialog', 'toastr' , 'companyService'];
 
-    function AddAdminController(data, $mdDialog, $state,toastr, companyService) {
+    function AddAdminController(data, $mdDialog,toastr, companyService) {
         let vm = this;
 
         vm.save = save;
@@ -17,6 +17,8 @@
         }
 
         vm.userRole = data.role;
+        console.log(vm.userRole);
+
 
         vm.data = {
             email: '',
@@ -25,9 +27,13 @@
             is_used: 0
         };
 
+
         function save() {
 
             vm.data.role_id = vm.data.role;
+            if(vm.userRole === 3){
+                vm.data.role_id = 1;
+            }
             if (vm.adminForm.$invalid) {
                 return;
             }

@@ -507,7 +507,7 @@
                             tmpValid = true;
                             if (chain[chainIndex].identifier === Obj.answers[answerIndex].next_question) {
                                 tmpValid = false;
-                                toastr.error('You create loop!');
+                                toastr.error('Warning! You have created a question loop');
                                 console.log('You create loop!');
                                 Obj.answers[answerIndex].next_question = vm.answerOldValue;
                                 break;
@@ -521,7 +521,7 @@
                         if (chain[chainIndex].identifier === Obj.next_question) {
                             tmpValid = false;
                             vm.tmpValid = tmpValid;
-                            toastr.error('You create loop!');
+                            toastr.error('Warning! You have created a question loop');
                             console.log('You create loop!');
                             console.log(vm.oldValue);
                             Obj.next_question = vm.oldValue;

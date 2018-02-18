@@ -2,7 +2,7 @@
 
     <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
         <md-tab label="Questions"></md-tab>
-        <md-tab label="Example" ng-click="vm.startupChainBuild()"></md-tab>
+        <md-tab label="Preview" ng-click="vm.startupChainBuild()"></md-tab>
     </md-tabs>
 
     <section ng-if="selectedIndex === 0">
@@ -212,7 +212,7 @@
         <md-content class="md-padding">
             <div layout="row" layout-align="center center">
                 <div flex="80">
-                    <h2 layout="row" layout-align="center center">Tree example</h2>
+                    <h2 layout="row" layout-align="center center">Preview</h2>
 
                     <div ng-repeat="(questIndex, question) in vm.chain">
 

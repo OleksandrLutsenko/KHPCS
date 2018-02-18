@@ -18,20 +18,20 @@
             <md-card>
                 <md-table-container>
                     <table md-table>
-                        <thead md-head>
+                        <thead md-head md-order="customersOrder">
                         <tr md-row>
-                            <th md-column>Client Name</th>
-                            <th md-column>Client Classification</th>
-                            <th md-column ng-if="vm.user.role_id > 1">Financial Adviser</th>
+                            <th md-column md-order-by="name">Client Name</th>
+                            <th md-column md-order-by="classification">Client Classification</th>
+                            <th md-column ng-if="vm.user.role_id > 1" md-order-by="user_name">Financial Adviser</th>
                             <th md-column>Questionnaire Responses</th>
-                            <th md-column>Contract</th>
-                            <th md-column>Date Completed</th>
+                            <th md-column md-order-by="reports">Contract</th>
+                            <th md-column md-order-by="created_at">Date Completed</th>
                             <th md-column></th>
                         </tr>
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in filteredCustomers = (vm.customers | filter:vm.search)|  limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            ng-repeat="customers in filteredCustomers = (vm.customers | filter:vm.search)|orderBy: customersOrder|  limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-if="customers.user_name === null && vm.user.role_id > 1">Don't have a
@@ -49,9 +49,10 @@
                                                ng-click="showSurveys = true"
                                     >
                                         <md-list ng-repeat="survey in customers.available_surveys"
-                                                 ng-if="showSurveys">
+                                                 ng-if="showSurveys && survey.survey_status !== 'archived'">
                                             <md-list-item class="secondary-button-padding">
-                                                <p> {{survey.name}} <br> <span ng-if="survey.check === true">(Finished)</span>
+                                                <p> {{survey.name}} <br> <span
+                                                        ng-if="survey.check === true">(Finished)</span>
                                                 </p>
 
                                                 <md-checkbox aria-label="Checkbox 1"
@@ -66,7 +67,7 @@
                                             </md-list-item>
                                         </md-list>
                                         <md-button class="start-btn md-primary"
-                                                   ng-click="vm.pass(customers.id , checkSelect)"
+                                                   ng-click="vm.pass(customers , checkSelect)"
                                                    ng-if="customers.available_surveys !== undefined">
                                             Get started
                                         </md-button>
