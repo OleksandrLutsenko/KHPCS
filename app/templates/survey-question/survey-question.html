@@ -105,7 +105,9 @@
                                                        ng-value="quest.title"
                                                        ng-if="quest.id !== question.id"
                                              >
-                                                {{quest.title}}
+                                              <div layout="row">
+                                                  <div class="next-quest-id"> {{quest.identifier}}</div>   {{quest.title}}
+                                              </div>
                                             </md-option>
 
                                         </md-select>

@@ -41,7 +41,7 @@
                         </td>
                     </tr>
                     <tr md-row
-                        ng-repeat="companyAdmInv in vm.companyAdmInv "
+                        ng-repeat="companyAdmInv in vm.companyAdmInv | orderBy: companyAdmOrder "
                         ng-if="companyAdmInv.is_used === 0">
                         <td md-cell>
                             <md-button class="md-raised" ng-click="vm.reSend(companyAdmInv)">Re-send</md-button>
@@ -80,7 +80,7 @@
                         </td>
                     </tr>
                     <tr md-row
-                        ng-repeat="fnnAdviserInv in  vm.fnnAdviserInv  "
+                        ng-repeat="fnnAdviserInv in  vm.fnnAdviserInv | orderBy: fnnAdvOrder "
                         ng-if="fnnAdviserInv.is_used === 0">
                         <td md-cell>
                             <md-button class="md-raised" ng-click="vm.reSend(fnnAdviserInv)">Re-send</md-button>
@@ -124,7 +124,7 @@
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in filteredCustomers = (vm.customersCompany | filter:vm.search) |orderBy: customersOrder |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            ng-repeat="customers in filteredCustomers = (vm.customersCompany | filter:vm.search) |orderBy: customersOrder  |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname }}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell>

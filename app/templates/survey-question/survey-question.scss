@@ -105,6 +105,7 @@
     margin-top: 20px;
     padding: 10px;
     color: #bfbebe;
+    width: 96px;
   }
 
   .main_question {
@@ -117,6 +118,8 @@
       font-size: 20px;
     }
   }
+
+
 
   .main_question:hover {
     background: #DDDDDD;
@@ -150,4 +153,10 @@
     width: 98%;
   }
 
+}
+.next-quest-id  {
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

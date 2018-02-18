@@ -14,6 +14,7 @@
         vm.menu = menu();
         vm.user = userService.getUser();
         vm.role = tabs.getRole();
+        vm.goBack = goBack;
 
         let user = vm.user;
 
@@ -84,6 +85,10 @@
             function isShow(data) {
                 return show[data]
             }
+        }
+
+        function goBack() {
+            window.history.back();
         }
 
     }
