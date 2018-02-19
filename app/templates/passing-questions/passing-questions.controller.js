@@ -542,7 +542,12 @@
                         vm.endOfChain = true;
                         break;
                     }
+
                     if (nextQuestClick === null && vm.questions[0].type === 1 && questionsArr.length === 1 && click === true) {
+                        vm.endOfChain = true;
+                        break;
+                    }
+                    if (nextQuestClick === null && vm.questions[vm.questions.length - 1].type === 1 && click === true) {
                         vm.endOfChain = true;
                         break;
                     }

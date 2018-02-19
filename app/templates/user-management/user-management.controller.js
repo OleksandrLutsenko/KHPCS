@@ -72,11 +72,12 @@
         };
         survey.selectedSurveys(vm.chosenSurvey);
 
-        function checkStatus(reports) {
-            angular.forEach(vm.surveys, function (survey) {
+        function checkStatus(reports , surveys) {
+            angular.forEach(surveys, function (survey) {
                     angular.forEach(reports, function (report) {
-                        if (survey.survey_id === report.survey_id) {
+                        if (survey.id === report.survey_id) {
                             survey.check = true;
+                            console.log(survey);
                         }
                     })
                 }

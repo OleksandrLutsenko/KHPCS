@@ -45,7 +45,7 @@
                                     <label>Choose a survey</label>
                                     <md-select class="md-block-restyle" ng-model="vm.select"
                                                md-on-close="vm.clearCheck()"
-                                               md-on-open="vm.checkStatus(customers.reports)"
+                                               md-on-open="vm.checkStatus(customers.reports , customers.available_surveys)"
                                                ng-click="showSurveys = true"
                                     >
                                         <md-list ng-repeat="survey in customers.available_surveys"
