@@ -11,6 +11,7 @@
 
             <div class="add-icon" layout="" layout-align="center center" ng-click="vm.createOrUpdate()">
                 <i class="material-icons">person_add</i>
+                <md-tooltip md-direction="left">Add customer</md-tooltip>
             </div>
         </div>
 
@@ -75,18 +76,28 @@
                                 </md-input-container>
                             </td>
                             <td md-cell ng-if="customers.reports.length">
+                                <md-tooltip md-direction="left">Download a contract</md-tooltip>
                                 <i class="material-icons" ng-click="vm.downloadPDF(customers)">file_download</i>
                             </td>
-                            <td md-cell ng-if="!customers.reports.length"><i
-                                    class="material-icons none-icon">do_not_disturb_alt</i></td>
+                            <td md-cell ng-if="!customers.reports.length">
+                                <md-tooltip md-direction="left">Don't have a reports</md-tooltip>
+                                <i
+                                        class="material-icons none-icon">do_not_disturb_alt</i></td>
                             <td md-cell>
                                 {{customers.created_at }}
                             </td>
                             <td md-cell>
-                                <i class="material-icons"
-                                   ng-click="vm.createOrUpdate(customers.id, customers )">mode_edit</i>
-                                <i class="material-icons"
-                                   ng-click="vm.deleteCustomer(customers.id, customers)">highlight_off</i>
+                                <div>
+                                    <md-tooltip md-direction="left">Edit customer info</md-tooltip>
+                                    <i class="material-icons"
+                                       ng-click="vm.createOrUpdate(customers.id, customers )">mode_edit</i>
+                                </div>
+                                <div>
+                                    <md-tooltip md-direction="left">Delete a customer</md-tooltip>
+                                    <i class="material-icons"
+                                       ng-click="vm.deleteCustomer(customers.id, customers)">highlight_off</i>
+                                </div>
+
                             </td>
                         </tr>
 

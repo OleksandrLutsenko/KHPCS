@@ -41,6 +41,7 @@
 
                         if (!vm.show) {
                             toastr.success('Profile was updated');
+                            window.history.back();
                         }
 
                     } else {
@@ -60,6 +61,7 @@
                                 });
 
                                 toastr.success('Profile was updated');
+                                window.history.back();
                             } else {
                                 console.log('error');
                                 toastr.error('Current password is incorrect');

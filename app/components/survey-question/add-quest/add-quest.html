@@ -91,7 +91,8 @@
                                    ng-click="vm.changeNextQuest(quest)"
                                    ng-value="quest.identifier"
                                    ng-if="vm.data.id !== quest.id">
-                            {{quest.title}}
+                            <div flex="" class="pick-next"> {{quest.title}}</div>
+
                         </md-option>
                     </md-select>
                 </md-input-container>
@@ -137,7 +138,9 @@
                                                ng-value="quest.identifier"
                                                ng-if="vm.data.id !== quest.id"
                                     >
-                                       {{quest.title }}
+
+                                        <div flex="" class="pick-next"> {{quest.title}}</div>
+
                                     </md-option>
                                 </md-select>
                             </md-input-container>
@@ -164,7 +167,8 @@
                                        ng-value="quest.identifier"
                                        ng-if="vm.data.id !== quest.id"
                             >
-                                {{quest.title}}
+                                <div flex="" class="pick-next"> {{quest.title}}</div>
+
                             </md-option>
                         </md-select>
                     </md-input-container>

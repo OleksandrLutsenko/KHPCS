@@ -15,6 +15,7 @@
                 Back
             </md-button>
             <div class="add-icon" layout="" layout-align="center center" ng-click="vm.createAdmin(vm.userRole)">
+                <md-tooltip md-direction="left">Add a new user</md-tooltip>
                 <i class="material-icons">person_add</i>
             </div>
         </div>
@@ -38,6 +39,7 @@
                         <td md-cell><i class="material-icons"
                                        ng-click="vm.deleteAdmin(companyAdm.id , companyAdm)"
                                        ng-if="vm.userRole === 2">highlight_off</i>
+                            <md-tooltip md-direction="left">Delete a user</md-tooltip>
                         </td>
                     </tr>
                     <tr md-row
@@ -51,6 +53,7 @@
                         <td md-cell><i class="material-icons"
                                        ng-click="vm.deleteAdmin(companyAdmInv.id, companyAdmInv)"
                                        ng-if="vm.userRole === 2">highlight_off</i>
+                            <md-tooltip md-direction="left">Cancel a invite</md-tooltip>
                         </td>
                     </tr>
                     </tbody>
@@ -74,7 +77,9 @@
                         <td md-cell>{{fnnAdviser.name }}</td>
                         <td md-cell>{{fnnAdviser.email}}</td>
                         <td md-cell>{{fnnAdviser.created_at}}</td>
-                        <td md-cell><i class="material-icons"
+                        <td md-cell>
+                            <md-tooltip md-direction="left">Delete a user</md-tooltip>
+                            <i class="material-icons"
                                        ng-click="vm.deleteAdmin(fnnAdviser.id , fnnAdviser)"
                         >highlight_off</i>
                         </td>
@@ -87,7 +92,9 @@
                         </td>
                         <td md-cell>{{fnnAdviserInv.email}}</td>
                         <td md-cell>{{fnnAdviserInv.created_at}}</td>
-                        <td md-cell><i class="material-icons"
+                        <td md-cell>
+                            <md-tooltip md-direction="left">Cancel a invite</md-tooltip>
+                            <i class="material-icons"
                                        ng-click="vm.deleteAdmin(fnnAdviserInv.id, fnnAdviserInv)">highlight_off</i>
                         </td>
                     </tr>
@@ -129,6 +136,7 @@
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell>
                                 <md-input-container>
+                                    <md-tooltip md-direction="left">Change a financial advisor</md-tooltip>
                                     <label ng-if="customers.user_name !== null">{{customers.user_name}}</label>
                                     <label ng-if="customers.user_name === null">Don't have a financial advisor</label>
                                     <md-select class="md-block-restyle" ng-model="vm.select"
@@ -170,10 +178,14 @@
                     <md-list ng-repeat="template in vm.templates" ng-if="survey.survey_id === template.survey_id">
                         <md-list-item class="secondary-button-padding">
                             <p> {{template.title}}</p>
-                            <md-checkbox ng-model="vm.templateModel[template.id]" aria-label="Checkbox 1"
-                                         class="md-primary"
-                                         ng-change="vm.checkboxTemplates(template.survey_id , template.id)">
-                            </md-checkbox>
+                            <div>
+                                <md-tooltip md-direction="left">Pick a template</md-tooltip>
+                                <md-checkbox ng-model="vm.templateModel[template.id]" aria-label="Checkbox 1"
+                                             class="md-primary"
+                                             ng-change="vm.checkboxTemplates(template.survey_id , template.id)">
+                                </md-checkbox>
+                            </div>
+
                         </md-list-item>
                     </md-list>
                     <md-divider></md-divider>

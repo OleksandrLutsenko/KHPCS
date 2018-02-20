@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items' , '$state'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items , $state) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -40,6 +40,7 @@
         vm.mandatoryCheck = mandatoryCheck;
         vm.changeNextQuest = changeNextQuest;
         vm.startupChainBuild = startupChainBuild;
+        vm.copyQuest = copyQuest;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -431,6 +432,7 @@
             // console.log('quest = ', quest);
             // console.log('answer = ', answer);
 
+            console.log(vm.items);
             if (quest === undefined) {
                 question.next_question = null;
                 vm.data = question;
@@ -439,6 +441,7 @@
                     answer.next_question = null;
                     vm.data = question;
                 }
+                console.log(question,quest);
                 console.log(vm.data);
                 blockService.addBlockQuestion(idBlock, [vm.data]);
 
@@ -453,6 +456,7 @@
 
                 loopingTest(question);
 
+                console.log(vm.data);
                 if (loopingValid === false) {
 
                 } else {
@@ -555,5 +559,36 @@
 
             });
         }
+
+        function copyQuest(question, index, answer) {
+            if (answer === undefined) {
+                vm.data = angular.copy(question);
+                // vm.data.identifier += '_copy';
+                vm.data.id = undefined;
+                vm.data.identifier = undefined;
+                console.log(vm.data);
+                blockService.addBlockQuestion(idBlock, [vm.data]).then(function (res) {
+                    if (res.success) {
+                        vm.items.splice(index + 1, 0, res.data.questions[0]);
+                        toastr.success('Question was duplication')
+                    }
+                });
+            } else {
+                vm.data = angular.copy(question);
+
+                let copyAnswer = angular.copy(answer);
+                copyAnswer.id = undefined;
+                vm.data.answers.push(copyAnswer);
+                blockService.addBlockQuestion(idBlock, [vm.data]).then(function (res) {
+                    if (res.success) {
+                        vm.items.splice(vm.items.indexOf(question), 1, res.data.questions[0]);
+                        toastr.success('Question was duplication')
+                    }
+                });
+            }
+
+        }
+
+
     }
 })();

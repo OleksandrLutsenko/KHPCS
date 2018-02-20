@@ -3,19 +3,18 @@
   background-color: #ffffff;
   min-height: 100vh;
 
-
   md-pagination-wrapper {
-    width: 100% ;
+    width: 100%;
     display: flex;
-    justify-content:center;
+    justify-content: center;
   }
   md-tab-item {
     width: 264px;
   }
-  md-content{
+  md-content {
     min-height: 100vh;
   }
-  md-ink-bar{
+  md-ink-bar {
     background: #001041 !important;
   }
   .name-block {
@@ -28,6 +27,7 @@
   .edit-button-active {
     background: #DDDDDD;
   }
+
   .cancel-button {
     text-transform: capitalize;
     border: 2px solid #3f51b5;
@@ -44,7 +44,7 @@
     min-height: 30px;
   }
 
-  .next-input{
+  .next-input {
     min-width: 200px;
   }
   .next-input label {
@@ -119,8 +119,6 @@
     }
   }
 
-
-
   .main_question:hover {
     background: #DDDDDD;
     transition: .4s;
@@ -153,8 +151,26 @@
     width: 98%;
   }
 
+  .add-quest-bot {
+    position: fixed !important;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+  }
+
 }
-.next-quest-id  {
+
+md-select-menu{
+  max-width: 600px !important;
+}
+
+.pick-next{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.next-quest-id {
   width: 80px;
   white-space: nowrap;
   overflow: hidden;

@@ -42,3 +42,14 @@
     display: flex;
   }
 }
+.pick-next{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.next-quest-id {
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -38,13 +38,14 @@
   .hidden-icon{
     display: none;
     margin-right: 10px;
+
   }
 
   .block-item:hover {
     background: #DDDDDD;
     transition: .4s;
     .hidden-icon{
-      display: block;
+      display: flex;
     }
   }
 }
