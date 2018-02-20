@@ -25,7 +25,7 @@ class AnswerRequest extends FormRequest
     public function rules()
     {
         return [
-            'answer_text' => 'required|min:1|max:50',
+            'answer_text' => 'required|min:1|max:4000',
         ];
     }
 }

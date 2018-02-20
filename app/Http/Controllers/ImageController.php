@@ -39,6 +39,7 @@ class ImageController extends Controller
 
     /**
      * @param ImageRequest $request
+     * @param ContractResearch $contractResearch
      * @param Image $image
      * @return $this|\Illuminate\Database\Eloquent\Model
      */

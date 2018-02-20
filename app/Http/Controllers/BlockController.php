@@ -228,7 +228,7 @@ class BlockController extends Controller
     }
 
 
-    public function addQuestionsBlock111(Request $request, Block $block, User $user)
+    public function addQuestionsBlock111(QuestionRequest $request, Block $block, User $user)
     {
         if ($user->can('addQuestion', $block)) {
             $requests = $request->all();

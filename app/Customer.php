@@ -50,7 +50,7 @@ class Customer extends Model
         if(isset($this->company_id)) {
             $companySurveys = CompanySurvey::where('company_id', $this->company_id)->get()->toArray();
             $surveysId = array_values(array_unique(array_column($companySurveys, 'survey_id')));
-            $surveys = Survey::whereIn('id', $surveysId)->get();
+            $surveys = Survey::whereIn('id', $surveysId)->where('status', '!=', 0)->get();
             $surveysObj = [];
             foreach($surveys as $survey) {
                 $surveysObj[] = [
