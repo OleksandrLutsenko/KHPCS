@@ -32,16 +32,16 @@ class CustomerController extends Controller
     public function indexCompanySA(Customer $customer, User $user, Company $company)
     {
         if(Auth::user()->isAdmin()) {
-            $customers = Customer::orderBy('user_id', 'desc')
-                ->latest()
+//            $customers = Customer::orderBy('user_id', 'desc')
+            $customers = Customer::latest()
                 ->where('company_id', $company->id)
                 ->get();
             return $customers;
         }
         elseif(Auth::user()->isCompanyAdmin()) {
             if(Auth::user()->company_id == $company->id) {
-                $customers = Customer::orderBy('user_id', 'desc')
-                    ->latest()
+//                $customers = Customer::orderBy('user_id', 'desc')
+                $customers = Customer::latest()
                     ->where('company_id', Auth::user()->company_id)
                     ->get();
                 return $customers;
