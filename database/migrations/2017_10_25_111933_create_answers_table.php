@@ -15,7 +15,7 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('answer_text')->default('text');
+            $table->string('answer_text', 4000)->default('text');
             $table->integer('question_id', false, 10);
             $table->integer('order_number', false, 10)->nullable();
             $table->string('next_question')->nullable();
