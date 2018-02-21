@@ -29,7 +29,7 @@ class CompanyController extends Controller
     {
         $companySurveys = CompanySurvey::where('company_id', $company->id)->get()->toArray();
         $surveysId = array_values(array_unique(array_column($companySurveys, 'survey_id')));
-        $surveys = Survey::whereIn('id', $surveysId)->get();
+        $surveys = Survey::whereIn('id', $surveysId)->where('status', '!=', 0)->get();
         $surveysObj = [];
         foreach($surveys as $survey) {
             $surveysObj[] = [
