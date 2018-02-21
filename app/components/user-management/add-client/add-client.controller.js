@@ -193,6 +193,12 @@
         };
 
         vm.loadSurvey = function (id) {
+
+            if(vm.user.role_id === 1){
+                id = vm.user.company_id;
+            } else {
+                id = vm.data.company_id;
+            }
             userService.loadCompanySurveys(id).then(function(res){
                 console.log(res);
                 vm.surveys = res.data;

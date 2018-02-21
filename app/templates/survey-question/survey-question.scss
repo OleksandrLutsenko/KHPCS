@@ -170,9 +170,18 @@ md-select-menu{
   text-overflow: ellipsis;
 }
 
-.next-quest-id {
-  width: 80px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+md-option{
+  .next-quest-id {
+    width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+md-input-container{
+  .next-quest-id{
+    width: fit-content;
+    padding-right: 10px;
+  }
 }

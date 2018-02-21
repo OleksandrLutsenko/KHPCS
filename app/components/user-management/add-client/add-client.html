@@ -44,7 +44,7 @@
                     <md-input-container class="company-input" ng-if="vm.user.role_id == 2">
                         <label>Choose a company</label>
                         <md-select ng-model="vm.data.company_id" name="company" ng-required="{{!vm.user.update}}" ng-disabled="{{vm.user.update}}">
-                            <md-option ng-repeat="company in vm.companies" value="{{company.id}}" ng-click="vm.loadSurvey(company.id)">
+                            <md-option ng-repeat="company in vm.companies" value="{{company.id}}" >
                                 {{company.name}}
                             </md-option>
                         </md-select>
@@ -53,8 +53,8 @@
                         </div>
                     </md-input-container>
 
-                    <md-checkbox ng-model="vm.goThrough" aria-label="Checkbox 1" ng-if="vm.id === undefined"
-                                 class="box md-primary">
+                    <md-checkbox ng-model="vm.goThrough" aria-label="Checkbox 1" ng-if="vm.id === undefined && vm.data.company_id !== undefined || vm.user.role_id === 1"
+                                 class="box md-primary" ng-click="vm.loadSurvey()">
                         Go through the survey and download the contract
                     </md-checkbox>
 
