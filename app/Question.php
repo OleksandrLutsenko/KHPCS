@@ -20,9 +20,12 @@ class Question extends Model
     const VALIDATION_TYPE_TEXT = 1;
     const VALIDATION_TYPE_NUMBERS = 2;
 
-    protected $fillable = ['title', 'type', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit', 'mandatory', 'next_question'];
+    protected $fillable = ['title', 'type', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier',
+        'validation_type', 'characters_limit', 'mandatory', 'next_question', 'exit_value', 'information', 'contract_text'];
 
-    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number', 'parent_answer_id', 'identifier', 'validation_type', 'characters_limit', 'mandatory', 'next_question'];
+    protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number',
+        'parent_answer_id', 'identifier', 'validation_type', 'characters_limit', 'mandatory', 'next_question',
+        'exit_value', 'information', 'contract_text'];
 
     protected $appends = ['answers'];
 

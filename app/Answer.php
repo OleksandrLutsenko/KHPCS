@@ -9,7 +9,8 @@ class Answer extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['answer_text', 'question_id', 'order_number', 'next_question'];
+    protected $fillable = ['answer_text', 'question_id', 'order_number', 'next_question',
+        'exit_value', 'information', 'contract_text'];
 
     protected $appends = ['child_questions'];
 
