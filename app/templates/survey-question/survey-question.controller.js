@@ -432,7 +432,6 @@
             // console.log('quest = ', quest);
             // console.log('answer = ', answer);
 
-            console.log(vm.items);
             if (quest === undefined) {
                 question.next_question = null;
                 vm.data = question;
@@ -441,8 +440,6 @@
                     answer.next_question = null;
                     vm.data = question;
                 }
-                console.log(question,quest);
-                console.log(vm.data);
                 blockService.addBlockQuestion(idBlock, [vm.data]);
 
             } else if (question.type === 1) {
@@ -456,7 +453,6 @@
 
                 loopingTest(question);
 
-                console.log(vm.data);
                 if (loopingValid === false) {
 
                 } else {
@@ -527,7 +523,6 @@
                             vm.tmpValid = tmpValid;
                             toastr.error('Warning! You have created a question loop');
                             console.log('You create loop!');
-                            console.log(vm.oldValue);
                             Obj.next_question = vm.oldValue;
                             console.log(Obj);
                             break;
@@ -560,16 +555,24 @@
             });
         }
 
-        function copyQuest(question, index, answer) {
+        function copyQuest(question, answer) {
+
             if (answer === undefined) {
                 vm.data = angular.copy(question);
-                // vm.data.identifier += '_copy';
                 vm.data.id = undefined;
-                vm.data.identifier = undefined;
-                console.log(vm.data);
+
+                let text = "";
+                let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (let i = 0; i < 5; i++) {
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+                }
+
+                vm.data.identifier = vm.data.identifier + '-' + text;
+
                 blockService.addBlockQuestion(idBlock, [vm.data]).then(function (res) {
                     if (res.success) {
-                        vm.items.splice(index + 1, 0, res.data.questions[0]);
+                        vm.items.splice(vm.items.indexOf(question) + 1 , 0 , res.data.questions[0]);
                         toastr.success('Question was duplication')
                     }
                 });
@@ -582,7 +585,7 @@
                 blockService.addBlockQuestion(idBlock, [vm.data]).then(function (res) {
                     if (res.success) {
                         vm.items.splice(vm.items.indexOf(question), 1, res.data.questions[0]);
-                        toastr.success('Question was duplication')
+                        toastr.success('Answer was duplication')
                     }
                 });
             }

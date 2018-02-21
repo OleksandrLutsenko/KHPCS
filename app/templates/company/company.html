@@ -178,11 +178,12 @@
                     <md-list ng-repeat="template in vm.templates" ng-if="survey.survey_id === template.survey_id">
                         <md-list-item class="secondary-button-padding">
                             <p> {{template.title}}</p>
-                            <div>
+                            <div >
                                 <md-tooltip md-direction="left">Pick a template</md-tooltip>
                                 <md-checkbox ng-model="vm.templateModel[template.id]" aria-label="Checkbox 1"
-                                             class="md-primary"
-                                             ng-change="vm.checkboxTemplates(template.survey_id , template.id)">
+                                             class="md-primary check-tmp"
+                                             ng-change="vm.checkboxTemplates(template.survey_id , template.id)"
+                                              >
                                 </md-checkbox>
                             </div>
 
