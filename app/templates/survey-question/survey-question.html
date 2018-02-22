@@ -79,14 +79,21 @@
                                     </div>
 
                                     <div layout="row">
-                                        <div>
+                                        <div layout="row" layout-align="none center">
                                             {{question.identifier}}
                                         </div>
-                                        <div class="icons" ng-show="!vm.edit" layout="row">
+                                        <div class="icons" ng-show="!vm.edit" layout="row" layout-align="none center">
+                                            <md-input-container class="risk-input"
+                                                                ng-if="question.type !== 1"
+                                                                aria-label="abc">
+                                                <input ng-model="vm.data.risk">
+                                            </md-input-container>
                                             <div>
                                                 <md-tooltip md-direction="left">Duplicate a question</md-tooltip>
                                                 <i class="material-icons" ng-click="vm.copyQuest(question )">content_copy</i>
                                             </div>
+
+
                                             <div>
                                                 <md-tooltip md-direction="left">Set a mandatory</md-tooltip>
                                                 <md-checkbox class="md-primary"
@@ -143,18 +150,26 @@
                                         <div ng-repeat="(answerKey, answers) in  question.answers" class="answer-block"
                                              ng-if="!answers.delete">
 
-                                            <div layout="row" flex="" layout-align="space-between center" class="answeText">
+                                            <div layout="row" flex="" layout-align="space-between center"
+                                                 class="answeText">
 
                                                 <div layout="row" layout-align="center center   ">
-                                                <i class="material-icons" ng-if="question.type == 0">check</i>
-                                                <i class="material-icons md-36" ng-if="question.type == 1">radio_button_unchecked</i>
+                                                    <i class="material-icons" ng-if="question.type == 0">check</i>
+                                                    <i class="material-icons md-36" ng-if="question.type == 1">radio_button_unchecked</i>
 
-                                                {{answers.answer_text}}</div>
+                                                    {{answers.answer_text}}
+                                                </div>
                                                 <div>
-                                                <md-tooltip md-direction="left">Duplicate a answer</md-tooltip>
-                                                <i class="material-icons"
-                                                   ng-click="vm.copyQuest(question , answers)">content_copy</i>
-                                            </div>
+                                                    <md-input-container class="risk-input"
+                                                                        ng-if="question.type == 1"
+                                                                        aria-label="abc">
+                                                        <input ng-model="vm.data.answers[$index].risk">
+                                                    </md-input-container>
+
+                                                    <i class="material-icons"
+                                                       ng-click="vm.copyQuest(question , answers)">
+                                                        <md-tooltip md-direction="left">Duplicate a answer</md-tooltip>content_copy</i>
+                                                </div>
                                             </div>
                                             <md-input-container ng-if="question.type === 1" class="next-input">
                                                 <label>Next question: {{answers.next_question}}
@@ -294,7 +309,8 @@
                                        md-maxlength="{{question.characters_limit}}"
                                        name="inputType0" ng-if="question.validation_type == 0"
                                        maxlength="{{question.characters_limit}}"
-                                       ng-required="{{question.mandatory}}">
+                                       ng-required="{{question.mandatory}}"
+                                >
 
                                 <input ng-model="exampleDataText[question.id]"
                                        md-maxlength="{{question.characters_limit}}"
