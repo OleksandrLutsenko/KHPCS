@@ -44,7 +44,7 @@
                     <md-input-container class="company-input" ng-if="vm.user.role_id == 2">
                         <label>Choose a company</label>
                         <md-select ng-model="vm.data.company_id" name="company" ng-required="{{!vm.user.update}}" ng-disabled="{{vm.user.update}}">
-                            <md-option ng-repeat="company in vm.companies" value="{{company.id}}" >
+                            <md-option ng-repeat="company in vm.companies" value="{{company.id}}" ng-click="vm.loadSurvey(company.id)">
                                 {{company.name}}
                             </md-option>
                         </md-select>

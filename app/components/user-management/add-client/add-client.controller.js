@@ -199,12 +199,17 @@
             }
         };
 
-        vm.loadSurvey = function (id) {
 
+        vm.loadSurvey = function (companyId) {
+            let id;
             if(vm.user.role_id === 1){
                 id = vm.user.company_id;
             } else {
-                id = vm.data.company_id;
+                if(companyId){
+                    id = companyId;
+                }else {
+                    id = vm.data.company_id;
+                }
             }
             userService.loadCompanySurveys(id).then(function(res){
                 console.log(res);

@@ -10,7 +10,7 @@
             .theme('blue-grey')
             .accentPalette('blue-grey');
 
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/tab/user-management');
 
         $stateProvider
 
@@ -31,12 +31,7 @@
                 url: '/login',
                 templateUrl: 'templates/login/login.html',
                 controller: 'LoginController',
-                controllerAs: 'vm',
-                resolve: {
-                    security: function (tabs) {
-                        tabs.clearAfterLogout();
-                    }
-                }
+                controllerAs: 'vm'
             })
             .state('registration', {
                 url: '/register/:token',
@@ -64,6 +59,12 @@
                 resolve: {
                     loadCustomers: function (customerService) {
                         return customerService.loadCustomers();
+                    },
+                    security: function ($state, userService) {
+                        let userRole = userService.getUser().role_id;
+                        if (userRole === 3) {
+                            return $state.go('tab.company');
+                        }
                     }
                     // ,
                     // surveyOnly: function (surveyService) {
