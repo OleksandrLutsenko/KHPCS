@@ -37,6 +37,20 @@
         let radioId;
         let lastRadioAnswerId;
 
+        // Fix from correct paste answer in contract
+        startupFix();
+        function startupFix() {
+            angular.forEach(items.blocks, function (block) {
+                angular.forEach(block.questions, function (question) {
+                    if (question.type === 0 || question.type === 1) {
+                        angular.forEach(question.answers, function (answer) {
+                            answer.answer_text = answer.answer_text.split('&lt;').join('<').split('&gt;').join('>');
+                        });
+                    }
+                });
+            });
+        }
+
         if (customerAnswer != undefined) {
             for (let j = 0; j < customerAnswer.length; j++) {
                 if (customerAnswer[j].customerAnswers.length == 0) {
@@ -143,6 +157,8 @@
                     if (customerAnswerOnActiveBlock[i].question_id == item.id) {
                         if (item.type == 1) {
                             return customerAnswerOnActiveBlock[i].answer_id;
+                        } else if (item.type == 2) {
+                            return customerAnswerOnActiveBlock[i].value.split('<').join('<').split('>').join('>');
                         }
                         else {
                             return customerAnswerOnActiveBlock[i].value;
@@ -150,7 +166,6 @@
                     }
                 }
             }
-
             function findAnswerCheckBox(item) {
                 let mainData = [];
 
@@ -398,6 +413,11 @@
 
                     // console.log('dataForSend', dataForSend);
                     if (dataForSend.length) {
+                        angular.forEach(dataForSend, function (obj) {
+                            if (obj.value) {
+                                obj.value = obj.value.split('<').join('&lt;').split('>').join('&gt;');
+                            }
+                        });
                         passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
                             console.log(res);
                             if (res.success) {

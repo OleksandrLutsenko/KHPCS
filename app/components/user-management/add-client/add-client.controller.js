@@ -214,6 +214,7 @@
             userService.loadCompanySurveys(id).then(function(res){
                 console.log(res);
                 vm.surveys = res.data;
+                console.log(vm.surveys);
                 vm.chosenSurvey = [];
                 vm.survModel = [];
             })

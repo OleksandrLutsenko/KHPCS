@@ -59,7 +59,7 @@
                     </md-checkbox>
 
                     <div ng-if="vm.id === undefined && vm.goThrough " class="repeat-list">
-                        <div ng-repeat="survey in vm.surveys" layout="row" layout-align="space-between end"
+                        <div ng-repeat="survey in vm.surveys" ng-if="survey.survey_status !== archived" layout="row" layout-align="space-between end"
                          class="single-survey">
                             <div layout="row" class="hidden-box">
                                 <md-checkbox aria-label="Checkbox 1"

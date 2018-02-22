@@ -110,9 +110,10 @@
                         });
                     }
 
-                    let dataForSend = [vm.data];
+                    let dataForSend = angular.copy([vm.data])
                     loopingTest(vm.data);
                     console.log('?');
+
 
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
@@ -130,7 +131,7 @@
                         });
                     }
 
-                    let dataForSend = vm.data;
+                    let dataForSend = angular.copy(vm.data)
                     console.log('vm.data = ', vm.data);
                     loopingTest(vm.data);
 
@@ -139,6 +140,13 @@
                     identifierValidFunc(tmpData);
 
                     if (loopingValid === true && identifierValid === true) {
+
+                        // Fix from correct paste answer in contract
+                        if (dataForSend.type === 0 || dataForSend.type === 1) {
+                            angular.forEach(dataForSend.answers, function (answer) {
+                                answer.answer_text = answer.answer_text.split('<').join('&lt;').split('>').join('&gt;');
+                            });
+                        }
 
                         angular.forEach(questionsArr, function (question) {
                             if (question.type !== 1 && question.next_question === identifierDefault) {
@@ -186,7 +194,7 @@
                     if(vm.data.next_question === undefined){
                         vm.data.next_question = null;
                     }
-                    let dataForSend = [vm.data];
+                    let dataForSend = angular.copy([vm.data]);
                     loopingTest(vm.data);
 
                     let tmpData = vm.data;
@@ -194,6 +202,13 @@
                     identifierValidFunc(tmpData);
 
                     if (loopingValid === true && identifierValid === true) {
+
+                        // Fix from correct paste answer in contract
+                        if (dataForSend.type === 0 || dataForSend.type === 1) {
+                            angular.forEach(dataForSend.answers, function (answer) {
+                                answer.answer_text = answer.answer_text.split('<').join('&lt;').split('>').join('&gt;');
+                            });
+                        }
 
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                             if (res.success) {
