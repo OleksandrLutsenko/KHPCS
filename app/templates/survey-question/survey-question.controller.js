@@ -54,6 +54,17 @@
             }
         });
 
+        // Fix from correct paste answer in contract
+        startupFix();
+        function startupFix() {
+            angular.forEach(vm.items, function (question) {
+                if (question.type === 0 || question.type === 1) {
+                    angular.forEach(question.answers, function (answer) {
+                        answer.answer_text = answer.answer_text.split('&lt;').join('<').split('&gt;').join('>');
+                    });
+                }
+            });
+        }
 
         function toggleLeft() {
             $scope.$emit('showBlock', true);

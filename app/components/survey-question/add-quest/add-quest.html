@@ -49,7 +49,7 @@
                 </md-input-container>
             </div>
 
-            <div layout="row">
+            <div layout="row" >
                 <md-input-container flex="50" ng-if="vm.data.type == 2">
                     <label>Select a validation type</label>
                     <md-select ng-model="vm.data.validation_type" name="validation_type" required>
@@ -73,9 +73,10 @@
 
             </div>
 
-            <div>
+            <div style="overflow: -webkit-paged-x;">
                 <md-input-container class="main-input"
-                                    ng-if="vm.data.type == 2 || vm.data.type == 3 || vm.data.type == 4">
+                                    ng-if="vm.data.type == 2 || vm.data.type == 3 || vm.data.type == 4"
+                                    >
                     <label class="next-label">Next question: {{vm.data.next_question}}
                         <p ng-if="vm.data.next_question === null">undefined</p>
                     </label>
@@ -96,6 +97,10 @@
                         </md-option>
                     </md-select>
                 </md-input-container>
+                <md-input-container class="md-block"  ng-if="vm.data.type == 2 || vm.data.type == 3 || vm.data.type == 4">
+                    <label>Additional informations</label>
+                    <textarea ng-model="vm.data.information" rows="3" ></textarea>
+                </md-input-container>
             </div>
 
 
@@ -110,7 +115,8 @@
                     <div layout="row" ng-repeat="answers in vm.data.answers" class="answer"
                          ng-if="(vm.data.type == 1 || vm.data.type == 0) && !answers.delete">
 
-                        <div flex="90" layout="row">
+                        <div flex="90" layout="column">
+                            <div layout="row">
                             <md-input-container flex="50">
                                 <label>Name</label>
                                 <input ng-model="answers.answer_text" name="answer_text" required minlength="1">
@@ -144,6 +150,12 @@
                                     </md-option>
                                 </md-select>
                             </md-input-container>
+                            </div>
+                            <md-input-container class="md-block" style="margin: 0;"  ng-if="vm.data.type == 1">
+                                <label>Additional information</label>
+                                <textarea ng-model="vm.data.answers[$index].information" rows="2" ></textarea>
+                            </md-input-container>
+
                         </div>
 
                         <div flex="10" layout="row" layout-align="end center">
@@ -171,6 +183,10 @@
 
                             </md-option>
                         </md-select>
+                    </md-input-container>
+                    <md-input-container class="md-block"   ng-if="vm.data.type !== 1">
+                        <label>Additional information</label>
+                        <textarea ng-model="vm.data.information" rows="2" ></textarea>
                     </md-input-container>
                 </div>
                 <!--</md-virtual-repeat-container>-->
