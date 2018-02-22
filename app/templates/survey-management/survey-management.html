@@ -55,11 +55,18 @@
                                 {{archiveItem.survey_name}}</p>
                         </div>
                         <div class="sm-right" flex="30" layout="row" layout-align="center">
-                            <i class="material-icons"
-                               ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive' , survey , archiveItem)"
-                               title="Unarchive">unarchive</i>
-                            <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id , $index)"
-                               title="Remove">delete_forever</i>
+                            <div>
+                                <md-tooltip md-direction="left">Unarchive</md-tooltip>
+                                <i class="material-icons"
+                                   ng-click="vm.archiveSurvey(archiveItem.survey_id, 'extracted from archive' , survey , archiveItem)"
+                                   >unarchive</i>
+                            </div>
+                          <div>
+                              <md-tooltip md-direction="left">Remove</md-tooltip>
+                              <i class="material-icons test" ng-click="vm.deleteSurvey(archiveItem.survey_id , $index)"
+                                 >delete_forever</i>
+                          </div>
+
                         </div>
                     </div>
 

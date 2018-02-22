@@ -11,6 +11,7 @@
 
             <div class="add-icon" layout="" layout-align="center center" ng-click="vm.createOrUpdate()">
                 <i class="material-icons">person_add</i>
+                <md-tooltip md-direction="left">Add customer</md-tooltip>
             </div>
         </div>
 
@@ -18,20 +19,20 @@
             <md-card>
                 <md-table-container>
                     <table md-table>
-                        <thead md-head>
+                        <thead md-head md-order="customersOrder">
                         <tr md-row>
-                            <th md-column>Client Name</th>
-                            <th md-column>Client Classification</th>
-                            <th md-column ng-if="vm.user.role_id > 1">Financial Adviser</th>
+                            <th md-column md-order-by="name">Client Name</th>
+                            <th md-column md-order-by="classification">Client Classification</th>
+                            <th md-column ng-if="vm.user.role_id > 1" md-order-by="user_name">Financial Adviser</th>
                             <th md-column>Questionnaire Responses</th>
-                            <th md-column>Contract</th>
-                            <th md-column>Date Completed</th>
+                            <th md-column md-order-by="reports">Contract</th>
+                            <th md-column md-order-by="created_at">Date Completed</th>
                             <th md-column></th>
                         </tr>
                         </thead>
                         <tbody md-body>
                         <tr md-row
-                            ng-repeat="customers in filteredCustomers = (vm.customers | filter:vm.search)|  limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            ng-repeat="customers in filteredCustomers = (vm.customers | filter:vm.search)|orderBy: customersOrder|  limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
                             <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-if="customers.user_name === null && vm.user.role_id > 1">Don't have a
@@ -45,13 +46,14 @@
                                     <label>Choose a survey</label>
                                     <md-select class="md-block-restyle" ng-model="vm.select"
                                                md-on-close="vm.clearCheck()"
-                                               md-on-open="vm.checkStatus(customers.reports)"
+                                               md-on-open="vm.checkStatus(customers.reports , customers.available_surveys)"
                                                ng-click="showSurveys = true"
                                     >
                                         <md-list ng-repeat="survey in customers.available_surveys"
-                                                 ng-if="showSurveys">
+                                                 ng-if="showSurveys && survey.survey_status !== 'archived'">
                                             <md-list-item class="secondary-button-padding">
-                                                <p> {{survey.name}} <br> <span ng-if="survey.check === true">(Finished)</span>
+                                                <p> {{survey.name}} <br> <span
+                                                        ng-if="survey.check === true">(Finished)</span>
                                                 </p>
 
                                                 <md-checkbox aria-label="Checkbox 1"
@@ -74,18 +76,28 @@
                                 </md-input-container>
                             </td>
                             <td md-cell ng-if="customers.reports.length">
+                                <md-tooltip md-direction="left">Download a contract</md-tooltip>
                                 <i class="material-icons" ng-click="vm.downloadPDF(customers)">file_download</i>
                             </td>
-                            <td md-cell ng-if="!customers.reports.length"><i
-                                    class="material-icons none-icon">do_not_disturb_alt</i></td>
+                            <td md-cell ng-if="!customers.reports.length">
+                                <md-tooltip md-direction="left">Don't have a reports</md-tooltip>
+                                <i
+                                        class="material-icons none-icon">do_not_disturb_alt</i></td>
                             <td md-cell>
                                 {{customers.created_at }}
                             </td>
                             <td md-cell>
-                                <i class="material-icons"
-                                   ng-click="vm.createOrUpdate(customers.id, customers )">mode_edit</i>
-                                <i class="material-icons"
-                                   ng-click="vm.deleteCustomer(customers.id, customers)">highlight_off</i>
+                                <div>
+                                    <md-tooltip md-direction="left">Edit customer info</md-tooltip>
+                                    <i class="material-icons"
+                                       ng-click="vm.createOrUpdate(customers.id, customers )">mode_edit</i>
+                                </div>
+                                <div>
+                                    <md-tooltip md-direction="left">Delete a customer</md-tooltip>
+                                    <i class="material-icons"
+                                       ng-click="vm.deleteCustomer(customers.id, customers)">highlight_off</i>
+                                </div>
+
                             </td>
                         </tr>
 

@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items' , '$state'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items , $state) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -40,6 +40,7 @@
         vm.mandatoryCheck = mandatoryCheck;
         vm.changeNextQuest = changeNextQuest;
         vm.startupChainBuild = startupChainBuild;
+        vm.copyQuest = copyQuest;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -439,7 +440,6 @@
                     answer.next_question = null;
                     vm.data = question;
                 }
-                console.log(vm.data);
                 blockService.addBlockQuestion(idBlock, [vm.data]);
 
             } else if (question.type === 1) {
@@ -507,7 +507,7 @@
                             tmpValid = true;
                             if (chain[chainIndex].identifier === Obj.answers[answerIndex].next_question) {
                                 tmpValid = false;
-                                toastr.error('You create loop!');
+                                toastr.error('Warning! You have created a question loop');
                                 console.log('You create loop!');
                                 Obj.answers[answerIndex].next_question = vm.answerOldValue;
                                 break;
@@ -521,9 +521,8 @@
                         if (chain[chainIndex].identifier === Obj.next_question) {
                             tmpValid = false;
                             vm.tmpValid = tmpValid;
-                            toastr.error('You create loop!');
+                            toastr.error('Warning! You have created a question loop');
                             console.log('You create loop!');
-                            console.log(vm.oldValue);
                             Obj.next_question = vm.oldValue;
                             console.log(Obj);
                             break;
@@ -555,5 +554,44 @@
 
             });
         }
+
+        function copyQuest(question, answer) {
+
+            if (answer === undefined) {
+                vm.data = angular.copy(question);
+                vm.data.id = undefined;
+
+                let text = "";
+                let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (let i = 0; i < 5; i++) {
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+                }
+
+                vm.data.identifier = vm.data.identifier + '-' + text;
+
+                blockService.addBlockQuestion(idBlock, [vm.data]).then(function (res) {
+                    if (res.success) {
+                        vm.items.splice(vm.items.indexOf(question) + 1 , 0 , res.data.questions[0]);
+                        toastr.success('Question was duplication')
+                    }
+                });
+            } else {
+                vm.data = angular.copy(question);
+
+                let copyAnswer = angular.copy(answer);
+                copyAnswer.id = undefined;
+                vm.data.answers.push(copyAnswer);
+                blockService.addBlockQuestion(idBlock, [vm.data]).then(function (res) {
+                    if (res.success) {
+                        vm.items.splice(vm.items.indexOf(question), 1, res.data.questions[0]);
+                        toastr.success('Answer was duplication')
+                    }
+                });
+            }
+
+        }
+
+
     }
 })();

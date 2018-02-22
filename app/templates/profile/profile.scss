@@ -1,5 +1,13 @@
 .profile {
 
+  height: calc(100vh - 173px);
+
+  .back-btn{
+    margin: 10px 0 0 5px;
+    position: absolute;
+    left: 0;
+  }
+
   .menu {
     height: 0;
     overflow: hidden;

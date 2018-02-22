@@ -5,6 +5,7 @@
     //height: 600px;
   }
 
+
   .add-answer-button {
     text-transform: none;
     margin: 0 0 15px 0;
@@ -40,4 +41,15 @@
   .next-label {
     display: flex;
   }
+}
+.pick-next{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.next-quest-id {
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -14,6 +14,7 @@
         vm.menu = menu();
         vm.user = userService.getUser();
         vm.role = tabs.getRole();
+        vm.goBack = goBack;
 
         let user = vm.user;
 
@@ -40,6 +41,7 @@
 
                         if (!vm.show) {
                             toastr.success('Profile was updated');
+                            window.history.back();
                         }
 
                     } else {
@@ -59,6 +61,7 @@
                                 });
 
                                 toastr.success('Profile was updated');
+                                window.history.back();
                             } else {
                                 console.log('error');
                                 toastr.error('Current password is incorrect');
@@ -84,6 +87,10 @@
             function isShow(data) {
                 return show[data]
             }
+        }
+
+        function goBack() {
+            window.history.back();
         }
 
     }

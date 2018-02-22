@@ -194,7 +194,7 @@
                         <md-input-container class="question-text">
                             <label>{{questions.title}}</label>
                             <input ng-model="vm.data[mainKey].mainData" md-maxlength="{{questions.characters_limit}}"
-                                   name="inputType1" type="text" pattern="[a-zA-Z, ' ']+"
+                                   name="inputType1" type="text" pattern="[a-zA-Z, ' ' .]+"
                                    ng-if="questions.validation_type == 1"
                                    maxlength="{{questions.characters_limit}}"
                                    ng-required="{{questions.mandatory}}">

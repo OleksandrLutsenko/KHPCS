@@ -1,7 +1,8 @@
 <md-dialog flex="40" flex-xs="90" flex-sm="60" class="add-client">
     <div>
         <md-toolbar layout="row" layout-align="center" class="view-head">
-            <p>Add a new user</p>
+            <p ng-if="vm.userRole !== 3">Add a new user</p>
+            <p ng-if="vm.userRole === 3">Add a new Financial Advisor </p>
         </md-toolbar>
 
         <div class="content-add">
@@ -18,10 +19,10 @@
                             <div ng-message="pattern">Must look like an e-mail address.</div>
                         </div>
                     </md-input-container>
-                    <md-input-container>
+                    <md-input-container ng-if="vm.userRole === 2">
                         <label>Choose a role</label>
                         <md-select ng-model="vm.data.role" name="select" required="">
-                            <md-option value="3" ng-if="vm.userRole === 2">Company admin</md-option>
+                            <md-option value="3">Company admin</md-option>
                             <md-option value="1">Financial advisor</md-option>
 
                         </md-select>

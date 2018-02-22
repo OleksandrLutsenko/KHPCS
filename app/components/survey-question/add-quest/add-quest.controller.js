@@ -117,6 +117,7 @@
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                         if (res.success) {
+                            console.log('1');
                             itemsOrig.splice(questionKey, 1, vm.data);
                         }
                     });
@@ -158,7 +159,9 @@
                         blockService.addBlockQuestion(idBlock, [dataForSend]).then(function (res) {
                             if (res.success) {
                                 console.log('edit1');
-                                itemsOrig.splice(mainKey, 1, vm.data);
+                                console.log(res.data.questions[0]);
+
+                                itemsOrig.splice(mainKey, 1, res.data.questions[0]);
                             }
                         });
                         $mdDialog.hide();
@@ -192,8 +195,6 @@
 
                     if (loopingValid === true && identifierValid === true) {
 
-                        console.log(dataForSend);
-
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                             if (res.success) {
                                 itemsOrig.push(res.data.questions[0]);
@@ -218,12 +219,10 @@
                     answer.next_question = null;
                     vm.data = question;
                 }
-                console.log(vm.data);
                 blockService.addBlockQuestion(idBlock, [vm.data]);
 
             } else if (question.type === 1) {
                 angular.forEach(question.answers, function (ans) {
-                    console.log(answer);
                     if (answer.id === ans.id) {
                         vm.answerOldValue = answer.next_question;
                         answer.next_question = quest.identifier;
@@ -234,7 +233,6 @@
                 loopingTest(question);
 
                 if (loopingValid === false) {
-                    console.log(vm.data);
                     return vm.data;
                 } else {
                     blockService.addBlockQuestion(idBlock, [vm.data]);
