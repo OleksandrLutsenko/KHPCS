@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state', '$timeout'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state, $timeout) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -41,6 +41,7 @@
         vm.changeNextQuest = changeNextQuest;
         vm.startupChainBuild = startupChainBuild;
         vm.copyQuest = copyQuest;
+        vm.checkKey = checkKey;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -601,6 +602,14 @@
                 });
             }
 
+        }
+
+        function checkKey(data) {
+            blockService.addBlockQuestion(idBlock, [data]).then(function (res) {
+                if (res.success) {
+                    vm.items.splice(vm.items.indexOf(data) , 1 , res.data.questions[0]);
+                }
+            });
         }
 
 

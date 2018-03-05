@@ -153,12 +153,12 @@
                             </div>
                             <md-input-container class="md-block" style="margin: 0;"  ng-if="vm.data.type == 1">
                                 <label>Additional information</label>
-                                <textarea ng-model="vm.data.answers[$$].information" rows="2" ></textarea>
+                                <textarea ng-model="vm.data.answers[$index].information" rows="2" ></textarea>
                             </md-input-container>
 
                         </div>
 
-                        <div flex="10" layout="row" layout-align="end center">
+                        <div flex="10">
                             <!--<div flex="10">-->
                             <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers.id, $index)">close</i>
                         </div>
