@@ -14,6 +14,10 @@ class Answer extends Model
 
     protected $appends = ['child_questions'];
 
+    protected $casts = [
+        'answer_text' => 'array',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

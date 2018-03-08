@@ -39,15 +39,14 @@ class QuestionController extends Controller
     public function addAnswer(Question $question, AnswerRequest $request, User $user)
     {
         if ($user->can('addAnswer', $question)) {
-            if($question->hasRadioAnswer()) {
+            if($question->hasRadioAnswer() || $question->hasCountryAnswer()) {
                 $answer = $question->answer()->create($request->all());
 
                 return compact('answer');
             } else {
                 return response([
-                'errors' => 'This is not the radio type question'
-            ], 400);
-
+                    'errors' => 'This is not the radio type question'
+                ], 400);
             }
         } else {
             return response([

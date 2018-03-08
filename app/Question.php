@@ -80,6 +80,11 @@ class Question extends Model
         return $this->type == static::TYPE_RADIO;
     }
 
+    public function hasCountryAnswer()
+    {
+        return $this->type == static::TYPE_COUNTRY;
+    }
+
     /**
      * @return mixed
      */
