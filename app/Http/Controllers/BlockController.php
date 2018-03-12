@@ -173,7 +173,7 @@ class BlockController extends Controller
                     //Question without id
                 } else {
                     $question = $block->question()->create($questionObj);
-                    if ($question->type == 1 or $question->type == 0) {
+                    if ($question->type == 4 or $question->type == 1 or $question->type == 0) {
                         //Answers for question without id
                         if (isset($questionObj['answers'])) {
                             foreach ($questionObj['answers'] as $answerObj){
