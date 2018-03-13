@@ -72,7 +72,7 @@ class BlockController extends Controller
                         $question->delete();
                     } else {
                         $question->update($questionObj);
-                        if ($question->type == 1 or $question->type == 0) {
+                        if ($question->type == 4 or $question->type == 1 or $question->type == 0) {
                             if (isset($questionObj['answers'])) {
                                 foreach ($questionObj['answers'] as $answerObj) {
 
