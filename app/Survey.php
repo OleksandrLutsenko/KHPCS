@@ -41,6 +41,13 @@ class Survey extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function risks(){
+        return $this->hasMany(Risk::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function contracts(){
         return $this->hasMany(Contract::class);
     }

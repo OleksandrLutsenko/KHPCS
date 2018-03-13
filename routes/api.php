@@ -65,11 +65,16 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::put('/survey/{survey}/change-status', 'SurveyController@changeStatusActiveInactive');
         /** change status archive/inactive */
         Route::put('/survey/{survey}/archive-status', 'SurveyController@changeStatusArchive');
-
-
-
-
         Route::put('/survey/{survey}/order-update', 'BlockController@updateBlockOrderNumbers');
+
+        /** RISKS */
+
+        Route::group(['prefix' => '/survey/{survey}/'], function () {
+            Route::post('add-risk', 'RiskController@store');
+        });
+
+        Route::post('update-risk/{risk}', 'RiskController@update');
+        Route::delete('delete-risk/{risk}', 'RiskController@destroy');
 
         /** BLOCKS */
         /** show block's questions */
