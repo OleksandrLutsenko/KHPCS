@@ -10,5 +10,5 @@ yarn-error.log
 .env
 /vendor
 /vendor/*
-/.idea
-/.idea/*
+.idea
+.idea/*
