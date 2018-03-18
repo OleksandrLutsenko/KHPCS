@@ -4,15 +4,23 @@
         .module('app')
         .controller('AddQuestionController', AddQuestionController);
 
-    AddQuestionController.$inject = ['$mdDialog', 'data', 'blockService', 'toastr'];
+    AddQuestionController.$inject = ['$mdDialog', 'data', 'blockService', 'toastr', 'countries', '$scope', '$timeout'];
 
-    function AddQuestionController($mdDialog, data, blockService, toastr) {
+    function AddQuestionController($mdDialog, data, blockService, toastr, countries, $scope, $timeout) {
         let vm = this;
 
         vm.addAnsver = addAnsver;
         vm.deleteAnsver = deleteAnsver;
+        vm.changeNextQuest = changeNextQuest;
         vm.save = save;
         vm.cancel = cancel;
+        vm.countryInputTitle = countryInputTitle;
+        vm.countryFilter = countryFilter;
+        vm.countryRepeater = countryRepeater;
+        vm.countryOnOpen = countryOnOpen;
+        vm.countryOnClose = countryOnClose;
+        vm.countrySwitch = false;
+        vm.countries = angular.copy(countries);
 
         let mainKey = data.mainKey;
         let answerKey = data.answerKey;
@@ -30,25 +38,51 @@
         let itemsOrig;
         let loopingValid;
         let identifierValid;
+        let tmpCountries = [];          //using for check update in "country dependency" field (md-on-open)
+        let allSelectedCountries = [];  //store all the answers
 
         console.log('questions = ', questionsArr);
 
         if (typeof questionKey != 'undefined') {
             itemsOrig = data.items[mainKey].answers[answerKey].child_questions;
             vm.data = angular.copy(itemsOrig[questionKey]);
-
+            if (vm.data.answers.length) {
+                vm.countrySwitch = true;
+                console.log(vm.countrySwitch);
+            }
+            console.log(vm.data);
         }
         else if (typeof mainKey != 'undefined') {
             itemsOrig = data.items;
             vm.data = angular.copy(itemsOrig[mainKey]);
 
-
+            if (vm.data.answers.length) {
+                vm.countrySwitch = true;
+                console.log(vm.countrySwitch);
+            }
+            console.log(vm.data);
         }
         else {
             itemsOrig = data.items;
             vm.data = {
                 answers: []
             };
+        }
+
+        collectionOfSelectedCountries();
+
+        function collectionOfSelectedCountries() {
+            if (vm.data.type === 4 && vm.data.answers.length) {
+                let answers = vm.data.answers;
+                answers.forEach(function (answer) {
+                    if (answer.answer_text.length) {
+                        answer.answer_text.forEach(function (answer_text) {
+                            allSelectedCountries.push(answer_text);
+                        })
+                    }
+                });
+                console.log('allSelectedCountries = ', allSelectedCountries);
+            }
         }
 
         function addAnsver() {
@@ -61,11 +95,18 @@
                 };
 
                 vm.data.answers.push(tmpObj);
+            } else if (vm.data.answers.length == 4 && vm.data.answers[vm.data.answers.length - 1].answer_text.length) {
+                let tmpObj = {
+                    child_questions: []
+                };
+
+                vm.data.answers.push(tmpObj);
             }
         }
 
-        function deleteAnsver(id, indexAns) {
-            if (typeof id != 'undefined') {
+        function deleteAnsver(answer, indexAns, country) {
+
+            if (typeof answer.id != 'undefined') {
                 vm.data.answers[indexAns].delete = true;
                 vm.data.answers[indexAns].child_questions = [];
             }
@@ -73,6 +114,228 @@
                 vm.data.answers.splice(indexAns, 1);
             }
 
+            if (country) {
+                console.log(answer.answer_text);
+                console.log(allSelectedCountries);
+                allSelectedCountries = allSelectedCountries.filter(function (countryInSelectedList) {
+                    let status = true;
+
+                    for (let i=0; i<answer.answer_text.length; i++) {
+                        if (countryInSelectedList == answer.answer_text[i]) {
+                            status = false;
+                            break;
+                        }
+                    }
+                     if (status) {
+                        return countryInSelectedList;
+                     }
+                });
+                console.log('allSelectedCountries = ', allSelectedCountries);
+            }
+
+        }
+
+
+        //       countryFilter --> unused func!
+        function countryFilter(country, answers) {
+            let quickStatus = false;
+            let deepStatus = true;
+
+            if (answers) {
+
+                quickCheck();
+
+                if (quickStatus) {
+                    return true;
+                } else {
+                    deepCheck();
+
+                    if (deepStatus) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            } else {
+                deepCheck();
+
+                if (deepStatus) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            function quickCheck(country) {
+                for (let i = 0; i < answers.length; i++) {
+                    if (country === answers[i]) {
+                        quickStatus = true;
+                        break;
+                    }
+                }
+            }
+
+            function deepCheck() {
+                let tmpAllSelectedCountries = angular.copy(allSelectedCountries);
+
+                if (tmpAllSelectedCountries) {
+                    tmpAllSelectedCountries = tmpAllSelectedCountries.filter(function (countryAllList) {
+                        let status = true;
+
+                        if (answers) {
+                            answers = answers.filter(function (answer) {
+                                if (answer !== countryAllList) {
+                                    return answer;
+                                } else {
+                                    status = false;
+                                }
+                            });
+                        }
+
+                        if (status) {
+                            return countryAllList;
+                        }
+                    });
+                }
+
+                for (let i = 0; i < tmpAllSelectedCountries.length; i++) {
+                    if (deepStatus) {
+                        if (country === tmpAllSelectedCountries[i]) {
+                            deepStatus = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        function countryRepeater(currentAnswers) {
+
+            let _countriesList = angular.copy(vm.countries);
+            let _allSelectedCountries = angular.copy(allSelectedCountries);
+            let _currentAnswers = angular.copy(currentAnswers);
+
+            if (_allSelectedCountries) {
+                _allSelectedCountries = _allSelectedCountries.filter(function (country) {
+                    let status = true;
+
+                    if (_currentAnswers) {
+                        _currentAnswers = _currentAnswers.filter(function (answer) {
+                            if (country !== answer) {
+                                return answer;
+                            } else {
+                                status = false;
+                            }
+                        })
+                    }
+
+                    if (status) {
+                        return country;
+                    }
+                });
+            }
+
+            _countriesList = _countriesList.filter(function (countryInCountriesList) {
+                let check = false;
+
+                for (let i = 0; i < _allSelectedCountries.length; i++) {
+                    if (countryInCountriesList === _allSelectedCountries[i]) {
+                        check = true;
+                        break;
+                    }
+                }
+
+                if (!check) {
+                    return countryInCountriesList
+                }
+            });
+
+            _countriesList = _countriesList.concat(_currentAnswers);
+            _countriesList.sort();
+            return _countriesList
+        }
+
+        function countryInputTitle(data) {
+            if (data) {
+                let tmpTitle = '';
+                if (data.length) {
+                    tmpTitle = JSON.stringify(data).split('[').join('').split(']').join('').split('"').join('').split(',').join(', ');
+                    return tmpTitle;
+                } else {
+                    return tmpTitle;
+                }
+            }
+        }
+
+        function countryOnOpen(data) {
+            if (data) {
+                tmpCountries = data;
+            } else {
+                tmpCountries = [];
+            }
+
+            console.log(allSelectedCountries)
+        }
+
+        function countryOnClose(data) {
+            let countryOnOpen = tmpCountries;
+            let countryOnClose = [];
+            if (data) {
+                countryOnClose = data;
+            }
+            console.log(countryOnClose);
+            let paste = [];
+            let cut = [];
+
+            compare();
+            cutFunc();
+            pasteFunc();
+            console.log(allSelectedCountries);
+
+            // $scope.$evalAsync();
+            // debugger;
+            // $route.reload();
+
+            function compare() {
+                if (countryOnOpen) {
+                    countryOnOpen = countryOnOpen.filter(function (countryOnOpenSelected) {
+                        let status = true;
+
+                        countryOnClose = countryOnClose.filter(function (countryOnCloseSelected) {
+                            if (countryOnOpenSelected !== countryOnCloseSelected) {
+                                return countryOnCloseSelected;
+                            } else {
+                                status = false;
+                            }
+                        });
+
+                        if (status) {
+                            return countryOnOpenSelected;
+                        }
+                    })
+                }
+            }
+
+            function cutFunc() {
+                cut = countryOnOpen;
+
+                cut.forEach(function (item) {
+                    allSelectedCountries = allSelectedCountries.filter(function (country) {
+                        if (item !== country) {
+                            return country;
+                        }
+                    })
+                })
+            }
+
+            function pasteFunc() {
+                paste = countryOnClose;
+
+                paste.forEach(function (item) {
+                    allSelectedCountries.push(item);
+                });
+                // allSelectedCountries.sort();
+            }
         }
 
 
@@ -90,8 +353,15 @@
                         succes = false;
                     }
                 });
-            }
-            else {
+            } else if (vm.data.type == 4) {
+                if (vm.data.answers.length) {
+                    vm.data.answers.forEach(function (item) {
+                        if (typeof item.answer_text == 'undefined' || !item.answer_text.length) {
+                            succes = false;
+                        }
+                    });
+                }
+            } else {
                 succes = true;
             }
 
@@ -103,17 +373,16 @@
             else {
                 if (typeof questionKey != 'undefined') {
 
-                    if (vm.data.type == 1 || vm.data.type == 0) {
+                    if (vm.data.type == 1 || vm.data.type == 0 || vm.data.type == 4) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                             console.log(itemAnswer);
                         });
                     }
 
-                    let dataForSend = angular.copy([vm.data])
+                    let dataForSend = angular.copy([vm.data]);
                     loopingTest(vm.data);
                     console.log('?');
-
 
 
                     blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
@@ -125,13 +394,13 @@
                 }
                 else if (typeof mainKey != 'undefined') {
 
-                    if (vm.data.type == 1 || vm.data.type == 0) {
+                    if (vm.data.type == 1 || vm.data.type == 0 || vm.data.type == 4) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
 
-                    let dataForSend = angular.copy(vm.data)
+                    let dataForSend = angular.copy(vm.data);
                     console.log('vm.data = ', vm.data);
                     loopingTest(vm.data);
 
@@ -154,8 +423,8 @@
                                 vm.dataForSendTwo = question;
                                 blockService.addBlockQuestion(idBlock, [vm.dataForSendTwo]);
                             } else {
-                                angular.forEach(question.answers , function (answer) {
-                                    if(answer.next_question === identifierDefault){
+                                angular.forEach(question.answers, function (answer) {
+                                    if (answer.next_question === identifierDefault) {
                                         answer.next_question = dataForSend.identifier;
                                         vm.dataForSendTwo = question;
                                         blockService.addBlockQuestion(idBlock, [vm.dataForSendTwo]);
@@ -185,13 +454,13 @@
                         vm.data.order_number = itemsOrig[itemsOrig.length - 1].order_number + 1;
                     }
 
-                    if (vm.data.type == 1 || vm.data.type == 0) {
+                    if (vm.data.type == 1 || vm.data.type == 0 || vm.data.type == 4) {
                         vm.data.answers.forEach(function (itemAnswer, indexAnswer) {
                             itemAnswer.order_number = indexAnswer;
                         });
                     }
                     vm.data.mandatory = 1;
-                    if(vm.data.next_question === undefined){
+                    if (vm.data.next_question === undefined) {
                         vm.data.next_question = null;
                     }
                     let dataForSend = angular.copy([vm.data]);
@@ -199,6 +468,7 @@
 
                     let tmpData = vm.data;
                     // tmpData.editType = 'add';
+                    console.log('add');
                     identifierValidFunc(tmpData);
 
                     if (loopingValid === true && identifierValid === true) {
@@ -210,6 +480,7 @@
                             });
                         }
 
+                        console.log(dataForSend)
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                             if (res.success) {
                                 itemsOrig.push(res.data.questions[0]);
@@ -223,7 +494,7 @@
             }
         }
 
-        vm.changeNextQuest = function (quest, answer) {
+        function changeNextQuest(quest, answer) {
             let question = vm.data;
 
             if (quest === undefined) {
@@ -236,7 +507,7 @@
                 }
                 blockService.addBlockQuestion(idBlock, [vm.data]);
 
-            } else if (question.type === 1) {
+            } else if (question.type === 1 || question.type === 4) {
                 angular.forEach(question.answers, function (ans) {
                     if (answer.id === ans.id) {
                         vm.answerOldValue = answer.next_question;
@@ -250,7 +521,7 @@
                 if (loopingValid === false) {
                     return vm.data;
                 } else {
-                    blockService.addBlockQuestion(idBlock, [vm.data]);
+                    // blockService.addBlockQuestion(idBlock, [vm.data]);
                 }
 
             } else {
@@ -264,7 +535,7 @@
                     console.log(vm.data);
                     return vm.data;
                 } else {
-                    blockService.addBlockQuestion(idBlock, [vm.data]);
+                    // blockService.addBlockQuestion(idBlock, [vm.data]);
                 }
             }
         }
@@ -303,8 +574,7 @@
             console.log('chain', chain);
             console.log('Obj ', Obj);
 
-            if (Obj.type === 1) {
-                // console.log('It`s radio!');
+            if (Obj.type === 1 || Obj.type === 4) {
                 for (let answerIndex in Obj.answers) {
                     for (let chainIndex in chain) {
 
@@ -315,8 +585,8 @@
                         // if (chain[chainIndex].title === Obj.answers[answerIndex].next_question) {
                         if (chain[chainIndex].identifier === Obj.answers[answerIndex].next_question) {
                             tmpValid = false;
-                            console.log('You create loop!');
-                            toastr.error('You create loop1!');
+                            console.log('You create loop! (radio, country) type');
+                            toastr.error('Warning! You have created a question loop');
                             Obj.answers[answerIndex].next_question = vm.answerOldValue;
                             break;
                         }
@@ -328,8 +598,8 @@
                 for (let chainIndex in chain) {
                     if (chain[chainIndex].identifier === Obj.next_question) {
                         tmpValid = false;
-                        console.log('You create loop!');
-                        toastr.error('You create loop2!');
+                        toastr.error('Warning! You have created a question loop');
+                        console.log('You create loop! else');
                         Obj.next_question = vm.oldValue;
                         break;
                     }

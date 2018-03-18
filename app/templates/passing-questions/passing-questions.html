@@ -1,3 +1,4 @@
+<!--<md-content layout-padding class="passing-question" ng-init="vm.load()">-->
 <md-content layout-padding class="passing-question">
     <div layout="row" layout-align="center center">
         <h2>{{vm.activeSurveyName}}</h2>
@@ -75,7 +76,7 @@
                                 >
                                    <div layout="row">
                                        {{answers.answer_text}}
-                                       <p class="radio-btn-info">Additional info: {{answers.information}}</p>
+                                       {{answers.information}}
                                    </div>
                                 </md-radio-button>
                             </md-radio-group>
@@ -153,7 +154,9 @@
 
                 <div ng-if="questions.type == 4" flex="80" flex-xs="100">
 
-                    <h3 layout="row">{{questions.title}} <p ng-if="questions.mandatory" class="required-quest">*</p>
+                    <h3 layout="row">
+                        {{questions.title}}
+                        <p ng-if="questions.mandatory" class="required-quest">*</p>
                     </h3>
 
                     <md-autocomplete
@@ -162,7 +165,7 @@
                             md-selected-item="vm.data[mainKey].mainData"
                             md-search-text-change="vm.searchTextChange(item)"
                             md-search-text="item"
-                            md-selected-item-change="vm.selectedItemChange(item)"
+                            md-selected-item-change="vm.selectedCountryChange(item, questions, mainKey)"
                             md-items="item in vm.querySearch(item)"
                             md-item-text="item"
                             md-min-length="0"

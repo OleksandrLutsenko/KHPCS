@@ -89,7 +89,7 @@
                 id: customer.id,
                 name: customer.name,
                 surname: customer.surname
-            }
+            };
             checkSelect = true;
             vm.checkSelect = checkSelect;
             customers.setActiveCustomers(cactomerTmp);

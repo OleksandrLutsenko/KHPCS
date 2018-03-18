@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state', '$timeout'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state', '$timeout', 'countries'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state, $timeout) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state, $timeout, countries) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -42,6 +42,9 @@
         vm.startupChainBuild = startupChainBuild;
         vm.copyQuest = copyQuest;
         vm.checkKey = checkKey;
+        vm.selectedCountryChange = selectedCountryChange;
+        vm.querySearch = querySearch;
+        vm.cities = countries;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -57,14 +60,34 @@
 
         // Fix from correct paste answer in contract
         startupFix();
+
         function startupFix() {
             angular.forEach(vm.items, function (question) {
                 if (question.type === 0 || question.type === 1) {
                     angular.forEach(question.answers, function (answer) {
-                        answer.answer_text = answer.answer_text.split('&lt;').join('<').split('&gt;').join('>');
+                        if (typeof answer.answer_text != 'null') {
+                            if (typeof answer.answer_text == 'number') {
+                                answer.answer_text = String(answer.answer_text);
+                            }
+                            answer.answer_text = answer.answer_text.split('&lt;').join('<').split('&gt;').join('>');
+                        }
                     });
                 }
             });
+        }
+
+        function querySearch(query) {
+            return query ? vm.cities.filter(createFilterFor(query)) : vm.cities;
+        }
+
+        function createFilterFor(query) {
+
+            let lowercaseQuery = query.toLowerCase();
+
+            return function filterFn(city) {
+                city = city.toLowerCase();
+                return (city.indexOf(lowercaseQuery) === 0);
+            };
         }
 
         function toggleLeft() {
@@ -165,19 +188,6 @@
                 save();
             }
         };
-
-        // function cancel() {
-        //     let idSurvey = survey.getActiveSurvey().id;
-        //
-        //     surveyService.loadOneSurvey(idSurvey).then(function (res) {
-        //         if(res.success){
-        //             items = res.data.survey.blocks;
-        //             vm.items = items[indexBlock].questions;
-        //             editButton();
-        //         }
-        //     });
-        // }
-
 
         function save() {
             let dataForSend = angular.copy(vm.items);
@@ -304,7 +314,6 @@
 
         console.log('vm.items ', vm.items);
 
-
         startupChainBuild();
 
         function startupChainBuild() {
@@ -412,6 +421,10 @@
 
         let radioId;
         vm.checkRadioTreeExample = function (radio, parentIdentifier, index, manualInput) {
+            console.log('radio = ', radio);
+            console.log('parentIdentifier = ', parentIdentifier);
+            console.log('index = ', index);
+            console.log('manualInput = ', manualInput);
             if (manualInput === true) {
                 radioId = radio.id;
                 let tmpStatus = false;
@@ -438,6 +451,44 @@
                 fill(index);
             }
         };
+
+        let countryGroupId;
+
+        function selectedCountryChange(country, question, index) {
+
+            let questionAnswers = question.answers;
+            let parentIdentifier = question.identifier;
+            let checkingForAMatch = false;
+            let nextQuestion;
+            console.log('country = ', country);
+
+            if (country && country.length > 1) {
+                let stop = false;
+                for (let i = 0; i < questionAnswers.length; i++) {
+                    if (!stop) {
+                        for (let x = 0; x < questionAnswers[i].answer_text.length; x++) {
+                            if (country === questionAnswers[i].answer_text[x]) {
+                                console.log('Math! -->', country);
+                                stop = true;
+                                checkingForAMatch = true;
+                                countryGroupId = questionAnswers[i].id;
+                                nextQuestion = questionAnswers[i].next_question;
+                                break;
+                            }
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if (checkingForAMatch) {
+                chain(nextQuestion, parentIdentifier);
+                fill(index, true);
+            } else {
+                chain(question.next_question, parentIdentifier);
+                fill(index);
+            }
+        }
 
         function changeNextQuest(question, quest, answer) {
             // console.log('question = ', question);
@@ -584,7 +635,7 @@
 
                 blockService.addBlockQuestion(idBlock, [vm.data]).then(function (res) {
                     if (res.success) {
-                        vm.items.splice(vm.items.indexOf(question) + 1 , 0 , res.data.questions[0]);
+                        vm.items.splice(vm.items.indexOf(question) + 1, 0, res.data.questions[0]);
                         toastr.success('Question was duplication')
                     }
                 });
@@ -607,7 +658,7 @@
         function checkKey(data) {
             blockService.addBlockQuestion(idBlock, [data]).then(function (res) {
                 if (res.success) {
-                    vm.items.splice(vm.items.indexOf(data) , 1 , res.data.questions[0]);
+                    vm.items.splice(vm.items.indexOf(data), 1, res.data.questions[0]);
                 }
             });
         }

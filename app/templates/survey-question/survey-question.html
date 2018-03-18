@@ -356,10 +356,10 @@
                             <md-autocomplete
                                     ng-disabled="vm.isDisabled"
                                     md-no-cache="vm.noCache"
-                                    md-selected-item="exampleDataCountry"
+                                    md-selected-item="exampleDataCountry[questIndex]"
                                     md-search-text-change=vm.searchTextChange(item)
                                     md-search-text=item
-                                    md-selected-item-change=vm.selectedItemChange(item)
+                                    md-selected-item-change="vm.selectedCountryChange(item, question, questIndex)"
                                     md-items="item in vm.querySearch(item)"
                                     md-item-text="item"
                                     md-min-length="0"

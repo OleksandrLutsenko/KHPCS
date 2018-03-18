@@ -5,11 +5,19 @@
     //height: 600px;
   }
 
-
   .add-answer-button {
     text-transform: none;
     margin: 0 0 15px 0;
     font-size: 15px;
+  }
+
+  .add-answer-button_country {
+    text-transform: none;
+    font-size: 15px;
+  }
+
+  .country_input {
+    width: 90%;
   }
 
   .next-quest-radio{

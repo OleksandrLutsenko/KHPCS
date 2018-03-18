@@ -6,7 +6,7 @@
         <md-tab label="Users"></md-tab>
         <md-tab label="Customers"></md-tab>
         <md-tab label="Surveys" ng-if="vm.userRole === 2"></md-tab>
-        <md-tab label="Risk"></md-tab>
+        <!--<md-tab label="Risk"></md-tab>-->
     </md-tabs>
     <section ng-if="selectedIndex === 0">
         <div layout="row" layout-align="end">
@@ -196,77 +196,65 @@
             </div>
         </md-content>
     </section>
-    <section ng-if="selectedIndex === 3">
-        <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row" class="back-btn">
-            <i class="material-icons">arrow_back</i>
-            Back
-        </md-button>
-        <div flex="100" layout="row" layout-align="center none" class="risk-section">
-            <div flex="90">
-                <v-accordion class="vAccordion--default" multiple>
-                    <!-- add expanded attribute to open the section -->
-                    <v-pane ng-repeat="survey in vm.surveys" ng-if="survey.survey_status !== 'archived'"
-                    >
-                        <v-pane-header>
-                            {{ survey.survey_name}}
-                        </v-pane-header>
+    <!--<section ng-if="selectedIndex === 3">-->
+        <!--<md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row" class="back-btn">-->
+            <!--<i class="material-icons">arrow_back</i>-->
+            <!--Back-->
+        <!--</md-button>-->
+        <!--<div flex="100" layout="row" layout-align="center none" class="risk-section">-->
+            <!--<div flex="90">-->
+                <!--<v-accordion class="vAccordion&#45;&#45;default" multiple>-->
+                    <!--&lt;!&ndash; add expanded attribute to open the section &ndash;&gt;-->
+                    <!--<v-pane ng-repeat="survey in vm.surveys" ng-if="survey.survey_status !== 'archived'"-->
+                    <!--&gt;-->
+                        <!--<v-pane-header>-->
+                            <!--{{ survey.survey_name}}-->
+                        <!--</v-pane-header>-->
+                        <!--<v-pane-content>-->
+                            <!--<md-button class="md-raised " ng-click="vm.addRisk(template.title)">-->
+                                <!--Add risk-->
+                            <!--</md-button>-->
+                            <!--<md-card>-->
+                                <!--<md-table-container>-->
+                                    <!--<table md-table>-->
+                                        <!--<thead md-head>-->
+                                        <!--<tr md-row>-->
+                                            <!--<th md-column style="width: 20%">Range</th>-->
+                                            <!--<th md-column>Description</th>-->
+                                            <!--<th md-column></th>-->
+                                        <!--</tr>-->
+                                        <!--</thead>-->
+                                        <!--<tbody md-body>-->
+                                        <!--<tr md-row ng-repeat="risk in vm.risk">-->
+                                            <!--<td md-cell>{{risk.riskRange}}</td>-->
+                                            <!--<td md-cell>{{risk.description}}</td>-->
+                                            <!--<td md-cell style="width: 10%;">-->
+                                                <!--<div layout="row">-->
+                                                    <!--<div>-->
+                                                        <!--<md-tooltip md-direction="left">Edit risk-->
+                                                        <!--</md-tooltip>-->
+                                                        <!--<i class="material-icons"-->
+                                                           <!--ng-click="vm.addRisk(risk)">mode_edit</i>-->
+                                                    <!--</div>-->
+                                                    <!--<div>-->
+                                                        <!--<md-tooltip md-direction="left">Delete risk-->
+                                                        <!--</md-tooltip>-->
+                                                        <!--<i class="material-icons"-->
+                                                           <!--ng-click="vm.deleteRisk($index)">highlight_off</i>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
 
-                        <v-pane-content class="tmp-section" flex="100">
-                            <p ng-if="vm.noneTmp(survey.survey_id)">No templates. Please create one.</p>
-                            <v-pane ng-repeat="template in vm.templates"
-                                    ng-if="survey.survey_id === template.survey_id">
-                                <v-pane-header>
-                                    {{ template.title}}
-                                </v-pane-header>
+                                            <!--</td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
 
-                                <v-pane-content>
-                                    <md-button class="md-raised " ng-click="vm.addRisk(template.title)">
-                                        Add risk
-                                    </md-button>
-                                    <md-card>
-                                        <md-table-container>
-                                            <table md-table>
-                                                <thead md-head>
-                                                <tr md-row>
-                                                    <th md-column style="width: 20%">Range</th>
-                                                    <th md-column>Description</th>
-                                                    <th md-column></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody md-body>
-                                                <tr md-row ng-repeat="risk in vm.risk">
-                                                    <td md-cell>{{risk.riskRange}}</td>
-                                                    <td md-cell>{{risk.description}}</td>
-                                                    <td md-cell style="width: 10%;">
-                                                        <div layout="row">
-                                                            <div>
-                                                                <md-tooltip md-direction="left">Edit risk
-                                                                </md-tooltip>
-                                                                <i class="material-icons"
-                                                                   ng-click="vm.addRisk(risk)">mode_edit</i>
-                                                            </div>
-                                                            <div>
-                                                                <md-tooltip md-direction="left">Delete risk
-                                                                </md-tooltip>
-                                                                <i class="material-icons"
-                                                                   ng-click="vm.deleteRisk($index)">highlight_off</i>
-                                                            </div>
-                                                        </div>
+                                <!--</md-table-container>-->
+                        <!--</v-pane-content>-->
+                    <!--</v-pane>-->
+                <!--</v-accordion>-->
+            <!--</div>-->
+        <!--</div>-->
 
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </md-table-container>
-
-                                </v-pane-content>
-                            </v-pane>
-                        </v-pane-content>
-                    </v-pane>
-                </v-accordion>
-            </div>
-        </div>
-
-    </section>
+    <!--</section>-->
 </div>
