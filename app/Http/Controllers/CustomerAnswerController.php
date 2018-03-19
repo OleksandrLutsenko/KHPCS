@@ -26,7 +26,7 @@ class CustomerAnswerController extends Controller
         $requests = $request->all();
         foreach ($requests as $request) {
             $question = Question::find($request['question_id']);
-            if($question->type == 0) {
+            if($question->type == 4 or $question->type == 1 or $question->type == 0) {
                 $oldAnswers = CustomerAnswer::where('customer_id', $customer->id)
                     ->where('question_id', $request['question_id'])->delete();
                 if (!isset($request['delete'])) {
