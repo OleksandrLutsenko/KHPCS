@@ -26,37 +26,36 @@ class CustomerAnswerController extends Controller
         $requests = $request->all();
         foreach ($requests as $request) {
             $question = Question::find($request['question_id']);
-            if($question->type == 4 or $question->type == 1 or $question->type == 0) {
+            if($question->type == 0) {
                 $oldAnswers = CustomerAnswer::where('customer_id', $customer->id)
                     ->where('question_id', $request['question_id'])->delete();
-                if ($question->type == 0) {
-                    if (!isset($request['delete'])) {
-                        foreach ($request['answer_id'] as $answerId) {
-                            $newCustomerAnswer = $customer->customerAnswers()->create([
-                                'question_id' => $request['question_id'],
-                                'answer_id' => $answerId
-                            ]);
-                            $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
-                            $customerAnswer->setAnswerValue($customerAnswer);
-                            $customerAnswerArr[] = $customerAnswer;
-                        }
-                    }
-                } else {
-                    if (isset($request['id'])) {
-                        $customerAnswer = CustomerAnswer::find($request['id']);
-                        if (isset($request['delete']) && $request['delete'] == true) {
-                            $customerAnswer->delete();
-                        } else {
-                            $customerAnswer->update($request);
-                            $customerAnswer->setAnswerValue($customerAnswer);
-                        }
-                    } else {
-                        $newCustomerAnswer = $customer->customerAnswers()->create($request);
+
+                if (!isset($request['delete'])) {
+                    foreach ($request['answer_id'] as $answerId) {
+                        $newCustomerAnswer = $customer->customerAnswers()->create([
+                            'question_id' => $request['question_id'],
+                            'answer_id' => $answerId
+                        ]);
                         $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
                         $customerAnswer->setAnswerValue($customerAnswer);
+                        $customerAnswerArr[] = $customerAnswer;
                     }
-                    $customerAnswerArr[] = $customerAnswer;
                 }
+            } else {
+                if (isset($request['id'])) {
+                    $customerAnswer = CustomerAnswer::find($request['id']);
+                    if (isset($request['delete']) && $request['delete'] == true) {
+                        $customerAnswer->delete();
+                    } else {
+                        $customerAnswer->update($request);
+                        $customerAnswer->setAnswerValue($customerAnswer);
+                    }
+                } else {
+                    $newCustomerAnswer = $customer->customerAnswers()->create($request);
+                    $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
+                    $customerAnswer->setAnswerValue($customerAnswer);
+                }
+                $customerAnswerArr[] = $customerAnswer;
             }
         }
 
