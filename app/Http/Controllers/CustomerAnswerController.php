@@ -29,7 +29,6 @@ class CustomerAnswerController extends Controller
             if($question->type == 0) {
                 $oldAnswers = CustomerAnswer::where('customer_id', $customer->id)
                     ->where('question_id', $request['question_id'])->delete();
-
                 if (!isset($request['delete'])) {
                     foreach ($request['answer_id'] as $answerId) {
                         $newCustomerAnswer = $customer->customerAnswers()->create([
@@ -41,6 +40,11 @@ class CustomerAnswerController extends Controller
                         $customerAnswerArr[] = $customerAnswer;
                     }
                 }
+
+            } elseif ($question->type == 4) {
+                $newCustomerAnswer = $customer->customerAnswers()->create($request);
+                $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
+                $customerAnswer->setAnswerValue($customerAnswer);
             } else {
                 if (isset($request['id'])) {
                     $customerAnswer = CustomerAnswer::find($request['id']);
@@ -55,8 +59,8 @@ class CustomerAnswerController extends Controller
                     $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
                     $customerAnswer->setAnswerValue($customerAnswer);
                 }
-                $customerAnswerArr[] = $customerAnswer;
             }
+            $customerAnswerArr[] = $customerAnswer;
         }
 
         return response($customerAnswerArr, 201);
