@@ -86,7 +86,11 @@
                                             <md-input-container class="risk-input"
                                                                 ng-if="question.type !== 1"
                                                                 aria-label="abc">
-                                                <input ng-model="vm.data.risk">
+                                                <md-tooltip md-direction="left">Risk range</md-tooltip>
+                                                <input ng-model="question.contract_text"  aria-label="abc"
+                                                       ng-change="vm.checkKey(question)"
+                                                       ng-model-options="{debounce: 2000}"
+                                                       pattern="[1-9]+">
                                             </md-input-container>
                                             <div>
                                                 <md-tooltip md-direction="left">Duplicate a question</md-tooltip>
@@ -159,16 +163,21 @@
 
                                                     {{answers.answer_text}}
                                                 </div>
-                                                <div>
+                                                <div layout="row">
                                                     <md-input-container class="risk-input"
                                                                         ng-if="question.type == 1"
                                                                         aria-label="abc">
-                                                        <input ng-model="vm.data.answers[$index].risk">
+                                                        <md-tooltip md-direction="left">Risk range</md-tooltip>
+                                                        <input ng-model="answers.contract_text"  aria-label="abc"
+                                                               ng-change="vm.checkKey(question)"
+                                                               ng-model-options="{debounce: 2000}">
                                                     </md-input-container>
 
-                                                    <i class="material-icons"
-                                                       ng-click="vm.copyQuest(question , answers)">
-                                                        <md-tooltip md-direction="left">Duplicate a answer</md-tooltip>content_copy</i>
+                                                    <div>
+                                                        <i class="material-icons"
+                                                           ng-click="vm.copyQuest(question , answers)">
+                                                            <md-tooltip md-direction="left">Duplicate a answer</md-tooltip>content_copy</i>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <md-input-container ng-if="question.type === 1" class="next-input">
@@ -347,10 +356,10 @@
                             <md-autocomplete
                                     ng-disabled="vm.isDisabled"
                                     md-no-cache="vm.noCache"
-                                    md-selected-item="exampleDataCountry"
+                                    md-selected-item="exampleDataCountry[questIndex]"
                                     md-search-text-change=vm.searchTextChange(item)
                                     md-search-text=item
-                                    md-selected-item-change=vm.selectedItemChange(item)
+                                    md-selected-item-change="vm.selectedCountryChange(item, question, questIndex)"
                                     md-items="item in vm.querySearch(item)"
                                     md-item-text="item"
                                     md-min-length="0"

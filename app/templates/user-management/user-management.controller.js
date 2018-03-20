@@ -72,7 +72,7 @@
         };
         survey.selectedSurveys(vm.chosenSurvey);
 
-        function checkStatus(reports , surveys) {
+        function checkStatus(reports, surveys) {
             angular.forEach(surveys, function (survey) {
                     angular.forEach(reports, function (report) {
                         if (survey.id === report.survey_id) {
@@ -89,7 +89,7 @@
                 id: customer.id,
                 name: customer.name,
                 surname: customer.surname
-            }
+            };
             checkSelect = true;
             vm.checkSelect = checkSelect;
             customers.setActiveCustomers(cactomerTmp);
@@ -97,17 +97,6 @@
                 $state.go('tab.passing-question');
             });
         }
-
-        // function annonce(id) {
-        //     $mdDialog.show({
-        //         controller: 'AnnonceController',
-        //         controllerAs: 'vm',
-        //         templateUrl: 'components/user-management/add-client/annonce.html',
-        //         clickOutsideToClose: true
-        //     }).then(function () {
-        //         pass(id);
-        //     });
-        // }
 
         function deleteCustomer(id, customers) {
             $mdDialog.show({
@@ -150,7 +139,6 @@
                 } else {
                     vm.customers.unshift(res.data);
                     toastr.success('New customer has been created');
-                    // annonce(res.data.id);
                 }
             }, function () {
 

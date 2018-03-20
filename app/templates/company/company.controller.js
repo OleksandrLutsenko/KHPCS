@@ -27,6 +27,8 @@
         vm.deleteAdmin = deleteAdmin;
         vm.reSend = reSend;
         vm.changeFA = changeFA;
+        vm.addRisk = addRisk;
+        vm.deleteRisk = deleteRisk;
 
         if (vm.userRole === 2) {
 
@@ -169,6 +171,58 @@
 
                     });
                 }
+            }, function () {
+
+            })
+        }
+
+        let risk = [
+            {
+                id: 1,
+                riskRange: 'name',
+                description: 'risk'
+            } ,
+            {
+                id: 2,
+                riskRange: 'name2',
+                description: 'risk3'
+            }
+        ];
+        vm.risk = risk;
+        console.log(risk);
+
+        function addRisk(risk) {
+            $mdDialog.show({
+                controller: 'RiskProfileController',
+                controllerAs: 'vm',
+                templateUrl: 'components/company-management/risk-profile/risk-profile.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        risk: risk
+                    }
+                }
+            }).then(function (res) {
+
+                console.log(res);
+                if(res.type === 'create'){
+                  vm.risk.push(res.data);
+                } else {
+                    vm.risk.splice(vm.risk.indexOf(risk) , 1 , res.data)
+                }
+            }, function () {
+
+            });
+        }
+
+        function deleteRisk(index) {
+            $mdDialog.show({
+                controller: 'DeleteViewController',
+                controllerAs: 'vm',
+                templateUrl: 'components/delete-view/delete-view.html',
+                clickOutsideToClose: true
+            }).then(function () {
+               vm.risk.splice(index , 1);
             }, function () {
 
             })

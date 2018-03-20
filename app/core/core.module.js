@@ -5,7 +5,8 @@
         'ui.router', 'ngMaterial',
         'ngAnimate', 'toastr',
         'ngStorage', 'md.data.table' ,
-        'ngMessages', 'ui.sortable'
+        'ngMessages', 'ui.sortable',
+        'vAccordion'
     ]);
 
 
