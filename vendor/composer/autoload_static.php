@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
+class ComposerStaticInita5c62407a4893cf00760df06808c4bb5
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -16,8 +16,8 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -361,6 +361,12 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
     );
 
     public static $classMap = array (
+        'AddAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2018_02_21_104705_add_answers_table.php',
+        'AddCustomersTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_14_170715_add_customers_table.php',
+        'AddExitInformationToAnswersTable' => __DIR__ . '/../..' . '/database/migrations/2018_03_19_143718_add_exit_information_to_answers_table.php',
+        'AddQuestions2Table' => __DIR__ . '/../..' . '/database/migrations/2018_02_21_104656_add_questions2_table.php',
+        'AddQuestionsTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_31_093108_add_questions_table.php',
+        'AddRiskValueToQuestionsTable' => __DIR__ . '/../..' . '/database/migrations/2018_03_13_143617_add_risk_value_to_questions_table.php',
         'AddUsersTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_10_103252_add_users_table.php',
         'App\\Answer' => __DIR__ . '/../..' . '/app/Answer.php',
         'App\\Block' => __DIR__ . '/../..' . '/app/Block.php',
@@ -389,6 +395,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'App\\Http\\Controllers\\InviteController' => __DIR__ . '/../..' . '/app/Http/Controllers/InviteController.php',
         'App\\Http\\Controllers\\QuestionController' => __DIR__ . '/../..' . '/app/Http/Controllers/QuestionController.php',
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
+        'App\\Http\\Controllers\\RiskController' => __DIR__ . '/../..' . '/app/Http/Controllers/RiskController.php',
         'App\\Http\\Controllers\\SurveyController' => __DIR__ . '/../..' . '/app/Http/Controllers/SurveyController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Controllers\\VariableController' => __DIR__ . '/../..' . '/app/Http/Controllers/VariableController.php',
@@ -432,6 +439,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Question' => __DIR__ . '/../..' . '/app/Question.php',
         'App\\Report' => __DIR__ . '/../..' . '/app/Report.php',
+        'App\\Risk' => __DIR__ . '/../..' . '/app/Risk.php',
         'App\\Role' => __DIR__ . '/../..' . '/app/Role.php',
         'App\\Survey' => __DIR__ . '/../..' . '/app/Survey.php',
         'App\\Transformers\\Json' => __DIR__ . '/../..' . '/app/Transformers/Json.php',
@@ -459,6 +467,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'CreateInvitesTable' => __DIR__ . '/../..' . '/database/migrations/2018_01_10_141054_create_invites_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreateQuestionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_24_151504_create_questions_table.php',
+        'CreateRisksTable' => __DIR__ . '/../..' . '/database/migrations/2018_03_13_152001_create_risks_table.php',
         'CreateRolesTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_11_105050_create_roles_table.php',
         'CreateSurveysTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_23_120213_create_surveys_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',
@@ -2765,6 +2774,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'Prophecy\\Doubler\\Generator\\Node\\ClassNode' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Doubler/Generator/Node/ClassNode.php',
         'Prophecy\\Doubler\\Generator\\Node\\MethodNode' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Doubler/Generator/Node/MethodNode.php',
         'Prophecy\\Doubler\\Generator\\ReflectionInterface' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Doubler/Generator/ReflectionInterface.php',
+        'Prophecy\\Doubler\\Generator\\TypeHintReference' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Doubler/Generator/TypeHintReference.php',
         'Prophecy\\Doubler\\LazyDouble' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Doubler/LazyDouble.php',
         'Prophecy\\Doubler\\NameGenerator' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Doubler/NameGenerator.php',
         'Prophecy\\Exception\\Call\\UnexpectedCallException' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Exception/Call/UnexpectedCallException.php',
@@ -3571,6 +3581,7 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'Symfony\\Component\\Routing\\Loader\\Configurator\\Traits\\RouteTrait' => __DIR__ . '/..' . '/symfony/routing/Loader/Configurator/Traits/RouteTrait.php',
         'Symfony\\Component\\Routing\\Loader\\DependencyInjection\\ServiceRouterLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/DependencyInjection/ServiceRouterLoader.php',
         'Symfony\\Component\\Routing\\Loader\\DirectoryLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/DirectoryLoader.php',
+        'Symfony\\Component\\Routing\\Loader\\GlobFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/GlobFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\ObjectRouteLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/ObjectRouteLoader.php',
         'Symfony\\Component\\Routing\\Loader\\PhpFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/PhpFileLoader.php',
         'Symfony\\Component\\Routing\\Loader\\ProtectedPhpFileLoader' => __DIR__ . '/..' . '/symfony/routing/Loader/PhpFileLoader.php',
@@ -3721,7 +3732,9 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
         'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
         'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
         'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
+        'Symfony\\Polyfill\\Util\\LegacyTestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/LegacyTestListener.php',
         'Symfony\\Polyfill\\Util\\TestListener' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListener.php',
+        'Symfony\\Polyfill\\Util\\TestListenerTrait' => __DIR__ . '/..' . '/symfony/polyfill-util/TestListenerTrait.php',
         'Tests\\CreatesApplication' => __DIR__ . '/../..' . '/tests/CreatesApplication.php',
         'Tests\\Feature\\ExampleTest' => __DIR__ . '/../..' . '/tests/Feature/ExampleTest.php',
         'Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
@@ -3854,10 +3867,10 @@ class ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbe33fce2292098fe1e62cc8c1f0ca41b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita5c62407a4893cf00760df06808c4bb5::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita5c62407a4893cf00760df06808c4bb5::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInita5c62407a4893cf00760df06808c4bb5::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInita5c62407a4893cf00760df06808c4bb5::$classMap;
 
         }, null, ClassLoader::class);
     }
