@@ -29,8 +29,9 @@ class CustomerAnswerController extends Controller
 
             switch ($question->type) {
                 case 0:
-                    $oldAnswers = CustomerAnswer::where('customer_id', $customer->id)
-                        ->where('question_id', $request['question_id'])->delete();
+                    foreach ($question->customerAnswer as $customerAnswer) {
+                        $customerAnswer->forceDelete();
+                    }
                     if (!isset($request['delete'])) {
                         foreach ($request['answer_id'] as $answerId) {
                             $newCustomerAnswer = $customer->customerAnswers()->create([
@@ -44,16 +45,11 @@ class CustomerAnswerController extends Controller
                     }
                     break;
                 case 4:
-                    if (isset($request['id'])) {
-                        $customerAnswer = CustomerAnswer::find($request['id']);
-                        if (isset($request['delete']) && $request['delete'] == true) {
-                            $customerAnswer->delete();
-                        } else {
-                            $customerAnswer->update($request);
-                        }
-                    } else {
-                        $customerAnswer = $customer->customerAnswers()->create($request);
+                    foreach ($question->customerAnswer as $customerAnswer) {
+                        $customerAnswer->forceDelete();
                     }
+
+                    $customerAnswer = $customer->customerAnswers()->create($request);
                     break;
                 default:
                     if (isset($request['id'])) {
@@ -65,6 +61,9 @@ class CustomerAnswerController extends Controller
                             $customerAnswer->setAnswerValue($customerAnswer);
                         }
                     } else {
+                        foreach ($question->customerAnswer as $customerAnswer) {
+                            $customerAnswer->forceDelete();
+                        }
                         $newCustomerAnswer = $customer->customerAnswers()->create($request);
                         $customerAnswer = CustomerAnswer::find($newCustomerAnswer->id);
                         $customerAnswer->setAnswerValue($customerAnswer);
