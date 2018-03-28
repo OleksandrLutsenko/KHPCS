@@ -51,6 +51,11 @@ class Company extends Model
         return $this->hasMany(User::class);
     }
 
+    public function risks()
+    {
+        return $this->hasMany(Risk::class);
+    }
+
     public function companySurveys()
     {
         return $this->hasMany(CompanySurvey::class);

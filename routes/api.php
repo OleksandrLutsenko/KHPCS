@@ -73,8 +73,13 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::post('add-risk', 'RiskController@store');
         });
 
+//        Route::group(['prefix' => ''], function () {
+            Route::post('get-risks', 'RiskController@index');
+//        });
+
         Route::post('update-risk/{risk}', 'RiskController@update');
         Route::delete('delete-risk/{risk}', 'RiskController@destroy');
+        Route::post('count-value-risk', 'RiskController@countValue');
 
         /** BLOCKS */
         /** show block's questions */

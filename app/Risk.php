@@ -15,4 +15,8 @@ class Risk extends Model
     public function survey(){
         return $this->belongsToMany(Survey::class);
     }
+
+    public function company(){
+        return $this->belongsToMany(Company::class);
+    }
 }
