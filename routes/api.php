@@ -73,10 +73,7 @@ Route::group(['middleware' => 'api-response'], function() {
             Route::post('add-risk', 'RiskController@store');
         });
 
-//        Route::group(['prefix' => ''], function () {
-            Route::post('get-risks', 'RiskController@index');
-//        });
-
+        Route::post('get-risks', 'RiskController@index');
         Route::post('update-risk/{risk}', 'RiskController@update');
         Route::delete('delete-risk/{risk}', 'RiskController@destroy');
         Route::post('count-value-risk', 'RiskController@countValue');
@@ -196,5 +193,12 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::put('/customers/change-fa', 'CustomerController@updateFA');
         Route::get('/company/{company}/available-surveys', 'CompanyController@getAvailableSurveys');
 
+
+        /** COMMON_QUESTION */
+
+        Route::post('get-common-questions', 'CommonQuestionController@index');
+        Route::post('create-common-question', 'CommonQuestionController@store');
+        Route::post('update-common-question', 'CommonQuestionController@update');
+        Route::post('delete-common-questions', 'CommonQuestionController@destroy');
     });
 });

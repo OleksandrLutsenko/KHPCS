@@ -25,9 +25,9 @@ class Question extends Model
 
     protected $visible = ['id', 'title', 'answers', 'type', 'block_id', 'order_number', 'child_order_number',
         'parent_answer_id', 'identifier', 'validation_type', 'characters_limit', 'mandatory', 'next_question',
-        'exit_value', 'information', 'contract_text', 'risk_value'];
+        'exit_value', 'information', 'contract_text', 'risk_value', 'inherited'];
 
-    protected $appends = ['answers'];
+    protected $appends = ['answers', 'inherited'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -91,6 +91,11 @@ class Question extends Model
     public function getCustomerAnswersAttribute()
     {
         return $this->customerAnswer;
+    }
+
+    public function getInheritedAttribute()
+    {
+        return false;
     }
 
     /**

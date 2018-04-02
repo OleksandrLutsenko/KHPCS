@@ -47,5 +47,4 @@ class RiskController extends Controller
 
         return response()->json($value, 200);
     }
-
 }
