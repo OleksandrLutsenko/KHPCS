@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CommonQuestion;
+use App\Question;
 use Illuminate\Http\Request;
 
 class CommonQuestionController extends Controller
@@ -23,6 +24,8 @@ class CommonQuestionController extends Controller
 
     public function update(Request $request)
     {
+        //TODO Редактирование пока недоступно
+
         $common_question = CommonQuestion::find($request->common_question_id);
 
         $common_question->update($request->all());
@@ -33,7 +36,6 @@ class CommonQuestionController extends Controller
     public function destroy(Request $request)
     {
         $common_question = CommonQuestion::find($request->common_question_id);
-
         $common_question->delete();
 
         return response()->json($common_question, 200);

@@ -199,6 +199,6 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('get-common-questions', 'CommonQuestionController@index');
         Route::post('create-common-question', 'CommonQuestionController@store');
         Route::post('update-common-question', 'CommonQuestionController@update');
-        Route::post('delete-common-questions', 'CommonQuestionController@destroy');
+        Route::post('delete-common-question', 'CommonQuestionController@destroy');
     });
 });
