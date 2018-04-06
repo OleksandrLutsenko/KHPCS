@@ -69,10 +69,7 @@ Route::group(['middleware' => 'api-response'], function() {
 
         /** RISKS */
 
-        Route::group(['prefix' => '/survey/{survey}/'], function () {
-            Route::post('add-risk', 'RiskController@store');
-        });
-
+        Route::post('add-risk', 'RiskController@store');
         Route::post('get-risks', 'RiskController@index');
         Route::post('update-risk/{risk}', 'RiskController@update');
         Route::delete('delete-risk/{risk}', 'RiskController@destroy');

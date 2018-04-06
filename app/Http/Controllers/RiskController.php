@@ -18,8 +18,10 @@ class RiskController extends Controller
         return response()->json($risks, 200);
     }
 
-    public function store(Survey $survey, Request $request)
+    public function store(Request $request)
     {
+        $survey = Survey::find($request->survey_id);
+
         $risk = $survey->risks()->create($request->all());
 
         return response()->json($risk, 200);
