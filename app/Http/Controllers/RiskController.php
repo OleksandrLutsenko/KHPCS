@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Answer;
 use App\Company;
-use App\Question;
 use App\Risk;
 use App\Survey;
 use Illuminate\Http\Request;
@@ -39,14 +39,5 @@ class RiskController extends Controller
         $risk->delete();
 
         return response()->json($risk, 200);
-    }
-
-    public function countValue(Request $request)
-    {
-        $questions = Question::whereIn('id', $request->questions_id)->get();
-
-        $value = $questions->sum('risk_value');
-
-        return response()->json($value, 200);
     }
 }

@@ -21,4 +21,16 @@ class Risk extends Model
     public function company(){
         return $this->belongsToMany(Company::class);
     }
+
+    public static function riskValue()
+    {
+
+//        $answers = Answer::whereIn('id', $request->answers_id)->get();
+//
+//        $value = $answers->sum('risk_value');
+
+        $value = 123456789;
+
+        return response()->json($value, 200);
+    }
 }

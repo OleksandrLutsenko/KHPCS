@@ -11,6 +11,7 @@ use App\Http\Requests\ContractRequest;
 use App\Image;
 use App\Question;
 use App\Report;
+use App\Risk;
 use App\Survey;
 use App\User;
 use App\Variable;
@@ -140,13 +141,16 @@ class ContractController extends Controller
         $customer = $report->customer;
         $userVariables = Variable::getVariablesTextWithTrashed();
         $contractAnswers = $contract->getContractAnswers($report);
+        $risk_value = Risk::riskValue();
+
         return $contract->makeContractPDF(
             $userFilename,
             $contractAnswers,
             $userVariables,
             $report,
             $customer,
-            $user);
+            $user,
+            $risk_value);
     }
 
     public function usedImages(Contract $contract) {
