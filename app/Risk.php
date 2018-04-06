@@ -10,6 +10,8 @@ class Risk extends Model
         'min_range',
         'max_range',
         'description',
+        'company_id',
+        'survey_id'
     ];
 
     public function survey(){
