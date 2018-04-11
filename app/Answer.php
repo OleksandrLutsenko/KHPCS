@@ -9,6 +9,9 @@ class Answer extends Model
 {
     use SoftDeletes;
 
+    public static $questions = array();
+    public static $answer_additional_text = array();
+
     protected $fillable = ['answer_text', 'question_id', 'order_number', 'next_question',
         'exit_value', 'information', 'contract_text', 'exit_information'];
 
@@ -42,32 +45,28 @@ class Answer extends Model
             return $childQuestions;
         }
     }
-    /////////////
-//    public static function add($answerData, Question $question){
-//
-//        if(isset($answerData['id'])){
-//            if($answer = Answer::find($answerData['id'])){
-//                if(isset($answerData['delete']) && $answerData['delete'] == true){
-//                    $answer->delete();
-//                }else{
-//                    $answer->update($answerData);
-//                    static::addNestedQuestions($answerData, $question->block);
-//                }
-//            }
-//        }else{
-//            $question->answer()->create($answerData);
-//            static::addNestedQuestions($answerData, $question->block);
-//        }
-//    }
-//
-//    protected static function addNestedQuestions($answerData, Block $block){
-//        if (!empty($answerData['child_questions'])) {
-//            Question::massSave($answerData['child_questions'], $block);
-//        }
-//    }
 
-    /////////////
+    public static function additionalText($report)
+    {
+        $blocks = $report->survey->block;
 
+        foreach ($blocks as $block) {
+            foreach ($block->question as $question) {
+                array_push(self::$questions, $question->id);
+            }
+        }
+
+        $customer_answers = CustomerAnswer::where([
+            'customer_id' => $report->customer_id
+        ])
+            ->whereIn('question_id', self::$questions)->get();
+
+        foreach ($customer_answers as $customer_answer) {
+            self::$answer_additional_text[$customer_answer->question()->first()->id] = $customer_answer->answer->contract_text;
+        }
+
+        return self::$answer_additional_text;
+    }
 
     protected static function boot()
     {
