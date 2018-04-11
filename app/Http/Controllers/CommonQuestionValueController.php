@@ -9,9 +9,9 @@ class CommonQuestionValueController extends Controller
 {
     public function index()
     {
-        $common_question_value_values = CommonQuestionValue::all();
+        $common_questions_value = CommonQuestionValue::all();
 
-        return response()->json($common_question_value_values, 200);
+        return response()->json($common_questions_value, 200);
     }
 
     public function store(Request $request)

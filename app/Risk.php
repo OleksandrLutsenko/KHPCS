@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Risk extends Model
 {
+    private static $value = 0;
+
+    private static $questions = array();
+
     protected $fillable = [
         'min_range',
         'max_range',
@@ -22,15 +26,28 @@ class Risk extends Model
         return $this->belongsToMany(Company::class);
     }
 
-    public static function riskValue()
+    public static function riskValue($report)
     {
+        $blocks = $report->survey->block;
 
-//        $answers = Answer::whereIn('id', $request->answers_id)->get();
-//
-//        $value = $answers->sum('risk_value');
+        foreach ($blocks as $block) {
+            foreach ($block->question as $question) {
+                array_push(self::$questions, $question->id);
+            }
+        }
 
-        $value = 123456789;
+        $customer_answers = CustomerAnswer::where([
+            'customer_id' => $report->customer_id,
+            [
+                'answer_id', '!=', null
+            ]
+        ])
+            ->whereIn('question_id', self::$questions)->get();
 
-        return response()->json($value, 200);
+        foreach ($customer_answers as $customer_answer) {
+            self::$value = self::$value + $customer_answer->answer->risk_value;
+        }
+
+        return self::$value;
     }
 }

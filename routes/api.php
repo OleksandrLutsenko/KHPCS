@@ -1,5 +1,8 @@
 <?php
 
+use App\Answer;
+use App\Report;
+use App\Risk;
 use Illuminate\Http\Request;
 
 /*
@@ -15,6 +18,12 @@ use Illuminate\Http\Request;
 
 Route::middleware(['jwt.auth'])->get('/user', function (Request $request) {
     return $request->user();
+});
+
+/** For testing */
+Route::post('/test', function (Request $request) {
+    $report = Report::find($request->report_id);
+    return Answer::additionalText($report);
 });
 
 Route::group(['middleware' => 'jwt.auth'], function() {
@@ -197,5 +206,14 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::post('create-common-question', 'CommonQuestionController@store');
         Route::post('update-common-question', 'CommonQuestionController@update');
         Route::post('delete-common-question', 'CommonQuestionController@destroy');
+
+        /** COMMON_QUESTIONS_VALUE */
+
+        Route::post('get-common-questions-value', 'CommonQuestionValueController@index');
+        Route::post('create-common-question-value', 'CommonQuestionValueController@store');
+        Route::post('update-common-question-value', 'CommonQuestionValueController@update');
+        Route::post('delete-common-question-value', 'CommonQuestionValueController@destroy');
     });
 });
+
+

@@ -141,7 +141,7 @@ class ContractController extends Controller
         $customer = $report->customer;
         $userVariables = Variable::getVariablesTextWithTrashed();
         $contractAnswers = $contract->getContractAnswers($report);
-        $risk_value = Risk::riskValue();
+        $risk_value = Risk::riskValue($report);
 
         return $contract->makeContractPDF(
             $userFilename,
@@ -150,7 +150,8 @@ class ContractController extends Controller
             $report,
             $customer,
             $user,
-            $risk_value);
+            $risk_value
+        );
     }
 
     public function usedImages(Contract $contract) {
@@ -259,6 +260,7 @@ class ContractController extends Controller
         $data['report'] = $report;
         $data['contractAnswers'] = $contractAnswers;
         $data['variables'] = $variables;
+        $data['risk_value'] = Risk::riskValue($report);
 
         $pdf = PDF::loadView('contract', $data);
         return $pdf->download('contract.pdf');
