@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App;
+use App\Answer;
 use App\CompanySurvey;
 use App\Contract;
 use App\ContractResearch;
@@ -142,6 +143,7 @@ class ContractController extends Controller
         $userVariables = Variable::getVariablesTextWithTrashed();
         $contractAnswers = $contract->getContractAnswers($report);
         $risk_value = Risk::riskValue($report);
+        $answer_additional_text = Answer::additionalText($report);
 
         return $contract->makeContractPDF(
             $userFilename,
@@ -150,7 +152,8 @@ class ContractController extends Controller
             $report,
             $customer,
             $user,
-            $risk_value
+            $risk_value,
+            $answer_additional_text
         );
     }
 
@@ -261,6 +264,7 @@ class ContractController extends Controller
         $data['contractAnswers'] = $contractAnswers;
         $data['variables'] = $variables;
         $data['risk_value'] = Risk::riskValue($report);
+        $data['answer_additional_text'] = Answer::additionalText($report);
 
         $pdf = PDF::loadView('contract', $data);
         return $pdf->download('contract.pdf');

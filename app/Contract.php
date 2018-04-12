@@ -129,19 +129,19 @@ class Contract extends Model
         File::put('../resources/views/contract.blade.php', $body);
     }
 
-    protected function getView($contractAnswers, $userVariables, $report, $customer, $user, $risk_value)
+    protected function getView($contractAnswers, $userVariables, $report, $customer, $user, $risk_value, $answer_additional_text)
     {
         return $view = Response::json(
             array(View::make('contract',
-                compact('contractAnswers', 'userVariables', 'report', 'customer', 'user', 'risk_value'))->render())
+                compact('contractAnswers', 'userVariables', 'report', 'customer', 'user', 'risk_value', 'answer_additional_text'))->render())
 
         );
     }
 
-    public function makeContractPDF($userFilename, $contractAnswers, $userVariables, $report, $customer, $user, $risk_value)
+    public function makeContractPDF($userFilename, $contractAnswers, $userVariables, $report, $customer, $user, $risk_value, $answer_additional_text)
     {
         $this->makeContractFile();
-        $view = $this->getView($contractAnswers, $userVariables, $report, $customer, $user, $risk_value);
+        $view = $this->getView($contractAnswers, $userVariables, $report, $customer, $user, $risk_value, $answer_additional_text);
 
         $viewContent = $view->getOriginalContent();
         $filename = $userFilename . '.html';

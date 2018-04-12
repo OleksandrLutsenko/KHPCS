@@ -52,17 +52,23 @@ class Answer extends Model
 
         foreach ($blocks as $block) {
             foreach ($block->question as $question) {
-                array_push(self::$questions, $question->id);
+
+                $customer_answer = CustomerAnswer::where([
+                    'customer_id' => $report->customer_id,
+                    'question_id' => $question->id
+                ])
+                    ->first();
+
+                if ($customer_answer != null) {
+                    if ($customer_answer->answer->contract_text != null) {
+                        self::$answer_additional_text[$question->id] = $customer_answer->answer->contract_text;
+                    } else {
+                        self::$answer_additional_text[$question->id] = $customer_answer->value;
+                    }
+                } else {
+                    self::$answer_additional_text[$question->id] = '<span style="background-color: red">N/A</span>';
+                }
             }
-        }
-
-        $customer_answers = CustomerAnswer::where([
-            'customer_id' => $report->customer_id
-        ])
-            ->whereIn('question_id', self::$questions)->get();
-
-        foreach ($customer_answers as $customer_answer) {
-            self::$answer_additional_text[$customer_answer->question()->first()->id] = $customer_answer->answer->contract_text;
         }
 
         return self::$answer_additional_text;
