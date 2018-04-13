@@ -2,7 +2,7 @@
 
 namespace App;
 
-use PDF;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -73,7 +73,7 @@ class Contract extends Model
     {
         $surveyQuestions = Survey::getSurveyQuestionsWithTrashed($report->survey);
         foreach ($surveyQuestions as $surveyQuestion) {
-//////////
+
             if ($surveyQuestion->type == 0) {
                 if ($surveyQuestion->trashed()) {
                     $deletedQuestionMessage = "<span style='background-color: red'>question was deleted</span>";
@@ -96,7 +96,6 @@ class Contract extends Model
                 }
             } else {
 
-//////////
                 $customerAnswer = CustomerAnswer::withTrashed()
                     ->where('question_id', $surveyQuestion->id)
                     ->where('customer_id', $report->customer_id)
@@ -106,12 +105,10 @@ class Contract extends Model
                     $contractAnswers[$surveyQuestion->id] = 'N/A';
                 } else {
                     if ($surveyQuestion->trashed()) {
-//                        $deletedQuestionMessage = "<span style='background-color: red'>question was deleted</span>";
                         $deletedQuestionMessage = " ";
                         $contractAnswers[$surveyQuestion->id] = $deletedQuestionMessage;
                     } else {
                         if ($surveyQuestion->type == 3) {
-//                            $customerAnswer->value = date('d-m-Y', strtotime($customerAnswer->value));
                             $contractAnswers[$surveyQuestion->id] = date('d-m-Y', strtotime($customerAnswer->value));
                         } else {
                             $contractAnswers[$surveyQuestion->id] = $customerAnswer->value;
@@ -158,32 +155,7 @@ class Contract extends Model
 
         File::delete($path);
 
-
-//        $attachment_location = $_SERVER["DOCUMENT_ROOT"] . "/storage/contracts/". $filenamePdf;
-//
-//            header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
-//            header("Content-Type: application/pdf");
-//            header("Content-Length:".filesize($attachment_location));
-//            header("Content-Disposition: attachment; filename=".$filenamePdf);
-//            return $attachment_location;
-
-//        $pdf = PDF::loadView('contract', compact('contractAnswers', 'userVariables', 'report', 'customer', 'user'));
-//        return $pdf->download('contract.pdf');
-
         return compact('filenamePdf', 'filePathUrlPdf');
-
-//        return response(['filePathUrlPdf' => $filePathUrlPdf]);
-
-
-//        $headers = ['Content-Type: application/pdf'];
-//        $newName = 'itsolutionstuff-pdf-file-'.time().'.pdf';
-
-//        $lol = storage_path() . '/contracts/' . $filenamePdf;
-//        return response()->download($lol, $newName, $headers, 'inline');
-//        return response()->download(storage_path('contracts/'.$filenamePdf));
-//        return redirect()->route('pdf', $filenamePdf);
-//        return \Redirect::away('http://api.knightshayes.grassbusinesslabs.tk/storage/contracts/nasdsada_asd1_Test_survey_100000_test_a4_DONT_REMOVE!!!1514369241098.pdf');
-//        return \Redirect::to($filePathUrlPdf);
     }
 
     public static function boot()

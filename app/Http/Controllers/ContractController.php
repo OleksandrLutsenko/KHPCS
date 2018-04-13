@@ -265,7 +265,7 @@ class ContractController extends Controller
         $data['variables'] = $variables;
         $data['risk_value'] = Risk::riskValue($report);
         $data['answer_additional_text'] = Answer::additionalText($report);
-
+//        dd($data['answer_additional_text']);
         $pdf = PDF::loadView('contract', $data);
         return $pdf->download('contract.pdf');
     }
