@@ -52,7 +52,6 @@ class Answer extends Model
 
         foreach ($blocks as $block) {
             foreach ($block->question as $question) {
-
                 $customer_answer = CustomerAnswer::where([
                     'customer_id' => $report->customer_id,
                     'question_id' => $question->id
@@ -60,8 +59,12 @@ class Answer extends Model
                     ->first();
 
                 if ($customer_answer != null) {
-                    if ($customer_answer->answer->contract_text != null) {
-                        self::$answer_additional_text[$question->id] = $customer_answer->answer->contract_text;
+                    if ($customer_answer->answer != null) {
+                        if ($customer_answer->answer->contract_text != null) {
+                            self::$answer_additional_text[$question->id] = $customer_answer->answer->contract_text;
+                        } else {
+                            self::$answer_additional_text[$question->id] = $customer_answer->value;
+                        }
                     } else {
                         self::$answer_additional_text[$question->id] = $customer_answer->value;
                     }
