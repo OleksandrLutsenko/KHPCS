@@ -50,33 +50,29 @@ class Answer extends Model
     {
         $questions = Survey::getSurveyQuestionsWithTrashed($report->survey);
 
-        $blocks = $report->survey->block;
+        foreach ($questions as $question) {
 
-        foreach ($blocks as $block) {
-            foreach ($questions as $question) {
+            $customer_answer = CustomerAnswer::where([
+                'customer_id' => $report->customer_id,
+                'question_id' => $question->id
+            ])
+                ->first();
 
-                $customer_answer = CustomerAnswer::where([
-                    'customer_id' => $report->customer_id,
-                    'question_id' => $question->id
-                ])
-                    ->first();
-
-                if ($question->trashed()) {
-                    self::$answer_additional_text[$question->id] = '<span style="background-color: red">question was deleted</span>';
-                } else {
-                    if ($customer_answer != null) {
-                        if ($customer_answer->answer != null) {
-                            if ($customer_answer->answer->contract_text != null) {
-                                self::$answer_additional_text[$question->id] = $customer_answer->answer->contract_text;
-                            } else {
-                                self::$answer_additional_text[$question->id] = $customer_answer->value;
-                            }
+            if ($question->trashed()) {
+                self::$answer_additional_text[$question->id] = '<span style="background-color: red">question was deleted</span>';
+            } else {
+                if ($customer_answer != null) {
+                    if ($customer_answer->answer != null) {
+                        if ($customer_answer->answer->contract_text != null) {
+                            self::$answer_additional_text[$question->id] = $customer_answer->answer->contract_text;
                         } else {
                             self::$answer_additional_text[$question->id] = $customer_answer->value;
                         }
                     } else {
-                        self::$answer_additional_text[$question->id] = '<span style="background-color: red">N/A</span>';
+                        self::$answer_additional_text[$question->id] = $customer_answer->value;
                     }
+                } else {
+                    self::$answer_additional_text[$question->id] = '<span style="background-color: red">N/A</span>';
                 }
             }
         }
