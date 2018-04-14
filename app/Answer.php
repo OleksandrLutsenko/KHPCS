@@ -48,28 +48,35 @@ class Answer extends Model
 
     public static function additionalText($report)
     {
+        $questions = Survey::getSurveyQuestionsWithTrashed($report->survey);
+
         $blocks = $report->survey->block;
 
         foreach ($blocks as $block) {
-            foreach ($block->question as $question) {
+            foreach ($questions as $question) {
+
                 $customer_answer = CustomerAnswer::where([
                     'customer_id' => $report->customer_id,
                     'question_id' => $question->id
                 ])
                     ->first();
 
-                if ($customer_answer != null) {
-                    if ($customer_answer->answer != null) {
-                        if ($customer_answer->answer->contract_text != null) {
-                            self::$answer_additional_text[$question->id] = $customer_answer->answer->contract_text;
+                if ($question->trashed()) {
+                    self::$answer_additional_text[$question->id] = '<span style="background-color: red">question was deleted</span>';
+                } else {
+                    if ($customer_answer != null) {
+                        if ($customer_answer->answer != null) {
+                            if ($customer_answer->answer->contract_text != null) {
+                                self::$answer_additional_text[$question->id] = $customer_answer->answer->contract_text;
+                            } else {
+                                self::$answer_additional_text[$question->id] = $customer_answer->value;
+                            }
                         } else {
                             self::$answer_additional_text[$question->id] = $customer_answer->value;
                         }
                     } else {
-                        self::$answer_additional_text[$question->id] = $customer_answer->value;
+                        self::$answer_additional_text[$question->id] = '<span style="background-color: red">N/A</span>';
                     }
-                } else {
-                    self::$answer_additional_text[$question->id] = '<span style="background-color: red">N/A</span>';
                 }
             }
         }

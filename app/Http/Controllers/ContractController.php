@@ -24,14 +24,7 @@ use Illuminate\Support\Facades\File;
 
 class ContractController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Contract $contract
-     * @param User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Contract $contract, User $user)
+    public function index()
     {
         if (Auth::user()->isAdmin()) {
             return Contract::all();
@@ -43,7 +36,7 @@ class ContractController extends Controller
         }
     }
 
-    public function indexForSurvey(Contract $contract, User $user, Survey $survey)
+    public function indexForSurvey(Survey $survey)
     {
         if (Auth::user()->isAdmin()) {
             return Contract::where('survey_id', $survey->id)
@@ -57,10 +50,9 @@ class ContractController extends Controller
 
                 return Contract::whereIn('id', $assigned)->get();
         }
-//        return Contract::where('survey_id', $survey->id)->get();
     }
 
-    public function indexWithoutBody(Contract $contract, User $user)
+    public function indexWithoutBody()
     {
         if (Auth::user()->isAdmin()) {
 
@@ -134,7 +126,6 @@ class ContractController extends Controller
             }
         }
     }
-    
 
     public function review(Report $report, Contract $contract, $userFilename)
     {
@@ -251,12 +242,11 @@ class ContractController extends Controller
 
             if ($question->block->survey_id == $report->survey_id) {
                 $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
-                //
+
                 if($question->trashed()){
-//                    $finalAnswer[0]->value = "<p style='color: red'>undefined value</p> ";
                     $finalAnswer[0]->value = '';
                 }
-                //
+
                 $contractAnswers[$question->id] = $finalAnswer[0]->value;
             }
         }
@@ -265,7 +255,6 @@ class ContractController extends Controller
         $data['variables'] = $variables;
         $data['risk_value'] = Risk::riskValue($report);
         $data['answer_additional_text'] = Answer::additionalText($report);
-//        dd($data['answer_additional_text']);
         $pdf = PDF::loadView('contract', $data);
         return $pdf->download('contract.pdf');
     }

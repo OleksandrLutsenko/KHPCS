@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Barryvdh\DomPDF\PDF;
+use PDF;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -38,36 +38,10 @@ class Contract extends Model
         return $this->belongsTo(ContractResearch::class);
     }
 
-    /**
-     * @return mixed
-     */
     public function getSurveysAttribute()
     {
         return $this->survey->name;
     }
-
-//    public function getContractAnswers($report)
-//    {
-//        $surveyQuestions = Survey::getSurveyQuestionsWithTrashed($report->survey);
-//        foreach ($surveyQuestions as $surveyQuestion) {
-//            $customerAnswer = CustomerAnswer::withTrashed()
-//                ->where('question_id', $surveyQuestion->id)
-//                ->where('customer_id', $report->customer_id)
-//                ->first();
-//
-//            if (!$customerAnswer) {
-//                $contractAnswers[$surveyQuestion->id] = 'N/A';
-//            } else {
-//                if ($surveyQuestion->trashed()) {
-//                    $deletedQuestionMessage = "<span style='background-color: red'>question was deleted</span>";
-//                    $contractAnswers[$surveyQuestion->id] = $deletedQuestionMessage;
-//                } else {
-//                    $contractAnswers[$surveyQuestion->id] = $customerAnswer->value;
-//                }
-//            }
-//        }
-//        return $contractAnswers;
-//    }
 
     public function getContractAnswers($report)
     {
