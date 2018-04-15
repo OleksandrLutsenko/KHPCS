@@ -5,9 +5,13 @@
         .controller('PassingQuestionController', PassingQuestionController);
 
 
-    PassingQuestionController.$inject = ['$scope', 'countries', 'passingQuestionService', '$state', 'customers', 'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey', '$mdDialog', 'contractService'];
+    PassingQuestionController.$inject = ['$scope', 'countries', 'passingQuestionService', '$state', 'customers',
+        'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey', '$mdDialog',
+        'contractService'];
 
-    function PassingQuestionController($scope, countries, passingQuestionService, $state, customers, customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey, $mdDialog, contractService) {
+    function PassingQuestionController($scope, countries, passingQuestionService, $state, customers,
+                                       customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey, $mdDialog,
+                                       contractService) {
         let vm = this;
         $scope.$emit('changeTab', 'page6');
 
@@ -35,7 +39,8 @@
 
         let rebootBuilderStatus = false;
         let radioId;
-        let lastAnswerIsFinal = false;;
+        let lastAnswerIsFinal = false;
+        ;
 
         // Fix from correct paste answer in contract (unicode trouble)
         startupFix();
@@ -153,7 +158,7 @@
                 if (question.type == 0) {
                     mainData.mainData = findAnswerCheckBox(question);
                 }
-                else if (radio){
+                else if (radio) {
                     mainData = findAnswer(question, radio);
                 }
                 else {
@@ -204,7 +209,6 @@
                 vm.backSucces = false;
             }
         }
-
 
         function next() {
             succesNext = true;
@@ -329,7 +333,6 @@
 
                     dataForSend = dataForSend.filter(function (obj) {
                         if (obj.answer_id) {
-                            // console.log(dataForSend);
                             if (Array.isArray(obj.answer_id)) {
 
                                 if (obj.answer_id.length === 0) {
@@ -357,7 +360,19 @@
                         passingQuestionService.sendCustomerAnswer(activeCustomers, dataForSend).then(function (res) {
                             console.log(res);
                             if (res.success) {
-                                toNextBlock();
+                                let checkExitAnswer = checkForExitAnswer();
+
+                                // if (checkExitAnswer === 'false') {
+                                //     toNextBlock();
+                                // } else {
+                                //     $state.go('tab.user-management', {data: checkExitAnswer})
+                                // }
+
+                                if (checkExitAnswer === 'false') {
+                                    toNextBlock();
+                                } else {
+                                    exitWindow(checkExitAnswer)
+                                }
                             }
                         })
                     } else {
@@ -367,6 +382,66 @@
                     toNextBlock();
                 }
             }
+        }
+
+        function checkForExitAnswer() {
+            let data = 'false';
+
+            console.log(vm.data);
+            console.log(vm.questions);
+            for (let a = 0; a < vm.questions.length; a++) {
+                let question = vm.questions[a];
+
+                if ((question.type === 0 || question.type === 1 || question.type === 4) && question.answers.length) {
+                    let type = question.type;
+
+                    for (let b = 0; b < question.answers.length; b++) {
+                        let answer = question.answers[b];
+
+                        if (answer.exit_value === 1) {
+                            if (type === 0) {
+                                let checkboxAnswers = vm.data[a].mainData;
+                                if (checkboxAnswers.length) {
+                                    for (let c = 0; c < checkboxAnswers.length; c++) {
+                                        let checkboxAnswer = checkboxAnswers[c];
+
+                                        if (checkboxAnswer == answer.id) {
+                                            return answer.exit_information;
+                                        }
+                                    }
+                                }
+                            } else if (type === 1) {
+                                if (answer.id == vm.data[a].mainData) {
+                                    return answer.exit_information
+                                }
+                            } else if (type === 4) {
+                                for (let c = 0; c < answer.answer_text.length; c++) {
+                                    let countryAnswer = answer.answer_text[c];
+
+                                    if (countryAnswer == vm.data[a].mainData) {
+                                        return answer.exit_information;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return data
+        }
+
+        function exitWindow(data) {
+            $mdDialog.show({
+                controller: 'ExitAfterPassingController',
+                controllerAs: 'vm',
+                templateUrl: 'components/user-management/exit-after-passing/exit-after-passing.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        data: data
+                    }
+                }
+            })
         }
 
         function checkForFill(item) {
@@ -413,7 +488,6 @@
                 }
             }
         }
-
 
         let allChosenSurveys = surveyService.getSelectedSurveys();
 
@@ -483,7 +557,7 @@
                     // console.log('chainBuilder on');
                     chainBuilder(nextQuestion, click);
                 }
-            // just building a chain
+                // just building a chain
             } else {
                 // console.log('vm.questions.length <= 1');
                 chainBuilder(nextQuestion, click);
@@ -548,7 +622,7 @@
                                     // console.log(angular.copy(vm.questions));
                                     // console.log(angular.copy(vm.data));
 
-                                    if (!vm.data[vm.data.length-1].mainData) {
+                                    if (!vm.data[vm.data.length - 1].mainData) {
                                         // console.log('radio no answers');
                                         tmpNextQuestion = null;
                                         vm.endOfChain = false;
@@ -568,16 +642,17 @@
                                     vm.questions.push(questionsArr[c]);
                                     vm.data.push(fill(questionsArr[c]));
 
-                                    if (!vm.data[vm.data.length-1].mainData) {
-                                        // console.log('radio no answers');
+                                    if (!vm.data[vm.data.length - 1].mainData) {
+                                        // console.log('country no answers');
                                         tmpNextQuestion = null;
                                         vm.endOfChain = false;
                                         break;
                                     } else {
-                                        let countryAnswer = angular.copy(vm.data[vm.data.length-1].mainData);
+                                        let countryAnswer = angular.copy(vm.data[vm.data.length - 1].mainData);
                                         let question = angular.copy(questionsArr[c]);
 
                                         tmpNextQuestion = searcherNextQuestionForCountry(countryAnswer, question);
+                                        if (tmpNextQuestion === null) { lastAnswerIsFinal = true; }
                                         rebootBuilderStatus = true;
                                         break;
                                     }
@@ -776,8 +851,6 @@
                     });
                 }
             });
-
-
         }
     }
 

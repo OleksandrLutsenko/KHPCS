@@ -21,6 +21,13 @@
         let indexBlock = activeBlock.indexBlock;
         let idBlock = activeBlock.id;
         let loopingValid;
+        let commonItems = {
+            answers: [],
+            title: "Common Qest Text",
+            type: 2,
+            validation_type: 0,
+            characters_limit: 99
+        };
 
         vm.data = [];
         vm.items = items[indexBlock].questions;
@@ -41,10 +48,11 @@
         vm.changeNextQuest = changeNextQuest;
         vm.startupChainBuild = startupChainBuild;
         vm.copyQuest = copyQuest;
-        vm.checkKey = checkKey;
         vm.selectedCountryChange = selectedCountryChange;
         vm.querySearch = querySearch;
         vm.cities = countries;
+        vm.showCommonList = showCommonList;
+
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -108,6 +116,7 @@
             disabled: vm.drag,
             connectWith: ".question-container",
             'ui-floating': true,
+            axis: "y",
 
             start: function (e, ui) {
                 $scope.$apply(function () {
@@ -292,7 +301,7 @@
             });
         }
 
-        function showEdit(mainKey, answerKey, questionKey) {
+        function showEdit(mainKey, answerKey, questionKey, commonItem) {
             $mdDialog.show({
                 controller: 'AddQuestionController',
                 controllerAs: 'vm',
@@ -302,12 +311,14 @@
                         answerKey: answerKey,
                         questionKey: questionKey,
                         items: vm.items,
-                        idBlock: idBlock
+                        idBlock: idBlock,
+                        commonItem: commonItem
                     }
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
             }).then(function () {
+                // console.log('my items--------------', vm.items);
                 $scope.$emit('changeItems', vm.items);
             });
         }
@@ -655,13 +666,53 @@
 
         }
 
-        function checkKey(data) {
-            blockService.addBlockQuestion(idBlock, [data]).then(function (res) {
-                if (res.success) {
-                    vm.items.splice(vm.items.indexOf(data), 1, res.data.questions[0]);
-                }
+
+        //--------------Common question (Customer var)--------------------
+        function showCommonList() {
+            $mdDialog.show({
+                controller: 'CommonQuestListController',
+                controllerAs: 'vm',
+                locals: {
+                    data: {
+                        // mainKey: mainKey,
+                        // answerKey: answerKey,
+                        // questionKey: questionKey,
+                        // items: vm.items,
+                        // idBlock: idBlock,
+                        // commonItems: commonItems,
+                        // addCommon: addCommon
+                    }
+                },
+                templateUrl: 'components/survey-question/common-quest-list/common-quest-list.html',
+                clickOutsideToClose: true,
+            }).then(function (res) {
+                showEdit(undefined, undefined, undefined, res);
             });
         }
+
+        // function showEdit(mainKey, answerKey, questionKey, addCommon) {
+        //     $mdDialog.show({
+        //         controller: 'AddQuestionController',
+        //         controllerAs: 'vm',
+        //         locals: {
+        //             data: {
+        //                 mainKey: mainKey,
+        //                 answerKey: answerKey,
+        //                 questionKey: questionKey,
+        //                 items: vm.items,
+        //                 idBlock: idBlock,
+        //                 commonItems: commonItems,
+        //                 addCommon: addCommon
+        //
+        //             }
+        //         },
+        //         templateUrl: 'components/survey-question/add-quest/add-quest.html',
+        //         clickOutsideToClose: true,
+        //     }).then(function () {
+        //         console.log('my items--------------', vm.items);
+        //         $scope.$emit('changeItems', vm.items);
+        //     });
+        // }
 
 
     }

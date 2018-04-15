@@ -24,7 +24,7 @@
             company: {
                 createCompany: baseUrl + 'api/company',
                 company: baseUrl + 'api/companies',
-                companyAdmin: baseUrl + '/api/company-own',
+                companyAdmin: baseUrl + 'api/company-own',
                 changeFA: baseUrl + 'api/customers/change-fa'
             },
             company_func: function (id) {
@@ -35,7 +35,7 @@
                     cancelInv: baseUrl + 'api/invite/' + id + '/delete',
                     companyCustomers: baseUrl + 'api/company/' + id + '/customers',
                     selectedSurvTempInCompany: baseUrl + 'api/company/' + id + '/index-assigns',
-                    companySurveys: baseUrl + '/api/company/' + id + '/available-surveys'
+                    companySurveys: baseUrl + 'api/company/' + id + '/available-surveys'
                 }
             },
             survey_management: {
@@ -115,13 +115,13 @@
             contract_download_func: function (idReport, idContract, filename) {
                 return {
                     downloadPDF: baseUrl + 'api/report/' + idReport + '/contract/' + idContract + '/review/' + filename,
-                    removePDF: baseUrl + '/api/storage/contracts/' + idReport
+                    removePDF: baseUrl + 'api/storage/contracts/' + idReport
                 };
             },
 
             logout_func: function (token) {
                 return {
-                    logout: baseUrl + '/api/logout?token=' + token
+                    logout: baseUrl + 'api/logout?token=' + token
                 };
             }
 

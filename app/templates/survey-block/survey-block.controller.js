@@ -60,10 +60,22 @@
         vm.sortableOptionsBlock = {
             connectWith: ".block-container",
             "ui-floating": true,
+            axis: "y",
+
+
+
+
 
             stop: function (event, ui) {
                 let droptargetModel = ui.item.sortable.droptargetModel;
                 let model = ui.item.sortable.model;
+                let dropindex = ui.item.sortable.dropindex;
+
+
+
+
+
+
 
                 if(droptargetModel == vm.items) {
                     let mainTmpObj = [];
@@ -77,12 +89,8 @@
 
                     blockService.orderUpdate(idSurvey, mainTmpObj);
 
-                    for(let i = 0; i < droptargetModel.length; i++){
-                        if(model.id == droptargetModel[i].id){
-                            setActiveBlock(model.id, i);
-                            break;
-                        }
-                    }
+                    setActiveBlock(model.id, dropindex);
+
                 }
             }
         };

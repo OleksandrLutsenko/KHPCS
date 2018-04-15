@@ -19,6 +19,9 @@
         vm.countryRepeater = countryRepeater;
         vm.countryOnOpen = countryOnOpen;
         vm.countryOnClose = countryOnClose;
+        vm.countrySwitchFunc = countrySwitchFunc;
+        vm.charactersLimitRegular = charactersLimitRegular;
+        vm.riskRegular = riskRegular;
         vm.countrySwitch = false;
         vm.countries = angular.copy(countries);
 
@@ -120,15 +123,15 @@
                 allSelectedCountries = allSelectedCountries.filter(function (countryInSelectedList) {
                     let status = true;
 
-                    for (let i=0; i<answer.answer_text.length; i++) {
+                    for (let i = 0; i < answer.answer_text.length; i++) {
                         if (countryInSelectedList == answer.answer_text[i]) {
                             status = false;
                             break;
                         }
                     }
-                     if (status) {
+                    if (status) {
                         return countryInSelectedList;
-                     }
+                    }
                 });
                 console.log('allSelectedCountries = ', allSelectedCountries);
             }
@@ -206,6 +209,18 @@
                         }
                     }
                 }
+            }
+        }
+
+        function countrySwitchFunc(switchStatus) {
+            if (vm.data.answers.length) {
+                vm.data.answers.forEach(function (answer) {
+                    if (switchStatus) {
+                        delete answer.delete;
+                    } else {
+                        answer.delete = true;
+                    }
+                })
             }
         }
 
@@ -338,7 +353,6 @@
             }
         }
 
-
         function save() {
             let succes = true;
             let couterLenght = 0;
@@ -363,6 +377,10 @@
                 }
             } else {
                 succes = true;
+            }
+
+            if (vm.data.type !== 2) {
+                vm.data.characters_limit = 30;
             }
 
             if (vm.questForm.$invalid || !succes) {
@@ -574,7 +592,8 @@
             console.log('chain', chain);
             console.log('Obj ', Obj);
 
-            if (Obj.type === 1 || Obj.type === 4) {
+            if (Obj.type === 1 || Obj.type === 4 && Obj.answers.length) {
+                console.log('type === (1 || 4)');
                 for (let answerIndex in Obj.answers) {
                     for (let chainIndex in chain) {
 
@@ -582,7 +601,6 @@
                         // console.log(Obj.answers[answerIndex].next_question);
                         // console.log("-------------------------------------------");
 
-                        // if (chain[chainIndex].title === Obj.answers[answerIndex].next_question) {
                         if (chain[chainIndex].identifier === Obj.answers[answerIndex].next_question) {
                             tmpValid = false;
                             console.log('You create loop! (radio, country) type');
@@ -591,6 +609,8 @@
                             break;
                         }
                     }
+                    console.log(tmpValid);
+                    console.log(loopingValid);
                     loopingValid = tmpValid;
                 }
             } else {
@@ -640,6 +660,35 @@
             $mdDialog.cancel();
         }
 
-    }
+        function charactersLimitRegular(data) {
+            let str = angular.copy(data);
+            let maximum = 4000;
 
+            if (data) {
+                str = str.replace(/\D+/g, "");
+                if (str.charAt(0) === '0' && str.length > 1) {
+                    str = str.replace(str.charAt(0), '');
+                }
+            }
+
+            let strLength = Number(str);
+            if (strLength > maximum) {
+                vm.data.characters_limit = maximum
+            } else {
+                vm.data.characters_limit = str;
+            }
+        }
+
+        function riskRegular(data) {
+            let str = angular.copy(data);
+            if (data) {
+                str = str.replace(/\D+/g, "");
+                if (str.charAt(0) === '0' && str.length > 1) {
+                    str = str.replace(str.charAt(0), '');
+                }
+            }
+            str = Number(str);
+            vm.data.risk_value = str;
+        }
+    }
 })();

@@ -36,6 +36,11 @@
                         <div ng-show="!vm.edit" layout="row" layout-align="center center">
 
                             <div>
+
+                                <md-button  ng-click="vm.showCommonList()">
+                                    Common List
+                                </md-button>
+
                                 <md-button ng-click="vm.showEdit()">
                                     Add question
                                 </md-button>
@@ -168,9 +173,7 @@
                                                                         ng-if="question.type == 1"
                                                                         aria-label="abc">
                                                         <md-tooltip md-direction="left">Risk range</md-tooltip>
-                                                        <input ng-model="answers.contract_text"  aria-label="abc"
-                                                               ng-change="vm.checkKey(question)"
-                                                               ng-model-options="{debounce: 2000}">
+                                                        <input ng-model="answers.contract_text"  aria-label="abc">
                                                     </md-input-container>
 
                                                     <div>
