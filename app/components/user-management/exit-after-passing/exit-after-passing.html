@@ -1,0 +1,15 @@
+<md-dialog flex="40" flex-xs="90" flex-sm="70" class="exit-after-passing">
+
+    <md-toolbar layout="row" layout-align="center" class="view-head">
+        <p>Attention</p>
+    </md-toolbar>
+
+    <md-dialog-toolbar class="all-input" layout="column">
+        {{vm.data}}
+    </md-dialog-toolbar>
+
+    <md-dialog-actions class="bot-btn client-btn" layout="row" layout-align="end center">
+        <md-button class="md-raised" ng-click="vm.exit()">Exit</md-button>
+        <md-button class="md-raised" ng-click="vm.cancel()">Try again</md-button>
+    </md-dialog-actions>
+</md-dialog>
