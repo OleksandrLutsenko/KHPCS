@@ -1,0 +1,265 @@
+<div class="company" md-theme="blue-grey">
+    <div layout="row" layout-align="center center">
+        <h2>{{vm.companyOne.name}}</h2>
+    </div>
+    <md-tabs md-dynamic-height md-border-bottom md-selected="selectedIndex">
+        <md-tab label="Users"></md-tab>
+        <md-tab label="Customers"></md-tab>
+        <md-tab label="Surveys" ng-if="vm.userRole === 2"></md-tab>
+        <md-tab label="Risk" ng-click="vm.riskTabOpen()"></md-tab>
+    </md-tabs>
+    <section ng-if="selectedIndex === 0">
+        <div layout="row" layout-align="end">
+            <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row"
+                       layout-align="center center" style="position: absolute; left: 0">
+                <i class="material-icons">arrow_back</i>
+                Back
+            </md-button>
+            <div class="add-icon" layout="" layout-align="center center" ng-click="vm.createAdmin(vm.userRole)">
+                <md-tooltip md-direction="left">Add a new user</md-tooltip>
+                <i class="material-icons">person_add</i>
+            </div>
+        </div>
+        <md-card>
+            <md-table-container>
+                <table md-table ng-if="vm.companyAdm.length !== 0 || vm.companyAdmInv.length !== 0">
+                    <thead md-head md-order="companyAdmOrder">
+                    <tr md-row>
+                        <th md-column md-order-by="name">Company admin name</th>
+                        <th md-column md-order-by="email">Company admin Email</th>
+                        <th md-column md-order-by="created_at">Invitation date</th>
+                        <th md-column></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row
+                        ng-repeat="companyAdm in vm.companyAdm | orderBy: companyAdmOrder">
+                        <td md-cell>{{companyAdm.name }}</td>
+                        <td md-cell>{{companyAdm.email}}</td>
+                        <td md-cell>{{companyAdm.created_at}}</td>
+                        <td md-cell><i class="material-icons"
+                                       ng-click="vm.deleteAdmin(companyAdm.id , companyAdm)"
+                                       ng-if="vm.userRole === 2">highlight_off</i>
+                            <md-tooltip md-direction="left">Delete a user</md-tooltip>
+                        </td>
+                    </tr>
+                    <tr md-row
+                        ng-repeat="companyAdmInv in vm.companyAdmInv | orderBy: companyAdmOrder "
+                        ng-if="companyAdmInv.is_used === 0">
+                        <td md-cell>
+                            <md-button class="md-raised" ng-click="vm.reSend(companyAdmInv)">Re-send</md-button>
+                        </td>
+                        <td md-cell>{{companyAdmInv.email}}</td>
+                        <td md-cell>{{companyAdmInv.created_at}}</td>
+                        <td md-cell><i class="material-icons"
+                                       ng-click="vm.deleteAdmin(companyAdmInv.id, companyAdmInv)"
+                                       ng-if="vm.userRole === 2">highlight_off</i>
+                            <md-tooltip md-direction="left">Cancel a invite</md-tooltip>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-card>
+        <md-card>
+            <md-table-container>
+                <table md-table ng-if="vm.fnnAdviser.length !== 0 || vm.fnnAdviserInv.length !== 0">
+                    <thead md-head md-order="fnnAdvOrder">
+                    <tr md-row>
+                        <th md-column md-order-by="name">Financial adviser name</th>
+                        <th md-column md-order-by="email">Financial adviser Email</th>
+                        <th md-column md-order-by="created_at">Invitation date</th>
+                        <th md-column></th>
+                    </tr>
+                    </thead>
+                    <tbody md-body>
+                    <tr md-row
+                        ng-repeat="fnnAdviser in  vm.fnnAdviser | orderBy: fnnAdvOrder ">
+                        <td md-cell>{{fnnAdviser.name }}</td>
+                        <td md-cell>{{fnnAdviser.email}}</td>
+                        <td md-cell>{{fnnAdviser.created_at}}</td>
+                        <td md-cell>
+                            <md-tooltip md-direction="left">Delete a user</md-tooltip>
+                            <i class="material-icons"
+                               ng-click="vm.deleteAdmin(fnnAdviser.id , fnnAdviser)"
+                            >highlight_off</i>
+                        </td>
+                    </tr>
+                    <tr md-row
+                        ng-repeat="fnnAdviserInv in  vm.fnnAdviserInv | orderBy: fnnAdvOrder "
+                        ng-if="fnnAdviserInv.is_used === 0">
+                        <td md-cell>
+                            <md-button class="md-raised" ng-click="vm.reSend(fnnAdviserInv)">Re-send</md-button>
+                        </td>
+                        <td md-cell>{{fnnAdviserInv.email}}</td>
+                        <td md-cell>{{fnnAdviserInv.created_at}}</td>
+                        <td md-cell>
+                            <md-tooltip md-direction="left">Cancel a invite</md-tooltip>
+                            <i class="material-icons"
+                               ng-click="vm.deleteAdmin(fnnAdviserInv.id, fnnAdviserInv)">highlight_off</i>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-card>
+    </section>
+    <section ng-if="selectedIndex === 1">
+
+        <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row" class="back-btn">
+            <i class="material-icons">arrow_back</i>
+            Back
+        </md-button>
+        <div ng-if="vm.customersCompany.length">
+            <div layout="row" layout-align="center" flex="100">
+                <md-input-container flex="90" class="search-customers">
+                    <label layout="row">
+                        <i class="material-icons">search</i>
+                        <p layout="row" layout-align="none end">Search</p></label>
+                    <input type="text" ng-model="vm.search">
+                </md-input-container>
+            </div>
+            <md-card>
+
+                <md-table-container>
+                    <table md-table>
+                        <thead md-head md-order="customersOrder">
+                        <tr md-row>
+                            <th md-column md-order-by="name">Client name</th>
+                            <th md-column md-order-by="classification">Client classification</th>
+                            <th md-column md-order-by="user_name">Financial Adviser</th>
+                            <th md-column md-order-by="created_at">Data created</th>
+                        </tr>
+                        </thead>
+                        <tbody md-body>
+                        <tr md-row
+                            ng-repeat="customers in filteredCustomers = (vm.customersCompany | filter:vm.search) |orderBy: customersOrder  |limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
+                            <td md-cell>{{customers.name + ' ' + customers.surname }}</td>
+                            <td md-cell>{{customers.classification}}</td>
+                            <td md-cell>
+                                <md-input-container>
+                                    <md-tooltip md-direction="left">Change a financial advisor</md-tooltip>
+                                    <label ng-if="customers.user_name !== null">{{customers.user_name}}</label>
+                                    <label ng-if="customers.user_name === null">Don't have a financial advisor</label>
+                                    <md-select class="md-block-restyle" ng-model="vm.select"
+                                               aria-label="Financial advisor">
+                                        <md-option ng-repeat="fnnAdviser in  vm.fnnAdviser"
+                                                   ng-click="vm.changeFA(customers.id , fnnAdviser.id , customers)">
+                                            {{fnnAdviser.name}}
+                                        </md-option>
+                                    </md-select>
+                                </md-input-container>
+                            </td>
+                            <td md-cell>{{customers.created_at}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </md-table-container>
+                <md-table-pagination md-limit="vm.myLimit" md-limit-options="[10, 25, 50, 100]" md-page="vm.myPage"
+                                     md-total="{{filteredCustomers.length}}" md-page-select>
+                </md-table-pagination>
+            </md-card>
+        </div>
+    </section>
+    <section ng-if="selectedIndex === 2 && vm.userRole === 2">
+        <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row" class="back-btn">
+            <i class="material-icons">arrow_back</i>
+            Back
+        </md-button>
+        <md-content class="md-padding">
+            <div>
+                <h1>Surveys:</h1>
+                <md-list ng-repeat="survey in vm.surveys" ng-if="survey.survey_status !== 'archived'">
+                    <md-list-item class="secondary-button-padding">
+                        <h3> {{survey.survey_name}}</h3>
+                    </md-list-item>
+                    <md-list-item class="secondary-button-padding" ng-if="vm.noneTmp(survey.survey_id)">
+                        <p>No templates. Please create one.</p>
+                    </md-list-item>
+                    <md-list ng-repeat="template in vm.templates" ng-if="survey.survey_id === template.survey_id">
+                        <md-list-item class="secondary-button-padding">
+                            <p> {{template.title}}</p>
+                            <div>
+                                <md-tooltip md-direction="left">Pick a template</md-tooltip>
+                                <md-checkbox ng-model="vm.templateModel[template.id]" aria-label="Checkbox 1"
+                                             class="md-primary check-tmp"
+                                             ng-change="vm.checkboxTemplates(template.survey_id , template.id)"
+                                >
+                                </md-checkbox>
+                            </div>
+
+                        </md-list-item>
+                    </md-list>
+                    <md-divider></md-divider>
+                </md-list>
+            </div>
+        </md-content>
+    </section>
+    <section ng-if="selectedIndex === 3">
+        <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row" class="back-btn">
+            <i class="material-icons">arrow_back</i>
+            Back
+        </md-button>
+        <div flex="100" layout="row" layout-align="center none" class="risk-section">
+            <div flex="90">
+                <v-accordion class="vAccordion--default" multiple>
+                    <!-- add expanded attribute to open the section -->
+                    <v-pane ng-if="survey.survey_status !== 'archived'"
+                            ng-repeat="(availableSurveysKey, survey) in vm.availableSurveys">
+                        <v-pane-header>
+                            {{survey.survey_name}}
+                        </v-pane-header>
+
+                        <v-pane-content class="tmp-section" flex="100">
+                            <div layout="row" layout-align="space-between center">
+                                <md-button ng-click="vm.riskNewPole(availableSurveysKey, survey.survey_id)">Add new Pole</md-button>
+                                <md-button ng-click="vm.riskRefresh(availableSurveysKey)">Refresh</md-button>
+                                <md-button ng-click="vm.riskSave(availableSurveysKey, survey.survey_id)">Save</md-button>
+                            </div>
+                            <div ng-repeat="(riskKey, risk) in survey.working_risks_value" flex="100"
+                                 layout="column" layout-align="center center">
+
+                                <div layout="row" class="max-width">
+                                    <md-input-container flex="15" style="width: 100%;">
+                                        <label>Condition</label>
+                                        <md-select ng-model="risk.condition">
+                                            <md-option ng-value="'less'" ng-click="vm.riskLessFunc(riskKey, availableSurveysKey)">
+                                                <span>&lt;=</span></md-option>
+                                            <md-option ng-value="'more'" ng-click="vm.riskMoreFunc(riskKey, availableSurveysKey)">
+                                                <span>&gt;</span></md-option>
+                                        </md-select>
+                                    </md-input-container>
+
+                                    <md-input-container flex="15">
+                                        <label>Value</label>
+                                        <input ng-model="risk.value" name="risk_value" type="text" maxlength="4"
+                                               ng-model-options='{ debounce: 1000 }'
+                                               oninput="this.value = this.value.replace (/\D/, '')"
+                                               ng-change="vm.riskRegular(riskKey, availableSurveysKey)"
+                                               ng-disabled="risk.condition === 'more'">
+                                    </md-input-container>
+
+                                    <md-input-container flex="60" style="width: 100%;">
+                                        <label>Description</label>
+                                        <input ng-model="risk.description"
+                                               name="risk_description" type="text" maxlength="100">
+                                    </md-input-container>
+
+                                    <div flex="10" layout="row" layout-align="center center">
+                                        <i class="material-icons delAns-for-country"
+                                           ng-click="vm.riskDeleteRange(riskKey, availableSurveysKey)">
+                                            close
+                                        </i>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </v-pane-content>
+                    </v-pane>
+                </v-accordion>
+            </div>
+        </div>
+
+    </section>
+</div>
