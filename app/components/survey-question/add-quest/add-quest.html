@@ -79,7 +79,7 @@
                         <v-accordion flex="100" class="vAccordion--default radio-accordion" multiple>
                             <v-pane>
                                 <v-pane-header>
-                                    Advanced settings
+                                    Advanced settings for the question
                                 </v-pane-header>
 
                                 <v-pane-content class="local-margin-left">
@@ -181,10 +181,25 @@
                                     <v-accordion flex="90" class="vAccordion--default radio-accordion" multiple>
                                         <v-pane>
                                             <v-pane-header>
-                                                Advanced settings
+                                                Advanced settings for the answer
                                             </v-pane-header>
 
                                             <v-pane-content class="local-margin-left">
+                                                <v-pane>
+                                                    <v-pane-header>
+                                                        Risk value
+                                                    </v-pane-header>
+
+                                                    <v-pane-content class="local-margin-left">
+                                                        <md-input-container class="md-block margin-null">
+                                                            <label>Risk value</label>
+                                                            <textarea ng-model="vm.data.answers[$index].risk_value"
+                                                                      oninput="this.value = this.value.replace(/\D/, '').replace(/^0/, '')">
+                                                            </textarea>
+                                                        </md-input-container>
+                                                    </v-pane-content>
+                                                </v-pane>
+
                                                 <v-pane>
                                                     <v-pane-header>
                                                         Output setting
@@ -220,7 +235,7 @@
                                     <v-accordion flex="90" class="vAccordion--default radio-accordion" multiple>
                                         <v-pane>
                                             <v-pane-header>
-                                                Advanced settings
+                                                Advanced settings for the answer
                                             </v-pane-header>
 
                                             <v-pane-content class="local-margin-left">
@@ -247,6 +262,21 @@
                                                             <label>Additional text</label>
                                                             <textarea ng-model="vm.data.answers[$index].contract_text"
                                                                       rows="2" maxlength="4000"></textarea>
+                                                        </md-input-container>
+                                                    </v-pane-content>
+                                                </v-pane>
+
+                                                <v-pane>
+                                                    <v-pane-header>
+                                                        Risk value
+                                                    </v-pane-header>
+
+                                                    <v-pane-content class="local-margin-left">
+                                                        <md-input-container class="md-block margin-null">
+                                                            <label>Risk value</label>
+                                                            <textarea ng-model="vm.data.answers[$index].risk_value"
+                                                                      oninput="this.value = this.value.replace(/\D/, '').replace(/^0/, '')">
+                                                            </textarea>
                                                         </md-input-container>
                                                     </v-pane-content>
                                                 </v-pane>
@@ -345,7 +375,7 @@
                     <v-accordion flex="100" class="vAccordion--default radio-accordion" multiple>
                         <v-pane>
                             <v-pane-header>
-                                Advanced settings
+                                Advanced settings for the question
                             </v-pane-header>
 
                             <v-pane-content class="local-margin-left">
@@ -372,22 +402,6 @@
                                             <label>Additional text</label>
                                             <textarea ng-model="vm.data.contract_text"
                                                       rows="2" maxlength="4000"></textarea>
-                                        </md-input-container>
-                                    </v-pane-content>
-                                </v-pane>
-
-                                <v-pane>
-                                    <v-pane-header>
-                                        Risk
-                                    </v-pane-header>
-
-                                    <v-pane-content class="local-margin-left">
-                                        <md-input-container class="md-block margin-null">
-                                            <label>Additional text</label>
-                                            <textarea ng-model="vm.data.risk_value"
-                                                      rows="1" maxlength="5"
-                                                      ng-change="vm.riskRegular(vm.data.risk_value)">
-                                            </textarea>
                                         </md-input-container>
                                     </v-pane-content>
                                 </v-pane>
@@ -426,7 +440,7 @@
                         <v-accordion flex="100" class="vAccordion--default radio-accordion" multiple>
                             <v-pane>
                                 <v-pane-header>
-                                    Advanced settings
+                                    Advanced settings for the question
                                 </v-pane-header>
 
                                 <v-pane-content class="local-margin-left">
@@ -570,10 +584,25 @@
                         <v-accordion flex="90" class="vAccordion--default radio-accordion" multiple>
                             <v-pane>
                                 <v-pane-header>
-                                    Advanced settings
+                                    Advanced settings for the answer
                                 </v-pane-header>
 
                                 <v-pane-content class="local-margin-left">
+                                    <v-pane>
+                                        <v-pane-header>
+                                            Risk value
+                                        </v-pane-header>
+
+                                        <v-pane-content class="local-margin-left">
+                                            <md-input-container class="md-block margin-null">
+                                                <label>Risk value</label>
+                                                <textarea ng-model="vm.data.answers[$index].risk_value"
+                                                          oninput="this.value = this.value.replace(/\D/, '').replace(/^0/, '')">
+                                                            </textarea>
+                                            </md-input-container>
+                                        </v-pane-content>
+                                    </v-pane>
+
                                     <v-pane>
                                         <v-pane-header>
                                             Output setting

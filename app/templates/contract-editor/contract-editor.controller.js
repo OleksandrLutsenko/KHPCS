@@ -190,9 +190,15 @@
             CKEDITOR.instances.CKeditorArea.insertText(data);
         };
 
-        vm.pasteVariability = function (title, id, numberInOrder) {
+        vm.pasteVariability = function (title, id, numberInOrder, answerOrAdditionalText) {
             let surveyVarInEditorSide = '[[Answer ' + numberInOrder + ']]';
             let surveyVarInServerSide = '{!!$contractAnswers[' + id + ']!!}';
+
+            if (answerOrAdditionalText) {
+                surveyVarInEditorSide = '[[Answer ' + numberInOrder + ' or additional text]]';
+                surveyVarInServerSide = '{!!$answer_additional_text[' + id + ']!!}';
+            }
+
             let tmpVarObj = {
                 inServer: surveyVarInServerSide,
                 inEditor: surveyVarInEditorSide
@@ -239,6 +245,7 @@
 
                             vm.activeSurvey.forEach(function (block) {
                                 block.questions.forEach(function (question) {
+
                                     let surveyVarInServerSide = '{!!$contractAnswers[' + question.id + ']!!}';
                                     if (body.indexOf(surveyVarInServerSide) !== -1) {
                                         let surveyVarInEditorSide = '[[Answer ' + question.numberInOrder + ']]';
@@ -249,6 +256,18 @@
                                         tmpAnswersArr.push(tmpVarObj);
                                         body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
                                     }
+
+                                    surveyVarInServerSide = '{!!$answer_additional_text[' + question.id + ']!!}';
+                                    if (body.indexOf(surveyVarInServerSide) !== -1) {
+                                        let surveyVarInEditorSide = '[[Answer ' + question.numberInOrder + ' or additional text]]';
+                                        let tmpVarObj = {
+                                            inServer: surveyVarInServerSide,
+                                            inEditor: surveyVarInEditorSide
+                                        };
+                                        tmpAnswersArr.push(tmpVarObj);
+                                        body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
+                                    }
+
                                     question.answers.forEach(function (answer) {
                                         answer.child_questions.forEach(function (childQuestion) {
                                             let surveyVarInServerSide = '{!!$contractAnswers[' + childQuestion.id + ']!!}';
@@ -268,6 +287,16 @@
 
                             deletedQuestionInSurvey.forEach(function (questionID) {
                                 let surveyVarInServerSide = '{!!$contractAnswers[' + questionID + ']!!}';
+                                if (body.indexOf(surveyVarInServerSide) !== -1) {
+                                    let surveyVarInEditorSide = '<span style="background-color: red">Question was deleted</span>';
+                                    let tmpVarObj = {
+                                        inServer: surveyVarInServerSide,
+                                        inEditor: surveyVarInEditorSide
+                                    };
+                                    tmpAnswersArr.push(tmpVarObj);
+                                    body = body.split(surveyVarInServerSide).join(surveyVarInEditorSide);
+                                }
+                                surveyVarInServerSide = '{!!$answer_additional_text[' + questionID + ']!!}';
                                 if (body.indexOf(surveyVarInServerSide) !== -1) {
                                     let surveyVarInEditorSide = '<span style="background-color: red">Question was deleted</span>';
                                     let tmpVarObj = {
@@ -324,6 +353,7 @@
                                     {serverSide: '{!! $customer["name"] !!}', editorSide: '[[customer name]]'},
                                     {serverSide: '{!! $customer["surname"] !!}', editorSide: '[[customer surname]]'},
                                     {serverSide: '{!! $customer["classification"] !!}', editorSide: '[[customer classification]]'},
+                                    {serverSide: '{!! $risk_value !!}', editorSide: '[[risk]]'},
                                 ];
 
                                 let userVarInEditorSide;
@@ -557,6 +587,9 @@
             } else if (data === 'Customer classification') {
                 userVarInEditorSide = '[[customer classification]]';
                 userVarInServerSide = '{!! $customer["classification"] !!}';
+            } else if (data === 'Customer risk') {
+                userVarInEditorSide = '[[risk]]';
+                userVarInServerSide = '{!! $risk_value !!}';
             }
 
             let tmpVarObj = {

@@ -68,16 +68,19 @@
 
                         <div ng-if="questions.type == 1">
                             <md-radio-group ng-model="vm.data[mainKey].mainData"
-                                            ng-required="{{questions.mandatory}}">
+                                            ng-required="{{questions.mandatory}}" class="md-primary">
+
                                 <md-radio-button ng-repeat="answers in questions.answers" value="{{answers.id}}"
                                                  class="md-primary pointer"
-                                                 layout="column"
                                                  ng-click="vm.checkRadioTreeExample(answers, questions.identifier, mainKey, true)"
-                                >
-                                    <div layout="row">
+                                                 ng-class="{'md-align-top-left': true}">
+                                    <p class="radio-answer-header">
                                         {{answers.answer_text}}
-                                        <p class="radio-btn-info" ng-if="answers.information">Additional info: {{answers.information}}</p>
-                                    </div>
+                                    </p>
+
+                                    <p class="radio-btn-info" ng-if="answers.information">
+                                        {{answers.information}}
+                                    </p>
                                 </md-radio-button>
                             </md-radio-group>
                         </div>

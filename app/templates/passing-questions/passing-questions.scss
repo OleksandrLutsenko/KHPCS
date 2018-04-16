@@ -14,13 +14,20 @@
 
     }
   }
+  .radio-answer-header {
+    padding-top: 4px;
+    margin-bottom: 6px;
+  }
 
   .quest-info{
     padding: 20px;
   }
 
   .radio-btn-info{
-    padding-left: 30px;
+    padding-left: 15px;
+    margin-left: 20px;
+    color: #797979;
+    border-left: 1px solid #797979;
   }
 
   md-radio-button .md-ripple-container {
@@ -35,36 +42,3 @@
 
   }
 }
-
-///////////////////////
-//.firstQuest {
-//
-//  display: flex;
-//  justify-content: center;
-//
-//  .contentQuest {
-//    padding: 30px 0;
-//    display: flex;
-//    flex-direction: column;
-//    width: 70%;
-//  }
-//
-//  h1 {
-//    text-align: center;
-//  }
-//
-//  .contentQuest p {
-//    line-height: 2;
-//  }
-//
-//  .questNext {
-//    display: flex;
-//    justify-content: flex-end;
-//    padding-top: 20px;
-//  }
-//
-//  button {
-//    text-transform: capitalize;
-//  }
-//
-//}

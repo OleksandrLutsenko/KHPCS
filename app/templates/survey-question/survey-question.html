@@ -36,11 +36,6 @@
                         <div ng-show="!vm.edit" layout="row" layout-align="center center">
 
                             <div>
-
-                                <md-button  ng-click="vm.showCommonList()">
-                                    Common List
-                                </md-button>
-
                                 <md-button ng-click="vm.showEdit()">
                                     Add question
                                 </md-button>
@@ -88,15 +83,6 @@
                                             {{question.identifier}}
                                         </div>
                                         <div class="icons" ng-show="!vm.edit" layout="row" layout-align="none center">
-                                            <md-input-container class="risk-input"
-                                                                ng-if="question.type !== 1"
-                                                                aria-label="abc">
-                                                <md-tooltip md-direction="left">Risk range</md-tooltip>
-                                                <input ng-model="question.contract_text"  aria-label="abc"
-                                                       ng-change="vm.checkKey(question)"
-                                                       ng-model-options="{debounce: 2000}"
-                                                       pattern="[1-9]+">
-                                            </md-input-container>
                                             <div>
                                                 <md-tooltip md-direction="left">Duplicate a question</md-tooltip>
                                                 <i class="material-icons" ng-click="vm.copyQuest(question )">content_copy</i>
@@ -155,35 +141,51 @@
                                         </md-select>
                                     </md-input-container>
                                     <div ui-sortable="vm.sortableOptionAnswer" ng-model="question.answers"
-                                         class="answer-container" ng-if="question.type == 1 || question.type == 0">
+                                         ng-if="question.type == 1 || question.type == 0 || question.type == 4"
+                                         class="answer-container">
                                         <div ng-repeat="(answerKey, answers) in  question.answers" class="answer-block"
                                              ng-if="!answers.delete">
 
                                             <div layout="row" flex="" layout-align="space-between center"
                                                  class="answeText">
 
-                                                <div layout="row" layout-align="center center   ">
+                                                <div layout="row" layout-align="center center">
                                                     <i class="material-icons" ng-if="question.type == 0">check</i>
                                                     <i class="material-icons md-36" ng-if="question.type == 1">radio_button_unchecked</i>
+                                                    <i class="fa fa-globe" aria-hidden="true" ng-if="question.type == 4"></i>
 
-                                                    {{answers.answer_text}}
+                                                    <md-icon ng-if="question.type == 4"  md-svg-src="content/icons/globe.svg"
+                                                             ng-style="{'padding': '3px'}"
+                                                             aria-label="android "></md-icon>
+                                                    <div ng-if="question.type == 0 || question.type == 1">
+                                                        {{answers.answer_text}}
+                                                    </div>
+
+                                                    <div ng-if="question.type == 4">
+                                                        {{vm.countryTooltip(answers.answer_text)}}
+                                                    </div>
                                                 </div>
                                                 <div layout="row">
                                                     <md-input-container class="risk-input"
-                                                                        ng-if="question.type == 1"
+                                                                        ng-if="question.type == 0 || question.type == 1 || question.type == 4"
                                                                         aria-label="abc">
-                                                        <md-tooltip md-direction="left">Risk range</md-tooltip>
-                                                        <input ng-model="answers.contract_text"  aria-label="abc">
+                                                        <md-tooltip md-direction="left">Risk value</md-tooltip>
+                                                        <input ng-model="answers.risk_value" aria-label="abc"
+                                                               ng-change="vm.changeRiskValue(answers, mainKey, answerKey)"
+                                                               ng-model-options="{debounce: 1000}"
+                                                               oninput="this.value = this.value.replace(/\D/, '').replace(/^0/, '')">
                                                     </md-input-container>
 
                                                     <div>
                                                         <i class="material-icons"
                                                            ng-click="vm.copyQuest(question , answers)">
-                                                            <md-tooltip md-direction="left">Duplicate a answer</md-tooltip>content_copy</i>
+                                                            <md-tooltip md-direction="left"> Duplicate a answer</md-tooltip>
+                                                            content_copy
+                                                        </i>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <md-input-container ng-if="question.type === 1" class="next-input">
+                                            <md-input-container ng-if="question.type === 1 || question.type === 4" class="next-input">
                                                 <label>Next question: {{answers.next_question}}
                                                     <p ng-if="answers.next_question === null">undefined</p>
                                                 </label>
@@ -386,8 +388,4 @@
         </md-content>
     </section>
 
-
 </md-content>
-
-
-

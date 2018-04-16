@@ -54,5 +54,11 @@
   .tmp-section{
     padding-left: 10px;
   }
+  .max-width {
+    width: 100%;
+  }
+  .vAccordion--default v-pane-content > div {
+    padding-bottom: 0;
+  }
 }
 

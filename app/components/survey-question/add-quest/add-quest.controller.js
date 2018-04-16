@@ -230,43 +230,53 @@
             let _allSelectedCountries = angular.copy(allSelectedCountries);
             let _currentAnswers = angular.copy(currentAnswers);
 
-            if (_allSelectedCountries) {
-                _allSelectedCountries = _allSelectedCountries.filter(function (country) {
-                    let status = true;
+            searchingCountriesToRemove();
+            removeOfSuperfluousCountries();
+            sorting();
 
-                    if (_currentAnswers) {
-                        _currentAnswers = _currentAnswers.filter(function (answer) {
-                            if (country !== answer) {
-                                return answer;
-                            } else {
-                                status = false;
-                            }
-                        })
+            function searchingCountriesToRemove() {
+                if (_allSelectedCountries) {
+                    _allSelectedCountries = _allSelectedCountries.filter(function (country) {
+                        let status = true;
+
+                        if (_currentAnswers) {
+                            _currentAnswers = _currentAnswers.filter(function (answer) {
+                                if (country !== answer) {
+                                    return answer;
+                                } else {
+                                    status = false;
+                                }
+                            })
+                        }
+
+                        if (status) {
+                            return country;
+                        }
+                    });
+                }
+            }
+
+            function removeOfSuperfluousCountries() {
+                _countriesList = _countriesList.filter(function (countryInCountriesList) {
+                    let check = false;
+
+                    for (let i = 0; i < _allSelectedCountries.length; i++) {
+                        if (countryInCountriesList === _allSelectedCountries[i]) {
+                            check = true;
+                            break;
+                        }
                     }
 
-                    if (status) {
-                        return country;
+                    if (!check) {
+                        return countryInCountriesList
                     }
                 });
             }
 
-            _countriesList = _countriesList.filter(function (countryInCountriesList) {
-                let check = false;
+            function sorting() {
+                _countriesList.sort();
+            }
 
-                for (let i = 0; i < _allSelectedCountries.length; i++) {
-                    if (countryInCountriesList === _allSelectedCountries[i]) {
-                        check = true;
-                        break;
-                    }
-                }
-
-                if (!check) {
-                    return countryInCountriesList
-                }
-            });
-
-            _countriesList = _countriesList.concat(_currentAnswers);
-            _countriesList.sort();
             return _countriesList
         }
 
@@ -279,6 +289,8 @@
                 } else {
                     return tmpTitle;
                 }
+            } else {
+                return 'Select country'
             }
         }
 
@@ -289,7 +301,7 @@
                 tmpCountries = [];
             }
 
-            console.log(allSelectedCountries)
+            // console.log(allSelectedCountries)
         }
 
         function countryOnClose(data) {
@@ -454,9 +466,14 @@
                         blockService.addBlockQuestion(idBlock, [dataForSend]).then(function (res) {
                             if (res.success) {
                                 console.log('edit1');
-                                console.log(res.data.questions[0]);
+                                let question = angular.copy(res.data.questions[0]);
 
-                                itemsOrig.splice(mainKey, 1, res.data.questions[0]);
+                                if (question.type === 0 || question.type === 1) {
+                                    angular.forEach(question.answers, function (answer) {
+                                        answer.answer_text = answer.answer_text.split('&lt;').join('<').split('&gt;').join('>');
+                                    });
+                                }
+                                itemsOrig.splice(mainKey, 1, question);
                             }
                         });
                         $mdDialog.hide();
@@ -492,17 +509,24 @@
                     if (loopingValid === true && identifierValid === true) {
 
                         // Fix from correct paste answer in contract
-                        if (dataForSend.type === 0 || dataForSend.type === 1) {
-                            angular.forEach(dataForSend.answers, function (answer) {
+                        if (dataForSend[0].type === 0 || dataForSend[0].type === 1) {
+                            angular.forEach(dataForSend[0].answers, function (answer) {
                                 answer.answer_text = answer.answer_text.split('<').join('&lt;').split('>').join('&gt;');
                             });
                         }
 
-                        console.log(dataForSend)
+                        // console.log(dataForSend);
+
                         blockService.addBlockQuestion(idBlock, dataForSend).then(function (res) {
                             if (res.success) {
-                                itemsOrig.push(res.data.questions[0]);
+                                let question = angular.copy(res.data.questions[0]);
 
+                                if (question.type === 0 || question.type === 1) {
+                                    angular.forEach(question.answers, function (answer) {
+                                        answer.answer_text = answer.answer_text.split('&lt;').join('<').split('&gt;').join('>');
+                                    });
+                                }
+                                itemsOrig.push(question);
                             }
                         });
                         $mdDialog.hide();

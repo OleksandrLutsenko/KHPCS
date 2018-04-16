@@ -62,7 +62,8 @@
                     orderUpdate: baseUrl + 'api/survey/' + id + '/order-update',
                     //
                     addBlockQuestion: baseUrl + 'api/block/' + id + '/add-block-questions',
-                    updateQuestion: baseUrl + 'api/question/' + id
+                    updateQuestion: baseUrl + 'api/question/' + id,
+                    updateAnswer: baseUrl + 'api/answer/' + id,
                 };
             },
             customers: {
@@ -122,6 +123,15 @@
             logout_func: function (token) {
                 return {
                     logout: baseUrl + 'api/logout?token=' + token
+                };
+            },
+
+            risk_func: function (id) {
+                return {
+                    getRisks: baseUrl + 'api/get-risks',
+                    createRisk: baseUrl + 'api/add-risk',
+                    updateRisk: baseUrl + 'api/update-risk/' + id,
+                    deleteRisk: baseUrl + 'api/delete-risk/' + id
                 };
             }
 

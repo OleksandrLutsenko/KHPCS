@@ -10,7 +10,8 @@
         'service.dataService',
         'service.passingQuestionService',
         'service.surveyService',
-        'service.contractService'
+        'service.contractService',
+        'service.riskService'
     ]);
 
 })();

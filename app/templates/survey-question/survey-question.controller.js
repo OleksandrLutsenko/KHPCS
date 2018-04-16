@@ -21,13 +21,6 @@
         let indexBlock = activeBlock.indexBlock;
         let idBlock = activeBlock.id;
         let loopingValid;
-        let commonItems = {
-            answers: [],
-            title: "Common Qest Text",
-            type: 2,
-            validation_type: 0,
-            characters_limit: 99
-        };
 
         vm.data = [];
         vm.items = items[indexBlock].questions;
@@ -51,8 +44,8 @@
         vm.selectedCountryChange = selectedCountryChange;
         vm.querySearch = querySearch;
         vm.cities = countries;
-        vm.showCommonList = showCommonList;
-
+        vm.countryTooltip = countryTooltip;
+        vm.changeRiskValue = changeRiskValue;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -82,6 +75,7 @@
                     });
                 }
             });
+            console.log('startupFix');
         }
 
         function querySearch(query) {
@@ -116,7 +110,6 @@
             disabled: vm.drag,
             connectWith: ".question-container",
             'ui-floating': true,
-            axis: "y",
 
             start: function (e, ui) {
                 $scope.$apply(function () {
@@ -301,7 +294,7 @@
             });
         }
 
-        function showEdit(mainKey, answerKey, questionKey, commonItem) {
+        function showEdit(mainKey, answerKey, questionKey) {
             $mdDialog.show({
                 controller: 'AddQuestionController',
                 controllerAs: 'vm',
@@ -311,14 +304,12 @@
                         answerKey: answerKey,
                         questionKey: questionKey,
                         items: vm.items,
-                        idBlock: idBlock,
-                        commonItem: commonItem
+                        idBlock: idBlock
                     }
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
             }).then(function () {
-                // console.log('my items--------------', vm.items);
                 $scope.$emit('changeItems', vm.items);
             });
         }
@@ -666,54 +657,33 @@
 
         }
 
-
-        //--------------Common question (Customer var)--------------------
-        function showCommonList() {
-            $mdDialog.show({
-                controller: 'CommonQuestListController',
-                controllerAs: 'vm',
-                locals: {
-                    data: {
-                        // mainKey: mainKey,
-                        // answerKey: answerKey,
-                        // questionKey: questionKey,
-                        // items: vm.items,
-                        // idBlock: idBlock,
-                        // commonItems: commonItems,
-                        // addCommon: addCommon
-                    }
-                },
-                templateUrl: 'components/survey-question/common-quest-list/common-quest-list.html',
-                clickOutsideToClose: true,
-            }).then(function (res) {
-                showEdit(undefined, undefined, undefined, res);
-            });
+        /////////////////////////////////////////////////////////////////////////////
+        function countryTooltip(data) {
+            if (data) {
+                let tmpTitle = '';
+                if (data.length) {
+                    tmpTitle = JSON.stringify(data).split('[').join('').split(']').join('').split('"').join('').split(',').join(', ');
+                    return tmpTitle;
+                } else {
+                    return tmpTitle;
+                }
+            }
         }
+        function changeRiskValue(data) {
+            let sendData = {
+                risk_value: data.risk_value,
+                answer_text: data.answer_text
+            };
 
-        // function showEdit(mainKey, answerKey, questionKey, addCommon) {
-        //     $mdDialog.show({
-        //         controller: 'AddQuestionController',
-        //         controllerAs: 'vm',
-        //         locals: {
-        //             data: {
-        //                 mainKey: mainKey,
-        //                 answerKey: answerKey,
-        //                 questionKey: questionKey,
-        //                 items: vm.items,
-        //                 idBlock: idBlock,
-        //                 commonItems: commonItems,
-        //                 addCommon: addCommon
-        //
-        //             }
-        //         },
-        //         templateUrl: 'components/survey-question/add-quest/add-quest.html',
-        //         clickOutsideToClose: true,
-        //     }).then(function () {
-        //         console.log('my items--------------', vm.items);
-        //         $scope.$emit('changeItems', vm.items);
-        //     });
-        // }
+            if (sendData.risk_value === '') {
+                sendData.risk_value = 0;
+            } else {
+                sendData.risk_value = Number(sendData.risk_value);
+            }
 
-
+            blockService.updateAnswer(data.id, sendData).then(function (res) {
+                console.log(res);
+            })
+        }
     }
 })();

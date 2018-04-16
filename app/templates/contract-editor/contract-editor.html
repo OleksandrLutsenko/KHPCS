@@ -186,10 +186,17 @@
                                     {{question.title}}
                                 </p>
 
-                                <p ng-click="vm.pasteVariability(question.title, question.id, question.numberInOrder)"
-                                   class="survey-question answer pointer hidden-text">
-                                    [Answer {{question.numberInOrder}}]
-                                </p>
+                                <div>
+                                    <p ng-click="vm.pasteVariability(question.title, question.id, question.numberInOrder)"
+                                       class="survey-question answer pointer hidden-text">
+                                        [Answer {{question.numberInOrder}}]
+                                    </p>
+                                    <p ng-click="vm.pasteVariability(question.title, question.id, question.numberInOrder, true)"
+                                       ng-if="question.type === 1"
+                                       class="survey-question answer pointer hidden-text">
+                                        [Answer or additional text {{question.numberInOrder}}]
+                                    </p>
+                                </div>
 
                                 <div ng-repeat="answers in question.answers" class="inserted_block_border">
                                     <div ng-repeat="insertedQuestions in answers.child_questions">
@@ -266,6 +273,12 @@
                              title="Customer classification"
                              ng-click="vm.pasteStaticVariability('Customer classification')">
                             <p class="block-item" flex="90">[Customer classification]</p>
+                        </div>
+
+                        <div class="add-section pointer" layout="row" layout-align="center center"
+                             title="Customer classification"
+                             ng-click="vm.pasteStaticVariability('Customer risk')">
+                            <p class="block-item" flex="90">[Customer risk]</p>
                         </div>
 
 

@@ -129,6 +129,10 @@
                     loadTemp: function (contractService) {
                         return contractService.loadTemplateList();
                     },
+                    risks: function (company, riskService) {
+                        let data = {company_id: company.getActiveCompany().id};
+                        return riskService.getRisks(data);
+                    }
                 }
             })
             .state('tab.survey-management', {
