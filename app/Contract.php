@@ -141,11 +141,12 @@ class Contract extends Model
     {
         $letter['from'] = 'knights@gmail.com';
         $letter['subject'] = 'Contract';
+        $letter['to'] = $user->email;
 
-        Mail::send('send-contract.blade.php', function ($message) use ($letter, $user, $pdf){
+        Mail::send('send-contract.blade.php', function ($message) use ($letter, $pdf){
             $message->from($letter['from'])
                 ->attachData($pdf, 'report.pdf')
-                ->to($user->email)
+                ->to($letter['to'])
                 ->subject($letter['subject']);
         });
     }
