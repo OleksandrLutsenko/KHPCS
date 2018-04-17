@@ -148,28 +148,54 @@ class ContractController extends Controller
         );
     }
 
-    public function sendContractToClient(Report $report, Contract $contract, $userFilename) {
+    public function sendContractToClient(Report $report, Contract $contract) {
 
         $user = Auth::user();
-        $customer = $report->customer;
-        $userVariables = Variable::getVariablesTextWithTrashed();
-        $contractAnswers = $contract->getContractAnswers($report);
-        $risk_value = Risk::riskValue($report);
-        $answer_additional_text = Answer::additionalText($report);
+//        $customer = $report->customer;
+//        $userVariables = Variable::getVariablesTextWithTrashed();
+//        $contractAnswers = $contract->getContractAnswers($report);
+//        $risk_value = Risk::riskValue($report);
+//        $answer_additional_text = Answer::additionalText($report);
+//
+//        $path = $contract->makeContractPDF(
+//            $userFilename,
+//            $contractAnswers,
+//            $userVariables,
+//            $report,
+//            $customer,
+//            $user,
+//            $risk_value,
+//            $answer_additional_text,
+//            $send_email = true
+//        );
 
-        $path = $contract->makeContractPDF(
-            $userFilename,
-            $contractAnswers,
-            $userVariables,
-            $report,
-            $customer,
-            $user,
-            $risk_value,
-            $answer_additional_text,
-            $send_email = true
-        );
 
-        Contract::sendContract($user, $path);
+        $variables = Auth::user()->variables;
+        $body = stripcslashes($contract->body);
+        File::put('../resources/views/contract.blade.php', $body);
+
+        $customerAnswers = CustomerAnswer::where('customer_id', $report->customer_id)->get();
+        foreach ($customerAnswers as $customerAnswer) {
+            $question = Question::find($customerAnswer->question_id);
+
+            if ($question->block->survey_id == $report->survey_id) {
+                $finalAnswer = CustomerAnswer::where('question_id', $question->id)->get();
+
+                if($question->trashed()){
+                    $finalAnswer[0]->value = '';
+                }
+
+                $contractAnswers[$question->id] = $finalAnswer[0]->value;
+            }
+        }
+        $data['report'] = $report;
+        $data['contractAnswers'] = $contractAnswers;
+        $data['variables'] = $variables;
+        $data['risk_value'] = Risk::riskValue($report);
+        $data['answer_additional_text'] = Answer::additionalText($report);
+        $pdf = PDF::loadView('contract', $data);
+
+        Contract::sendContract($user, $pdf);
 
         return response('The email was sent', 200);
     }
