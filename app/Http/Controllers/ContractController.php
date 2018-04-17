@@ -150,7 +150,26 @@ class ContractController extends Controller
 
     public function sendContractToClient(Report $report, Contract $contract, $userFilename) {
 
-        Contract::sendContract($report, $contract, $userFilename);
+        $user = Auth::user();
+        $customer = $report->customer;
+        $userVariables = Variable::getVariablesTextWithTrashed();
+        $contractAnswers = $contract->getContractAnswers($report);
+        $risk_value = Risk::riskValue($report);
+        $answer_additional_text = Answer::additionalText($report);
+
+        $path = $contract->makeContractPDF(
+            $userFilename,
+            $contractAnswers,
+            $userVariables,
+            $report,
+            $customer,
+            $user,
+            $risk_value,
+            $answer_additional_text,
+            $send_email = true
+        );
+
+        Contract::sendContract($user, $path);
 
         return response('The email was sent', 200);
     }

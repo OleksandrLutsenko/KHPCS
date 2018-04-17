@@ -137,26 +137,8 @@ class Contract extends Model
         return compact('filenamePdf', 'filePathUrlPdf');
     }
 
-    public static function sendContract($report, $contract, $userFilename)
+    public static function sendContract($user, $path)
     {
-        $user = Auth::user();
-        $customer = $report->customer;
-        $userVariables = Variable::getVariablesTextWithTrashed();
-        $contractAnswers = $contract->getContractAnswers($report);
-        $risk_value = Risk::riskValue($report);
-        $answer_additional_text = Answer::additionalText($report);
-
-        $path = $contract->makeContractPDF(
-            $userFilename,
-            $contractAnswers,
-            $userVariables,
-            $report,
-            $customer,
-            $user,
-            $risk_value,
-            $answer_additional_text
-        );
-
         $letter['from'] = 'knights@gmail.com';
         $letter['subject'] = 'Contract';
 
