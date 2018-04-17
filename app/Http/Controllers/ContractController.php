@@ -148,6 +148,13 @@ class ContractController extends Controller
         );
     }
 
+    public function sendContractToClient(Report $report, Contract $contract, $userFilename) {
+
+        Contract::sendContract($report, $contract, $userFilename);
+
+        return response('The email was sent', 200);
+    }
+
     public function usedImages(Contract $contract) {
         $images = Image::where('contract_research_id', $contract->contractResearch->id)->get();
         return response(['imageList' => $images], 200);

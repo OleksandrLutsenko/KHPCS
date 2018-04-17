@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Mail;
 use PDF;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -109,7 +110,7 @@ class Contract extends Model
         );
     }
 
-    public function makeContractPDF($userFilename, $contractAnswers, $userVariables, $report, $customer, $user, $risk_value, $answer_additional_text)
+    public function makeContractPDF($userFilename, $contractAnswers, $userVariables, $report, $customer, $user, $risk_value, $answer_additional_text, $send_email = false)
     {
         $this->makeContractFile();
         $view = $this->getView($contractAnswers, $userVariables, $report, $customer, $user, $risk_value, $answer_additional_text);
@@ -123,6 +124,10 @@ class Contract extends Model
         $path = '../' . $filePathUri;
         File::put($path, $viewContent);
 
+        if ($send_email) {
+            return $path;
+        }
+
         PDF::loadFile(storage_path() . '/contracts/' . $filename)
             ->setPaper('A4', 'portrait')
             ->save(storage_path() . '/contracts/' . $filenamePdf);
@@ -131,6 +136,38 @@ class Contract extends Model
 
         return compact('filenamePdf', 'filePathUrlPdf');
     }
+
+    public static function sendContract($report, $contract, $userFilename)
+    {
+        $user = Auth::user();
+        $customer = $report->customer;
+        $userVariables = Variable::getVariablesTextWithTrashed();
+        $contractAnswers = $contract->getContractAnswers($report);
+        $risk_value = Risk::riskValue($report);
+        $answer_additional_text = Answer::additionalText($report);
+
+        $path = $contract->makeContractPDF(
+            $userFilename,
+            $contractAnswers,
+            $userVariables,
+            $report,
+            $customer,
+            $user,
+            $risk_value,
+            $answer_additional_text
+        );
+
+        $letter['from'] = 'knights@gmail.com';
+        $letter['subject'] = 'Contract';
+
+        Mail::send('send-contract.blade.php', function ($message) use ($letter, $user, $path){
+            $message->from($letter['from'])
+                ->attach($path)
+                ->to($user->email)
+                ->subject($letter['subject']);
+        });
+    }
+
 
     public static function boot()
     {
