@@ -129,7 +129,7 @@ class Contract extends Model
             ->save(storage_path() . '/contracts/' . $filenamePdf);
 
         if ($send_email) {
-            return $path;
+            return $filePathUrlPdf;
         }
 
         File::delete($path);
@@ -144,9 +144,9 @@ class Contract extends Model
         $letter['to'] = $user->email;
         $letter['pdf'] = $pdf;
 
-        Mail::send('send-contract', function ($message) use ($letter){
+        Mail::send('send-contract', compact($letter), function ($message) use ($letter){
             $message->from($letter['from'])
-                ->attachData($letter['pdf'], 'report.pdf')
+                ->attach($letter['pdf'], ['as' => 'report.pdf'])
                 ->to($letter['to'])
                 ->subject($letter['subject']);
         });

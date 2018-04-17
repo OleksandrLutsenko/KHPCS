@@ -31,7 +31,7 @@ Route::group(['middleware' => 'jwt.auth'], function() {
     Route::get('/report/{report}/contract/{contract}/review/{userFilename}', 'ContractController@review');
     Route::get('/report/{report}/download', 'DownloadController@downloadReport');
     Route::get('/report/{report}/contract/{contract}/download', 'ContractController@downloadContract');
-    Route::post('/report/{report}/contract/{contract}/send-contract', 'ContractController@sendContractToClient');
+    Route::post('/report/{report}/contract/{contract}/send-contract/{userFilename}', 'ContractController@sendContractToClient');
     Route::post('contract-research/{contractResearch}/save-image', 'ImageController@upload');
     Route::post('contract-research/{contractResearch}/image/{image}', 'ImageController@reUpload');
     Route::delete('contract/image/{image}', 'ImageController@destroy');

@@ -1,1 +1,1 @@
-You passed the questionnaire in the attachment you report.
+You passed the survey, the report you can find in the attachments
