@@ -124,13 +124,13 @@ class Contract extends Model
         $path = '../' . $filePathUri;
         File::put($path, $viewContent);
 
-        if ($send_email) {
-            return $path;
-        }
-
         PDF::loadFile(storage_path() . '/contracts/' . $filename)
             ->setPaper('A4', 'portrait')
             ->save(storage_path() . '/contracts/' . $filenamePdf);
+
+        if ($send_email) {
+            return $path;
+        }
 
         File::delete($path);
 
@@ -142,10 +142,11 @@ class Contract extends Model
         $letter['from'] = 'knights@gmail.com';
         $letter['subject'] = 'Contract';
         $letter['to'] = $user->email;
+        $letter['pdf'] = $pdf;
 
-        Mail::send('send-contract.blade.php', function ($message) use ($letter, $pdf){
+        Mail::send('send-contract.blade.php', function ($message) use ($letter){
             $message->from($letter['from'])
-                ->attachData($pdf, 'report.pdf')
+                ->attachData($letter['pdf'], 'report.pdf')
                 ->to($letter['to'])
                 ->subject($letter['subject']);
         });
