@@ -137,16 +137,16 @@ class Contract extends Model
         return compact('filenamePdf', 'filePathUrlPdf');
     }
 
-    public static function sendContract($user, $pdf)
+    public static function sendContract($user, $path)
     {
         $letter['from'] = 'knights@gmail.com';
         $letter['subject'] = 'Contract';
         $letter['to'] = $user->email;
-        $letter['pdf'] = $pdf;
+        $letter['path'] = $path;
 
         Mail::send('send-contract', compact($letter), function ($message) use ($letter){
             $message->from($letter['from'])
-                ->attach($letter['pdf'], ['as' => 'report.pdf'])
+                ->attach($letter['path'], ['as' => 'report.pdf'])
                 ->to($letter['to'])
                 ->subject($letter['subject']);
         });
