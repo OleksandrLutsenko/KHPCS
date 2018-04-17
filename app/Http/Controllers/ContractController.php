@@ -171,7 +171,7 @@ class ContractController extends Controller
 
         Contract::sendContract($user, $path);
 
-        File::delete('/storage/contracts/' . $userFilename . 'pdf');
+        File::delete(storage_path() . '/contracts/' . $userFilename . 'pdf');
 
         return response('The email was sent', 200);
     }
