@@ -71,9 +71,10 @@
             },
             customers_func: function (id) {
                 return {
+                    customers: baseUrl + 'api/customer',
+                    copyCustomer: baseUrl + 'api/copy-customer',
                     updateCustomers: baseUrl + 'api/customer/' + id,
                     sendCustomerAnswer: baseUrl + 'api/customer/' + id + '/make-answer',
-
                     getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'
                 };
             },

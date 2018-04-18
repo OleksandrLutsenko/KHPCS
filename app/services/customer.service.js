@@ -14,6 +14,7 @@
         model.loadCustomers = loadCustomers;
         model.getCustomers = getCustomers;
         model.createCustomers = createCustomers;
+        model.copyCustomer = copyCustomer;
         model.updateCustomers = updateCustomers;
         model.deleteCustomers = deleteCustomers;
 
@@ -40,6 +41,9 @@
 
         function createCustomers(data) {
             return http.post(url.customers.customers, data);
+        }
+        function copyCustomer(data) {
+            return http.post(url.customers_func(id).copyCustomer, data);
         }
         function updateCustomers(id, data) {
             return http.put(url.customers_func(id).updateCustomers, data);

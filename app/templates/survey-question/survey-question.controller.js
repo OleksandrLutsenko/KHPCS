@@ -110,6 +110,7 @@
             disabled: vm.drag,
             connectWith: ".question-container",
             'ui-floating': true,
+            axis: "y",
 
             start: function (e, ui) {
                 $scope.$apply(function () {

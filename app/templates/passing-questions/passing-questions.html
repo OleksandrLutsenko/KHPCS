@@ -92,16 +92,37 @@
                     <div>
                         <h3 layout="row">{{questions.title }} <p ng-if="questions.mandatory" class="required-quest">
                             *</p></h3>
-                        <md-input-container class="question-text">
+                        <md-input-container md-no-float class="question-text">
+                            <div ng-if="questions.validation_type == 0" layout="column">
+                                <input ng-model="vm.data[mainKey].mainData"
+                                       md-maxlength="{{questions.characters_limit}}"
+                                       name="inputType0"
+                                       maxlength="{{questions.characters_limit}}"
+                                       ng-required="{{questions.mandatory}}"
+                                       class="input-order"
+                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
+
+                                <div ng-messages="vm.questionForm.inputType0.$error"
+                                     ng-if="questions.validation_type == 0">
+                                    <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
+                                </div>
+                                <md-card ng-if="questions.information">
+                                    <md-content class="quest-info">
+                                        <p>{{questions.information}}</p>
+                                    </md-content>
+                                </md-card>
+                            </div>
+
                             <div ng-if="questions.validation_type == 1">
                                 <div>
-                                    <label>{{questions.title}}</label>
+                                    <!--<label>{{questions.title}}</label>-->
                                     <input ng-model="vm.data[mainKey].mainData"
                                            md-maxlength="{{questions.characters_limit}}"
                                            name="inputType1" type="text" pattern="[a-zA-Z, ' ' .]+"
-
                                            maxlength="{{questions.characters_limit}}"
-                                           ng-required="{{questions.mandatory}}">
+                                           ng-required="{{questions.mandatory}}"
+                                           class="input-order"
+                                           placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
                                 </div>
                                 <div ng-messages="vm.questionForm.inputType1.$error"
                                      ng-if="questions.validation_type == 1">
@@ -115,12 +136,15 @@
                                 </md-card>
 
                             </div>
+
                             <div ng-if="questions.validation_type == 2" layout="column">
                                 <input ng-model="vm.data[mainKey].mainData"
                                        md-maxlength="{{questions.characters_limit}}"
                                        name="inputType2" pattern="[0-9]+"
                                        maxlength="{{questions.characters_limit}}"
-                                       ng-required="{{questions.mandatory}}">
+                                       ng-required="{{questions.mandatory}}"
+                                       class="input-order"
+                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
 
                                 <div ng-messages="vm.questionForm.inputType2.$error"
                                      ng-if="questions.validation_type == 2">
@@ -133,24 +157,6 @@
                                     </md-content>
                                 </md-card>
                             </div>
-                            <div ng-if="questions.validation_type == 0" layout="column">
-                                <input ng-model="vm.data[mainKey].mainData"
-                                       md-maxlength="{{questions.characters_limit}}"
-                                       name="inputType0"
-                                       maxlength="{{questions.characters_limit}}"
-                                       ng-required="{{questions.mandatory}}">
-
-                                <div ng-messages="vm.questionForm.inputType0.$error"
-                                     ng-if="questions.validation_type == 0">
-                                    <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
-                                </div>
-                                <md-card ng-if="questions.information">
-                                    <md-content class="quest-info">
-                                        <p>{{questions.information}}</p>
-                                    </md-content>
-                                </md-card>
-                            </div>
-
                         </md-input-container>
                     </div>
                 </div>

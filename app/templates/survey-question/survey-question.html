@@ -316,28 +316,30 @@
                                 <span ng-if="question.mandatory" class="required-quest">*</span>
                             </h3>
 
-                            <md-input-container class="question-text">
-                                <label>{{question.title}}</label>
+                            <md-input-container md-no-float class="question-text">
+                                <!--<label>{{question.title}}</label>-->
 
                                 <input ng-model="exampleDataText[question.id]"
                                        md-maxlength="{{question.characters_limit}}"
                                        name="inputType0" ng-if="question.validation_type == 0"
                                        maxlength="{{question.characters_limit}}"
                                        ng-required="{{question.mandatory}}"
-                                >
+                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
 
                                 <input ng-model="exampleDataText[question.id]"
                                        md-maxlength="{{question.characters_limit}}"
                                        name="inputType1" type="text" pattern="[a-zA-Z, ' ']+"
                                        ng-if="question.validation_type == 1"
                                        maxlength="{{question.characters_limit}}"
-                                       ng-required="{{question.mandatory}}">
+                                       ng-required="{{question.mandatory}}"
+                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
 
                                 <input ng-model="exampleDataText[question.id]"
                                        md-maxlength="{{question.characters_limit}}"
                                        name="inputType2" pattern="[0-9]+" ng-if="question.validation_type == 2"
                                        maxlength="{{question.characters_limit}}"
-                                       ng-required="{{question.mandatory}}">
+                                       ng-required="{{question.mandatory}}"
+                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}"">
                             </md-input-container>
                         </div>
 

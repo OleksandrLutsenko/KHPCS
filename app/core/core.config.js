@@ -60,16 +60,25 @@
                     loadCustomers: function (customerService) {
                         return customerService.loadCustomers();
                     },
+                    loadCompany: function (companyService, userService) {
+                        let company = [];
+                        let userRole = userService.getUser().role_id;
+
+                        if (userRole === 2) {
+                            company = companyService.loadCompany();
+                        }
+
+                        return company;
+                    },
                     security: function ($state, userService) {
                         let userRole = userService.getUser().role_id;
                         if (userRole === 3) {
                             return $state.go('tab.company');
                         }
                     }
-                    // ,
-                    // surveyOnly: function (surveyService) {
-                    //     return surveyService.loadSurveyOnly();
-                    // }
+                },
+                params: {
+                    data: null
                 }
             })
             .state('tab.company-management', {

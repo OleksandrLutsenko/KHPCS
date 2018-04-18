@@ -3,10 +3,13 @@
     angular.module('app')
         .controller('UserManagementController', UserManagementController);
 
-    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog', 'customers', 'toastr', 'tabsService', 'survey', 'contractService', '$scope'];
+    UserManagementController.$inject = ['userService', 'surveyService', 'customerService', '$state', '$mdDialog',
+        'customers', 'toastr', 'tabsService', 'survey', 'contractService', '$scope', '$stateParams', 'loadCompany'];
 
 
-    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr, tabsService, survey, contractService, $scope) {
+    function UserManagementController(userService, surveyService, customerService, $state, $mdDialog, customers, toastr,
+                                      tabsService, survey, contractService, $scope, $stateParams, loadCompany) {
+
         let vm = this;
         // tabsService.startTab();
         $scope.$emit('changeTab', 'page1');
@@ -23,7 +26,33 @@
         vm.createOrUpdate = createOrUpdate;
         vm.downloadPDF = downloadPDF;
         vm.checkStatus = checkStatus;
+        vm.copyCustomer = copyCustomer;
         vm.user = userService.getUser();
+
+        let companyList = [];
+        if (vm.user.role_id === 2) {
+            companyList = loadCompany.data.companies;
+        }
+
+        // test();
+        function test() {
+            if ($stateParams.data) {
+                let tmpData = $stateParams.data;
+
+                $mdDialog.show({
+                    controller: 'ExitAfterPassingController',
+                    controllerAs: 'vm',
+                    templateUrl: 'components/user-management/exit-after-passing/exit-after-passing.html',
+                    clickOutsideToClose: true,
+                    locals: {
+                        data: {
+                            data: tmpData
+                        }
+                    }
+                })
+
+            }
+        }
 
         vm.surveys = [];
         userService.loadSurveysOnly().then(function (res) {
@@ -82,6 +111,32 @@
                     })
                 }
             );
+        }
+
+        function copyCustomer(customer) {
+            let tmpData = {
+                customer: {
+                    name: customer.name,
+                    surname: customer.surname,
+                    classification: customer.classification
+                },
+                companies: companyList
+            };
+
+            $mdDialog.show({
+                controller: 'CopyCustomer',
+                controllerAs: 'vm',
+                templateUrl: 'components/user-management/copy-customer/copy-customer.html',
+                clickOutsideToClose: true,
+                locals: {
+                    data: {
+                        data: tmpData
+                    }
+                }
+            }).then(function (data) {
+                console.log(data);
+                // vm.customers.unshift(data);
+            })
         }
 
         function pass(customer, checkSelect) {
@@ -150,6 +205,7 @@
                 let surveys = res.data.onlySurvey;
                 contractService.loadTemplateList().then(function (templateList) {
                     let templates = templateList.data.contractsWithoutBody;
+                    console.log(templates);
                     let dataFromDialog = {
                         customer: customer.name + ' ' + customer.surname,
                         reports: customer.reports,
@@ -177,7 +233,6 @@
                 });
             });
         };
-
 
     }
 }());
