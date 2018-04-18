@@ -1,0 +1,36 @@
+.copy-customer {
+
+  .head {
+    text-align: center;
+    margin: 0 10px;
+  }
+
+  .body {
+    margin: 48px 30px 18px 30px;
+  }
+
+  .client-btn{
+    padding: 20px 30px 30px 30px;
+  }
+
+  .bot-btn button:first-child {
+    color: white;
+  }
+
+  .client-btn button{
+    padding: 0;
+    margin: 0;
+  }
+  @media (max-width: 417px) {
+    .view-head {
+      line-height: 30px;
+      padding: 10px 0;
+    }
+  }
+
+  @media (max-width: 410px) {
+    .bot-btn button:last-child {
+      margin-left: 5px;
+    }
+  }
+}
