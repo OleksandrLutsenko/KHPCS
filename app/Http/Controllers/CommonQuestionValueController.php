@@ -32,7 +32,7 @@ class CommonQuestionValueController extends Controller
 
     public function destroy(Request $request)
     {
-        $common_question_value = CommonQuestionValue::find($request->common_question_id);
+        $common_question_value = CommonQuestionValue::find($request->common_question_value_id);
 
         $common_question_value->delete();
 
