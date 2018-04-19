@@ -211,6 +211,7 @@ Route::group(['middleware' => 'api-response'], function() {
         /** COMMON_QUESTIONS_VALUE */
 
         Route::get('get-common-questions-value', 'CommonQuestionValueController@index');
+        Route::post('get-values-for-questions', 'CommonQuestionValueController@getValuesForSurvey');
         Route::post('create-common-question-value', 'CommonQuestionValueController@store');
         Route::post('update-common-question-value', 'CommonQuestionValueController@update');
         Route::post('delete-common-question-value', 'CommonQuestionValueController@destroy');

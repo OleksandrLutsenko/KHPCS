@@ -13,6 +13,11 @@ class CommonQuestion extends Model
         return $this->hasMany(CommonQuestionValue::class);
     }
 
+    public function question()
+    {
+        return $this->hasMany(Question::class);
+    }
+
     protected static function boot() {
         parent::boot();
         static::deleting(function($common_question) {

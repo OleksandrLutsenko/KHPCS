@@ -11,6 +11,8 @@ class Survey extends Model
 {
     use SoftDeletes;
 
+    protected $common_question_values = array();
+
     protected $fillable = ['name', 'status'];
 
     protected $visible = ['id', 'name', 'status', 'survey_status', 'blocks'];
@@ -124,6 +126,32 @@ class Survey extends Model
             ->whereIn('block_id', $blockArrayIDs)
             ->get();
         return $surveyQuestions;
+    }
+
+    public function getQuestions()
+    {
+        $blocks = $this->block->pluck('id');
+        $questions = Question::whereIn('block_id', $blocks)->get();
+
+        return $questions;
+    }
+
+    public function getAllCommonQuestionValuesForSurvey($customer_id)
+    {
+        $questions = $this->getQuestions();
+
+        $questions_with_common_id = $questions->where('common_question_id', '!=', null);
+
+        foreach ($questions_with_common_id as $question_with_common_id)
+        {
+            foreach ($question_with_common_id->commonQuestion->commonQuestionValues as $commonQuestionValue) {
+                if ($commonQuestionValue->customer_id == $customer_id) {
+                    $this->common_question_values[] = $commonQuestionValue;
+                }
+            }
+        }
+
+        return collect($this->common_question_values);
     }
     
     public static function boot()

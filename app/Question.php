@@ -61,6 +61,11 @@ class Question extends Model
         return $this->hasMany(CustomerAnswer::class);
     }
 
+    public function commonQuestion()
+    {
+        return $this->belongsTo(CommonQuestion::class);
+    }
+
     /**
      * @return mixed
      */

@@ -2,16 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Block;
 use App\CommonQuestionValue;
+use App\Survey;
 use Illuminate\Http\Request;
 
 class CommonQuestionValueController extends Controller
 {
+
+
     public function index()
     {
         $common_questions_value = CommonQuestionValue::all();
 
         return response()->json($common_questions_value, 200);
+    }
+
+    public function getValuesForSurvey(Request $request)
+    {
+        $survey = Survey::find($request->survey_id);
+
+        $common_question_values = $survey->getAllCommonQuestionValuesForSurvey($request->customer_id);
+
+        return response()->json($common_question_values, 200);
     }
 
     public function store(Request $request)
