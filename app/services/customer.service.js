@@ -43,7 +43,7 @@
             return http.post(url.customers.customers, data);
         }
         function copyCustomer(data) {
-            return http.post(url.customers_func(id).copyCustomer, data);
+            return http.post(url.customers.customers, data);
         }
         function updateCustomers(id, data) {
             return http.put(url.customers_func(id).updateCustomers, data);

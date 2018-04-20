@@ -28,11 +28,16 @@
     padding: 20px;
   }
 
-  .radio-btn-info{
+  .universal-info{
     padding-left: 15px;
-    margin-left: 20px;
     color: #797979;
     border-left: 1px solid #797979;
+  }
+  .text-info {
+    margin-left: 48px;
+  }
+  .radio-info {
+    margin-left: 20px;
   }
 
   md-radio-button .md-ripple-container {

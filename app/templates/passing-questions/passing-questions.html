@@ -78,7 +78,7 @@
                                         {{answers.answer_text}}
                                     </p>
 
-                                    <p class="radio-btn-info" ng-if="answers.information">
+                                    <p class="universal-info radio-info" ng-if="answers.information">
                                         {{answers.information}}
                                     </p>
                                 </md-radio-button>
@@ -106,11 +106,10 @@
                                      ng-if="questions.validation_type == 0">
                                     <div ng-message="md-maxlength">Max length {{questions.characters_limit}}.</div>
                                 </div>
-                                <md-card ng-if="questions.information">
-                                    <md-content class="quest-info">
-                                        <p>{{questions.information}}</p>
-                                    </md-content>
-                                </md-card>
+
+                                <p class="universal-info text-info" ng-if="questions.information">
+                                    {{questions.information}}
+                                </p>
                             </div>
 
                             <div ng-if="questions.validation_type == 1">

@@ -27,6 +27,7 @@
         vm.downloadPDF = downloadPDF;
         vm.checkStatus = checkStatus;
         vm.copyCustomer = copyCustomer;
+        vm.companyTooltip = companyTooltip;
         vm.user = userService.getUser();
 
         let companyList = [];
@@ -102,6 +103,8 @@
         survey.selectedSurveys(vm.chosenSurvey);
 
         function checkStatus(reports, surveys) {
+            console.log(reports);
+            console.log(surveys);
             angular.forEach(surveys, function (survey) {
                     angular.forEach(reports, function (report) {
                         if (survey.id === report.survey_id) {
@@ -114,13 +117,24 @@
         }
 
         function copyCustomer(customer) {
+            let customerCompanyId = customer.company_id;
+            let companies = angular.copy(companyList);
+
+            companies = companies.filter(function (company) {
+                if (company.id !== customerCompanyId) {
+                    return company;
+                } else {
+                    console.log('Your company', company.id);
+                }
+            });
+
             let tmpData = {
                 customer: {
                     name: customer.name,
                     surname: customer.surname,
                     classification: customer.classification
                 },
-                companies: companyList
+                companies: companies
             };
 
             $mdDialog.show({
@@ -134,9 +148,20 @@
                     }
                 }
             }).then(function (data) {
-                console.log(data);
-                // vm.customers.unshift(data);
+                if (data.success) {
+                    console.log(data.data);
+                    vm.customers.unshift(data.data);
+                }
             })
+        }
+
+        function companyTooltip(company_id) {
+            for (let i = 0; i < companyList.length; i++) {
+                if (companyList[i].id === company_id) {
+                    return String(companyList[i].name);
+                }
+            }
+            return 'Do not have a company!'
         }
 
         function pass(customer, checkSelect) {
@@ -232,7 +257,7 @@
                     }
                 });
             });
-        };
+        }
 
     }
 }());

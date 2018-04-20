@@ -33,7 +33,14 @@
                         <tbody md-body>
                         <tr md-row
                             ng-repeat="customers in filteredCustomers = (vm.customers | filter:vm.search)|orderBy: customersOrder|  limitTo: vm.myLimit: (vm.myPage - 1) * vm.myLimit">
-                            <td md-cell>{{customers.name + ' ' + customers.surname}}</td>
+                            <td md-cell>
+                                <span>
+                                    <md-tooltip ng-if="vm.user.role_id === 2" md-direction="right">
+                                        {{vm.companyTooltip(customers.company_id)}}
+                                    </md-tooltip>
+                                    {{customers.name + ' ' + customers.surname}}
+                                </span>
+                            </td>
                             <td md-cell>{{customers.classification}}</td>
                             <td md-cell ng-if="customers.user_name === null && vm.user.role_id > 1">Don't have a
                                 Financial Advisor
@@ -87,10 +94,10 @@
                                 {{customers.created_at }}
                             </td>
                             <td md-cell>
-                                <!--<div ng-if="vm.user.role_id === 2">-->
-                                    <!--<md-tooltip md-direction="left">Coping of customer to another company</md-tooltip>-->
-                                    <!--<i class="material-icons" ng-click="vm.copyCustomer(customers)">content_copy</i>-->
-                                <!--</div>-->
+                                <div ng-if="vm.user.role_id === 2">
+                                    <md-tooltip md-direction="left">Coping of customer to another company</md-tooltip>
+                                    <i class="material-icons" ng-click="vm.copyCustomer(customers)">content_copy</i>
+                                </div>
                                 <div>
                                     <md-tooltip md-direction="left">Edit customer info</md-tooltip>
                                     <i class="material-icons"

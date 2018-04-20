@@ -30,7 +30,8 @@
             company_func: function (id) {
                 return {
                     company: baseUrl + 'api/company/' + id,
-                    assign: baseUrl + 'api/company/' + id + '/assign',
+                    assignTemplate: baseUrl + 'api/company/' + id + '/assign',
+                    assignMail: baseUrl + 'api/company/' + id + '/assign',
                     deleteAdm: baseUrl + 'api/user/' + id + '/delete',
                     cancelInv: baseUrl + 'api/invite/' + id + '/delete',
                     companyCustomers: baseUrl + 'api/company/' + id + '/customers',
@@ -71,8 +72,6 @@
             },
             customers_func: function (id) {
                 return {
-                    customers: baseUrl + 'api/customer',
-                    copyCustomer: baseUrl + 'api/copy-customer',
                     updateCustomers: baseUrl + 'api/customer/' + id,
                     sendCustomerAnswer: baseUrl + 'api/customer/' + id + '/make-answer',
                     getCustomerAnswer: baseUrl + 'api/customer/' + id.customer + '/survey/' + id.survey + '/list'

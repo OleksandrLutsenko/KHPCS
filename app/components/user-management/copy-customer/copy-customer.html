@@ -6,7 +6,7 @@
 
     <md-input-container class="body">
         <label>Select company</label>
-        <md-select ng-model="vm.data.companyId">
+        <md-select ng-model="vm.data.company_id">
             <md-option value="{{company.id}}" ng-repeat="company in vm.companies">
                 {{company.name}}
             </md-option>
@@ -14,7 +14,7 @@
     </md-input-container>
 
     <md-dialog-actions class="bot-btn client-btn" layout="row" layout-align="space-between center">
-        <md-button class="md-raised" ng-click="vm.copy()" ng-disabled="vm.data.companyId === undefined">Copy</md-button>
+        <md-button class="md-raised" ng-click="vm.copy()" ng-disabled="vm.data.company_id === undefined">Copy</md-button>
         <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
     </md-dialog-actions>
 </md-dialog>
