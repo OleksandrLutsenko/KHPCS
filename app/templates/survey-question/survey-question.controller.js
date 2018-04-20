@@ -312,6 +312,8 @@
                 clickOutsideToClose: true,
             }).then(function () {
                 $scope.$emit('changeItems', vm.items);
+            },
+            function () {
             });
         }
 
