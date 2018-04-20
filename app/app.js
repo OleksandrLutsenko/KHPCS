@@ -10,8 +10,11 @@
         ])
         .run(runBlock);
 
-    // runBlock.$inject = ['$sessionStorage','$localStorage',];
+    runBlock.$inject = ['$localStorage', '$state'];
 
-    function runBlock() {
+    function runBlock($localStorage, $state) {
+        if(!$localStorage.token) {
+            $state.go('login');
+        }
     }
 })();

@@ -2,7 +2,16 @@
     'use strict';
 
     angular.module('blocks.services', [
-        'service.weather'
+        'service.userService',
+        'service.companyService',
+        'service.blockService',
+        'service.customerService',
+        'service.tabsService',
+        'service.dataService',
+        'service.passingQuestionService',
+        'service.surveyService',
+        'service.contractService',
+        'service.riskService'
     ]);
 
 })();

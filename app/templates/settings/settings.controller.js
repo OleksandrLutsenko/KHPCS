@@ -4,12 +4,11 @@
     angular.module('app')
         .controller('SettingsController', SettingsController);
 
+    SettingsController.$inject = ['tabsService'];
 
-    SettingsController.$inject = [];
-
-    function SettingsController() {
+    function SettingsController(tabsService) {
         let vm = this;
-
+        tabsService.startTab('page5');
 
     }
 })();

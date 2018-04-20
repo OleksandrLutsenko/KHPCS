@@ -1,0 +1,20 @@
+<md-dialog flex="40" flex-xs="90" flex-sm="70" class="copy-customer">
+
+    <md-toolbar layout="row" layout-align="center center" class="view-head">
+        <span class="head">Coping of customer to another company</span>
+    </md-toolbar>
+
+    <md-input-container class="body">
+        <label>Select company</label>
+        <md-select ng-model="vm.data.company_id">
+            <md-option value="{{company.id}}" ng-repeat="company in vm.companies">
+                {{company.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+
+    <md-dialog-actions class="bot-btn client-btn" layout="row" layout-align="space-between center">
+        <md-button class="md-raised" ng-click="vm.copy()" ng-disabled="vm.data.company_id === undefined">Copy</md-button>
+        <md-button class="md-raised" ng-click="vm.cancel()">Close</md-button>
+    </md-dialog-actions>
+</md-dialog>
