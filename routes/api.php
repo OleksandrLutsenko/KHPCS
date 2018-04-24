@@ -187,6 +187,7 @@ Route::group(['middleware' => 'api-response'], function() {
         Route::get('/company-own', 'CompanyController@showOwn');
         Route::post('/company/{company}/assign', 'CompanyController@assignSurveyAndContracts');
         Route::get('/company/{company}/index-assigns', 'CompanyController@indexAssigns');
+        Route::post('/active-send-email', 'CompanyController@activeSendEmail');
 
         Route::post('/resend-invite', 'InviteController@createAndSendInvite');
         Route::post('/send-invite', 'InviteController@A');

@@ -148,32 +148,48 @@ class ContractController extends Controller
         );
     }
 
-    public function sendContractToClient(Report $report, Contract $contract, $userFilename) {
-
+    public function sendContractToClient(Report $report, Contract $contract, $userFilename)
+    {
         $user = Auth::user();
         $customer = $report->customer;
-        $userVariables = Variable::getVariablesTextWithTrashed();
-        $contractAnswers = $contract->getContractAnswers($report);
-        $risk_value = Risk::riskValue($report);
-        $answer_additional_text = Answer::additionalText($report);
 
-        $path = $contract->makeContractPDF(
-            $userFilename,
-            $contractAnswers,
-            $userVariables,
-            $report,
-            $customer,
-            $user,
-            $risk_value,
-            $answer_additional_text,
-            $send_email = true
-        );
+        $company_survey = CompanySurvey::where([
+            'company_id' => $customer->company_id,
+            'survey_id' => $report->survey_id,
+            'contract_id' => $contract->id
+        ])->first();
 
-        Contract::sendContract($user, $path);
+        if ($company_survey != null) {
+            if ($company_survey->send_email) {
+                $userVariables = Variable::getVariablesTextWithTrashed();
+                $contractAnswers = $contract->getContractAnswers($report);
+                $risk_value = Risk::riskValue($report);
+                $answer_additional_text = Answer::additionalText($report);
 
-        File::delete(storage_path() . '/contracts/' . $userFilename . 'pdf');
+                $path = $contract->makeContractPDF(
+                    $userFilename,
+                    $contractAnswers,
+                    $userVariables,
+                    $report,
+                    $customer,
+                    $user,
+                    $risk_value,
+                    $answer_additional_text,
+                    $send_email = true
+                );
 
-        return response('The email was sent', 200);
+                Contract::sendContract($customer, $path);
+
+                File::delete(storage_path() . '/contracts/' . $userFilename . 'pdf');
+
+                return response('The email was send', 200);
+
+            } else {
+                return response('The email was not send', 200);
+            }
+        } else {
+            return response('The email was not send', 200);
+        }
     }
 
     public function usedImages(Contract $contract) {

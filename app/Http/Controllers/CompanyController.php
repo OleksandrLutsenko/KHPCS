@@ -149,4 +149,38 @@ class CompanyController extends Controller
     {
         return $company->companySurveys->all();
     }
+
+    public function activeSendEmail(Request $request)
+    {
+        $company_survey = CompanySurvey::where([
+            'company_id' => $request->company_id,
+            'survey_id' => $request->survey_id,
+            'contract_id' => $request->contract_id
+        ])->first();
+
+        if ($company_survey->send_email == 1) {
+            return response(['message' => 'Success'], 200);
+        }
+
+        if ($company_survey != null) {
+
+            $other_company_surveys = CompanySurvey::where([
+                'company_id' => $request->company_id,
+                'survey_id' => $request->survey_id
+            ])->get();
+
+            foreach ($other_company_surveys as $other_company_survey) {
+                $other_company_survey->send_email = 0;
+                $other_company_survey->save();
+            }
+
+            $company_survey->send_email = 1;
+            $company_survey->save();
+
+            return response(['message' => 'Success'], 200);
+
+        } else {
+            return response(['message' => 'Not found'], 404);
+        }
+    }
 }
