@@ -10,7 +10,7 @@ class Customer extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['name', 'surname', 'classification', 'user_id', 'company_id'];
+    protected $fillable = ['name', 'surname', 'classification', 'user_id', 'company_id', 'email'];
 
     protected $visible = ['id', 'name', 'surname', 'classification', 'user_id', 'user_name', 'reports', 'created_at', 'company_id', 'available_surveys', 'email'];
 

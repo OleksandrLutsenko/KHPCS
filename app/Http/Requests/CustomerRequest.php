@@ -41,6 +41,7 @@ class CustomerRequest extends FormRequest
             $attributes['company_id'] = Auth::user()->company_id;
         }
         $attributes['name'] = $this->name;
+        $attributes['email'] = $this->email;
         $attributes['surname'] = $this->surname;
         $attributes['classification'] = $this->classification;
         return $attributes;
