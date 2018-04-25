@@ -88,7 +88,7 @@
         }
 
         function assign(id , data) {
-            return http.post(url.company_func(id).assign , data);
+            return http.post(url.company_func(id).assignTemplate , data);
         }
 
         function companyAdmin() {
