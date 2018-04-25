@@ -183,4 +183,28 @@ class CompanyController extends Controller
             return response(['message' => 'Not found'], 404);
         }
     }
+
+    public function deactivateSendEmail(Request $request)
+    {
+        $company_survey = CompanySurvey::where([
+            'company_id' => $request->company_id,
+            'survey_id' => $request->survey_id,
+            'contract_id' => $request->contract_id
+        ])->first();
+
+        if ($company_survey->send_email == 0) {
+            return response(['message' => 'Success'], 200);
+        }
+
+        if ($company_survey != null) {
+
+            $company_survey->send_email = 0;
+            $company_survey->save();
+
+            return response(['message' => 'Success'], 200);
+
+        } else {
+            return response(['message' => 'Not found'], 404);
+        }
+    }
 }
