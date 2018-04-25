@@ -62,7 +62,8 @@
                 name: customersUser.name,
                 surname: customersUser.surname,
                 classification: customersUser.classification,
-                company_id: customersUser.company_id
+                company_id: customersUser.company_id,
+                email: customersUser.email
             }
             vm.user.update = true;
         } else{
