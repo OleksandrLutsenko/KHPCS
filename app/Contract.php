@@ -137,10 +137,11 @@ class Contract extends Model
         return compact('filenamePdf', 'filePathUrlPdf');
     }
 
-    public static function sendContract(Report $report, $userFilename = 'file')
+    public static function sendContract(Report $report, $customer_id, $userFilename = 'file')
     {
         $user = Auth::user();
-        $customer = $report->customer;
+
+        $customer = Customer::find($customer_id);
 
         $company_survey = CompanySurvey::where([
             'company_id' => $customer->company_id,
