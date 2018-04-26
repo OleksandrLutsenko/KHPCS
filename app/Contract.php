@@ -148,9 +148,13 @@ class Contract extends Model
             'send_email' => 1
         ])->first();
 
+        if ($company_survey == null || !$company_survey->send_email) {
+            return response('The email was not send', 200);
+        }
+
         $contract = Contract::find($company_survey->contract_id);
 
-        if ($company_survey == null || $contract == null || !$company_survey->send_email) {
+        if ($contract == null) {
             return response('The email was not send', 200);
         }
 
