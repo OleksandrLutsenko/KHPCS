@@ -8,6 +8,7 @@
 
     function CommonQuestListController($mdDialog, data) {
         let vm = this;
+        let drag = true;
         let items = [
             {
                 title: "Common Qest Text1",
@@ -32,6 +33,7 @@
         ];
 
         vm.drag = false;
+        vm.dragInwert = dragInwert;
 
         vm.items = items;
         vm.cancel = cancel;
@@ -76,6 +78,11 @@
             } else {
                 vm.drag = false;
             }
+        }
+
+        function dragInwert() {
+            drag = !drag;
+            console.log(drag);
         }
 
 

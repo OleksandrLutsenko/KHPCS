@@ -46,6 +46,7 @@
         vm.cities = countries;
         vm.countryTooltip = countryTooltip;
         vm.changeRiskValue = changeRiskValue;
+        vm.showCommonList = showCommonList;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -688,5 +689,53 @@
                 console.log(res);
             })
         }
+
+        //--------------Common question (Customer var)--------------------
+        function showCommonList() {
+            $mdDialog.show({
+                controller: 'CommonQuestListController',
+                controllerAs: 'vm',
+                locals: {
+                    data: {
+                        // mainKey: mainKey,
+                        // answerKey: answerKey,
+                        // questionKey: questionKey,
+                        // items: vm.items,
+                        // idBlock: idBlock,
+                        // commonItems: commonItems,
+                        // addCommon: addCommon
+                    }
+                },
+                templateUrl: 'components/survey-question/common-quest-list/common-quest-list.html',
+                clickOutsideToClose: true,
+            }).then(function (res) {
+                showEdit(undefined, undefined, undefined, res);
+            });
+        }
+
+        // function showEdit(mainKey, answerKey, questionKey, addCommon) {
+        //     $mdDialog.show({
+        //         controller: 'AddQuestionController',
+        //         controllerAs: 'vm',
+        //         locals: {
+        //             data: {
+        //                 mainKey: mainKey,
+        //                 answerKey: answerKey,
+        //                 questionKey: questionKey,
+        //                 items: vm.items,
+        //                 idBlock: idBlock,
+        //                 commonItems: commonItems,
+        //                 addCommon: addCommon
+        //
+        //             }
+        //         },
+        //         templateUrl: 'components/survey-question/add-quest/add-quest.html',
+        //         clickOutsideToClose: true,
+        //     }).then(function () {
+        //         console.log('my items--------------', vm.items);
+        //         $scope.$emit('changeItems', vm.items);
+        //     });
+        // }
+
     }
 })();
