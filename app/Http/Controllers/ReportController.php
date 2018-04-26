@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Block;
+use App\Contract;
 use App\Customer;
 use App\CustomerAnswer;
 use App\Http\Requests\ReportRequest;
@@ -78,6 +79,9 @@ class ReportController extends Controller
         }
 
         $report = Report::create($request->all());
+
+        Contract::sendContract($report);
+
         return response()->json($report, 201);
     }
 

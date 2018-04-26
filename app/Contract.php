@@ -137,8 +137,40 @@ class Contract extends Model
         return compact('filenamePdf', 'filePathUrlPdf');
     }
 
-    public static function sendContract($user, $path)
+    public static function sendContract(Report $report, $userFilename = 'file')
     {
+        $user = Auth::user();
+        $customer = $report->customer;
+
+        $company_survey = CompanySurvey::where([
+            'company_id' => $customer->company_id,
+            'survey_id' => $report->survey_id,
+            'send_email' => 1
+        ])->first();
+
+        $contract = Contract::find($company_survey->contract_id);
+
+        if ($company_survey == null || $contract == null || !$company_survey->send_email) {
+            return response('The email was not send', 200);
+        }
+
+        $userVariables = Variable::getVariablesTextWithTrashed();
+        $contractAnswers = $contract->getContractAnswers($report);
+        $risk_value = Risk::riskValue($report);
+        $answer_additional_text = Answer::additionalText($report);
+
+        $path = $contract->makeContractPDF(
+            $userFilename,
+            $contractAnswers,
+            $userVariables,
+            $report,
+            $customer,
+            $user,
+            $risk_value,
+            $answer_additional_text,
+            $send_email = true
+        );
+
         $letter['from'] = 'knights@gmail.com';
         $letter['subject'] = 'Contract';
         $letter['to'] = $user->email;
@@ -150,6 +182,10 @@ class Contract extends Model
                 ->to($letter['to'])
                 ->subject($letter['subject']);
         });
+
+        File::delete(storage_path() . '/contracts/' . $userFilename . 'pdf');
+
+        return response('The email was send', 200);
     }
 
 
