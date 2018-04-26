@@ -17,6 +17,8 @@
         vm.myLimit = 10;
         vm.myPage = 1;
 
+        console.log('Hello test 2');
+
         vm.customers = customerService.getCustomers();
         // userService.downloadPackagePDF(vm.customers);
 

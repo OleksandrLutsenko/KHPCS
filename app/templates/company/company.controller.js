@@ -52,12 +52,20 @@
             let assignTemplates = assignST.data;
             riskTemplates = assignST.data;
             vm.templateModel = [];
-            vm.templates.forEach(function (template) {
+            vm.templateSendOnMailModel = [];
+            console.log('vm.templates = ', vm.templates);
+            console.log('assignTemplates = ', assignTemplates);
+            vm.templates.forEach(function (template, index) {
+
                 for (let at in assignTemplates) {
                     if (template.id !== assignTemplates[at].contract_id) {
-                        vm.templateModel[template.id] = false;
+                        vm.templateModel[index] = false;
+                        vm.templateSendOnMailModel[index] = false;
                     } else {
-                        vm.templateModel[template.id] = true;
+                        vm.templateModel[index] = true;
+                        if (assignTemplates[at].send_email === 1) {
+                            vm.templateSendOnMailModel[index] = true;
+                        }
                         break;
                     }
                 }
@@ -67,30 +75,60 @@
                 vm.risks = risks.data
             }
 
-            vm.checkboxTemplates = function (survey_id, templateID) {
-                let companyID = vm.companyOne.id;
-                let tmpData;
-                if (vm.templateModel[templateID] === true) {
-                    tmpData = [{
-                        survey_id: survey_id,
-                        contract_id: templateID
-                    }];
-                    companyService.assign(companyID, tmpData).then(function (res) {
+            vm.checkboxTemplates = function (survey_id, template_id, template_index, type) {
+                let company_id = vm.companyOne.id;
+                let data = {
+                    survey_id: survey_id,
+                    contract_id: template_id
+                };
+
+                if (type === 'template') {
+                    if (vm.templateModel[template_index] === true) {
+                        sendTemplate();
+                    } else {
+                        data.delete = true;
+                        sendTemplate();
+                    }
+
+                } else if (type === 'mail') {
+                    data.company_id = company_id;
+                    if (vm.templateSendOnMailModel[template_index]) {
+                        sendMail('activate');
+                    } else {
+                        sendMail('deactivate');
+                    }
+                }
+
+                function sendTemplate() {
+                    companyService.assign(company_id, [data]).then(function (res) {
                         if (res.success) {
                             riskTemplates = res.data.assigned;
+
+                            if (data.delete) {
+                                vm.templateSendOnMailModel[template_index] = false;
+                            }
                         }
                     });
-                } else {
-                    tmpData = [{
-                        survey_id: survey_id,
-                        contract_id: templateID,
-                        delete: true
-                    }];
-                    companyService.assign(companyID, tmpData).then(function (res) {
+                }
+
+                function sendMail(type) {
+                    companyService.sendEmail(data, type).then(function (res) {
                         if (res.success) {
-                            riskTemplates = res.data.assigned;
+                            changeActiveMail();
                         }
                     });
+                }
+                
+                function changeActiveMail() {
+                    for (let i=0; i<vm.templates.length; i++) {
+                        let template = vm.templates[i];
+
+                        if (survey_id === template.survey_id) {
+                            if (template_index !== i) {
+                                vm.templateSendOnMailModel[i] = false;
+                            }
+                        }
+                    }
                 }
             };
         }

@@ -31,7 +31,8 @@
                 return {
                     company: baseUrl + 'api/company/' + id,
                     assignTemplate: baseUrl + 'api/company/' + id + '/assign',
-                    assignMail: baseUrl + 'api/company/' + id + '/assign',
+                    activeSendEmail: baseUrl + 'api/active-send-email',
+                    deactivateSendEmail: baseUrl + 'api/deactivate-send-email',
                     deleteAdm: baseUrl + 'api/user/' + id + '/delete',
                     cancelInv: baseUrl + 'api/invite/' + id + '/delete',
                     companyCustomers: baseUrl + 'api/company/' + id + '/customers',
