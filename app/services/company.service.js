@@ -20,6 +20,7 @@
         model.loadOneCompany = loadOneCompany;
         model.allCompanies = allCompanies;
         model.assign = assign;
+        model.sendEmail = sendEmail;
         model.companyAdmin = companyAdmin;
         model.deleteAdmin = deleteAdmin;
         model.cancelInv = cancelInv;
@@ -87,8 +88,17 @@
             return http.get(url.company_func(id).company );
         }
 
-        function assign(id , data) {
+        function assign(id, data) {
             return http.post(url.company_func(id).assignTemplate , data);
+        }
+        function sendEmail(data, type) {
+            if (type === 'activate') {
+                console.log('activate');
+                return http.post(url.company_func().activeSendEmail , data);
+            } else if (type === 'deactivate') {
+                console.log('deactivate');
+                return http.post(url.company_func().deactivateSendEmail , data);
+            }
         }
 
         function companyAdmin() {

@@ -177,18 +177,27 @@
                     <md-list-item class="secondary-button-padding" ng-if="vm.noneTmp(survey.survey_id)">
                         <p>No templates. Please create one.</p>
                     </md-list-item>
-                    <md-list ng-repeat="template in vm.templates" ng-if="survey.survey_id === template.survey_id">
+                    <md-list ng-repeat="(templateKey, template) in vm.templates" ng-if="survey.survey_id === template.survey_id">
                         <md-list-item class="secondary-button-padding">
                             <p> {{template.title}}</p>
-                            <div>
-                                <md-tooltip md-direction="left">Pick a template</md-tooltip>
-                                <md-checkbox ng-model="vm.templateModel[template.id]" aria-label="Checkbox 1"
-                                             class="md-primary check-tmp"
-                                             ng-change="vm.checkboxTemplates(template.survey_id , template.id)"
-                                >
-                                </md-checkbox>
-                            </div>
-
+                            <div layout="row">
+                                <div>
+                                    <md-tooltip md-direction="left">Pick a template</md-tooltip>
+                                    <md-checkbox ng-model="vm.templateModel[templateKey]" aria-label="Checkbox 1"
+                                                 class="md-primary check-tmp"
+                                                 ng-change="vm.checkboxTemplates(template.survey_id , template.id, templateKey, 'template')"
+                                    >
+                                    </md-checkbox>
+                                </div>
+                                <div>
+                                    <md-tooltip md-direction="left">Send contract to mail after passing</md-tooltip>
+                                    <md-checkbox ng-model="vm.templateSendOnMailModel[templateKey]" aria-label="Checkbox 2"
+                                                 class="md-primary check-tmp"
+                                                 ng-disabled="!vm.templateModel[templateKey]"
+                                                 ng-change="vm.checkboxTemplates(template.survey_id , template.id, templateKey, 'mail')"
+                                    >
+                                    </md-checkbox>
+                                </div>
                         </md-list-item>
                     </md-list>
                     <md-divider></md-divider>
@@ -213,9 +222,12 @@
 
                         <v-pane-content class="tmp-section" flex="100">
                             <div layout="row" layout-align="space-between center">
-                                <md-button ng-click="vm.riskNewPole(availableSurveysKey, survey.survey_id)">Add new Pole</md-button>
+                                <md-button ng-click="vm.riskNewPole(availableSurveysKey, survey.survey_id)">Add new
+                                    Pole
+                                </md-button>
                                 <md-button ng-click="vm.riskRefresh(availableSurveysKey)">Refresh</md-button>
-                                <md-button ng-click="vm.riskSave(availableSurveysKey, survey.survey_id)">Save</md-button>
+                                <md-button ng-click="vm.riskSave(availableSurveysKey, survey.survey_id)">Save
+                                </md-button>
                             </div>
                             <div ng-repeat="(riskKey, risk) in survey.working_risks_value" flex="100"
                                  layout="column" layout-align="center center">
@@ -224,9 +236,11 @@
                                     <md-input-container flex="15" style="width: 100%;">
                                         <label>Condition</label>
                                         <md-select ng-model="risk.condition">
-                                            <md-option ng-value="'less'" ng-click="vm.riskLessFunc(riskKey, availableSurveysKey)">
+                                            <md-option ng-value="'less'"
+                                                       ng-click="vm.riskLessFunc(riskKey, availableSurveysKey)">
                                                 <span>&lt;=</span></md-option>
-                                            <md-option ng-value="'more'" ng-click="vm.riskMoreFunc(riskKey, availableSurveysKey)">
+                                            <md-option ng-value="'more'"
+                                                       ng-click="vm.riskMoreFunc(riskKey, availableSurveysKey)">
                                                 <span>&gt;</span></md-option>
                                         </md-select>
                                     </md-input-container>
