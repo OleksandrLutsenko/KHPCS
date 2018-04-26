@@ -82,10 +82,6 @@ class ReportController extends Controller
 
         $status = Contract::sendContract($report);
 
-        if ($status) {
-            return $status;
-        }
-
         return response()->json($report, 201);
     }
 
