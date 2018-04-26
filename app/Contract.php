@@ -148,11 +148,11 @@ class Contract extends Model
             'send_email' => 1
         ])->first();
 
-        if ($company_survey == null || $company_survey->send_email == 0) {
+        if ($company_survey != null || $company_survey->send_email != 0) {
 
             $contract = Contract::find($company_survey->contract_id);
 
-            if ($contract == null) {
+            if ($contract != null) {
 
                 $userVariables = Variable::getVariablesTextWithTrashed();
                 $contractAnswers = $contract->getContractAnswers($report);
