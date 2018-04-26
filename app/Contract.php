@@ -148,46 +148,44 @@ class Contract extends Model
             'send_email' => 1
         ])->first();
 
-        if ($company_survey != null || $company_survey->send_email != 0) {
+        if ($company_survey != null) {
+            if ($company_survey->send_email != 0) {
+                $contract = Contract::find($company_survey->contract_id);
+                if ($contract != null) {
+                    $userVariables = Variable::getVariablesTextWithTrashed();
+                    $contractAnswers = $contract->getContractAnswers($report);
+                    $risk_value = Risk::riskValue($report);
+                    $answer_additional_text = Answer::additionalText($report);
 
-            $contract = Contract::find($company_survey->contract_id);
+                    $path = $contract->makeContractPDF(
+                        $userFilename,
+                        $contractAnswers,
+                        $userVariables,
+                        $report,
+                        $customer,
+                        $user,
+                        $risk_value,
+                        $answer_additional_text,
+                        $send_email = true
+                    );
 
-            if ($contract != null) {
+                    $letter['from'] = 'knights@gmail.com';
+                    $letter['subject'] = 'Contract';
+                    $letter['to'] = $user->email;
+                    $letter['path'] = $path;
 
-                $userVariables = Variable::getVariablesTextWithTrashed();
-                $contractAnswers = $contract->getContractAnswers($report);
-                $risk_value = Risk::riskValue($report);
-                $answer_additional_text = Answer::additionalText($report);
+                    Mail::send('send-contract', compact($letter), function ($message) use ($letter){
+                        $message->from($letter['from'])
+                            ->attach($letter['path'], ['as' => 'report.pdf'])
+                            ->to($letter['to'])
+                            ->subject($letter['subject']);
+                    });
 
-                $path = $contract->makeContractPDF(
-                    $userFilename,
-                    $contractAnswers,
-                    $userVariables,
-                    $report,
-                    $customer,
-                    $user,
-                    $risk_value,
-                    $answer_additional_text,
-                    $send_email = true
-                );
-
-                $letter['from'] = 'knights@gmail.com';
-                $letter['subject'] = 'Contract';
-                $letter['to'] = $user->email;
-                $letter['path'] = $path;
-
-                Mail::send('send-contract', compact($letter), function ($message) use ($letter){
-                    $message->from($letter['from'])
-                        ->attach($letter['path'], ['as' => 'report.pdf'])
-                        ->to($letter['to'])
-                        ->subject($letter['subject']);
-                });
-
-                File::delete(storage_path() . '/contracts/' . $userFilename . 'pdf');
+                    File::delete(storage_path() . '/contracts/' . $userFilename . 'pdf');
+                }
             }
         }
     }
-
 
     public static function boot()
     {
