@@ -188,8 +188,6 @@ class Contract extends Model
         });
 
         File::delete(storage_path() . '/contracts/' . $userFilename . 'pdf');
-
-        return response('The email was send', 200);
     }
 
 
