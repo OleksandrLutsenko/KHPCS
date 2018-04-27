@@ -58,15 +58,17 @@
             vm.templates.forEach(function (template, index) {
 
                 for (let at in assignTemplates) {
-                    if (template.id !== assignTemplates[at].contract_id) {
+                    if (template.id !== assignTemplates[at].contract_id && template.survey_id === assignTemplates[at].survey_id) {
                         vm.templateModel[index] = false;
                         vm.templateSendOnMailModel[index] = false;
                     } else {
-                        vm.templateModel[index] = true;
-                        if (assignTemplates[at].send_email === 1) {
-                            vm.templateSendOnMailModel[index] = true;
+                        if (template.survey_id === assignTemplates[at].survey_id) {
+                            vm.templateModel[index] = true;
+                            if (assignTemplates[at].send_email === 1) {
+                                vm.templateSendOnMailModel[index] = true;
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
             });
