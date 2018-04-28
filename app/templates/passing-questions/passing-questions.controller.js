@@ -7,11 +7,11 @@
 
     PassingQuestionController.$inject = ['$scope', 'countries', 'passingQuestionService', '$state', 'customers',
         'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey', '$mdDialog',
-        'contractService'];
+        'contractService', 'companyService', 'userService'];
 
     function PassingQuestionController($scope, countries, passingQuestionService, $state, customers,
                                        customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey, $mdDialog,
-                                       contractService) {
+                                       contractService, companyService, userService) {
         let vm = this;
         $scope.$emit('changeTab', 'page6');
 
@@ -40,7 +40,6 @@
         let rebootBuilderStatus = false;
         let radioId;
         let lastAnswerIsFinal = false;
-        ;
 
         // Fix from correct paste answer in contract (unicode trouble)
         startupFix();
@@ -510,10 +509,12 @@
                             allChosenSurveys.splice([0], 1);
                             survey.selectedSurveys(allChosenSurveys);
                             toastr.success('Has been completed', vm.activeSurveyName);
+                            sendContractToEmail(res.data.id);
                             downloadPDF(res);
                             $state.reload();
                         } else {
                             customers.setfinishQuestionair(true);
+                            sendContractToEmail(res.data.id);
                             downloadPDF(res);
                             $state.go('tab.user-management');
                             toastr.success('Completed');
@@ -851,6 +852,32 @@
                     });
                 }
             });
+        };
+        
+        function sendContractToEmail(repotrt_id) {
+            let assignTemplates;
+            let survey_id = oneSurveyItems.id;
+            let contractName = 'some_name'; //on the backend is not done
+
+
+            let company_id = customers.getActiveCustomers().company_id;
+            companyService.selectedSurvTempInCompany(company_id).then(function (res) {
+                if (res.success) {
+                    assignTemplates = res.data;
+            }
+            }).then(function () {
+
+                for (let item in assignTemplates){
+                    if(assignTemplates[item].survey_id === survey_id && assignTemplates[item].send_email){
+                        let contract_id = assignTemplates[item].contract_id;
+
+                        userService.sendContractToEmail(repotrt_id, contract_id, contractName);
+                        break
+                    }
+                }
+            });
+
+
         }
     }
 

@@ -117,7 +117,8 @@
             contract_download_func: function (idReport, idContract, filename) {
                 return {
                     downloadPDF: baseUrl + 'api/report/' + idReport + '/contract/' + idContract + '/review/' + filename,
-                    removePDF: baseUrl + 'api/storage/contracts/' + idReport
+                    removePDF: baseUrl + 'api/storage/contracts/' + idReport,
+                    sendContractToEmail: baseUrl + 'api/report/' + idReport + '/contract/' + idContract + '/send-contract/' + filename
                 };
             },
 
