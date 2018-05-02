@@ -30,6 +30,7 @@
         //DownloadContract
         model.getContract = getContract;
         model.removePdf = removePdf;
+        model.sendContractToEmail = sendContractToEmail;
 
         //Download package pdf
         model.downloadPackagePDF = downloadPackagePDF;
@@ -120,6 +121,10 @@
         }
         function removePdf(idReport) {
             return http.delete(url.contract_download_func(idReport).removePDF);
+        }
+
+        function sendContractToEmail(idReport, idContract, filename) {
+            return http.post(url.contract_download_func(idReport, idContract, filename).sendContractToEmail);
         }
 
         function downloadPackagePDF(customers) {

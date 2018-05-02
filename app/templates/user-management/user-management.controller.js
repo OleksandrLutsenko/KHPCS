@@ -167,14 +167,15 @@
         }
 
         function pass(customer, checkSelect) {
-            let cactomerTmp = {
+            let customerTmp = {
                 id: customer.id,
                 name: customer.name,
-                surname: customer.surname
+                surname: customer.surname,
+                company_id: customer.company_id
             };
             checkSelect = true;
             vm.checkSelect = checkSelect;
-            customers.setActiveCustomers(cactomerTmp);
+            customers.setActiveCustomers(customerTmp);
             surveyService.loadSurveyOnly().then(function () {
                 $state.go('tab.passing-question');
             });
