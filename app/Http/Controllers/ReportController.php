@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Answer;
 use App\Block;
+use App\Contract;
 use App\Customer;
 use App\CustomerAnswer;
 use App\Http\Requests\ReportRequest;
@@ -71,13 +72,16 @@ class ReportController extends Controller
 
     public function store(Report $report, ReportRequest $request, User $user)
     {
-        $oldReport = Report::where('customer_id', $request->customer_id)->
-                             where('survey_id', $request->survey_id)->first();
+        $oldReport = Report::where('customer_id', $request->customer_id)
+            ->where('survey_id', $request->survey_id)->first();
         if($oldReport){
             $oldReport->delete();
         }
 
         $report = Report::create($request->all());
+
+        $status = Contract::sendContract($report, $request->customer_id);
+
         return response()->json($report, 201);
     }
 
