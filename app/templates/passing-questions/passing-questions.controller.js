@@ -6,12 +6,12 @@
 
 
     PassingQuestionController.$inject = ['$scope', 'countries', 'passingQuestionService', '$state', 'customers',
-        'customerAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey', '$mdDialog',
-        'contractService', 'companyService', 'userService'];
+        'customerAnswer', 'customerCommonAnswer', 'oneSurveyItems', 'toastr', 'tabsService', 'surveyService', 'survey',
+        '$mdDialog', 'contractService', 'companyService', 'userService'];
 
     function PassingQuestionController($scope, countries, passingQuestionService, $state, customers,
-                                       customerAnswer, oneSurveyItems, toastr, tabsService, surveyService, survey, $mdDialog,
-                                       contractService, companyService, userService) {
+                                       customerAnswer, customerCommonAnswer, oneSurveyItems, toastr, tabsService,
+                                       surveyService, survey, $mdDialog, contractService, companyService, userService) {
         let vm = this;
         $scope.$emit('changeTab', 'page6');
 
@@ -139,6 +139,13 @@
 
         function fill(question, radio) {
             // console.log('vm.data (на входе) = ', angular.copy(vm.data));
+            console.log('fill the question', question);
+
+            let maybeACommonQuestion = false;
+            if (question.type === 2 || question.type === 3 || question.type === 4 ) {
+                maybeACommonQuestion = true;
+            }
+
             let idActiveBlock = items.blocks[indexActiveBlock].id;
             let mainData = {
                 answerData: []
@@ -162,6 +169,11 @@
                 }
                 else {
                     mainData.mainData = findAnswer(question);
+                    if (!mainData.mainData) {
+                        if (maybeACommonQuestion) {
+                            mainData.mainData = findCommonAnswer(question);
+                        }
+                    }
                 }
             }
 
@@ -193,6 +205,17 @@
                 });
 
                 return mainData;
+            }
+
+            function findCommonAnswer(item) {
+                let commonAnswer;
+                for (let i = 0; i < customerCommonAnswer.length; i++) {
+                    let common = customerCommonAnswer[i];
+                    if (common.common_question_id === item.common_question_id) {
+                        commonAnswer = common.value;
+                    }
+                }
+                return commonAnswer;
             }
 
             return mainData;
@@ -852,7 +875,7 @@
                     });
                 }
             });
-        };
+        }
         
         function sendContractToEmail(repotrt_id) {
             let assignTemplates;
@@ -880,5 +903,4 @@
 
         }
     }
-
 })();

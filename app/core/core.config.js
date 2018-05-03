@@ -230,6 +230,21 @@
                             }
                         });
                     },
+                    customerCommonAnswer: function (surveyService, customers, survey, passingQuestionService) {
+                        let items = surveyService.getSurveyOnly();
+                        let indexActiveSurvey = survey.getActiveQuestionair().index;
+
+                        let data = {
+                            customer_id: customers.getActiveCustomers().id,
+                            survey_id: items[indexActiveSurvey].survey_id
+                        };
+
+                        return passingQuestionService.getCustomerCommonAnswer(data).then(function (res) {
+                            if (res.success) {
+                                return res.data
+                            }
+                        });
+                    },
                     oneSurveyItems: function (survey, surveyService) {
                         let idActiveSurvey = survey.getActiveQuestionair().id;
 

@@ -69,7 +69,8 @@
                 };
             },
             customers: {
-                customers: baseUrl + 'api/customer'
+                customers: baseUrl + 'api/customer',
+                getCustomerCommonAnswer: baseUrl + 'api/get-values-for-questions'
             },
             customers_func: function (id) {
                 return {

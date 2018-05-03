@@ -12,6 +12,7 @@
 
         model.sendCustomerAnswer = sendCustomerAnswer;
         model.getCustomerAnswer = getCustomerAnswer;
+        model.getCustomerCommonAnswer = getCustomerCommonAnswer;
         model.createReport = createReport;
 
         return model;
@@ -22,6 +23,10 @@
 
         function getCustomerAnswer(id) {
             return http.get(url.customers_func(id).getCustomerAnswer, {});
+        }
+
+        function getCustomerCommonAnswer(data) {
+            return http.post(url.customers.getCustomerCommonAnswer, data);
         }
 
         function createReport(data) {
