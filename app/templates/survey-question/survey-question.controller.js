@@ -298,7 +298,7 @@
             });
         }
 
-        function showEdit(mainKey, answerKey, questionKey, commonItem) {
+        function showEdit(mainKey, answerKey, questionKey, commonItem, createCommon) {
             $mdDialog.show({
                 controller: 'AddQuestionController',
                 controllerAs: 'vm',
@@ -309,13 +309,15 @@
                         questionKey: questionKey,
                         items: vm.items,
                         idBlock: idBlock,
-                        commonItem: commonItem
+                        commonItem: commonItem,
+                        createCommon: createCommon
                     }
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
             }).then(function () {
                 $scope.$emit('changeItems', vm.items);
+                $mdSidenav('right').close();
             },
             function () {
             });
@@ -800,7 +802,7 @@
 
         function createCommon() {
             let data = {
-                title: "Common from q",
+                title: "Common text",
                 type: 2,
                 validation_type: 0,
                 characters_limit: 12,

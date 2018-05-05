@@ -24,6 +24,7 @@
         vm.riskRegular = riskRegular;
         vm.countrySwitch = false;
         vm.countries = angular.copy(countries);
+        vm.createCommon = data.createCommon;
 
         let mainKey = data.mainKey;
         let answerKey = data.answerKey;
@@ -43,6 +44,19 @@
         let identifierValid;
         let tmpCountries = [];          //using for check update in "country dependency" field (md-on-open)
         let allSelectedCountries = [];  //store all the answers
+        let commonItem = false;
+        if(data.commonItem){
+            commonItem = {
+                common_question_id: data.commonItem.id,
+                title: data.commonItem.title,
+                type: data.commonItem.type,
+                validation_type: data.commonItem.validation_type,
+                characters_limit: data.commonItem.characters_limit,
+                mandatory: data.commonItem.mandatory,
+                information: data.commonItem.information,
+                contract_text: data.commonItem.contract_text,
+            };
+        };
 
         console.log('questions = ', questionsArr);
 
@@ -63,6 +77,11 @@
                 vm.countrySwitch = true;
                 console.log(vm.countrySwitch);
             }
+            console.log(vm.data);
+        }
+        else if (commonItem){ //for common question
+            itemsOrig = data.items;
+            vm.data = angular.copy(commonItem);
             console.log(vm.data);
         }
         else {

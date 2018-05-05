@@ -5,19 +5,21 @@
             <h4>Include {{vm.commonStile}}</h4>
         </div>
 
-        <div class="add-section pointer" ng-click="vm.addBlock()" layout="row" layout-align="center center">
-            <p class="block-item" flex="90">+ Add section</p>
+        <div class="add-section pointer"  layout="row" layout-align="center center"
+             ng-click="vm.showEdit(undefined, undefined, undefined, undefined, true)">
+            <p class="block-item" flex="90">+ Add question</p>
         </div>
 
 
         <div class="block-container pointer">
-            <div ng-repeat="(key, item) in vm.commonItems" ng-click="vm.showEdit(undefined, undefined, undefined, item)" layout="row"
+            <div ng-repeat="(key, item) in vm.commonItems"  layout="row"
                  layout-align="center center" class="not-active-item pointer">
-                <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center">
-                    <div>
+                <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center" >
+                    <div class="pointer"
+                            ng-click="vm.showEdit(undefined, undefined, undefined, item)">
                         {{item.title}}
                     </div>
-                    <div class="icons hidden-icon"  layout="row">
+                    <div class="icons hidden-icon pointer"  layout="row" >
                         <!--<div>-->
                             <!--<md-tooltip md-direction="left">Edit section</md-tooltip>-->
                             <!--<md-icon ng-click="vm.addBlock(item, $index)" md-svg-src="content/icons/icon_edit.svg"-->
