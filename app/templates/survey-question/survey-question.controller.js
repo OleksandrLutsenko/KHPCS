@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state', '$timeout', 'countries'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state', '$timeout', 'countries', '$mdSidenav'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state, $timeout, countries) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state, $timeout, countries, $mdSidenav) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -47,6 +47,8 @@
         vm.countryTooltip = countryTooltip;
         vm.changeRiskValue = changeRiskValue;
         vm.showCommonList = showCommonList;
+        vm.addCommonStile = addCommonStile;
+        vm.commonStile = false;
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -736,6 +738,20 @@
         //         $scope.$emit('changeItems', vm.items);
         //     });
         // }
+
+
+        function addCommonStile() {
+            vm.commonStile = !vm.commonStile;
+        }
+
+
+        vm.toggleRight = buildToggler('right');
+        function buildToggler(componentId) {
+            return function () {
+                $mdSidenav(componentId).toggle();
+
+            };
+        }
 
     }
 })();
