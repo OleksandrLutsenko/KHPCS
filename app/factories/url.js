@@ -136,6 +136,20 @@
                     updateRisk: baseUrl + 'api/update-risk/' + id,
                     deleteRisk: baseUrl + 'api/delete-risk/' + id
                 };
+            },
+
+            // common_func: function () {
+            //     return {
+            //         getCommon: baseUrl + 'api/get-common-questions',
+            //         createCommon: baseUrl + 'api/create-common-question',
+            //         deleteCommon: baseUrl + 'api/delete-common-question'
+            //     };
+            // }
+
+            common_func:{
+                getCommon: baseUrl + 'api/get-common-questions',
+                createCommon: baseUrl + 'api/create-common-question',
+                deleteCommon: baseUrl + 'api/delete-common-question'
             }
 
         };

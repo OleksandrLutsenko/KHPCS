@@ -19,6 +19,12 @@
         model.updateQuestion = updateQuestion;
         model.updateAnswer = updateAnswer;
 
+        //------Common question-----
+        model.getCommon = getCommon;
+        model.deleteCommon = deleteCommon;
+        model.createCommon = createCommon;
+
+
         return model;
 
         function addBlockQuestion(id, data) {
@@ -47,6 +53,20 @@
 
         function orderUpdate(id, data) {
             return http.put(url.survey_management_func(id).orderUpdate, data);
+        }
+
+
+        //------Common question-----
+        function getCommon() {
+            return http.get(url.common_func.getCommon);
+        }
+
+        function deleteCommon(data) {
+            return http.post(url.common_func.deleteCommon, data);
+        }
+
+        function createCommon(data) {
+            return http.post(url.common_func.createCommon, data);
         }
     }
 })();

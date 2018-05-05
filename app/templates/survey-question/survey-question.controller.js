@@ -298,7 +298,7 @@
             });
         }
 
-        function showEdit(mainKey, answerKey, questionKey) {
+        function showEdit(mainKey, answerKey, questionKey, commonItem) {
             $mdDialog.show({
                 controller: 'AddQuestionController',
                 controllerAs: 'vm',
@@ -308,7 +308,8 @@
                         answerKey: answerKey,
                         questionKey: questionKey,
                         items: vm.items,
-                        idBlock: idBlock
+                        idBlock: idBlock,
+                        commonItem: commonItem
                     }
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
@@ -749,9 +750,66 @@
         function buildToggler(componentId) {
             return function () {
                 $mdSidenav(componentId).toggle();
-
+                getCommon();
             };
         }
 
+        vm.commonItems = [];
+
+        function getCommon() {
+            blockService.getCommon().then(function (res) {
+                if(res.success){
+                    console.log('--------------common');
+                    vm.commonItems = res.data;
+                    console.log(vm.commonItems);
+                }
+            })
+        }
+
+        vm.deleteCommon = deleteCommon;
+
+        function deleteCommon(id, index) {
+            console.log('Open dialog');
+            $mdDialog.show({
+                controller: 'DeleteViewController',
+                controllerAs: 'vm',
+                templateUrl: 'components/delete-view/delete-view.html',
+                clickOutsideToClose: true
+            }).then(function () {
+                let data = {
+                    common_question_id: id
+                }
+
+                blockService.deleteCommon(data).then(function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        if (vm.commonItems.length === 1) {
+                            vm.commonItems = [];
+                        } else {
+                            vm.commonItems.splice(index, 1);
+                            toastr.success('Question was deleted');
+                        }
+                    }
+                })
+
+            }, function () {
+            });
+        }
+
+        vm.createCommon = createCommon
+
+        function createCommon() {
+            let data = {
+                title: "Common from q",
+                type: 2,
+                validation_type: 0,
+                characters_limit: 12,
+                mandatory: 1
+
+            }
+            blockService.createCommon(data).then(function (res) {
+                console.log(res);
+            })
+        }
     }
 })();

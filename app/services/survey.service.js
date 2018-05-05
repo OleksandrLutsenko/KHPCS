@@ -29,6 +29,7 @@
         model.changeStatusSurvey = changeStatusSurvey;
         model.archiveStatusSurvey = archiveStatusSurvey;
 
+
         return model;
 
         function loadItems() {
@@ -101,6 +102,7 @@
         function archiveStatusSurvey (id) {
             return http.put(url.survey_management_func(id).archiveStatusSurvey);
         }
+
 
     }
 })();
