@@ -45,6 +45,7 @@
         let tmpCountries = [];          //using for check update in "country dependency" field (md-on-open)
         let allSelectedCountries = [];  //store all the answers
         let commonItem = false;
+        let createCommon = data.createCommon;
         if(data.commonItem){
             commonItem = {
                 common_question_id: data.commonItem.id,
@@ -385,8 +386,18 @@
         }
 
         function save() {
-            let succes = true;
-            let couterLenght = 0;
+            if(createCommon){
+                if(!vm.questForm.$invalid){
+                    blockService.createCommon(vm.data).then(function (res) {
+                        console.log(res);
+                        $mdDialog.hide();
+                    })
+                }
+
+            }else {
+
+                let succes = true;
+                let couterLenght = 0;
 
             if (vm.data.type == 1 || vm.data.type == 0) {
                 vm.data.answers.forEach(function (item) {
@@ -553,6 +564,8 @@
                 }
                 // $mdDialog.hide();
             }
+        }
+
         }
 
         function changeNextQuest(quest, answer) {

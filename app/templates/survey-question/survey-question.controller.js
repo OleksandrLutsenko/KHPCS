@@ -802,11 +802,13 @@
 
         function createCommon() {
             let data = {
-                title: "Common text",
+                title: "Common text info",
                 type: 2,
                 validation_type: 0,
                 characters_limit: 12,
-                mandatory: 1
+                mandatory: 1,
+                information: 'Info',
+                contract_text: 'for contract'
 
             }
             blockService.createCommon(data).then(function (res) {

@@ -15,7 +15,7 @@
             <div ng-repeat="(key, item) in vm.commonItems"  layout="row"
                  layout-align="center center" class="not-active-item pointer">
                 <div flex="90" class="block-item pointer" layout="row" layout-align="space-between center" >
-                    <div class="pointer"
+                    <div class="pointer" flex
                             ng-click="vm.showEdit(undefined, undefined, undefined, item)">
                         {{item.title}}
                     </div>
