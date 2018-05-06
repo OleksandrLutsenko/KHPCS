@@ -219,7 +219,9 @@
                     let common = customerCommonAnswer[i];
                     if (common.common_question_id === item.common_question_id) {
                         commonAnswer = common.value;
-                        vm.questions[index].common_answer = true;
+                        if(vm.questions[index]){
+                            vm.questions[index].common_answer = true;
+                        }
                     }
                 }
                 return commonAnswer;
