@@ -50,6 +50,17 @@
         vm.addCommonStile = addCommonStile;
         vm.commonStile = false;
 
+        blockService.getCommon().then(function (res) {
+            if(res.success){
+                console.log('--------------common');
+                vm.commonItems = res.data;
+                console.log(vm.commonItems);
+            } else {
+                toastr.error('Common question error')
+            }
+
+        })
+
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
             indexBlock = activeBlock.indexBlock;
@@ -315,9 +326,15 @@
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
-            }).then(function () {
-                $scope.$emit('changeItems', vm.items);
-                $mdSidenav('right').close();
+            }).then(function (res) {
+                if(res){
+                    console.log(res);
+                    vm.commonItems.push(res)
+                } else {
+                    $scope.$emit('changeItems', vm.items);
+                    $mdSidenav('right').close();
+                }
+
             },
             function () {
             });
@@ -752,21 +769,21 @@
         function buildToggler(componentId) {
             return function () {
                 $mdSidenav(componentId).toggle();
-                getCommon();
+                // getCommon();
             };
         }
 
         vm.commonItems = [];
 
-        function getCommon() {
-            blockService.getCommon().then(function (res) {
-                if(res.success){
-                    console.log('--------------common');
-                    vm.commonItems = res.data;
-                    console.log(vm.commonItems);
-                }
-            })
-        }
+        // function getCommon() {
+        //     blockService.getCommon().then(function (res) {
+        //         if(res.success){
+        //             console.log('--------------common');
+        //             vm.commonItems = res.data;
+        //             console.log(vm.commonItems);
+        //         }
+        //     })
+        // }
 
         vm.deleteCommon = deleteCommon;
 

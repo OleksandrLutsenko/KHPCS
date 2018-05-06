@@ -56,6 +56,7 @@
                 mandatory: data.commonItem.mandatory,
                 information: data.commonItem.information,
                 contract_text: data.commonItem.contract_text,
+                answers: []
             };
         };
 
@@ -389,8 +390,10 @@
             if(createCommon){
                 if(!vm.questForm.$invalid){
                     blockService.createCommon(vm.data).then(function (res) {
-                        console.log(res);
-                        $mdDialog.hide();
+                        if (res.success) {
+                            console.log(res);
+                            $mdDialog.hide(res.data);
+                        }
                     })
                 }
 
