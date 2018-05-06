@@ -36,14 +36,6 @@
                             </div>
                             <div ng-show="!vm.edit" layout="row" layout-align="center center">
 
-                                <md-button  ng-click="vm.showCommonList()">
-                                    Add Common
-                                </md-button>
-
-                                <md-button  ng-click="vm.createCommon()">
-                                    Add single  Common
-                                </md-button>
-
                                 <div>
                                     <md-button ng-click="vm.showEdit()">
                                         Add question
@@ -52,16 +44,9 @@
 
                                 <md-button class="edit-button" ng-class="{'edit-button-active': !vm.drag}"
                                            ng-click="vm.editButton()">
-                                    Drag and drop mode
+                                    <span hide-xs>Drag and drop mode</span>
+                                    <span hide-gt-xs>D&D mode</span>
                                 </md-button>
-
-                                <div flex="10" layout="row" layout-align="center center">
-                                    <div ng-click="vm.toggleRight()" layout="row" layout-align="center center">
-                                        <md-tooltip md-direction="right">Add Common</md-tooltip>
-                                        <i class="material-icons">menu</i>
-                                    </div>
-                                </div>
-
                                 <!--<div>-->
                                 <!--<md-button class="cancel-button" ng-click="vm.cancel()">-->
                                 <!--Cancel-->
@@ -75,6 +60,13 @@
                             </div>
                         </div>
                     </div>
+                    <div flex="10" layout="row" layout-align="center center">
+                        <div ng-click="vm.toggleRight()" layout="row" layout-align="center center">
+                            <md-tooltip md-direction="left">Add Common</md-tooltip>
+                            <i class="material-icons">menu</i>
+                        </div>
+                    </div>
+
 
                 </div>
                 <div layout="row" layout-align="center center">

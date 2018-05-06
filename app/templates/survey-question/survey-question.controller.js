@@ -46,7 +46,6 @@
         vm.cities = countries;
         vm.countryTooltip = countryTooltip;
         vm.changeRiskValue = changeRiskValue;
-        vm.showCommonList = showCommonList;
         vm.addCommonStile = addCommonStile;
         vm.commonStile = false;
 
@@ -713,82 +712,23 @@
         }
 
         //--------------Common question (Customer var)--------------------
-        function showCommonList() {
-            $mdDialog.show({
-                controller: 'CommonQuestListController',
-                controllerAs: 'vm',
-                locals: {
-                    data: {
-                        // mainKey: mainKey,
-                        // answerKey: answerKey,
-                        // questionKey: questionKey,
-                        // items: vm.items,
-                        // idBlock: idBlock,
-                        // commonItems: commonItems,
-                        // addCommon: addCommon
-                    }
-                },
-                templateUrl: 'components/survey-question/common-quest-list/common-quest-list.html',
-                clickOutsideToClose: true,
-            }).then(function (res) {
-                showEdit(undefined, undefined, undefined, res);
-            });
-        }
 
-        // function showEdit(mainKey, answerKey, questionKey, addCommon) {
-        //     $mdDialog.show({
-        //         controller: 'AddQuestionController',
-        //         controllerAs: 'vm',
-        //         locals: {
-        //             data: {
-        //                 mainKey: mainKey,
-        //                 answerKey: answerKey,
-        //                 questionKey: questionKey,
-        //                 items: vm.items,
-        //                 idBlock: idBlock,
-        //                 commonItems: commonItems,
-        //                 addCommon: addCommon
-        //
-        //             }
-        //         },
-        //         templateUrl: 'components/survey-question/add-quest/add-quest.html',
-        //         clickOutsideToClose: true,
-        //     }).then(function () {
-        //         console.log('my items--------------', vm.items);
-        //         $scope.$emit('changeItems', vm.items);
-        //     });
-        // }
-
+        vm.commonItems = [];
+        vm.deleteCommon = deleteCommon;
+        vm.toggleRight = buildToggler('right');
 
         function addCommonStile() {
             vm.commonStile = !vm.commonStile;
         }
 
 
-        vm.toggleRight = buildToggler('right');
         function buildToggler(componentId) {
             return function () {
                 $mdSidenav(componentId).toggle();
-                // getCommon();
             };
         }
 
-        vm.commonItems = [];
-
-        // function getCommon() {
-        //     blockService.getCommon().then(function (res) {
-        //         if(res.success){
-        //             console.log('--------------common');
-        //             vm.commonItems = res.data;
-        //             console.log(vm.commonItems);
-        //         }
-        //     })
-        // }
-
-        vm.deleteCommon = deleteCommon;
-
         function deleteCommon(id, index) {
-            console.log('Open dialog');
             $mdDialog.show({
                 controller: 'DeleteViewController',
                 controllerAs: 'vm',
@@ -806,6 +746,7 @@
                             vm.commonItems = [];
                         } else {
                             vm.commonItems.splice(index, 1);
+                            // console.log(vm.items);
                             toastr.success('Question was deleted');
                         }
                     }
@@ -815,22 +756,5 @@
             });
         }
 
-        vm.createCommon = createCommon
-
-        function createCommon() {
-            let data = {
-                title: "Common text info",
-                type: 2,
-                validation_type: 0,
-                characters_limit: 12,
-                mandatory: 1,
-                information: 'Info',
-                contract_text: 'for contract'
-
-            }
-            blockService.createCommon(data).then(function (res) {
-                console.log(res);
-            })
-        }
     }
 })();
