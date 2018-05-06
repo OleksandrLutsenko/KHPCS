@@ -70,7 +70,8 @@
             },
             customers: {
                 customers: baseUrl + 'api/customer',
-                getCustomerCommonAnswer: baseUrl + 'api/get-values-for-questions'
+                getCustomerCommonAnswer: baseUrl + 'api/get-values-for-questions',
+                createCustomerCommonAnswer: baseUrl + 'api/create-common-question-value'
             },
             customers_func: function (id) {
                 return {

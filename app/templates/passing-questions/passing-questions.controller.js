@@ -123,13 +123,19 @@
         }
 
         function generete() {
+            vm.questions = [];
+            vm.data = [];
             mainQuestionInBlock = items.blocks[indexActiveBlock].questions;
             console.log('mainQuestionInBlock', mainQuestionInBlock);
 
             if (mainQuestionInBlock.length) {
                 vm.questions = angular.copy([mainQuestionInBlock[0]]);
-                vm.data.push(fill(mainQuestionInBlock[0]));
-                chainPreBuilder(vm.questions[0].next_question, vm.questions[0].identifier);
+                vm.data.push(fill(mainQuestionInBlock[0], false, 0));
+                if (!vm.questions[0].next_question) {
+                    vm.endOfChain = true;
+                } else {
+                    chainPreBuilder(vm.questions[0].next_question, vm.questions[0].identifier);
+                }
             } else {
                 console.log('No questions in block');
                 vm.questions = [];
@@ -137,9 +143,9 @@
             }
         }
 
-        function fill(question, radio) {
+        function fill(question, radio, index) {
             // console.log('vm.data (на входе) = ', angular.copy(vm.data));
-            console.log('fill the question', question);
+            // console.log('fill the question', question);
 
             let maybeACommonQuestion = false;
             if (question.type === 2 || question.type === 3 || question.type === 4 ) {
@@ -186,8 +192,8 @@
                             } else {
                                 return customerAnswerOnActiveBlock[i].answer_id;
                             }
-                        } else if (item.type == 2) {
-                            return customerAnswerOnActiveBlock[i].value.split('<').join('<').split('>').join('>');
+                        } else if (item.type == 2 && customerAnswerOnActiveBlock[i].value) {
+                            return String(customerAnswerOnActiveBlock[i].value.split('<').join('<').split('>').join('>'));
                         } else {
                             return customerAnswerOnActiveBlock[i].value;
                         }
@@ -213,6 +219,7 @@
                     let common = customerCommonAnswer[i];
                     if (common.common_question_id === item.common_question_id) {
                         commonAnswer = common.value;
+                        vm.questions[index].common_answer = true;
                     }
                 }
                 return commonAnswer;
@@ -346,6 +353,22 @@
                         }
                     })
                 }
+            });
+
+            angular.forEach(vm.questions, function (question, index) {
+               if (question.common_question_id && !question.hasOwnProperty('common_answer')) {
+                   if (vm.data[index].mainData) {
+                       let data = {
+                           customer_id: activeCustomers,
+                           common_question_id: question.common_question_id,
+                           value: vm.data[index].mainData,
+                       };
+
+                       passingQuestionService.createCustomerCommonAnswer(data);
+                   } else {
+                       console.log('no answer');
+                   }
+               }
             });
 
             if (vm.questionForm.$invalid) {
@@ -502,7 +525,6 @@
                     passingQuestionService.getCustomerAnswer(id).then(function (res) {
                         if (res.success) {
                             customerAnswer = res.data.customerAnswers;
-                            vm.data = [];
                             generete();
                             start();
                         }
@@ -563,27 +585,18 @@
             if (vm.questions.length > 1) {
 
                 //if next question === null, cut out unnecessary data and allow the end of the questionnaire
-                if (nextQuestion === null) {
+                if (nextQuestion === null || nextQuestion === undefined) {
                     cutOutUnnecessaryData();
-                    // console.log('vm.endOfChain = true');
                     vm.endOfChain = true;
-
                     console.log(angular.copy(vm.questions));
-                    // console.log('next question === null');
-                    // console.log('chainBuilder off');
 
                     //else cut out unnecessary data and start chainBuilder func
                 } else {
                     cutOutUnnecessaryData();
-                    // console.log(angular.copy(vm.questions));
-                    // console.log('next question = ', nextQuestion);
-
-                    // console.log('chainBuilder on');
                     chainBuilder(nextQuestion, click);
                 }
                 // just building a chain
             } else {
-                // console.log('vm.questions.length <= 1');
                 chainBuilder(nextQuestion, click);
             }
 
@@ -640,7 +653,7 @@
                                 if (tmpNextQuestion === questionsArr[c].identifier && questionsArr[c].type === 1) {
                                     // console.log('radio');
                                     vm.questions.push(questionsArr[c]);
-                                    vm.data.push(fill(questionsArr[c]));
+                                    vm.data.push(fill(questionsArr[c], false, c));
                                     let tmpFullAnswer = fill(questionsArr[c], true);
 
                                     // console.log(angular.copy(vm.questions));
@@ -664,7 +677,7 @@
                                 } else if (tmpNextQuestion === questionsArr[c].identifier && questionsArr[c].type === 4) {
                                     // console.log('country');
                                     vm.questions.push(questionsArr[c]);
-                                    vm.data.push(fill(questionsArr[c]));
+                                    vm.data.push(fill(questionsArr[c], false, c));
 
                                     if (!vm.data[vm.data.length - 1].mainData) {
                                         // console.log('country no answers');
@@ -685,7 +698,7 @@
                                 } else if (tmpNextQuestion === questionsArr[c].identifier) {
                                     // console.log('checkbox or text or date');
                                     vm.questions.push(questionsArr[c]);
-                                    vm.data.push(fill(questionsArr[c]));
+                                    vm.data.push(fill(questionsArr[c], false, c));
                                     // console.log(vm.data);
                                     // console.log(questionsArr[c].next_question);
 
@@ -705,7 +718,7 @@
                         }
                     }
                 }
-                // console.log('vm.questions', angular.copy(vm.questions));
+                console.log('vm.questions', angular.copy(vm.questions));
                 // console.log('vm.data', angular.copy(vm.data));
             }
 
