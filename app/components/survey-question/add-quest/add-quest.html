@@ -11,7 +11,7 @@
 
         <md-dialog-content layout="column">
             <div class="dialog-content">
-                <div>
+                <div ng-if="!vm.createCommon">
                     <md-input-container class="main-input identifier">
                         <label>Identifier</label>
                         <input ng-model="vm.data.identifier" name="identifier" required minlength="3">
@@ -23,9 +23,12 @@
                 </div>
 
                 <div>
+                    <md-tooltip ng-if="vm.data.common_question_id"  md-direction="left">This is a common question. Can not be edited.
+                    </md-tooltip>
                     <md-input-container class="main-input question-name">
                         <label>Name your question</label>
-                        <input ng-model="vm.data.title" name="title" required minlength="3">
+                        <input ng-model="vm.data.title" name="title" required minlength="3"
+                               ng-disabled="vm.data.common_question_id">
                         <div ng-messages="vm.questForm.title.$error">
                             <div ng-message="required">This is required.</div>
                             <div ng-message="minlength">Name min length 3.</div>
@@ -34,11 +37,14 @@
                 </div>
 
                 <div>
+                    <md-tooltip ng-if="vm.data.common_question_id"  md-direction="left">This is a common question. Can not be edited.
+                    </md-tooltip>
                     <md-input-container class="radio-input">
                         <label>Select a type</label>
-                        <md-select ng-model="vm.data.type" name="type" required>
-                            <md-option ng-value="0"><em>Check Box</em></md-option>
-                            <md-option ng-value="1"><em>Radio</em></md-option>
+                        <md-select ng-model="vm.data.type" name="type" required
+                                   ng-disabled="vm.data.common_question_id">
+                            <md-option ng-value="0" ng-if="!vm.createCommon"><em>Check Box</em></md-option>
+                            <md-option ng-value="1" ng-if="!vm.createCommon"><em>Radio</em></md-option>
                             <md-option ng-value="2"><em>Text</em></md-option>
                             <md-option ng-value="3"><em>Date</em></md-option>
                             <md-option ng-value="4"><em>Country</em></md-option>
@@ -115,7 +121,7 @@
                     </div>
                 </div>
 
-                <md-button class="add-answer-button" ng-click="vm.addAnsver()">
+                <md-button class="add-answer-button" ng-click="vm.addAnsver()" ng-if="!vm.data.common_question_id">
                     Add Answer
                 </md-button>
 
@@ -129,7 +135,8 @@
                                     <div flex="90" layout="row">
                                         <md-input-container flex="100" ng-if="vm.data.type == 0" class="name-input">
                                             <label>Name</label>
-                                            <input ng-model="answers.answer_text" name="answer_text" required minlength="1">
+                                            <input ng-model="answers.answer_text" name="answer_text" required minlength="1"
+                                                   ng-disabled="vm.data.common_question_id">
                                             <div ng-messages="vm.questForm.answer_text.$error">
                                                 <div ng-message="required">This is required.</div>
                                                 <div ng-message="minlength">Name min length 1.</div>
@@ -138,7 +145,8 @@
 
                                         <md-input-container flex="50" ng-if="vm.data.type == 1" class="name-input">
                                             <label>Name</label>
-                                            <input ng-model="answers.answer_text" name="answer_text" required minlength="1">
+                                            <input ng-model="answers.answer_text" name="answer_text" required minlength="1"
+                                                   ng-disabled="vm.data.common_question_id">
                                             <div ng-messages="vm.questForm.answer_text.$error">
                                                 <div ng-message="required">This is required.</div>
                                                 <div ng-message="minlength">Name min length 1.</div>
@@ -172,7 +180,7 @@
                                         </md-input-container>
                                     </div>
 
-                                    <div flex="10" layout="row" layout-align="end center">
+                                    <div flex="10" layout="row" layout-align="end center" ng-if="!vm.data.common_question_id">
                                         <i class="material-icons delAns" ng-click="vm.deleteAnsver(answers, $index)">close</i>
                                     </div>
                                 </div>
@@ -320,8 +328,11 @@
             <div ng-if="vm.data.type == 2" flex="100">
                 <div layout="row" class="answer-content text-box">
                     <md-input-container flex="50" class="text-margin">
+                        <md-tooltip ng-if="vm.data.common_question_id"  md-direction="left">This is a common question. Can not be edited.
+                        </md-tooltip>
                         <label>Select a validation type</label>
-                        <md-select ng-model="vm.data.validation_type" name="validation_type" required>
+                        <md-select ng-model="vm.data.validation_type" name="validation_type" required
+                                   ng-disabled="vm.data.common_question_id">
                             <md-option ng-value="0"><em>Text and numbers</em></md-option>
                             <md-option ng-value="1"><em>Only text</em></md-option>
                             <md-option ng-value="2"><em>Only numbers</em></md-option>
@@ -332,9 +343,12 @@
                     </md-input-container>
 
                     <md-input-container flex="50" class="text-margin">
+                        <md-tooltip ng-if="vm.data.common_question_id"  md-direction="left">This is a common question. Can not be edited.
+                        </md-tooltip>
                         <label>Characters limit</label>
                         <input ng-model="vm.data.characters_limit" name="characters_limit" type="text" maxlength="4"
-                               ng-change="vm.charactersLimitRegular(vm.data.characters_limit)" required>
+                               ng-change="vm.charactersLimitRegular(vm.data.characters_limit)" required
+                               ng-disabled="vm.data.common_question_id">
                         <div ng-messages="vm.questForm.characters_limit.$error">
                             <div ng-message="required">This is required.</div>
                             <div ng-message="maxlength">Name max length 4.</div>
@@ -344,7 +358,8 @@
             </div>
 
             <div flex="100" ng-if="vm.data.type == 2 || vm.data.type == 3" class="answer-content">
-                <div flex="100" ng-class="{'next-question-for-date': vm.data.type == 3}">
+                <div flex="100" ng-class="{'next-question-for-date': vm.data.type == 3}"
+                ng-if="!vm.createCommon">
                     <md-input-container class="main-input">
                         <label class="next-label">Next question: {{vm.data.next_question}}
                             <p ng-if="vm.data.next_question === null">undefined</p>
@@ -413,7 +428,8 @@
 
             <div ng-if="vm.data.type == 4" class="answer-content">
                 <div>
-                    <md-input-container class="main-input next-question-for-country">
+                    <md-input-container class="main-input next-question-for-country"
+                                        ng-if="!vm.createCommon">
                         <label class="next-label">Next question: {{vm.data.next_question}}
                             <p ng-if="vm.data.next_question === null">undefined</p>
                         </label>
@@ -485,7 +501,7 @@
                         </md-switch>
                     </div>
 
-                    <div flex="50" flex-xs="100" ng-if="vm.countrySwitch === true">
+                    <div flex="50" flex-xs="100" ng-if="(vm.countrySwitch === true)  && (!vm.data.common_question_id)">
                         <md-button class="add-answer-button_country" ng-click="vm.addAnsver()">
                             Add dependency
                         </md-button>
@@ -495,7 +511,8 @@
 
                     </div>
 
-                    <div hide show-gt-xs flex="50" flex-xs="100" layout="row" layout-align="end center">
+                    <div hide show-gt-xs flex="50" flex-xs="100" layout="row" layout-align="end center"
+                         ng-if="!vm.data.common_question_id && !vm.createCommon">
                         <span>Country dependency:&nbsp;</span>
                         <md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="vm.countrySwitch"
                                    ng-change="vm.countrySwitchFunc(vm.countrySwitch)">
@@ -521,7 +538,8 @@
                                        md-on-close="vm.countryOnClose(answer.answer_text)"
                                        data-md-container-class="selectdemoSelectHeader"
                                        multiple
-                                       ng-click="showRepeat = true">
+                                       ng-click="showRepeat = true"
+                                       ng-disabled="vm.data.common_question_id">
 
                                 <md-optgroup label="Choose a countries"
                                              ng-if="showRepeat">
@@ -638,7 +656,12 @@
         </md-dialog-content>
 
         <md-dialog-actions class="bot-btn" layout="row" layout-align="space-between center">
-            <md-button class="md-raised md-primary" type="submit">Save</md-button>
+            <md-button class="md-raised md-primary" type="submit">
+                <span ng-if="vm.data.id">Save</span>
+                <span ng-if="!vm.data.id && !vm.data.common_question_id">Save</span>
+                <span ng-if="!vm.data.id && vm.data.common_question_id">Add</span>
+
+            </md-button>
             <md-button class="md-raised" ng-click="vm.cancel()">Cancel</md-button>
         </md-dialog-actions>
 

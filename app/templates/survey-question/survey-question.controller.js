@@ -4,9 +4,9 @@
         .module('app')
         .controller('SurveyQuestionController', SurveyQuestionController);
 
-    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state', '$timeout', 'countries'];
+    SurveyQuestionController.$inject = ['survey', '$scope', '$mdDialog', 'blockService', 'toastr', 'items', '$state', '$timeout', 'countries', '$mdSidenav'];
 
-    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state, $timeout, countries) {
+    function SurveyQuestionController(survey, $scope, $mdDialog, blockService, toastr, items, $state, $timeout, countries, $mdSidenav) {
         let vm = this;
         $scope.$emit('changeTab', 'page3');
 
@@ -46,7 +46,19 @@
         vm.cities = countries;
         vm.countryTooltip = countryTooltip;
         vm.changeRiskValue = changeRiskValue;
-        vm.showCommonList = showCommonList;
+        vm.addCommonStile = addCommonStile;
+        vm.commonStile = false;
+
+        blockService.getCommon().then(function (res) {
+            if(res.success){
+                console.log('--------------common');
+                vm.commonItems = res.data;
+                console.log(vm.commonItems);
+            } else {
+                toastr.error('Common question error')
+            }
+
+        })
 
         $scope.$on('setActiveBlock', function (event, data) {
             activeBlock = data.activeBlock;
@@ -296,7 +308,7 @@
             });
         }
 
-        function showEdit(mainKey, answerKey, questionKey) {
+        function showEdit(mainKey, answerKey, questionKey, commonItem, createCommon) {
             $mdDialog.show({
                 controller: 'AddQuestionController',
                 controllerAs: 'vm',
@@ -306,13 +318,22 @@
                         answerKey: answerKey,
                         questionKey: questionKey,
                         items: vm.items,
-                        idBlock: idBlock
+                        idBlock: idBlock,
+                        commonItem: commonItem,
+                        createCommon: createCommon
                     }
                 },
                 templateUrl: 'components/survey-question/add-quest/add-quest.html',
                 clickOutsideToClose: true,
-            }).then(function () {
-                $scope.$emit('changeItems', vm.items);
+            }).then(function (res) {
+                if(res){
+                    console.log(res);
+                    vm.commonItems.push(res)
+                } else {
+                    $scope.$emit('changeItems', vm.items);
+                    $mdSidenav('right').close();
+                }
+
             },
             function () {
             });
@@ -691,51 +712,49 @@
         }
 
         //--------------Common question (Customer var)--------------------
-        function showCommonList() {
-            $mdDialog.show({
-                controller: 'CommonQuestListController',
-                controllerAs: 'vm',
-                locals: {
-                    data: {
-                        // mainKey: mainKey,
-                        // answerKey: answerKey,
-                        // questionKey: questionKey,
-                        // items: vm.items,
-                        // idBlock: idBlock,
-                        // commonItems: commonItems,
-                        // addCommon: addCommon
-                    }
-                },
-                templateUrl: 'components/survey-question/common-quest-list/common-quest-list.html',
-                clickOutsideToClose: true,
-            }).then(function (res) {
-                showEdit(undefined, undefined, undefined, res);
-            });
+
+        vm.commonItems = [];
+        vm.deleteCommon = deleteCommon;
+        vm.toggleRight = buildToggler('right');
+
+        function addCommonStile() {
+            vm.commonStile = !vm.commonStile;
         }
 
-        // function showEdit(mainKey, answerKey, questionKey, addCommon) {
-        //     $mdDialog.show({
-        //         controller: 'AddQuestionController',
-        //         controllerAs: 'vm',
-        //         locals: {
-        //             data: {
-        //                 mainKey: mainKey,
-        //                 answerKey: answerKey,
-        //                 questionKey: questionKey,
-        //                 items: vm.items,
-        //                 idBlock: idBlock,
-        //                 commonItems: commonItems,
-        //                 addCommon: addCommon
-        //
-        //             }
-        //         },
-        //         templateUrl: 'components/survey-question/add-quest/add-quest.html',
-        //         clickOutsideToClose: true,
-        //     }).then(function () {
-        //         console.log('my items--------------', vm.items);
-        //         $scope.$emit('changeItems', vm.items);
-        //     });
-        // }
+
+        function buildToggler(componentId) {
+            return function () {
+                $mdSidenav(componentId).toggle();
+            };
+        }
+
+        function deleteCommon(id, index) {
+            $mdDialog.show({
+                controller: 'DeleteViewController',
+                controllerAs: 'vm',
+                templateUrl: 'components/delete-view/delete-view.html',
+                clickOutsideToClose: true
+            }).then(function () {
+                let data = {
+                    common_question_id: id
+                }
+
+                blockService.deleteCommon(data).then(function (res) {
+                    console.log(res);
+                    if (res.success) {
+                        if (vm.commonItems.length === 1) {
+                            vm.commonItems = [];
+                        } else {
+                            vm.commonItems.splice(index, 1);
+                            // console.log(vm.items);
+                            toastr.success('Question was deleted');
+                        }
+                    }
+                })
+
+            }, function () {
+            });
+        }
 
     }
 })();
