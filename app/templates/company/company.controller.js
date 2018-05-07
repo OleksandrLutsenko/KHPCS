@@ -44,10 +44,15 @@
 
         let riskTemplates =[];
 
-        if (vm.userRole === 2) {
+        if (vm.userRole === 2 || vm.userRole === 3) {
 
             vm.surveys = loadSurvey.data.onlySurvey;
-            vm.templates = loadTemp.data.contractsWithoutBody;
+
+            if (loadTemp.data.contractsWithoutBody) {
+                vm.templates = loadTemp.data.contractsWithoutBody;
+            } else {
+                vm.templates = [];
+            }
 
             let assignTemplates = assignST.data;
             riskTemplates = assignST.data;
@@ -246,12 +251,19 @@
 
 
         function riskTabOpen() {
+            console.log('riskTabOpen()');
             searchAvailableSurveys();
             risksAdding();
+            console.log('vm.availableSurveys after start', vm.availableSurveys);
         }
 
         function searchAvailableSurveys() {
             vm.availableSurveys = [];
+
+            // console.log('riskTemplates', riskTemplates);
+            // console.log('vm.surveys', vm.surveys);
+            // console.log('vm.availableSurveys', vm.availableSurveys);
+
             riskTemplates.forEach(function (template) {
                 for (let i = 0; i < vm.surveys.length; i++) {
                     let survey = vm.surveys[i];
@@ -266,10 +278,12 @@
                             let availableSurvey = vm.availableSurveys[i];
                             if (availableSurvey.survey_id === survey.survey_id) {
                                 status = false;
+                                console.log('false!!!');
                             }
                         }
 
                         if (status) {
+                            console.log('true!!!');
                             vm.availableSurveys.push(survey);
                             break;
                         }

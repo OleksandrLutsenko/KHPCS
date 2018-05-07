@@ -138,9 +138,20 @@
                     loadTemp: function (contractService) {
                         return contractService.loadTemplateList();
                     },
-                    risks: function (company, riskService) {
-                        let data = {company_id: company.getActiveCompany().id};
-                        return riskService.getRisks(data);
+                    risks: function (company, riskService, companyService, userService) {
+                        let userRole = userService.getUser().role_id;
+
+                        if (userRole === 2) {
+                            let data = {company_id: company.getActiveCompany().id};
+                            return riskService.getRisks(data);
+                        } else {
+                            return companyService.companyAdmin().then(function (res) {
+                                if (res.success) {
+                                    let data = {company_id: res.data.company.id};
+                                    return riskService.getRisks(data);
+                                }
+                            });
+                        }
                     }
                 }
             })
