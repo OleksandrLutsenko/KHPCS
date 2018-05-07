@@ -10,7 +10,7 @@
     </md-tabs>
 
     <section ng-if="selectedIndex === 0">
-        <div layout="row" layout-align="end">
+        <div layout="row" layout-align="end" class="user-subheader">
             <md-button ui-sref="tab.company-management" ng-if="vm.userRole === 2" layout="row"
                        layout-align="center center" style="position: absolute; left: 0">
                 <i class="material-icons">arrow_back</i>
@@ -270,6 +270,7 @@
                                     >
                                     </md-checkbox>
                                 </div>
+                            </div>
                         </md-list-item>
                     </md-list>
                     <md-divider></md-divider>

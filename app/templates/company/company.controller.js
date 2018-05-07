@@ -251,10 +251,8 @@
 
 
         function riskTabOpen() {
-            console.log('riskTabOpen()');
             searchAvailableSurveys();
             risksAdding();
-            console.log('vm.availableSurveys after start', vm.availableSurveys);
         }
 
         function searchAvailableSurveys() {
