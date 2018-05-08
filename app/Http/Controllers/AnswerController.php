@@ -43,9 +43,9 @@ class AnswerController extends Controller
     public function update(Answer $answer, AnswerRequest $request, User $user)
     {
         if ($user->can('update', $answer)) {
-            if ($answer->question->hasRadioAnswer()){
-                $answer->update($request->all());
-            }
+
+            $answer->update($request->all());
+            
             return compact('answer');
         } else {
             return response([

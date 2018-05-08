@@ -48,6 +48,23 @@ class Risk extends Model
             self::$value = self::$value + $customer_answer->answer->risk_value;
         }
 
-        return self::$value;
+        $risks = Risk::where([
+            'survey_id' => $report->survey_id,
+            'company_id' => $report->customer->company_id,
+        ])->get();
+
+        $risk = $risks->where('min_range', '<', self::$value)
+            ->where('max_range', '>', self::$value)
+            ->first();
+
+        if ($risk == null) {
+            return 'Number of points scored is not included in any of the risks!';
+        }
+
+        if ($risk->description == null) {
+            return self::$value;
+        }
+
+        return $risk->description;
     }
 }

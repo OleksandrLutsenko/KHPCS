@@ -80,8 +80,6 @@ class ReportController extends Controller
 
         $report = Report::create($request->all());
 
-        $status = Contract::sendContract($report, $request->customer_id);
-
         return response()->json($report, 201);
     }
 

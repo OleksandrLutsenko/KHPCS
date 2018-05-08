@@ -13,7 +13,7 @@ class Answer extends Model
     public static $answer_additional_text = array();
 
     protected $fillable = ['answer_text', 'question_id', 'order_number', 'next_question',
-        'exit_value', 'information', 'contract_text', 'exit_information'];
+        'exit_value', 'information', 'contract_text', 'exit_information', 'risk_value'];
 
     protected $appends = ['child_questions'];
 
