@@ -97,7 +97,7 @@
                                        maxlength="{{questions.characters_limit}}"
                                        ng-required="{{questions.mandatory}}"
                                        class="input-order"
-                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
+                                       placeholder="{{questions.mandatory ? 'This question is required' : ''}}">
 
                                 <div ng-messages="vm.questionForm.inputType0.$error"
                                      ng-if="questions.validation_type == 0">
@@ -116,7 +116,7 @@
                                        maxlength="{{questions.characters_limit}}"
                                        ng-required="{{questions.mandatory}}"
                                        class="input-order"
-                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
+                                       placeholder="{{questions.mandatory ? 'This question is required' : ''}}">
 
                                 <div ng-messages="vm.questionForm.inputType1.$error"
                                      ng-if="questions.validation_type == 1">
@@ -136,7 +136,7 @@
                                        maxlength="{{questions.characters_limit}}"
                                        ng-required="{{questions.mandatory}}"
                                        class="input-order"
-                                       placeholder="{{questions.mandatory ? 'This question is required' : 'This question is not required'}}">
+                                       placeholder="{{questions.mandatory ? 'This question is required' : ''}}">
 
                                 <div ng-messages="vm.questionForm.inputType2.$error"
                                      ng-if="questions.validation_type == 2">
